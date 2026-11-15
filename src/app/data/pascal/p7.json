@@ -1,0 +1,432 @@
+{
+  "id": "p7",
+  "title": "Procedures",
+  "lessons": [
+    {
+      "id": "p7-l1",
+      "title": "Your Own Procedure",
+      "xp": 15,
+      "intro": [
+        "A procedure is a named piece of program. You write it once, above the main begin, and then call it by its name as often as you like.",
+        "procedure Line; begin writeln('----------'); end; Calling Line; runs those statements. Note the ; after the procedure's end.",
+        "This was Wirth's big idea: build programs from small, named blocks that each do one job."
+      ],
+      "example": {
+        "code": [
+          "program Banner;",
+          "",
+          "procedure Line;",
+          "begin",
+          "  writeln('--------------');",
+          "end;",
+          "",
+          "begin",
+          "  Line;",
+          "  writeln(' TURBO PASCAL');",
+          "  Line;",
+          "end."
+        ],
+        "output": [
+          "--------------",
+          " TURBO PASCAL",
+          "--------------"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p7-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "Where is a procedure declared?",
+          "options": [
+            "Above the main begin",
+            "After end.",
+            "Inside writeln",
+            "Anywhere in the main block"
+          ],
+          "answer": 0,
+          "explanation": "Like variables, procedures are declared before they are used."
+        },
+        {
+          "id": "p7-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "How do you run a procedure called Beep?",
+          "options": [
+            "Beep;",
+            "call Beep;",
+            "Beep();;",
+            "run Beep;"
+          ],
+          "answer": 0,
+          "explanation": "Just its name (brackets are optional when it has no parameters)."
+        },
+        {
+          "id": "p7-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Twice;",
+            "",
+            "procedure Hello;",
+            "begin",
+            "  writeln('Hi');",
+            "end;",
+            "",
+            "begin",
+            "  Hello;",
+            "  Hello;",
+            "end."
+          ],
+          "options": [
+            "Hi\nHi",
+            "Hi",
+            "nothing",
+            "Hello"
+          ],
+          "answer": 0,
+          "explanation": "Hello is called twice."
+        },
+        {
+          "id": "p7-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Finish the procedure.",
+          "code": [
+            "___ Stars;",
+            "begin",
+            "  writeln('*****');",
+            "end;"
+          ],
+          "options": [
+            "procedure",
+            "function",
+            "program",
+            "void"
+          ],
+          "answer": "procedure",
+          "explanation": "A procedure starts with the word procedure."
+        },
+        {
+          "id": "p7-l1-e5",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program P;",
+            "",
+            "procedure Greet;",
+            "begin",
+            "  writeln('Hello');",
+            "end",
+            "",
+            "begin",
+            "  Greet;",
+            "end."
+          ],
+          "answer": 5,
+          "explanation": "A procedure's end is followed by a semicolon: end;"
+        },
+        {
+          "id": "p7-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Why use procedures?",
+          "options": [
+            "To write a job once and reuse it, and to keep programs readable",
+            "Because Pascal can't run without them",
+            "They make programs run faster",
+            "To hide errors"
+          ],
+          "answer": 0,
+          "explanation": "Small named pieces are easier to understand and fix."
+        }
+      ]
+    },
+    {
+      "id": "p7-l2",
+      "title": "Parameters",
+      "xp": 15,
+      "intro": [
+        "Parameters make a procedure flexible: procedure Line(n: integer); gets a number from the caller. Line(5) runs it with n = 5.",
+        "Several parameters are separated by semicolons in the declaration (n: integer; c: char) and by commas in the call: Line(10, '=').",
+        "These value parameters are copies: changing n inside the procedure doesn't change anything outside."
+      ],
+      "example": {
+        "code": [
+          "program Lines;",
+          "",
+          "procedure Line(n: integer; c: char);",
+          "var",
+          "  i: integer;",
+          "begin",
+          "  for i := 1 to n do",
+          "    write(c);",
+          "  writeln;",
+          "end;",
+          "",
+          "begin",
+          "  Line(10, '=');",
+          "  Line(4, '*');",
+          "  Line(10, '=');",
+          "end."
+        ],
+        "output": [
+          "==========",
+          "****",
+          "=========="
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p7-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "How do you call procedure Box(w, h: integer) with 3 and 4?",
+          "options": [
+            "Box(3, 4);",
+            "Box(3; 4);",
+            "Box 3, 4;",
+            "Box[3, 4];"
+          ],
+          "answer": 0,
+          "explanation": "Commas between the values in the call."
+        },
+        {
+          "id": "p7-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program R;",
+            "",
+            "procedure Row(n: integer);",
+            "var",
+            "  i: integer;",
+            "begin",
+            "  for i := 1 to n do",
+            "    write('#');",
+            "  writeln;",
+            "end;",
+            "",
+            "begin",
+            "  Row(6);",
+            "end."
+          ],
+          "options": [
+            "######",
+            "6",
+            "#",
+            "nothing"
+          ],
+          "answer": 0,
+          "explanation": "Row prints n characters."
+        },
+        {
+          "id": "p7-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Declare two parameters of different types.",
+          "code": [
+            "procedure Show(n: integer___ c: char);"
+          ],
+          "options": [
+            ";",
+            ",",
+            ":",
+            "and"
+          ],
+          "answer": ";",
+          "explanation": "In the declaration, groups of parameters are separated by semicolons."
+        },
+        {
+          "id": "p7-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Copy;",
+            "var",
+            "  x: integer;",
+            "",
+            "procedure Bump(n: integer);",
+            "begin",
+            "  n := n + 1;",
+            "end;",
+            "",
+            "begin",
+            "  x := 5;",
+            "  Bump(x);",
+            "  writeln(x);",
+            "end."
+          ],
+          "options": [
+            "5",
+            "6",
+            "an error",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "n is a copy. Adding 1 inside Bump doesn't change x."
+        },
+        {
+          "id": "p7-l2-e5",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program Call;",
+            "",
+            "procedure Repeat3(c: char);",
+            "begin",
+            "  writeln(c, c, c);",
+            "end;",
+            "",
+            "begin",
+            "  Repeat3('a', 'b');",
+            "end."
+          ],
+          "answer": 8,
+          "explanation": "Repeat3 has one parameter, but gets two values."
+        },
+        {
+          "id": "p7-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What is a value parameter?",
+          "options": [
+            "A copy of the value the caller passes",
+            "A link to the caller's variable",
+            "A global variable",
+            "A constant"
+          ],
+          "answer": 0,
+          "explanation": "Changes to it stay inside the procedure."
+        }
+      ]
+    },
+    {
+      "id": "p7-l3",
+      "title": "Local Variables",
+      "xp": 15,
+      "intro": [
+        "Variables declared inside a procedure are local: they exist only while it runs, and nothing outside can see them. Two procedures can each have their own i.",
+        "Global variables, declared at the top of the program, are visible everywhere. Use them sparingly: when every procedure can change them, mistakes are hard to find.",
+        "In Turbo Pascal, local variables are not set to 0: they start with whatever was left in memory. Always give them a value first."
+      ],
+      "example": {
+        "code": [
+          "program Scope;",
+          "var",
+          "  calls: integer;",
+          "",
+          "procedure Count;",
+          "var",
+          "  i, total: integer;",
+          "begin",
+          "  total := 0;",
+          "  for i := 1 to 4 do",
+          "    total := total + i;",
+          "  writeln('Local total: ', total);",
+          "end;",
+          "",
+          "begin",
+          "  calls := 0;",
+          "  Count;",
+          "  calls := calls + 1;",
+          "  Count;",
+          "  calls := calls + 1;",
+          "  writeln('Count ran ', calls, ' times');",
+          "end."
+        ],
+        "output": [
+          "Local total: 10",
+          "Local total: 10",
+          "Count ran 2 times"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p7-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Where can a local variable be used?",
+          "options": [
+            "Only inside its procedure",
+            "Everywhere",
+            "Only in the main program",
+            "Only after the procedure ran"
+          ],
+          "answer": 0,
+          "explanation": "It exists only while the procedure runs."
+        },
+        {
+          "id": "p7-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What value does a local integer have before you set it?",
+          "options": [
+            "Whatever was left in memory",
+            "Always 0",
+            "Always 1",
+            "It's an error to declare it"
+          ],
+          "answer": 0,
+          "explanation": "Globals start at 0 in Turbo Pascal, locals don't."
+        },
+        {
+          "id": "p7-l3-e3",
+          "type": "find_bug",
+          "prompt": "This procedure prints a strange number. Which line is missing?",
+          "code": [
+            "procedure Sum;",
+            "var",
+            "  i, s: integer;",
+            "begin",
+            "  for i := 1 to 3 do",
+            "    s := s + i;",
+            "  writeln(s);",
+            "end;"
+          ],
+          "answer": 4,
+          "explanation": "s needs s := 0; before the loop. As a local variable, it starts with leftover garbage."
+        },
+        {
+          "id": "p7-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "Can two procedures both have a local variable called i?",
+          "options": [
+            "Yes, each one has its own",
+            "No, names must be unique in the program",
+            "Only if they have the same type",
+            "Only in Turbo Pascal 3"
+          ],
+          "answer": 0,
+          "explanation": "Locals belong to their procedure."
+        },
+        {
+          "id": "p7-l3-e5",
+          "type": "fill_blank",
+          "prompt": "Give the procedure its own counter.",
+          "code": [
+            "procedure Countdown;",
+            "___",
+            "  k: integer;",
+            "begin",
+            "  for k := 3 downto 1 do",
+            "    write(k, ' ');",
+            "end;"
+          ],
+          "options": [
+            "var",
+            "local",
+            "const",
+            "begin"
+          ],
+          "answer": "var",
+          "explanation": "A procedure can have its own var section."
+        },
+        {
+          "id": "p7-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why should you use few global variables?",
+          "options": [
+            "Any procedure could change them, which makes mistakes hard to find",
+            "They are slower",
+            "Pascal only allows five",
+            "They use more disk space"
+          ],
+          "answer": 0,
+          "explanation": "Parameters and locals keep each procedure independent."
+        }
+      ]
+    }
+  ]
+}

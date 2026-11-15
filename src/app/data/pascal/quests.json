@@ -1,0 +1,866 @@
+{
+  "p1": {
+    "title": "The Splash Screen",
+    "xp": 40,
+    "story": "Every program in 1983 started with a proud splash screen. Make one.",
+    "task": "Print Turbo Pascal 3.0 on the first line, using write for Turbo  and Pascal  and writeln for 3.0. Then a blank line, then Copyright (C) 1983 Borland.",
+    "starter": "program Splash;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "Turbo Pascal 3.0\n\nCopyright (C) 1983 Borland",
+    "requirements": [
+      {
+        "pattern": "\\bwrite\\s*\\(",
+        "message": "Use write for the first parts of the line."
+      },
+      {
+        "pattern": "writeln\\s*;|writeln\\s*end|writeln\\s*$",
+        "message": "Make the blank line with an empty writeln."
+      }
+    ],
+    "hints": [
+      "write('Turbo '); write('Pascal '); writeln('3.0');",
+      "An empty writeln; makes the blank line.",
+      "writeln('Copyright (C) 1983 Borland');"
+    ]
+  },
+  "p2": {
+    "title": "The Computer Store",
+    "xp": 40,
+    "story": "A computer store in 1984 keeps its prices in cents, so the totals are always exact.",
+    "task": "Store the prices in integer variables: disks cost 450 cents each, a manual 2995 and a printer ribbon 620. Buy 2 disks, 1 manual and 3 ribbons. Print the total in cents, then in dollars and cents with div and mod:\nTotal: 5755 cents\n57 dollars and 55 cents",
+    "starter": "program Store;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "Total: 5755 cents\n57 dollars and 55 cents",
+    "requirements": [
+      {
+        "pattern": "\\bdiv\\b",
+        "message": "Get the dollars with div 100."
+      },
+      {
+        "pattern": "\\bmod\\b",
+        "message": "Get the cents with mod 100."
+      },
+      {
+        "pattern": "integer|longint",
+        "message": "Declare integer variables."
+      }
+    ],
+    "hints": [
+      "var disk, manual, ribbon, total: integer;",
+      "total := 2 * disk + manual + 3 * ribbon;",
+      "writeln(total div 100, ' dollars and ', total mod 100, ' cents');"
+    ]
+  },
+  "p3": {
+    "title": "The Unit Converter",
+    "xp": 40,
+    "story": "Your American pen pal is 70 inches tall. How much is that in centimeters and meters?",
+    "task": "Define a constant CmPerInch = 2.54. Ask with write('Inches? '), read the length with readln into a real, then print it like this, all with 2 decimals:\nInches? 70\n70.00 inches = 177.80 cm\n= 1.78 m\nThe app types 70 (it shows up after the question, like on a real screen).",
+    "starter": "program Converter;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "Inches? 70\n70.00 inches = 177.80 cm\n= 1.78 m",
+    "requirements": [
+      {
+        "pattern": "\\bconst\\b",
+        "message": "Put the conversion factor in a const section."
+      },
+      {
+        "pattern": "readln",
+        "message": "Read the length with readln."
+      },
+      {
+        "pattern": ":\\s*\\d+\\s*:\\s*2",
+        "message": "Print with 2 decimals, like x:0:2."
+      }
+    ],
+    "hints": [
+      "const CmPerInch = 2.54; and var inches, cm: real;",
+      "write('Inches? '); readln(inches); cm := inches * CmPerInch;",
+      "writeln(inches:0:2, ' inches = ', cm:0:2, ' cm'); and the meters are cm / 100."
+    ],
+    "inputs": [
+      "70"
+    ]
+  },
+  "pc1-project": {
+    "title": "The Report Card",
+    "xp": 100,
+    "story": "It's 1985 and your school just got its first IBM PCs. The teacher wants the report cards printed by computer.",
+    "task": "Ask Name? and read the name, then ask Grades? and read three grades on one line with readln(a, b, c). Print the card like this (with the real name and grades):\nName? Niklaus\nGrades? 92 85 97\nReport card for Niklaus\nGrades: 92 85 97\nAverage: 91.33\nPassed: TRUE\nThe average is a real with 2 decimals, and Passed is a boolean (average of 60 or more). The app types Niklaus, then 92 85 97.",
+    "starter": "program ReportCard;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "Name? Niklaus\nGrades? 92 85 97\nReport card for Niklaus\nGrades: 92 85 97\nAverage: 91.33\nPassed: TRUE",
+    "requirements": [
+      {
+        "pattern": "readln\\s*\\(\\s*\\w+\\s*,\\s*\\w+\\s*,\\s*\\w+\\s*\\)",
+        "message": "Read the three grades with one readln(a, b, c)."
+      },
+      {
+        "pattern": "boolean",
+        "message": "Store Passed in a boolean variable."
+      },
+      {
+        "pattern": ":\\s*0\\s*:\\s*2",
+        "message": "Print the average with :0:2."
+      },
+      {
+        "pattern": "\\breal\\b",
+        "message": "Store the average in a real."
+      }
+    ],
+    "hints": [
+      "var name: string; a, b, c: integer; avg: real; passed: boolean;",
+      "avg := (a + b + c) / 3; and passed := avg >= 60;",
+      "writeln('Grades: ', a, ' ', b, ' ', c);"
+    ],
+    "inputs": [
+      "Niklaus",
+      "92 85 97"
+    ]
+  },
+  "p4": {
+    "title": "The Ticket Machine",
+    "xp": 40,
+    "story": "The new museum of computing needs a ticket machine. You get to program it.",
+    "task": "Ask Age? and read the age. Children under 6 and people 65 and older pay 0.00, people from 6 to 17 pay 4.50, everybody else 9.00. Print the price with 2 decimals, like:\nAge? 67\nTicket: 0.00\nThe app types 67.",
+    "starter": "program Tickets;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "Age? 67\nTicket: 0.00",
+    "requirements": [
+      {
+        "pattern": "\\belse\\b",
+        "message": "Use else for the other cases."
+      },
+      {
+        "pattern": "\\bor\\b|\\band\\b",
+        "message": "Combine conditions with and or or."
+      },
+      {
+        "pattern": "\\(\\s*\\w+\\s*[<>=]+\\s*\\d+\\s*\\)\\s*(and|or)",
+        "message": "Put each comparison in brackets."
+      }
+    ],
+    "hints": [
+      "if (age < 6) or (age >= 65) then price := 0",
+      "else if age < 18 then price := 4.50 else price := 9.00;",
+      "writeln('Ticket: ', price:0:2);"
+    ],
+    "inputs": [
+      "67"
+    ]
+  },
+  "p5": {
+    "title": "The Times Table",
+    "xp": 40,
+    "story": "Before pocket calculators, every classroom wall had a times table. Print one.",
+    "task": "With two nested for loops, print the times table from 1 × 1 to 6 × 6. Every value takes 4 columns (write(r * c:4)), and every row ends with writeln. The first row is:\n   1   2   3   4   5   6",
+    "starter": "program TimesTable;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "   1   2   3   4   5   6\n   2   4   6   8  10  12\n   3   6   9  12  15  18\n   4   8  12  16  20  24\n   5  10  15  20  25  30\n   6  12  18  24  30  36",
+    "requirements": [
+      {
+        "pattern": "for[\\s\\S]*for",
+        "message": "Use two nested for loops."
+      },
+      {
+        "pattern": ":\\s*4",
+        "message": "Give every value 4 columns with :4."
+      }
+    ],
+    "hints": [
+      "for r := 1 to 6 do begin … end;",
+      "Inside: for c := 1 to 6 do write(r * c:4);",
+      "After the inner loop: writeln;"
+    ],
+    "exact": true
+  },
+  "p6": {
+    "title": "Guess the Number",
+    "xp": 40,
+    "story": "The classic first game on every home computer: the computer thinks of a number, you guess.",
+    "task": "The secret number is a constant: 37. Repeat: ask Guess?, read the guess, and print Too high or Too low, until the guess is right. Then print Correct after N tries. The app types 50, 25, 40 and 37.",
+    "starter": "program Guess;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "Guess? 50\nToo high\nGuess? 25\nToo low\nGuess? 40\nToo high\nGuess? 37\nCorrect after 4 tries",
+    "requirements": [
+      {
+        "pattern": "\\brepeat\\b",
+        "message": "Use repeat … until."
+      },
+      {
+        "pattern": "\\buntil\\b",
+        "message": "Stop with until."
+      },
+      {
+        "pattern": "\\bconst\\b",
+        "message": "Put the secret number in a const section."
+      }
+    ],
+    "hints": [
+      "const Secret = 37; var guess, tries: integer;",
+      "repeat write('Guess? '); readln(guess); tries := tries + 1; … until guess = Secret;",
+      "Inside: if guess > Secret then writeln('Too high') else if guess < Secret then writeln('Too low');"
+    ],
+    "inputs": [
+      "50",
+      "25",
+      "40",
+      "37"
+    ]
+  },
+  "pc2-project": {
+    "title": "The Prime Hunter",
+    "xp": 100,
+    "story": "Mathematicians hunted primes with pencil and paper for 2,000 years. Your IBM PC does it in a blink.",
+    "task": "Ask Up to? and read n. Print all prime numbers from 2 to n on one line, separated by spaces. A number is prime if no number from 2 up to number - 1 divides it (use mod and a while loop, and stop as soon as you find a divisor). Then print how many primes there were and a word chosen with case: 0 → none, 1..9 → a few, 10 or more → many:\nUp to? 50\n2 3 5 7 11 13 17 19 23 29 31 37 41 43 47\n15 primes: many\nThe app types 50.",
+    "starter": "program PrimeHunter;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "Up to? 50\n2 3 5 7 11 13 17 19 23 29 31 37 41 43 47\n15 primes: many",
+    "requirements": [
+      {
+        "pattern": "\\bfor\\b",
+        "message": "Go through the numbers with a for loop."
+      },
+      {
+        "pattern": "\\bwhile\\b|\\brepeat\\b",
+        "message": "Search for a divisor with while (or repeat)."
+      },
+      {
+        "pattern": "\\bmod\\b",
+        "message": "Test divisors with mod."
+      },
+      {
+        "pattern": "\\bcase\\b",
+        "message": "Pick the word with case."
+      }
+    ],
+    "hints": [
+      "for k := 2 to n do: start with d := 2 and prime := true.",
+      "while (d < k) and prime do begin if k mod d = 0 then prime := false; d := d + 1 end;",
+      "case count of 0: … ; 1..9: … else … end;"
+    ],
+    "inputs": [
+      "50"
+    ]
+  },
+  "p7": {
+    "title": "Boxes",
+    "xp": 40,
+    "story": "The text-mode screens of the 80s drew windows with characters. Draw your own.",
+    "task": "Write procedure Box(w, h: integer) that draws a hollow box of * that is w wide and h high. Draw Box(6, 4), an empty line, and Box(3, 3):\n******\n*    *\n*    *\n******\n\n***\n* *\n***",
+    "starter": "program Boxes;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "******\n*    *\n*    *\n******\n\n***\n* *\n***",
+    "requirements": [
+      {
+        "pattern": "procedure\\s+Box\\s*\\(",
+        "message": "Write procedure Box(w, h: integer)."
+      },
+      {
+        "pattern": "Box\\s*\\(\\s*6\\s*,\\s*4\\s*\\)",
+        "message": "Call Box(6, 4)."
+      },
+      {
+        "pattern": "Box\\s*\\(\\s*3\\s*,\\s*3\\s*\\)",
+        "message": "Call Box(3, 3)."
+      }
+    ],
+    "hints": [
+      "The first and last rows are all stars: a for loop from 1 to w.",
+      "The middle rows: a star, w - 2 spaces, and a star.",
+      "A second procedure Full(w) for the full rows keeps it short."
+    ],
+    "exact": true
+  },
+  "p8": {
+    "title": "Sort Three",
+    "xp": 40,
+    "story": "Three numbers, in any order. Put them in order with nothing but swaps.",
+    "task": "Write procedure Swap(var a, b: integer) and procedure Sort3(var a, b, c: integer), which uses Swap. Ask Numbers? and read three numbers with one readln, sort them and print them from small to big:\nNumbers? 42 7 19\n7 19 42\nThe app types 42 7 19.",
+    "starter": "program SortThree;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "Numbers? 42 7 19\n7 19 42",
+    "requirements": [
+      {
+        "pattern": "procedure\\s+Swap\\s*\\(\\s*var",
+        "message": "Write procedure Swap(var a, b: integer)."
+      },
+      {
+        "pattern": "procedure\\s+Sort3\\s*\\(\\s*var",
+        "message": "Write procedure Sort3(var a, b, c: integer)."
+      },
+      {
+        "pattern": "Swap\\s*\\(",
+        "message": "Use Swap inside Sort3."
+      }
+    ],
+    "hints": [
+      "Swap: t := a; a := b; b := t;",
+      "Sort3: if a > b then Swap(a, b); if b > c then Swap(b, c); if a > b then Swap(a, b);",
+      "writeln(x, ' ', y, ' ', z);"
+    ],
+    "inputs": [
+      "42 7 19"
+    ]
+  },
+  "p9": {
+    "title": "Towers of Hanoi",
+    "xp": 40,
+    "story": "A legend says monks move 64 golden disks between three poles, one at a time, never a bigger disk on a smaller one. When they finish, the world ends. Luckily, you only need 3 disks.",
+    "task": "Write a recursive procedure Hanoi(n: integer; src, dst, tmp: char). To move n disks from src to dst: move n - 1 disks to tmp, move disk n to dst, then move the n - 1 disks from tmp to dst. Print every move like Move disk 1 from A to C, count the moves in a global variable, and solve Hanoi(3, 'A', 'C', 'B'). End with 7 moves.",
+    "starter": "program Hanoi;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "Move disk 1 from A to C\nMove disk 2 from A to B\nMove disk 1 from C to B\nMove disk 3 from A to C\nMove disk 1 from B to A\nMove disk 2 from B to C\nMove disk 1 from A to C\n7 moves",
+    "requirements": [
+      {
+        "pattern": "procedure\\s+Hanoi\\s*\\(",
+        "message": "Write procedure Hanoi(n: integer; src, dst, tmp: char)."
+      },
+      {
+        "pattern": "Hanoi\\s*\\([^)]*n\\s*-\\s*1",
+        "message": "Hanoi must call itself with n - 1."
+      }
+    ],
+    "hints": [
+      "Base case: if n = 0 then do nothing (or if n = 1, just move it).",
+      "Otherwise: Hanoi(n - 1, src, tmp, dst); writeln('Move disk ', n, ' from ', src, ' to ', dst); moves := moves + 1; Hanoi(n - 1, tmp, dst, src);",
+      "In the main program: moves := 0; Hanoi(3, 'A', 'C', 'B'); writeln(moves, ' moves');"
+    ]
+  },
+  "pc3-project": {
+    "title": "The Change Machine",
+    "xp": 100,
+    "story": "A vending machine in 1986 gives change in coins: 50, 20, 10, 5, 2 and 1 cents, always as few as possible.",
+    "task": "Write function TakeCoins(var rest: integer; coin: integer): integer, which returns how many of that coin fit into rest and makes rest smaller. Then procedure Give(var rest: integer; coin: integer), which prints a line like 3 x 50c (only when the count is not 0) and adds the count to a global total. Ask Amount in cents? and give the change for every coin, then print the number of coins:\nAmount in cents? 188\n3 x 50c\n1 x 20c\n1 x 10c\n1 x 5c\n1 x 2c\n1 x 1c\n8 coins\nThe app types 188.",
+    "starter": "program ChangeMachine;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "Amount in cents? 188\n3 x 50c\n1 x 20c\n1 x 10c\n1 x 5c\n1 x 2c\n1 x 1c\n8 coins",
+    "requirements": [
+      {
+        "pattern": "function\\s+TakeCoins\\s*\\(\\s*var",
+        "message": "Write function TakeCoins(var rest: integer; coin: integer): integer."
+      },
+      {
+        "pattern": "procedure\\s+Give\\s*\\(\\s*var",
+        "message": "Write procedure Give(var rest: integer; coin: integer)."
+      }
+    ],
+    "hints": [
+      "TakeCoins: count := rest div coin; rest := rest mod coin; TakeCoins := count;",
+      "Give: n := TakeCoins(rest, coin); if n > 0 then writeln(n, ' x ', coin, 'c'); total := total + n;",
+      "Main: total := 0; readln(amount); Give(amount, 50); Give(amount, 20); …"
+    ],
+    "inputs": [
+      "188"
+    ]
+  },
+  "p10": {
+    "title": "The Best Score",
+    "xp": 40,
+    "story": "The arcade's new Pac-Man machine stores the last 8 scores. Find the champion.",
+    "task": "Read 8 scores (on one line) into an array[1..8] of integer with a for loop and read (or readln). Then print the best score, which game it was, and the average with 1 decimal:\nScores? 3120 4580 2210 7980 5530 1200 6610 4040\nBest: 7980 in game 4\nAverage: 4408.8\nThe app types 3120 4580 2210 7980 5530 1200 6610 4040.",
+    "starter": "program BestScore;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "Scores? 3120 4580 2210 7980 5530 1200 6610 4040\nBest: 7980 in game 4\nAverage: 4408.8",
+    "requirements": [
+      {
+        "pattern": "array\\s*\\[\\s*1\\s*\\.\\.\\s*8\\s*\\]",
+        "message": "Store the scores in an array[1..8]."
+      },
+      {
+        "pattern": "for\\s+\\w+\\s*:=",
+        "message": "Use for loops."
+      }
+    ],
+    "hints": [
+      "for i := 1 to 8 do read(score[i]); then readln; — read keeps reading on the same line.",
+      "Remember the best value and its index: if score[i] > best then begin best := score[i]; game := i end;",
+      "Add them up in a longint, then writeln('Average: ', sum / 8:0:1);"
+    ],
+    "inputs": [
+      "3120 4580 2210 7980 5530 1200 6610 4040"
+    ]
+  },
+  "p11": {
+    "title": "The Secret Code",
+    "xp": 40,
+    "story": "Julius Caesar shifted every letter of his messages by 3: A became D, B became E. Computers made it a game.",
+    "task": "Write function Encode(s: string; shift: integer): string that shifts every capital letter A–Z by shift places, wrapping around after Z (so X becomes A with shift 3). Other characters stay. Print Encode('ATTACK AT DAWN', 3) and then decode it again with Encode(…, 23):\nDWWDFN DW GDZQ\nATTACK AT DAWN",
+    "starter": "program Caesar;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "DWWDFN DW GDZQ\nATTACK AT DAWN",
+    "requirements": [
+      {
+        "pattern": "function\\s+Encode\\s*\\(",
+        "message": "Write function Encode(s: string; shift: integer): string."
+      },
+      {
+        "pattern": "\\bord\\s*\\(",
+        "message": "Use ord to get a letter's code."
+      },
+      {
+        "pattern": "\\bchr\\s*\\(",
+        "message": "Use chr to turn the code back into a letter."
+      },
+      {
+        "pattern": "\\bmod\\b",
+        "message": "Wrap around after Z with mod 26."
+      }
+    ],
+    "hints": [
+      "for i := 1 to length(s) do if (s[i] >= 'A') and (s[i] <= 'Z') then …",
+      "The position in the alphabet is ord(s[i]) - ord('A'), from 0 to 25.",
+      "s[i] := chr((ord(s[i]) - ord('A') + shift) mod 26 + ord('A')); then Encode := s;"
+    ]
+  },
+  "p12": {
+    "title": "The High Score Table",
+    "xp": 40,
+    "story": "Your arcade game needs a proper high score table, best player first.",
+    "task": "Use two arrays, names: array[1..5] of string and points: array[1..5] of integer, filled with: KEN 4200, ADA 9100, NIK 3700, DMR 9100, BOB 6600. Sort them by points from high to low with bubble sort (swap the names together with the points; equal points keep their order). Print the table with the place, the name and the points in 6 columns:\n1. ADA  9100\n2. DMR  9100\n3. BOB  6600\n4. KEN  4200\n5. NIK  3700",
+    "starter": "program HighScores;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "1. ADA  9100\n2. DMR  9100\n3. BOB  6600\n4. KEN  4200\n5. NIK  3700",
+    "requirements": [
+      {
+        "pattern": "for[\\s\\S]*for",
+        "message": "Sort with two nested loops."
+      },
+      {
+        "pattern": "<",
+        "message": "Sort from high to low: swap when the left one is smaller."
+      }
+    ],
+    "hints": [
+      "Swap when points[j] < points[j + 1] (not <=, so equal scores keep their order).",
+      "Swap both arrays: the points with an integer t, the names with a string variable.",
+      "writeln(i, '. ', names[i], points[i]:6);"
+    ]
+  },
+  "pc4-project": {
+    "title": "Letter Statistics",
+    "xp": 100,
+    "story": "Codebreakers count letters: in English, E is the most common one. Count the letters of a sentence.",
+    "task": "Ask Text? and read a line. Count every letter A–Z (ignore case: use upcase) in an array['A'..'Z'] of integer. Print the number of letters, then every letter that appears at least twice with its count, in alphabetical order, like E: 4. Finally print the most common letter:\nText? The quick brown fox jumps over the lazy dog\n35 letters\nE: 3\nH: 2\nO: 4\nR: 2\nT: 2\nU: 2\nMost common: O\nThe app types The quick brown fox jumps over the lazy dog.",
+    "starter": "program LetterStats;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "Text? The quick brown fox jumps over the lazy dog\n35 letters\nE: 3\nH: 2\nO: 4\nR: 2\nT: 2\nU: 2\nMost common: O",
+    "requirements": [
+      {
+        "pattern": "array\\s*\\[\\s*'A'\\s*\\.\\.\\s*'Z'\\s*\\]",
+        "message": "Count in an array['A'..'Z'] of integer."
+      },
+      {
+        "pattern": "upcase",
+        "message": "Use upcase to ignore the case."
+      },
+      {
+        "pattern": "for\\s+\\w+\\s*:=\\s*'A'",
+        "message": "Go through the letters with a char loop: for c := 'A' to 'Z' do."
+      }
+    ],
+    "hints": [
+      "Set all counters to 0 first: for c := 'A' to 'Z' do count[c] := 0;",
+      "For each character: ch := upcase(s[i]); if (ch >= 'A') and (ch <= 'Z') then inc(count[ch]);",
+      "For the most common letter, remember the first letter with the biggest count."
+    ],
+    "inputs": [
+      "The quick brown fox jumps over the lazy dog"
+    ]
+  },
+  "p13": {
+    "title": "The Traffic Light",
+    "xp": 40,
+    "story": "The city wants a program to test its new traffic lights. Each light goes red, red-yellow, green, yellow, and back to red.",
+    "task": "Declare type TLight = (red, redYellow, green, yellow) and an array[TLight] of string with the names RED, RED+YELLOW, GREEN and YELLOW. Write function NextLight(l: TLight): TLight that gives the next phase, going back to red after yellow (use succ). Start at red and print 6 phases:\nRED\nRED+YELLOW\nGREEN\nYELLOW\nRED\nRED+YELLOW",
+    "starter": "program TrafficLight;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "RED\nRED+YELLOW\nGREEN\nYELLOW\nRED\nRED+YELLOW",
+    "requirements": [
+      {
+        "pattern": "\\(\\s*red\\s*,\\s*redYellow\\s*,\\s*green\\s*,\\s*yellow\\s*\\)",
+        "message": "Declare TLight = (red, redYellow, green, yellow)."
+      },
+      {
+        "pattern": "array\\s*\\[\\s*TLight\\s*\\]",
+        "message": "Keep the names in an array[TLight] of string."
+      },
+      {
+        "pattern": "function\\s+NextLight",
+        "message": "Write function NextLight(l: TLight): TLight."
+      },
+      {
+        "pattern": "succ\\s*\\(",
+        "message": "Use succ for the next phase."
+      }
+    ],
+    "hints": [
+      "const names: array[TLight] of string = ('RED', 'RED+YELLOW', 'GREEN', 'YELLOW');",
+      "NextLight: if l = yellow then NextLight := red else NextLight := succ(l);",
+      "l := red; for i := 1 to 6 do begin writeln(names[l]); l := NextLight(l) end;"
+    ]
+  },
+  "p14": {
+    "title": "The Video Store",
+    "xp": 40,
+    "story": "1987: your uncle opens a video store. His tapes are on index cards. Time for a computer.",
+    "task": "Declare type TTape = record title: string; year: integer; rented: boolean; end; and an array[1..4] of TTape with: Back to the Future 1985 rented, Alien 1979 free, Tron 1982 rented, WarGames 1983 free. Write procedure ShowTape(var t: TTape) that prints a line using with, like Alien (1979) - free. Print all tapes, then how many are rented:\nBack to the Future (1985) - rented\nAlien (1979) - free\nTron (1982) - rented\nWarGames (1983) - free\n2 rented",
+    "starter": "program VideoStore;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "Back to the Future (1985) - rented\nAlien (1979) - free\nTron (1982) - rented\nWarGames (1983) - free\n2 rented",
+    "requirements": [
+      {
+        "pattern": "record",
+        "message": "Declare the TTape record."
+      },
+      {
+        "pattern": "procedure\\s+ShowTape\\s*\\(",
+        "message": "Write procedure ShowTape(var t: TTape)."
+      },
+      {
+        "pattern": "\\bwith\\b",
+        "message": "Use with inside ShowTape."
+      }
+    ],
+    "hints": [
+      "Fill the array field by field: tapes[1].title := 'Back to the Future'; …",
+      "ShowTape: with t do begin write(title, ' (', year, ') - '); if rented then writeln('rented') else writeln('free'); end;",
+      "Count with a for loop: if tapes[i].rented then inc(n);"
+    ]
+  },
+  "p15": {
+    "title": "Find the Vowels",
+    "xp": 40,
+    "story": "A word game needs to know which vowels a word uses, and which it misses.",
+    "task": "Ask Word? and read a word. Collect the vowels it contains in a set of char (use upcase, so case doesn't matter). Then print which of A E I O U are in the word and which are missing:\nWord? Pascal\nUsed: A\nMissing: E I O U\nThe app types Pascal.",
+    "starter": "program Vowels;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "Word? Pascal\nUsed: A\nMissing: E I O U",
+    "requirements": [
+      {
+        "pattern": "set\\s+of\\s+char",
+        "message": "Collect the vowels in a set of char."
+      },
+      {
+        "pattern": "\\bin\\b",
+        "message": "Test with in."
+      },
+      {
+        "pattern": "include\\s*\\(|\\+\\s*\\[",
+        "message": "Add vowels to the set with include (or + [c])."
+      }
+    ],
+    "hints": [
+      "used := []; then for each character: c := upcase(s[i]); if c in ['A', 'E', 'I', 'O', 'U'] then include(used, c);",
+      "For the output, loop over the vowels: a string 'AEIOU' and v := vowels[k] works well.",
+      "write('Used:'); for each vowel v: if v in used then write(' ', v); writeln; and the same for the missing ones."
+    ],
+    "inputs": [
+      "Pascal"
+    ]
+  },
+  "pc5-project": {
+    "title": "The Software Shop",
+    "xp": 100,
+    "story": "1988: a software shop sells games for different computers. Customers ask: what do you have for my computer?",
+    "task": "Declare type TComputer = (c64, amiga, pc, atari); and a record TGame with title: string; price: real; runsOn: set of TComputer. Store four games: Elite 14.99 on c64, pc, atari; Lemmings 24.50 on amiga, pc; Tetris 9.95 on pc, c64; Defender of the Crown 29.00 on amiga, c64, atari. Write procedure ListFor(c: TComputer) that prints every game for computer c, and the cheapest one. Call it for pc and amiga, with a heading like For PC::\nFor PC:\nElite 14.99\nLemmings 24.50\nTetris 9.95\nCheapest: Tetris\nFor AMIGA:\nLemmings 24.50\nDefender of the Crown 29.00\nCheapest: Lemmings",
+    "starter": "program SoftwareShop;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "For PC:\nElite 14.99\nLemmings 24.50\nTetris 9.95\nCheapest: Tetris\nFor AMIGA:\nLemmings 24.50\nDefender of the Crown 29.00\nCheapest: Lemmings",
+    "requirements": [
+      {
+        "pattern": "\\(\\s*c64\\s*,\\s*amiga\\s*,\\s*pc\\s*,\\s*atari\\s*\\)",
+        "message": "Declare TComputer = (c64, amiga, pc, atari)."
+      },
+      {
+        "pattern": "set\\s+of\\s+TComputer",
+        "message": "runsOn is a set of TComputer."
+      },
+      {
+        "pattern": "record",
+        "message": "Use a TGame record."
+      },
+      {
+        "pattern": "procedure\\s+ListFor\\s*\\(",
+        "message": "Write procedure ListFor(c: TComputer)."
+      },
+      {
+        "pattern": "\\bin\\b",
+        "message": "Check the computer with in."
+      }
+    ],
+    "hints": [
+      "games[1].runsOn := [c64, pc, atari]; and so on.",
+      "In ListFor: for i := 1 to 4 do if c in games[i].runsOn then …",
+      "Keep the cheapest: start with a big price like 1000 and remember the title of anything cheaper. The heading needs an array[TComputer] of string with the names."
+    ]
+  },
+  "p16": {
+    "title": "Three Linked Nodes",
+    "xp": 40,
+    "story": "Before you build whole lists, build one by hand, node by node.",
+    "task": "Declare PNode = ^TNode and TNode with a name: string and next: PNode. Create three nodes with new for Ada, Ken and Niklaus, link them in that order (the last one's next is nil), and print the chain by following the pointers from the first node, with arrows. Then dispose all three:\nAda -> Ken -> Niklaus -> nil",
+    "starter": "program Nodes;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "Ada -> Ken -> Niklaus -> nil",
+    "requirements": [
+      {
+        "pattern": "PNode\\s*=\\s*\\^\\s*TNode",
+        "message": "Declare PNode = ^TNode."
+      },
+      {
+        "pattern": "new\\s*\\(",
+        "message": "Create the nodes with new."
+      },
+      {
+        "pattern": "dispose\\s*\\(",
+        "message": "Give the memory back with dispose."
+      },
+      {
+        "pattern": "\\^\\s*\\.\\s*next",
+        "message": "Link the nodes with ^.next."
+      }
+    ],
+    "hints": [
+      "new(a); a^.name := 'Ada'; and the same for b and c.",
+      "a^.next := b; b^.next := c; c^.next := nil;",
+      "p := a; while p <> nil do begin write(p^.name, ' -> '); p := p^.next end; writeln('nil');"
+    ]
+  },
+  "p17": {
+    "title": "The To-Do List",
+    "xp": 40,
+    "story": "Your desk planner from 1989 runs on a PC. Its to-do list can grow forever.",
+    "task": "Make a linked list of tasks (a record with text: string and next). Write procedure Add(var head: PNode; t: string) that adds a task at the END of the list, and procedure Show(head: PNode) that prints them numbered. Add Write report, Call Ken, Backup disks and Buy floppies, show the list, then remove Call Ken, print Done: Call Ken, and show it again:\n1. Write report\n2. Call Ken\n3. Backup disks\n4. Buy floppies\nDone: Call Ken\n1. Write report\n2. Backup disks\n3. Buy floppies",
+    "starter": "program ToDo;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "1. Write report\n2. Call Ken\n3. Backup disks\n4. Buy floppies\nDone: Call Ken\n1. Write report\n2. Backup disks\n3. Buy floppies",
+    "requirements": [
+      {
+        "pattern": "procedure\\s+Add\\s*\\(\\s*var",
+        "message": "Write procedure Add(var head: PNode; t: string)."
+      },
+      {
+        "pattern": "procedure\\s+Show\\s*\\(",
+        "message": "Write procedure Show(head: PNode)."
+      },
+      {
+        "pattern": "dispose\\s*\\(",
+        "message": "Dispose the removed node."
+      }
+    ],
+    "hints": [
+      "Add at the end: if head = nil then head := n else begin p := head; while p^.next <> nil do p := p^.next; p^.next := n end;",
+      "Remove: walk with p and prev until p^.text = 'Call Ken'; then prev^.next := p^.next (or head := p^.next if it's the first); dispose(p);",
+      "Show: i := 1; while head <> nil do begin writeln(i, '. ', head^.text); inc(i); head := head^.next end;"
+    ]
+  },
+  "p18": {
+    "title": "Save the High Scores",
+    "xp": 40,
+    "story": "A game without saved high scores is no fun. Write them to the floppy and read them back.",
+    "task": "Write the three lines NIK 9900, ADA 8750 and KEN 4200 into HISCORE.TXT (assign, rewrite, writeln(f, …), close). Then add the line YOU 5000 with append. Finally read the whole file back with reset and while not eof, and print every line with its place:\n1. NIK 9900\n2. ADA 8750\n3. KEN 4200\n4. YOU 5000",
+    "starter": "program HiScores;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "1. NIK 9900\n2. ADA 8750\n3. KEN 4200\n4. YOU 5000",
+    "requirements": [
+      {
+        "pattern": "rewrite\\s*\\(",
+        "message": "Create the file with rewrite."
+      },
+      {
+        "pattern": "append\\s*\\(",
+        "message": "Add the last line with append."
+      },
+      {
+        "pattern": "reset\\s*\\(",
+        "message": "Read it back with reset."
+      },
+      {
+        "pattern": "eof\\s*\\(",
+        "message": "Read until eof."
+      },
+      {
+        "pattern": "close\\s*\\(",
+        "message": "Close the file."
+      }
+    ],
+    "hints": [
+      "assign(f, 'HISCORE.TXT'); rewrite(f); writeln(f, 'NIK 9900'); … close(f);",
+      "append(f); writeln(f, 'YOU 5000'); close(f);",
+      "reset(f); n := 0; while not eof(f) do begin readln(f, line); inc(n); writeln(n, '. ', line) end; close(f);"
+    ]
+  },
+  "pc6-project": {
+    "title": "The Address Book",
+    "xp": 100,
+    "story": "1990: your address book lives in a text file on a floppy. Load it into a linked list, keep it sorted, and save it again.",
+    "task": "Write the file PHONE.TXT with three lines: Wirth 3611, Hejlsberg 1983, Kahn 2001 (each line: name, a space, a number). Then read it with reset into a linked list that is sorted by name: write procedure InsertSorted(var head: PNode; name: string; ext: integer) that puts each new node at the right place. Add Ritchie 1972 to the list as well. Print the list, save it back to PHONE.TXT in the sorted order, and print how many lines the file has now:\nHejlsberg 1983\nKahn 2001\nRitchie 1972\nWirth 3611\n4 lines saved",
+    "starter": "program AddressBook;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "Hejlsberg 1983\nKahn 2001\nRitchie 1972\nWirth 3611\n4 lines saved",
+    "requirements": [
+      {
+        "pattern": "procedure\\s+InsertSorted\\s*\\(\\s*var",
+        "message": "Write procedure InsertSorted(var head: PNode; name: string; ext: integer)."
+      },
+      {
+        "pattern": "reset\\s*\\(",
+        "message": "Load the file with reset."
+      },
+      {
+        "pattern": "rewrite\\s*\\(",
+        "message": "Save the file with rewrite."
+      },
+      {
+        "pattern": "eof\\s*\\(",
+        "message": "Read until eof."
+      },
+      {
+        "pattern": "new\\s*\\(",
+        "message": "Make the nodes with new."
+      }
+    ],
+    "hints": [
+      "Read a line into a string, then split it: p := pos(' ', line); name := copy(line, 1, p - 1); and val(copy(line, p + 1, 10), ext, code);",
+      "InsertSorted: if head = nil or name < head^.name, the node becomes the new head. Otherwise walk with q while (q^.next <> nil) and (q^.next^.name < name), then link it in after q.",
+      "Saving: rewrite, then walk the list and writeln(f, p^.name, ' ', p^.ext); close; then reset and count the lines with eof."
+    ]
+  },
+  "p19": {
+    "title": "The Money Unit",
+    "xp": 40,
+    "story": "A shop program needs money calculations everywhere. Put them in one unit.",
+    "task": "Write unit Money with an interface of two routines: function AddTax(cents: longint): longint (adds 19 percent, rounded) and function Euro(cents: longint): string (turns 1190 into 11.90 EUR). Keep the tax rate as a private constant in the implementation. Then a program that uses Money and prints the price of a 1000-cent and a 2599-cent item with tax:\n11.90 EUR\n30.93 EUR",
+    "starter": "unit Money;\n\ninterface\n\n\nimplementation\n\n\nend.\n\nprogram Shop;\nuses Money;\nbegin\n  \nend.\n",
+    "expectedOutput": "11.90 EUR\n30.93 EUR",
+    "requirements": [
+      {
+        "pattern": "unit\\s+Money",
+        "message": "Write unit Money."
+      },
+      {
+        "pattern": "interface",
+        "message": "The unit needs an interface part."
+      },
+      {
+        "pattern": "implementation",
+        "message": "The unit needs an implementation part."
+      },
+      {
+        "pattern": "uses\\s+Money",
+        "message": "The program must use Money."
+      }
+    ],
+    "hints": [
+      "AddTax := round(cents * (100 + Rate) / 100); with const Rate = 19; in the implementation.",
+      "Euro: str(cents div 100, a); str(cents mod 100, b); if length(b) = 1 then b := '0' + b; Euro := a + '.' + b + ' EUR';",
+      "program Shop; uses Money; begin writeln(Euro(AddTax(1000))); … end."
+    ]
+  },
+  "p20": {
+    "title": "The Score File",
+    "xp": 40,
+    "story": "An arcade game keeps its high scores in a typed file.",
+    "task": "Declare TScore = record name: string[3]; points: integer; end; and write three records to SCORES.DAT: ADA 9100, KEN 7600, NIK 8800. Then reset the file, raise KEN's score to 9500 (find the record, seek back and write it), and print every record with its record number:\n0 ADA 9100\n1 KEN 9500\n2 NIK 8800",
+    "starter": "program Scores;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "0 ADA 9100\n1 KEN 9500\n2 NIK 8800",
+    "requirements": [
+      {
+        "pattern": "file\\s+of\\s+TScore",
+        "message": "Use a file of TScore."
+      },
+      {
+        "pattern": "seek\\s*\\(",
+        "message": "Jump with seek."
+      },
+      {
+        "pattern": "filepos\\s*\\(|filesize\\s*\\(",
+        "message": "Use filepos or filesize to know where you are."
+      },
+      {
+        "pattern": "rewrite\\s*\\(",
+        "message": "Create the file with rewrite."
+      }
+    ],
+    "hints": [
+      "s.name := 'ADA'; s.points := 9100; write(f, s); and so on, then close(f).",
+      "reset(f); while not eof(f) do begin read(f, s); if s.name = 'KEN' then begin s.points := 9500; seek(f, filepos(f) - 1); write(f, s) end end;",
+      "seek(f, 0); then read every record and writeln(filepos(f) - 1, ' ', s.name, ' ', s.points);"
+    ]
+  },
+  "p21": {
+    "title": "The Word Tree",
+    "xp": 40,
+    "story": "A word tree keeps words sorted while you add them, and counts the ones that come twice.",
+    "task": "Make a tree whose nodes hold a word: string and a count: integer. Insert the words of the sentence the quick fox and the lazy dog and the end (split at spaces). If a word is already there, add 1 to its count instead of making a new node. Print the words in order with their counts, then dispose the tree:\nand 2\ndog 1\nend 1\nfox 1\nlazy 1\nquick 1\nthe 3",
+    "starter": "program Words;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "and 2\ndog 1\nend 1\nfox 1\nlazy 1\nquick 1\nthe 3",
+    "requirements": [
+      {
+        "pattern": "new\\s*\\(",
+        "message": "Make the nodes with new."
+      },
+      {
+        "pattern": "dispose\\s*\\(",
+        "message": "Dispose the tree at the end."
+      },
+      {
+        "pattern": "\\^\\s*\\.\\s*left",
+        "message": "Each node needs a left pointer."
+      },
+      {
+        "pattern": "\\^\\s*\\.\\s*right",
+        "message": "Each node needs a right pointer."
+      }
+    ],
+    "hints": [
+      "procedure Insert(var t: PTree; w: string); if t = nil then make a node with count 1; else if w = t^.word then inc(t^.count); else if w < t^.word go left, else right.",
+      "Split: s := s + ' '; then repeat p := pos(' ', s); Insert(root, copy(s, 1, p - 1)); delete(s, 1, p) until s = '';",
+      "InOrder prints writeln(t^.word, ' ', t^.count) between the left and right calls."
+    ]
+  },
+  "p22": {
+    "title": "The Title Screen",
+    "xp": 40,
+    "story": "Every 80s program started with a title screen in a frame.",
+    "task": "Write procedure Box(x, y, w, h: integer) that draws a frame with + - and |. Clear the screen, draw a box at column 1, row 1, 24 wide and 5 high, write SPACE TRADER centered in row 3 (starting at column 7) and v1.0 at column 10 of row 4, then put the cursor at column 1, row 7 and write Press any key.",
+    "starter": "program Title;\nuses crt;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "+----------------------+\n|                      |\n|     SPACE TRADER     |\n|        v1.0          |\n+----------------------+\n\nPress any key",
+    "requirements": [
+      {
+        "pattern": "uses\\s+crt",
+        "message": "Use the crt unit."
+      },
+      {
+        "pattern": "procedure\\s+Box\\s*\\(",
+        "message": "Write procedure Box(x, y, w, h: integer)."
+      },
+      {
+        "pattern": "gotoxy\\s*\\(",
+        "message": "Place the text with gotoxy."
+      },
+      {
+        "pattern": "clrscr",
+        "message": "Clear the screen first."
+      }
+    ],
+    "hints": [
+      "Top line: gotoxy(x, y); write('+'); for i := 1 to w - 2 do write('-'); write('+');",
+      "Sides: for i := 1 to h - 2 do begin gotoxy(x, y + i); write('|'); gotoxy(x + w - 1, y + i); write('|') end;",
+      "gotoxy(7, 3); write('SPACE TRADER'); gotoxy(10, 4); write('v1.0');"
+    ],
+    "exact": true
+  },
+  "pc7-project": {
+    "title": "The Record Shop",
+    "xp": 100,
+    "story": "1988: a record shop keeps its catalog on a floppy. Build the whole program: a unit, a file and a tree.",
+    "task": "Write unit Catalog with TAlbum = record title: string[20]; year: integer; end; and procedure ShowAlbum(a: TAlbum), which prints the title, a space and the year. In the program, save four albums to ALBUMS.DAT as a file of TAlbum: Thriller 1982, Abbey Road 1969, Purple Rain 1984, Blue 1971. Then read the file back into a binary search tree sorted by year, and print the albums from oldest to newest with ShowAlbum, then the number of albums:\nAbbey Road 1969\nBlue 1971\nThriller 1982\nPurple Rain 1984\n4 albums",
+    "starter": "unit Catalog;\n\ninterface\n\n\nimplementation\n\n\nend.\n\nprogram Shop;\nuses Catalog;\n\nbegin\n  \nend.\n",
+    "expectedOutput": "Abbey Road 1969\nBlue 1971\nThriller 1982\nPurple Rain 1984\n4 albums",
+    "requirements": [
+      {
+        "pattern": "unit\\s+Catalog",
+        "message": "Write unit Catalog."
+      },
+      {
+        "pattern": "uses\\s+Catalog",
+        "message": "The program must use Catalog."
+      },
+      {
+        "pattern": "file\\s+of\\s+TAlbum",
+        "message": "Save the albums in a file of TAlbum."
+      },
+      {
+        "pattern": "new\\s*\\(",
+        "message": "Build the tree with new."
+      },
+      {
+        "pattern": "\\^\\s*\\.\\s*left",
+        "message": "The tree needs left pointers."
+      }
+    ],
+    "hints": [
+      "In the unit: procedure ShowAlbum(a: TAlbum); begin writeln(a.title, ' ', a.year) end;",
+      "Save: assign(f, 'ALBUMS.DAT'); rewrite(f); a.title := 'Thriller'; a.year := 1982; write(f, a); … close(f);",
+      "Load: reset(f); while not eof(f) do begin read(f, a); Insert(root, a) end; Insert compares a.year with t^.album.year."
+    ]
+  }
+}

@@ -1,0 +1,434 @@
+{
+  "id": "c22",
+  "title": "Your Own Types",
+  "lessons": [
+    {
+      "id": "c22-l1",
+      "title": "typedef",
+      "xp": 15,
+      "intro": [
+        "typedef gives a type a second name: after typedef int Celsius; you can write Celsius t = 12;. Nothing new is created; Celsius is just int with a name that says what it means.",
+        "Its most common job is structs: typedef struct { … } City; lets you write City c instead of struct city c everywhere. Most C code since the 1980s does this.",
+        "You already used typedefs from the library: size_t (the type of sizeof) and FILE are both typedefs in the header files."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "typedef int Celsius;",
+          "",
+          "typedef struct {",
+          "    char name[20];",
+          "    Celsius temp;",
+          "} City;",
+          "",
+          "void show(City c) {",
+          "    printf(\"%-12s %3d C\\n\", c.name, c.temp);",
+          "}",
+          "",
+          "int main() {",
+          "    City cities[3] = {{\"Frankfurt\", 12}, {\"Murray Hill\", 8}, {\"Palo Alto\", 19}};",
+          "    int i;",
+          "    for (i = 0; i < 3; i++)",
+          "        show(cities[i]);",
+          "    return 0;",
+          "}"
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "c22-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does typedef int Score; do?",
+          "options": [
+            "Makes Score another name for int",
+            "Creates a variable called Score",
+            "Creates a new kind of number",
+            "Defines a function"
+          ],
+          "answer": 0,
+          "explanation": "A typedef only adds a name. Score s = 10; is exactly int s = 10;."
+        },
+        {
+          "id": "c22-l1-e2",
+          "type": "fill_blank",
+          "prompt": "Give the struct the name Point.",
+          "code": [
+            "typedef struct {",
+            "    int x, y;",
+            "} ___;"
+          ],
+          "options": [
+            "Point",
+            "struct Point",
+            "typedef",
+            "int"
+          ],
+          "answer": "Point",
+          "explanation": "The new name comes after the closing brace, before the ;."
+        },
+        {
+          "id": "c22-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "typedef struct { int w, h; } Box;",
+            "",
+            "int main() {",
+            "    Box b = {3, 4};",
+            "    printf(\"%d\\n\", b.w * b.h);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "12",
+            "7",
+            "34",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "b.w is 3 and b.h is 4."
+        },
+        {
+          "id": "c22-l1-e4",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "typedef struct {",
+            "    int x, y;",
+            "} Point",
+            "",
+            "int main() {",
+            "    Point p = {1, 2};",
+            "    printf(\"%d\\n\", p.x + p.y);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 4,
+          "explanation": "A typedef is a declaration, so it ends with a semicolon: } Point;"
+        },
+        {
+          "id": "c22-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Why is typedef struct { … } Point; so popular?",
+          "options": [
+            "You can write Point p; instead of struct point p;",
+            "It makes the struct faster",
+            "It saves memory",
+            "Arrays of structs need it"
+          ],
+          "answer": 0,
+          "explanation": "It's only about reading and writing less, but in a big program that adds up."
+        },
+        {
+          "id": "c22-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Which of these is a typedef from the C library?",
+          "options": [
+            "size_t, the type of sizeof",
+            "int",
+            "char",
+            "double"
+          ],
+          "answer": 0,
+          "explanation": "stdlib.h says typedef unsigned long size_t; and stdio.h has one for FILE too."
+        }
+      ]
+    },
+    {
+      "id": "c22-l2",
+      "title": "enum",
+      "xp": 15,
+      "intro": [
+        "An enum gives names to a list of related numbers: enum light { RED, YELLOW, GREEN }; RED is 0, YELLOW 1, GREEN 2. You can also choose values: enum { OK = 0, NO_FILE = 10, NO_MEMORY };, where NO_MEMORY becomes 11.",
+        "Compared with a list of #defines, the compiler does the counting, and the names belong together. Together with switch, it reads like a description of the program.",
+        "An enum is really just an int: printf(\"%d\", RED) prints 0, and C won't stop you from storing 42 in an enum variable. To print a name, keep an array of strings next to it."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "enum light { RED, YELLOW, GREEN };",
+          "",
+          "enum light next(enum light l) {",
+          "    switch (l) {",
+          "    case RED: return GREEN;",
+          "    case GREEN: return YELLOW;",
+          "    default: return RED;",
+          "    }",
+          "}",
+          "",
+          "int main() {",
+          "    char *names[] = {\"red\", \"yellow\", \"green\"};",
+          "    enum light l = RED;",
+          "    int i;",
+          "    for (i = 0; i < 4; i++) {",
+          "        printf(\"%d %s\\n\", l, names[l]);",
+          "        l = next(l);",
+          "    }",
+          "    return 0;",
+          "}"
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "c22-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "enum color { RED, GREEN, BLUE }; What is BLUE?",
+          "options": [
+            "2",
+            "3",
+            "1",
+            "\"BLUE\""
+          ],
+          "answer": 0,
+          "explanation": "Counting starts at 0."
+        },
+        {
+          "id": "c22-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "enum { A = 5, B, C = 10, D };",
+            "",
+            "int main() {",
+            "    printf(\"%d %d\\n\", B, D);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "6 11",
+            "1 3",
+            "5 10",
+            "6 4"
+          ],
+          "answer": 0,
+          "explanation": "Each name without a value is one more than the name before it: B is 6, D is 11."
+        },
+        {
+          "id": "c22-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Print game over when the game is over.",
+          "code": [
+            "    enum state { READY, PLAYING, OVER };",
+            "    enum state s = OVER;",
+            "    if (s == ___)",
+            "        printf(\"game over\\n\");"
+          ],
+          "options": [
+            "OVER",
+            "\"OVER\"",
+            "state.OVER",
+            "3"
+          ],
+          "answer": "OVER",
+          "explanation": "The names are constants, not strings: no quotes. (OVER is 2, so 3 would be wrong too.)"
+        },
+        {
+          "id": "c22-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "Why use an enum instead of #define RED 0, #define YELLOW 1 …?",
+          "options": [
+            "The compiler does the numbering, and the names belong together",
+            "Enums are faster",
+            "Enums are strings",
+            "Enums use less memory"
+          ],
+          "answer": 0,
+          "explanation": "Add a new name in the middle, and all the numbers move along by themselves."
+        },
+        {
+          "id": "c22-l2-e5",
+          "type": "find_bug",
+          "prompt": "This program should print GREEN's name but crashes. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "enum color { RED, GREEN, BLUE };",
+            "",
+            "int main() {",
+            "    enum color c = GREEN;",
+            "    printf(\"%s\\n\", c);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 6,
+          "explanation": "c is the number 1, not a string. Use an array: char *names[] = {\"red\", \"green\", \"blue\"}; printf(\"%s\\n\", names[c]);"
+        },
+        {
+          "id": "c22-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What does an enum variable really hold?",
+          "options": [
+            "An int",
+            "A string",
+            "A char",
+            "A pointer"
+          ],
+          "answer": 0,
+          "explanation": "That's why %d prints it and why it works in a switch."
+        }
+      ]
+    },
+    {
+      "id": "c22-l3",
+      "title": "union",
+      "xp": 15,
+      "intro": [
+        "A union looks like a struct, but its members share the same memory. It holds only one of them at a time, and it's as big as its biggest member.",
+        "In 1978, memory was expensive. A compiler's symbol table could store either an int or a double in the same place, depending on the symbol.",
+        "To know which member is valid, programmers keep a tag next to the union: a struct with an enum (what kind is it?) and a union (the value). This \"tagged union\" is how many interpreters store values, including the one running your programs here."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "enum kind { NUMBER, TEXT };",
+          "",
+          "struct value {",
+          "    enum kind kind;",
+          "    union {",
+          "        double num;",
+          "        char *text;",
+          "    } as;",
+          "};",
+          "",
+          "void print(struct value v) {",
+          "    if (v.kind == NUMBER)",
+          "        printf(\"number %.2f\\n\", v.as.num);",
+          "    else",
+          "        printf(\"text %s\\n\", v.as.text);",
+          "}",
+          "",
+          "int main() {",
+          "    struct value a, b;",
+          "    a.kind = NUMBER;",
+          "    a.as.num = 3.14;",
+          "    b.kind = TEXT;",
+          "    b.as.text = \"unix\";",
+          "    print(a);",
+          "    print(b);",
+          "    printf(\"%lu\\n\", sizeof a.as);",
+          "    return 0;",
+          "}"
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "c22-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "union u { int i; double d; char c; }; How big is it here, where a double has 8 bytes?",
+          "options": [
+            "8, the size of the biggest member",
+            "13, all three together",
+            "4",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "All three start at the same place, so the union only needs room for the biggest."
+        },
+        {
+          "id": "c22-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What's the difference between a struct and a union?",
+          "options": [
+            "A struct holds all its members at once; a union only one at a time",
+            "A union can't hold doubles",
+            "A struct can't be in a union",
+            "There is none"
+          ],
+          "answer": 0,
+          "explanation": "Writing one member of a union overwrites the others."
+        },
+        {
+          "id": "c22-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Print the text only if the value really is text.",
+          "code": [
+            "    if (v.kind == ___)",
+            "        printf(\"%s\\n\", v.as.text);"
+          ],
+          "options": [
+            "TEXT",
+            "NUMBER",
+            "v.as",
+            "union"
+          ],
+          "answer": "TEXT",
+          "explanation": "The tag says which member of the union is valid right now."
+        },
+        {
+          "id": "c22-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "Why keep an enum tag next to the union?",
+          "options": [
+            "To remember which member is valid right now",
+            "Unions don't compile without it",
+            "To make the union bigger",
+            "It makes it faster"
+          ],
+          "answer": 0,
+          "explanation": "The union itself doesn't know what was stored last."
+        },
+        {
+          "id": "c22-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "union u { int i; char c; };",
+            "",
+            "int main() {",
+            "    union u x;",
+            "    x.i = 65;",
+            "    printf(\"%c\\n\", x.c);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "A",
+            "65",
+            "random garbage",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "i and c share the same memory. On today's computers, the lowest byte of 65 comes first, so c is 65 too: the letter A."
+        },
+        {
+          "id": "c22-l3-e6",
+          "type": "find_bug",
+          "prompt": "This program prints a strange number instead of hi. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "struct value {",
+            "    int is_text;",
+            "    union { double num; char *text; } as;",
+            "};",
+            "",
+            "int main() {",
+            "    struct value v;",
+            "    v.is_text = 0;",
+            "    v.as.text = \"hi\";",
+            "    if (v.is_text) printf(\"%s\\n\", v.as.text);",
+            "    else printf(\"%.2f\\n\", v.as.num);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 9,
+          "explanation": "The tag says it's a number, but the union holds text. Set v.is_text = 1; whenever you store text."
+        }
+      ]
+    }
+  ]
+}

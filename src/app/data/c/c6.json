@@ -1,0 +1,405 @@
+{
+  "id": "c6",
+  "title": "for Loops",
+  "lessons": [
+    {
+      "id": "c6-l1",
+      "title": "The for Loop",
+      "xp": 15,
+      "intro": [
+        "Most loops count: start, condition, step. for puts all three in one line: for (i = 1; i <= 5; i++). It's the same as a while loop, just tidier.",
+        "The first part runs once, the condition is checked before each round, and the step runs after each round.",
+        "Kernighan and Ritchie's book has a famous early example: a table that converts Fahrenheit to Celsius, made with a for loop."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    int fahr;",
+          "    for (fahr = 0; fahr <= 100; fahr = fahr + 20)",
+          "        printf(\"%3d %6.1f\\n\", fahr, (5.0 / 9.0) * (fahr - 32));",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "  0  -17.8",
+          " 20   -6.7",
+          " 40    4.4",
+          " 60   15.6",
+          " 80   26.7",
+          "100   37.8"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c6-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "In for (i = 0; i < 3; i++), how many rounds are there?",
+          "options": [
+            "3",
+            "2",
+            "4",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "i is 0, 1 and 2. At 3, i < 3 is false."
+        },
+        {
+          "id": "c6-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "When does the step part i++ run?",
+          "options": [
+            "After each round",
+            "Before each round",
+            "Once at the start",
+            "Only at the end"
+          ],
+          "answer": 0,
+          "explanation": "Start once, then: check, body, step, check, body, step …"
+        },
+        {
+          "id": "c6-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Count from 10 down to 1.",
+          "code": [
+            "    for (i = 10; i >= 1; i___)",
+            "        printf(\"%d\\n\", i);"
+          ],
+          "options": [
+            "--",
+            "++",
+            "-1",
+            "=-"
+          ],
+          "answer": "--",
+          "explanation": "i-- takes one away each round."
+        },
+        {
+          "id": "c6-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int i;",
+            "    for (i = 0; i < 10; i += 2)",
+            "        printf(\"%d \", i);",
+            "    printf(\"\\n\");",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "0 2 4 6 8",
+            "0 1 2 3 4",
+            "2 4 6 8 10",
+            "0 2 4 6 8 10"
+          ],
+          "answer": 0,
+          "explanation": "i goes up by 2 and stops before 10."
+        },
+        {
+          "id": "c6-l1-e5",
+          "type": "find_bug",
+          "prompt": "This prints nothing. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int i;",
+            "    for (i = 1; i > 5; i++)",
+            "        printf(\"%d\\n\", i);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 4,
+          "explanation": "i starts at 1, and 1 > 5 is false right away. The condition should be i <= 5."
+        },
+        {
+          "id": "c6-l1-e6",
+          "type": "order_lines",
+          "prompt": "Put the lines in order: print the squares of 1 to 3.",
+          "lines": [
+            "int main() {",
+            "    int i;",
+            "    for (i = 1; i <= 3; i++)",
+            "        printf(\"%d\\n\", i * i);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": [
+            "int main() {",
+            "    int i;",
+            "    for (i = 1; i <= 3; i++)",
+            "        printf(\"%d\\n\", i * i);",
+            "    return 0;",
+            "}"
+          ],
+          "explanation": "Declare i, then the for line, then the body it repeats."
+        }
+      ]
+    },
+    {
+      "id": "c6-l2",
+      "title": "Loops in Loops",
+      "xp": 15,
+      "intro": [
+        "A loop can run inside another loop. For every round of the outer loop, the inner loop runs completely.",
+        "Use different counter names, usually i for the outer and j for the inner loop.",
+        "Nested loops print tables and patterns, and walk through every pair of things."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    int i, j;",
+          "    for (i = 1; i <= 3; i++) {",
+          "        for (j = 1; j <= i; j++)",
+          "            printf(\"*\");",
+          "        printf(\"\\n\");",
+          "    }",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "*",
+          "**",
+          "***"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c6-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "An outer loop runs 4 times, an inner loop 5 times. How often does the inner body run?",
+          "options": [
+            "20",
+            "9",
+            "5",
+            "4"
+          ],
+          "answer": 0,
+          "explanation": "4 × 5 = 20."
+        },
+        {
+          "id": "c6-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "In the example, why does the triangle grow?",
+          "options": [
+            "The inner loop runs up to i, which grows each round",
+            "printf adds stars by itself",
+            "j never resets",
+            "It's random"
+          ],
+          "answer": 0,
+          "explanation": "Round 1 prints 1 star, round 2 prints 2, round 3 prints 3."
+        },
+        {
+          "id": "c6-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int i, j;",
+            "    for (i = 1; i <= 2; i++)",
+            "        for (j = 1; j <= 2; j++)",
+            "            printf(\"%d%d \", i, j);",
+            "    printf(\"\\n\");",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "11 12 21 22",
+            "11 22",
+            "12 21",
+            "1 2 1 2"
+          ],
+          "answer": 0,
+          "explanation": "For each i, j runs through 1 and 2."
+        },
+        {
+          "id": "c6-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Print a times table row for i.",
+          "code": [
+            "    for (j = 1; j <= 5; j++)",
+            "        printf(\"%4d\", i ___ j);"
+          ],
+          "options": [
+            "*",
+            "+",
+            "%",
+            "/"
+          ],
+          "answer": "*",
+          "explanation": "i * j is the product."
+        },
+        {
+          "id": "c6-l2-e5",
+          "type": "find_bug",
+          "prompt": "This prints only one row. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int i, j;",
+            "    for (i = 1; i <= 3; i++)",
+            "        for (i = 1; i <= 3; i++)",
+            "            printf(\"*\");",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 5,
+          "explanation": "The inner loop also uses i, so it ruins the outer loop's count. It needs its own variable: j."
+        },
+        {
+          "id": "c6-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What does the \\n after the inner loop do in the example?",
+          "options": [
+            "Ends each row of stars",
+            "Prints a star",
+            "Stops the loop",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "Without it, all stars would end up on one line."
+        }
+      ]
+    },
+    {
+      "id": "c6-l3",
+      "title": "break and continue",
+      "xp": 15,
+      "intro": [
+        "break leaves a loop right away, even if the condition is still true. Handy when you've found what you were looking for.",
+        "continue skips the rest of this round and goes on with the next one.",
+        "for (;;) with nothing in it loops forever. Programs like Unix servers ran that way, using break when it was time to stop."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    int i;",
+          "    for (i = 1; i <= 10; i++) {",
+          "        if (i % 3 == 0)",
+          "            continue;",
+          "        if (i > 7)",
+          "            break;",
+          "        printf(\"%d \", i);",
+          "    }",
+          "    printf(\"\\n\");",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "1 2 4 5 7 "
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c6-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does break do in a loop?",
+          "options": [
+            "Leaves the loop immediately",
+            "Skips one round",
+            "Pauses the program",
+            "Restarts the loop"
+          ],
+          "answer": 0,
+          "explanation": "The program continues after the loop."
+        },
+        {
+          "id": "c6-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does continue do?",
+          "options": [
+            "Skips to the next round",
+            "Leaves the loop",
+            "Ends the program",
+            "Repeats the round"
+          ],
+          "answer": 0,
+          "explanation": "The rest of the body is skipped this time."
+        },
+        {
+          "id": "c6-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int i;",
+            "    for (i = 1; i <= 5; i++) {",
+            "        if (i == 4)",
+            "            break;",
+            "        printf(\"%d \", i);",
+            "    }",
+            "    printf(\"\\n\");",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "1 2 3",
+            "1 2 3 4",
+            "4",
+            "1 2 3 4 5"
+          ],
+          "answer": 0,
+          "explanation": "At i = 4, break leaves the loop before printing."
+        },
+        {
+          "id": "c6-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Skip even numbers.",
+          "code": [
+            "    if (i % 2 == 0)",
+            "        ___;",
+            "    printf(\"%d\\n\", i);"
+          ],
+          "options": [
+            "continue",
+            "break",
+            "return",
+            "skip"
+          ],
+          "answer": "continue",
+          "explanation": "continue jumps to the next round without printing."
+        },
+        {
+          "id": "c6-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What does for (;;) do?",
+          "options": [
+            "Loops forever, until break",
+            "Nothing",
+            "Runs once",
+            "It's an error"
+          ],
+          "answer": 0,
+          "explanation": "No condition means always true."
+        },
+        {
+          "id": "c6-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Find the first number from 1 to 100 that's divisible by 7 and 9. What ends the search early?",
+          "options": [
+            "break",
+            "continue",
+            "else",
+            "switch"
+          ],
+          "answer": 0,
+          "explanation": "As soon as 63 is found, break stops searching."
+        }
+      ]
+    }
+  ]
+}

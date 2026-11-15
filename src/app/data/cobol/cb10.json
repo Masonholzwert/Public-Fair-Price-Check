@@ -1,0 +1,423 @@
+{
+  "id": "cb10",
+  "title": "Paragraphs",
+  "lessons": [
+    {
+      "id": "cb10-l1",
+      "title": "PERFORM a Paragraph",
+      "xp": 15,
+      "intro": [
+        "Big COBOL programs are split into paragraphs: a name in Area A with a period, followed by its statements. PERFORM PRINT-HEADER runs that paragraph and comes back.",
+        "The first paragraph is the main one: it PERFORMs the others in order and ends with STOP RUN. Without STOP RUN, the program would fall through into the next paragraph and run it once more.",
+        "Good names say what a paragraph does: 1000-READ-INPUT, 2000-PRINT-LINE. The numbers kept big programs in order, a habit from the 1970s."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. PARAS.",
+          "       PROCEDURE DIVISION.",
+          "       MAIN-PARA.",
+          "           PERFORM PRINT-HEADER.",
+          "           PERFORM PRINT-BODY.",
+          "           PERFORM PRINT-HEADER.",
+          "           STOP RUN.",
+          "       PRINT-HEADER.",
+          "           DISPLAY \"==========\".",
+          "       PRINT-BODY.",
+          "           DISPLAY \"MONTHLY RUN\".",
+          "           DISPLAY \"ALL DONE\"."
+        ],
+        "output": [
+          "==========",
+          "MONTHLY RUN",
+          "ALL DONE",
+          "=========="
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb10-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does PERFORM SHOW-TOTAL do?",
+          "options": [
+            "Runs the paragraph SHOW-TOTAL, then comes back",
+            "Jumps to SHOW-TOTAL and never comes back",
+            "Defines SHOW-TOTAL",
+            "Runs the whole program again"
+          ],
+          "answer": 0,
+          "explanation": "Like calling a subroutine."
+        },
+        {
+          "id": "cb10-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. ORDER.",
+            "       PROCEDURE DIVISION.",
+            "       MAIN.",
+            "           PERFORM SAY-B.",
+            "           DISPLAY \"A\".",
+            "           STOP RUN.",
+            "       SAY-B.",
+            "           DISPLAY \"B\"."
+          ],
+          "options": [
+            "B\nA",
+            "A\nB",
+            "A\nB\nA",
+            "B"
+          ],
+          "answer": 0,
+          "explanation": "MAIN performs SAY-B, shows A, and stops before falling into SAY-B again."
+        },
+        {
+          "id": "cb10-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Run the paragraph 2000-PRINT.",
+          "code": [
+            "           ___ 2000-PRINT."
+          ],
+          "options": [
+            "PERFORM",
+            "CALL",
+            "GO",
+            "RUN"
+          ],
+          "answer": "PERFORM",
+          "explanation": "PERFORM a paragraph."
+        },
+        {
+          "id": "cb10-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "Without STOP RUN at the end of the main paragraph, what happens?",
+          "options": [
+            "The program falls into the next paragraph and runs it again",
+            "Nothing",
+            "It loops forever",
+            "It doesn't compile"
+          ],
+          "answer": 0,
+          "explanation": "Paragraphs run one after another unless something stops them."
+        },
+        {
+          "id": "cb10-l1-e5",
+          "type": "find_bug",
+          "prompt": "This job doesn't compile. Which line is wrong?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. BAD.",
+            "       PROCEDURE DIVISION.",
+            "       MAIN.",
+            "           PERFORM GREET.",
+            "           STOP RUN.",
+            "           GREET.",
+            "           DISPLAY \"HI\"."
+          ],
+          "answer": 6,
+          "explanation": "A paragraph name starts in Area A, column 8. In Area B it looks like a statement."
+        },
+        {
+          "id": "cb10-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Why did programmers number paragraphs like 1000-INIT, 2000-PROCESS?",
+          "options": [
+            "To find them quickly in a long listing, in order",
+            "The compiler needs numbers",
+            "To make them faster",
+            "Numbers are required in COBOL"
+          ],
+          "answer": 0,
+          "explanation": "A program with 300 paragraphs needs some order."
+        }
+      ]
+    },
+    {
+      "id": "cb10-l2",
+      "title": "TIMES",
+      "xp": 15,
+      "intro": [
+        "PERFORM PRINT-STAR 5 TIMES runs a paragraph 5 times. The count can be a field too: PERFORM SHOW-LINE COPIES TIMES.",
+        "The inline form needs no paragraph: PERFORM 3 TIMES … END-PERFORM, with the statements in between.",
+        "A count of 0 runs nothing at all."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. TIMES.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 COPIES    PIC 9 VALUE 3.",
+          "       01 N         PIC 99 VALUE ZERO.",
+          "       PROCEDURE DIVISION.",
+          "       MAIN.",
+          "           PERFORM SHOW-LINE COPIES TIMES.",
+          "           PERFORM 4 TIMES",
+          "               ADD 5 TO N",
+          "           END-PERFORM.",
+          "           DISPLAY \"N IS \" N.",
+          "           STOP RUN.",
+          "       SHOW-LINE.",
+          "           DISPLAY \"RECEIPT COPY\"."
+        ],
+        "output": [
+          "RECEIPT COPY",
+          "RECEIPT COPY",
+          "RECEIPT COPY",
+          "N IS 20"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb10-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. T.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 N PIC 99 VALUE ZERO.",
+            "       PROCEDURE DIVISION.",
+            "           PERFORM 4 TIMES",
+            "               ADD 2 TO N",
+            "           END-PERFORM.",
+            "           DISPLAY N.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "08",
+            "04",
+            "02",
+            "16"
+          ],
+          "answer": 0,
+          "explanation": "4 times 2."
+        },
+        {
+          "id": "cb10-l2-e2",
+          "type": "fill_blank",
+          "prompt": "Repeat the paragraph BEEP 3 times.",
+          "code": [
+            "           PERFORM BEEP 3 ___."
+          ],
+          "options": [
+            "TIMES",
+            "LOOPS",
+            "REPEAT",
+            "X"
+          ],
+          "answer": "TIMES",
+          "explanation": "PERFORM … n TIMES."
+        },
+        {
+          "id": "cb10-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What closes an inline PERFORM?",
+          "options": [
+            "END-PERFORM",
+            "END",
+            "LOOP",
+            "A period only"
+          ],
+          "answer": 0,
+          "explanation": "The statements go between PERFORM and END-PERFORM."
+        },
+        {
+          "id": "cb10-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "PERFORM SHOW-IT N TIMES, and N is 0. How often does SHOW-IT run?",
+          "options": [
+            "Never",
+            "Once",
+            "Forever",
+            "It's an error"
+          ],
+          "answer": 0,
+          "explanation": "Zero times is zero times."
+        },
+        {
+          "id": "cb10-l2-e5",
+          "type": "find_bug",
+          "prompt": "This job doesn't compile. Which line is wrong?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. NOEND.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 N PIC 9 VALUE ZERO.",
+            "       PROCEDURE DIVISION.",
+            "           PERFORM 3 TIMES",
+            "               ADD 1 TO N",
+            "           DISPLAY N.",
+            "           STOP RUN."
+          ],
+          "answer": 8,
+          "explanation": "The inline PERFORM is never closed: END-PERFORM is missing after ADD 1 TO N."
+        },
+        {
+          "id": "cb10-l2-e6",
+          "type": "order_lines",
+          "prompt": "Put the lines in order: show HI three times.",
+          "lines": [
+            "           PERFORM 3 TIMES",
+            "               DISPLAY \"HI\"",
+            "           END-PERFORM."
+          ],
+          "answer": [
+            "           PERFORM 3 TIMES",
+            "               DISPLAY \"HI\"",
+            "           END-PERFORM."
+          ],
+          "explanation": "PERFORM, the body, END-PERFORM."
+        }
+      ]
+    },
+    {
+      "id": "cb10-l3",
+      "title": "UNTIL",
+      "xp": 15,
+      "intro": [
+        "PERFORM ADD-INTEREST UNTIL BALANCE > 2000 repeats until the condition is true. The condition is checked first: if it's already true, the paragraph doesn't run at all.",
+        "Something inside must change the condition, or the job runs until the operator cancels it: ABEND S322.",
+        "A classic: read cards until a card says END. Here the job reads SYSIN cards and adds them up."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. UNTIL.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 CARD-TEXT  PIC X(6).",
+          "          88 NO-MORE VALUE \"END\".",
+          "       01 AMOUNT     PIC 9(4).",
+          "       01 TOTAL      PIC 9(5) VALUE ZERO.",
+          "       01 YEARS      PIC 99 VALUE ZERO.",
+          "       01 BALANCE    PIC 9(5)V99 VALUE 1000.",
+          "       PROCEDURE DIVISION.",
+          "       MAIN.",
+          "           ACCEPT CARD-TEXT.",
+          "           PERFORM ADD-CARD UNTIL NO-MORE.",
+          "           DISPLAY \"TOTAL OF CARDS: \" TOTAL.",
+          "           PERFORM ADD-INTEREST UNTIL BALANCE > 2000.",
+          "           DISPLAY \"DOUBLED AFTER \" YEARS \" YEARS\".",
+          "           STOP RUN.",
+          "       ADD-CARD.",
+          "           MOVE CARD-TEXT TO AMOUNT.",
+          "           ADD AMOUNT TO TOTAL.",
+          "           ACCEPT CARD-TEXT.",
+          "       ADD-INTEREST.",
+          "           COMPUTE BALANCE ROUNDED = BALANCE * 1.07.",
+          "           ADD 1 TO YEARS."
+        ],
+        "output": [
+          "TOTAL OF CARDS: 00495",
+          "DOUBLED AFTER 11 YEARS"
+        ],
+        "inputs": [
+          "120",
+          "75",
+          "300",
+          "END"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb10-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "When is the UNTIL condition checked?",
+          "options": [
+            "Before each round: if it's true at the start, nothing runs",
+            "After each round",
+            "Only once",
+            "Never"
+          ],
+          "answer": 0,
+          "explanation": "That's COBOL's default, WITH TEST BEFORE."
+        },
+        {
+          "id": "cb10-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. U.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 N PIC 999 VALUE 1.",
+            "       PROCEDURE DIVISION.",
+            "           PERFORM UNTIL N > 10",
+            "               COMPUTE N = N * 2",
+            "           END-PERFORM.",
+            "           DISPLAY N.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "016",
+            "008",
+            "032",
+            "015"
+          ],
+          "answer": 0,
+          "explanation": "1, 2, 4, 8, 16: the loop stops when N is above 10."
+        },
+        {
+          "id": "cb10-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Repeat until the end of the input.",
+          "code": [
+            "           PERFORM READ-NEXT ___ END-OF-INPUT."
+          ],
+          "options": [
+            "UNTIL",
+            "WHILE",
+            "TIMES",
+            "IF"
+          ],
+          "answer": "UNTIL",
+          "explanation": "PERFORM … UNTIL condition."
+        },
+        {
+          "id": "cb10-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "A loop's condition never becomes true. How does the job end?",
+          "options": [
+            "ABEND S322: the time limit runs out",
+            "It ends normally",
+            "S0C7",
+            "It never ends"
+          ],
+          "answer": 0,
+          "explanation": "The operator (or the system) cancels it."
+        },
+        {
+          "id": "cb10-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "In the example, why is there an ACCEPT before the PERFORM and another one at the end of ADD-CARD?",
+          "options": [
+            "The first card must be read before the condition is checked",
+            "ACCEPT needs to be written twice",
+            "To skip a card",
+            "It's a mistake"
+          ],
+          "answer": 0,
+          "explanation": "The classic \"read ahead\" pattern: read, then loop while there's data, reading the next one at the end."
+        },
+        {
+          "id": "cb10-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What does WITH TEST AFTER change?",
+          "options": [
+            "The body runs once before the condition is checked",
+            "Nothing",
+            "The loop runs backwards",
+            "It tests twice"
+          ],
+          "answer": 0,
+          "explanation": "PERFORM WITH TEST AFTER UNTIL … is like repeat … until."
+        }
+      ]
+    }
+  ]
+}

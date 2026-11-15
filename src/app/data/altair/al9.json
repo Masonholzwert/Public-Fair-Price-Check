@@ -1,0 +1,400 @@
+{
+  "id": "al9",
+  "title": "Loops",
+  "lessons": [
+    {
+      "id": "al9-l1",
+      "title": "Counting Down",
+      "xp": 15,
+      "intro": [
+        "The classic 8080 loop: put the count into a register, do the work, DCR the register, and JNZ back while it isn't zero.",
+        "DCR sets the zero flag when the count reaches 0, so JNZ falls through and the loop ends.",
+        "The loop body runs exactly as many times as the starting count."
+      ],
+      "example": {
+        "code": [
+          "006   ; 000: MVI B",
+          "005   ;      5",
+          "076   ; 002: MVI A",
+          "000   ;      0",
+          "306   ; 004: ADI   ← loop",
+          "003   ;      3",
+          "005   ; 006: DCR B",
+          "302   ; 007: JNZ loop",
+          "004   ;      address 004 (low byte)",
+          "000   ;      (high byte)",
+          "323   ; 012: OUT 377",
+          "377   ;      port 377",
+          "166   ; 014: HLT"
+        ],
+        "output": [
+          "LEDS ○○○○●●●● = 15"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al9-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "Which two instructions end a counting loop?",
+          "options": [
+            "DCR and JNZ",
+            "INR and JMP",
+            "CPI and JC",
+            "MOV and HLT"
+          ],
+          "answer": 0,
+          "explanation": "Count down, jump back while not zero."
+        },
+        {
+          "id": "al9-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "How many times does the loop body run if B starts at 5?",
+          "options": [
+            "5",
+            "4",
+            "6",
+            "Forever"
+          ],
+          "answer": 0,
+          "explanation": "5, 4, 3, 2, 1, then 0 ends it."
+        },
+        {
+          "id": "al9-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "006   ; 000: MVI B",
+            "004   ;      4",
+            "076   ; 002: MVI A",
+            "000   ;      0",
+            "306   ; 004: ADI   ← loop",
+            "003   ;      3",
+            "005   ; 006: DCR B",
+            "302   ; 007: JNZ loop",
+            "004   ;      address 004 (low byte)",
+            "000   ;      (high byte)",
+            "323   ; 012: OUT 377",
+            "377   ;      port 377",
+            "166   ; 014: HLT"
+          ],
+          "options": [
+            "12",
+            "4",
+            "3",
+            "16"
+          ],
+          "answer": 0,
+          "explanation": "4 rounds, adding 3 each time."
+        },
+        {
+          "id": "al9-l1-e4",
+          "type": "find_bug",
+          "prompt": "This loop should run 3 times, but it runs 253 times. Which line is wrong?",
+          "code": [
+            "006   ; 000: MVI B",
+            "003   ;      3",
+            "074   ; 002: INR A   ← loop",
+            "004   ; 003: INR B",
+            "302   ; 004: JNZ loop",
+            "002   ;      address 002",
+            "000   ;      (high byte)",
+            "166   ; 007: HLT"
+          ],
+          "answer": 3,
+          "explanation": "INR B counts up from 3 and only reaches 0 after wrapping around past 255. It should be DCR B (005)."
+        },
+        {
+          "id": "al9-l1-e5",
+          "type": "fill_blank",
+          "prompt": "Count down register C.",
+          "code": [
+            "___   ; DCR C"
+          ],
+          "options": [
+            "015",
+            "014",
+            "025",
+            "005"
+          ],
+          "answer": "015",
+          "explanation": "DCR C = 0 1 5."
+        },
+        {
+          "id": "al9-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Why does the loop work with DCR but not with MOV?",
+          "options": [
+            "DCR sets the zero flag, MOV doesn't",
+            "MOV is slower",
+            "MOV can't use B",
+            "It works with both"
+          ],
+          "answer": 0,
+          "explanation": "JNZ needs a flag that was set by arithmetic."
+        }
+      ]
+    },
+    {
+      "id": "al9-l2",
+      "title": "Loops over Memory",
+      "xp": 15,
+      "intro": [
+        "Combine a counting loop with HL: LXI H points to a table, and every round does INX H to move on.",
+        "That's how the Altair added up a list of numbers, searched a table, or copied a block of memory.",
+        "One register counts the rounds, HL walks through memory, A collects the result."
+      ],
+      "example": {
+        "code": [
+          "041   ; 000: LXI H table",
+          "020   ;      address 020 (low byte)",
+          "000   ;      (high byte)",
+          "006   ; 003: MVI B",
+          "004   ;      4",
+          "076   ; 005: MVI A",
+          "000   ;      0",
+          "206   ; 007: ADD M   ← loop",
+          "043   ; 010: INX H",
+          "005   ; 011: DCR B",
+          "302   ; 012: JNZ loop",
+          "007   ;      address 007 (low byte)",
+          "000   ;      (high byte)",
+          "323   ; 015: OUT 377",
+          "377   ;      port 377",
+          "166   ; 017: HLT",
+          "005   ; 020: data: 5",
+          "012   ; 021: data: 10",
+          "024   ; 022: data: 20",
+          "050   ; 023: data: 40"
+        ],
+        "output": [
+          "LEDS ○●○○●○●● = 75"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al9-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "Which register pair points into the table?",
+          "options": [
+            "HL",
+            "BC",
+            "DE",
+            "SP"
+          ],
+          "answer": 0,
+          "explanation": "M always means the byte at HL."
+        },
+        {
+          "id": "al9-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does the example add up?",
+          "options": [
+            "The 4 bytes of the table",
+            "The numbers 1 to 4",
+            "HL",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "5 + 10 + 20 + 40 = 75."
+        },
+        {
+          "id": "al9-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What does INX H do in the loop?",
+          "options": [
+            "Moves to the next byte of the table",
+            "Counts the rounds",
+            "Adds to A",
+            "Ends the loop"
+          ],
+          "answer": 0,
+          "explanation": "B counts, HL walks."
+        },
+        {
+          "id": "al9-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "041   ; 000: LXI H t",
+            "020   ;      address 020 (low byte)",
+            "000   ;      (high byte)",
+            "006   ; 003: MVI B",
+            "003   ;      3",
+            "076   ; 005: MVI A",
+            "000   ;      0",
+            "206   ; 007: ADD M   ← loop",
+            "043   ; 010: INX H",
+            "005   ; 011: DCR B",
+            "302   ; 012: JNZ loop",
+            "007   ;      address 007 (low byte)",
+            "000   ;      (high byte)",
+            "323   ; 015: OUT 377",
+            "377   ;      port 377",
+            "166   ; 017: HLT",
+            "001   ; 020: data: 1",
+            "002   ; 021: data: 2",
+            "003   ; 022: data: 3"
+          ],
+          "options": [
+            "6",
+            "3",
+            "2",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "1 + 2 + 3."
+        },
+        {
+          "id": "al9-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "Why does the table come after HLT?",
+          "options": [
+            "So it's never run as instructions",
+            "Tables must be at the end",
+            "HLT protects it",
+            "No reason"
+          ],
+          "answer": 0,
+          "explanation": "Data bytes would be read as opcodes otherwise."
+        },
+        {
+          "id": "al9-l2-e6",
+          "type": "order_lines",
+          "prompt": "Put the loop body in order.",
+          "lines": [
+            "206   ; ADD M",
+            "043   ; INX H",
+            "005   ; DCR B"
+          ],
+          "answer": [
+            "206   ; ADD M",
+            "043   ; INX H",
+            "005   ; DCR B"
+          ],
+          "explanation": "Add the byte, move on, count down. JNZ follows."
+        }
+      ]
+    },
+    {
+      "id": "al9-l3",
+      "title": "Multiplying with a Loop",
+      "xp": 15,
+      "intro": [
+        "With a loop, multiplying is easy: add the first number as many times as the second one says.",
+        "Division works backwards: subtract again and again while it fits, and count the rounds.",
+        "These routines were the first things every Altair owner wrote, because the 8080 can't multiply or divide by itself."
+      ],
+      "example": {
+        "code": [
+          "016   ; 000: MVI C",
+          "014   ;      12",
+          "006   ; 002: MVI B",
+          "015   ;      13",
+          "076   ; 004: MVI A",
+          "000   ;      0",
+          "201   ; 006: ADD C   ← loop",
+          "005   ; 007: DCR B",
+          "302   ; 010: JNZ loop",
+          "006   ;      address 006 (low byte)",
+          "000   ;      (high byte)",
+          "323   ; 013: OUT 377",
+          "377   ;      port 377",
+          "166   ; 015: HLT"
+        ],
+        "output": [
+          "LEDS ●○○●●●○○ = 156"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al9-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "How does the loop multiply 12 × 13?",
+          "options": [
+            "It adds 12, 13 times",
+            "It doubles 12 thirteen times",
+            "It uses a multiply instruction",
+            "It adds 13 + 12"
+          ],
+          "answer": 0,
+          "explanation": "Multiplying is repeated adding."
+        },
+        {
+          "id": "al9-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What is the problem with 20 × 20 here?",
+          "options": [
+            "400 doesn't fit in one byte",
+            "The loop is too long",
+            "It's negative",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "The result wraps around: 400 - 256 = 144."
+        },
+        {
+          "id": "al9-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "016   ; 000: MVI C",
+            "007   ;      7",
+            "006   ; 002: MVI B",
+            "003   ;      3",
+            "076   ; 004: MVI A",
+            "000   ;      0",
+            "201   ; 006: ADD C   ← loop",
+            "005   ; 007: DCR B",
+            "302   ; 010: JNZ loop",
+            "006   ;      address 006 (low byte)",
+            "000   ;      (high byte)",
+            "323   ; 013: OUT 377",
+            "377   ;      port 377",
+            "166   ; 015: HLT"
+          ],
+          "options": [
+            "21",
+            "10",
+            "7",
+            "3"
+          ],
+          "answer": 0,
+          "explanation": "Add 7, 3 times."
+        },
+        {
+          "id": "al9-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "How do you divide by repeated subtraction?",
+          "options": [
+            "Subtract while it fits, and count the rounds",
+            "Add until it's too big",
+            "Double and halve",
+            "With DCR only"
+          ],
+          "answer": 0,
+          "explanation": "The count is the quotient, what's left is the remainder."
+        },
+        {
+          "id": "al9-l3-e5",
+          "type": "switches",
+          "prompt": "12 × 13 = 156. Set the switches to 156.",
+          "answer": 156,
+          "explanation": "128 + 16 + 8 + 4."
+        },
+        {
+          "id": "al9-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why did every Altair owner write a multiply routine?",
+          "options": [
+            "The 8080 has no multiply instruction",
+            "It was a contest",
+            "BASIC needed it",
+            "To test the lights"
+          ],
+          "answer": 0,
+          "explanation": "Later chips like the 8086 added one."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,459 @@
+{
+  "id": "c26",
+  "title": "Hash Tables",
+  "lessons": [
+    {
+      "id": "c26-l1",
+      "title": "Hash Functions",
+      "xp": 15,
+      "intro": [
+        "Searching a list means looking at every item. A hash table goes straight to the right place: a hash function turns the key, like a word, into a number, and that number is the index into an array.",
+        "A good hash function mixes all the letters, so similar words land in different places. A classic one: h = h * 31 + c for every character, then % SIZE to fit the table. Doing % SIZE at every step keeps the numbers small.",
+        "The same word always gives the same number. That's the whole trick: to find a word again, you calculate its hash and look in just that one place."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "#include <stdlib.h>",
+          "#include <string.h>",
+          "",
+          "#define SIZE 7",
+          "",
+          "int hash(char *s) {",
+          "    int h = 0;",
+          "    while (*s)",
+          "        h = (h * 31 + *s++) % SIZE;",
+          "    return h;",
+          "}",
+          "",
+          "int main() {",
+          "    char *words[] = {\"unix\", \"c\", \"pipe\", \"shell\", \"grep\"};",
+          "    int i;",
+          "    for (i = 0; i < 5; i++)",
+          "        printf(\"%-6s -> %d\\n\", words[i], hash(words[i]));",
+          "    return 0;",
+          "}"
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "c26-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does a hash function do?",
+          "options": [
+            "Turns a key into an index in the table",
+            "Sorts the keys",
+            "Encrypts the key",
+            "Counts the keys"
+          ],
+          "answer": 0,
+          "explanation": "Same key in, same index out, every time."
+        },
+        {
+          "id": "c26-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Why % SIZE?",
+          "options": [
+            "So the number fits into the table, from 0 to SIZE - 1",
+            "To make it random",
+            "To divide the work",
+            "It removes the letters"
+          ],
+          "answer": 0,
+          "explanation": "The remainder after dividing by SIZE is always smaller than SIZE."
+        },
+        {
+          "id": "c26-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "#include <stdlib.h>",
+            "#include <string.h>",
+            "",
+            "#define SIZE 7",
+            "",
+            "int hash(char *s) {",
+            "    int h = 0;",
+            "    while (*s)",
+            "        h = (h * 31 + *s++) % SIZE;",
+            "    return h;",
+            "}",
+            "",
+            "int main() {",
+            "    printf(\"%d\\n\", hash(\"AB\"));",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "2",
+            "0",
+            "5",
+            "7"
+          ],
+          "answer": 0,
+          "explanation": "'A' is 65: h = 65 % 7 = 2. Then 'B' is 66: h = (2 * 31 + 66) % 7 = 128 % 7 = 2."
+        },
+        {
+          "id": "c26-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Mix in the next character.",
+          "code": [
+            "        h = (h * 31 + *s++) ___ SIZE;"
+          ],
+          "options": [
+            "%",
+            "/",
+            "*",
+            "-"
+          ],
+          "answer": "%",
+          "explanation": "% keeps h between 0 and SIZE - 1."
+        },
+        {
+          "id": "c26-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Why is h = h + c (just adding the letters) a bad hash function?",
+          "options": [
+            "\"stop\" and \"pots\" get the same number, because the order doesn't count",
+            "It's too slow",
+            "It can't handle capital letters",
+            "It's always 0"
+          ],
+          "answer": 0,
+          "explanation": "Multiplying by 31 makes the position of each letter count."
+        },
+        {
+          "id": "c26-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Two different words land on the same index. What is that called?",
+          "options": [
+            "A collision",
+            "A crash",
+            "A duplicate",
+            "An overflow"
+          ],
+          "answer": 0,
+          "explanation": "With more words than places, collisions can't be avoided. The next lesson handles them."
+        }
+      ]
+    },
+    {
+      "id": "c26-l2",
+      "title": "Buckets and Chains",
+      "xp": 15,
+      "intro": [
+        "When two words land on the same index, they collide. The classic fix: every place in the table holds a linked list, called a chain or bucket. A word is added to the front of the list at its index.",
+        "To look a word up, calculate its hash, then walk only that one short list with strcmp. With a good hash function, the lists stay short, and a lookup takes about the same time for 10 words as for 10 million.",
+        "strdup(word) makes a copy of the word in fresh memory from malloc. The table needs its own copy, because the original buffer may be overwritten by the next word."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "#include <stdlib.h>",
+          "#include <string.h>",
+          "",
+          "#define SIZE 7",
+          "",
+          "int hash(char *s) {",
+          "    int h = 0;",
+          "    while (*s)",
+          "        h = (h * 31 + *s++) % SIZE;",
+          "    return h;",
+          "}",
+          "",
+          "typedef struct entry {",
+          "    char *word;",
+          "    int count;",
+          "    struct entry *next;",
+          "} Entry;",
+          "",
+          "Entry *table[SIZE];",
+          "",
+          "Entry *lookup(char *word) {",
+          "    Entry *e;",
+          "    for (e = table[hash(word)]; e != NULL; e = e->next)",
+          "        if (strcmp(e->word, word) == 0)",
+          "            return e;",
+          "    return NULL;",
+          "}",
+          "",
+          "Entry *add(char *word) {",
+          "    Entry *e = lookup(word);",
+          "    int h;",
+          "    if (e != NULL) return e;",
+          "    e = malloc(sizeof(Entry));",
+          "    e->word = strdup(word);",
+          "    e->count = 0;",
+          "    h = hash(word);",
+          "    e->next = table[h];",
+          "    table[h] = e;",
+          "    return e;",
+          "}",
+          "",
+          "int main() {",
+          "    char *words[] = {\"unix\", \"c\", \"pipe\", \"unix\", \"shell\", \"c\", \"unix\"};",
+          "    int i;",
+          "    Entry *e;",
+          "    for (i = 0; i < 7; i++)",
+          "        add(words[i])->count++;",
+          "    for (i = 0; i < SIZE; i++) {",
+          "        printf(\"%d:\", i);",
+          "        for (e = table[i]; e != NULL; e = e->next)",
+          "            printf(\" %s(%d)\", e->word, e->count);",
+          "        printf(\"\\n\");",
+          "    }",
+          "    return 0;",
+          "}"
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "c26-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What's in each place of the table here?",
+          "options": [
+            "A linked list of the entries with that hash",
+            "Exactly one word",
+            "A number",
+            "A sorted array"
+          ],
+          "answer": 0,
+          "explanation": "A list can hold any number of colliding words."
+        },
+        {
+          "id": "c26-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "How does lookup find a word?",
+          "options": [
+            "Calculate the hash, then walk only that one list with strcmp",
+            "Walk every list",
+            "Binary search",
+            "Sort the table first"
+          ],
+          "answer": 0,
+          "explanation": "That's why it's fast: most of the table is never touched."
+        },
+        {
+          "id": "c26-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Add the new entry to the front of its chain.",
+          "code": [
+            "    e->next = table[h];",
+            "    table[h] = ___;"
+          ],
+          "options": [
+            "e",
+            "e->next",
+            "NULL",
+            "h"
+          ],
+          "answer": "e",
+          "explanation": "Point the new entry to the old first one, then make the new one first."
+        },
+        {
+          "id": "c26-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "Why strdup(word) instead of e->word = word?",
+          "options": [
+            "The table needs its own copy; the caller's buffer may change later",
+            "strdup is faster",
+            "word can't be stored in a struct",
+            "To make it uppercase"
+          ],
+          "answer": 0,
+          "explanation": "Reading words into one buffer with scanf would otherwise make every entry point at the last word."
+        },
+        {
+          "id": "c26-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What does add(\"unix\") return the second time it's called?",
+          "options": [
+            "The entry that's already there",
+            "A new entry",
+            "NULL",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "add first calls lookup, and only makes a new entry if the word is missing."
+        },
+        {
+          "id": "c26-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "With a good hash function, how does a lookup's speed change from 1,000 to 1,000,000 words, if the table grows too?",
+          "options": [
+            "Hardly at all",
+            "It takes 1,000 times longer",
+            "It takes twice as long",
+            "It stops working"
+          ],
+          "answer": 0,
+          "explanation": "The lists stay just as short: this is why hash tables are everywhere, from compilers to databases."
+        }
+      ]
+    },
+    {
+      "id": "c26-l3",
+      "title": "Counting Words",
+      "xp": 15,
+      "intro": [
+        "Here's the hash table at work: read words with scanf(\"%s\", buf), and count each one with add(buf)->count++.",
+        "This is the job a hash table was made for: compilers keep their variable names in one, spell checkers their words, and Unix's awk and Perl built their arrays on them.",
+        "To print the result, walk every place of the table and every entry in its chain."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "#include <stdlib.h>",
+          "#include <string.h>",
+          "",
+          "#define SIZE 7",
+          "",
+          "int hash(char *s) {",
+          "    int h = 0;",
+          "    while (*s)",
+          "        h = (h * 31 + *s++) % SIZE;",
+          "    return h;",
+          "}",
+          "",
+          "typedef struct entry {",
+          "    char *word;",
+          "    int count;",
+          "    struct entry *next;",
+          "} Entry;",
+          "",
+          "Entry *table[SIZE];",
+          "",
+          "Entry *lookup(char *word) {",
+          "    Entry *e;",
+          "    for (e = table[hash(word)]; e != NULL; e = e->next)",
+          "        if (strcmp(e->word, word) == 0)",
+          "            return e;",
+          "    return NULL;",
+          "}",
+          "",
+          "Entry *add(char *word) {",
+          "    Entry *e = lookup(word);",
+          "    int h;",
+          "    if (e != NULL) return e;",
+          "    e = malloc(sizeof(Entry));",
+          "    e->word = strdup(word);",
+          "    e->count = 0;",
+          "    h = hash(word);",
+          "    e->next = table[h];",
+          "    table[h] = e;",
+          "    return e;",
+          "}",
+          "",
+          "int main() {",
+          "    char buf[40];",
+          "    int i, words = 0, different = 0;",
+          "    Entry *e;",
+          "    while (scanf(\"%s\", buf) == 1) {",
+          "        Entry *w = add(buf);",
+          "        if (w->count == 0) different++;",
+          "        w->count++;",
+          "        words++;",
+          "    }",
+          "    printf(\"%d words, %d different\\n\", words, different);",
+          "    for (i = 0; i < SIZE; i++)",
+          "        for (e = table[i]; e != NULL; e = e->next)",
+          "            if (e->count > 1)",
+          "                printf(\"%s %d\\n\", e->word, e->count);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [],
+        "inputs": [
+          "the cat and the dog",
+          "and the bird"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c26-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Why does a new word have count 0 at first?",
+          "options": [
+            "add sets count = 0, and the caller adds 1 after",
+            "malloc gives zeros",
+            "It's a mistake",
+            "Counts start at -1"
+          ],
+          "answer": 0,
+          "explanation": "That's how the example notices a word it hasn't seen before."
+        },
+        {
+          "id": "c26-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "How many times does \"the\" appear in the example's input?",
+          "options": [
+            "3",
+            "2",
+            "1",
+            "4"
+          ],
+          "answer": 0,
+          "explanation": "\"the cat and the dog\" has two, and \"and the bird\" one more."
+        },
+        {
+          "id": "c26-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Read one word at a time until the input ends.",
+          "code": [
+            "    while (scanf(\"%s\", buf) == ___) {"
+          ],
+          "options": [
+            "1",
+            "0",
+            "EOF",
+            "-1"
+          ],
+          "answer": "1",
+          "explanation": "scanf returns how many values it read: 1 while there are words left."
+        },
+        {
+          "id": "c26-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What would you need to print the words sorted by count?",
+          "options": [
+            "Copy the entries into an array and qsort it",
+            "A different hash function",
+            "A bigger SIZE",
+            "It's impossible"
+          ],
+          "answer": 0,
+          "explanation": "A hash table has no order. That's the chapter project."
+        },
+        {
+          "id": "c26-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Where are hash tables used?",
+          "options": [
+            "Compilers' symbol tables, spell checkers, databases and dictionaries in Python",
+            "Only in games",
+            "Only in C",
+            "Nowhere anymore"
+          ],
+          "answer": 0,
+          "explanation": "Python's dict and JavaScript's objects are hash tables underneath."
+        },
+        {
+          "id": "c26-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why read each word into buf and not straight into the table?",
+          "options": [
+            "You don't know yet if the word is new, so add() decides and makes a copy if needed",
+            "scanf can't write to a table",
+            "buf is faster",
+            "To count letters"
+          ],
+          "answer": 0,
+          "explanation": "Only new words get their own memory."
+        }
+      ]
+    }
+  ]
+}

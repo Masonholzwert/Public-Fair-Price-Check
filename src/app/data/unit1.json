@@ -1,0 +1,312 @@
+{
+  "course": {
+    "id": "dartmouth-basic",
+    "title": "Dartmouth BASIC (1964)",
+    "description": "Learn the original BASIC from Dartmouth College, step by step.",
+    "note": "The original used the arrow ↑ for powers. On modern keyboards we write ^ instead."
+  },
+  "units": [
+    {
+      "id": "u1",
+      "title": "First Steps",
+      "lessons": [
+        {
+          "id": "u1-l1",
+          "title": "Hello, 1964",
+          "xp": 10,
+          "intro": [
+            "In 1964, John Kemeny and Thomas Kurtz at Dartmouth College created BASIC so that every student could use a computer, not just scientists.",
+            "A BASIC program is a list of numbered lines. The computer always runs them from the lowest number to the highest, no matter in which order you typed them.",
+            "PRINT shows something on the screen. Text goes between quotes. END marks the end of the program and must always be the last line."
+          ],
+          "example": {
+            "code": ["10 PRINT \"HELLO\"", "20 PRINT \"WORLD\"", "30 END"],
+            "output": ["HELLO", "WORLD"]
+          },
+          "exercises": [
+            {
+              "id": "u1-l1-e1",
+              "type": "multiple_choice",
+              "prompt": "What does this program print?",
+              "code": ["10 PRINT \"HELLO\"", "20 END"],
+              "options": ["HELLO", "\"HELLO\"", "10 HELLO", "Nothing"],
+              "answer": 0,
+              "explanation": "PRINT shows the text between the quotes. The quotes themselves and the line number are not printed."
+            },
+            {
+              "id": "u1-l1-e2",
+              "type": "fill_blank",
+              "prompt": "Complete the line so it shows HI THERE.",
+              "code": ["10 ___ \"HI THERE\"", "20 END"],
+              "options": ["PRINT", "SAY", "ECHO", "WRITE"],
+              "answer": "PRINT",
+              "explanation": "PRINT is the BASIC statement for output."
+            },
+            {
+              "id": "u1-l1-e3",
+              "type": "multiple_choice",
+              "prompt": "Why does every line start with a number?",
+              "options": [
+                "It sets the order in which the lines run",
+                "It counts how often the line runs",
+                "It sets the text color",
+                "It is just a comment"
+              ],
+              "answer": 0,
+              "explanation": "Line numbers define the order. Programmers usually count in steps of 10 (10, 20, 30) so they can insert new lines later, e.g. 15."
+            },
+            {
+              "id": "u1-l1-e4",
+              "type": "order_lines",
+              "prompt": "Put the lines in the order the computer runs them.",
+              "lines": ["30 END", "10 PRINT \"HELLO\"", "20 PRINT \"WORLD\""],
+              "answer": ["10 PRINT \"HELLO\"", "20 PRINT \"WORLD\"", "30 END"],
+              "explanation": "The computer sorts by line number, no matter in which order you typed them."
+            },
+            {
+              "id": "u1-l1-e5",
+              "type": "find_bug",
+              "prompt": "One line breaks the rules. Tap it.",
+              "code": ["10 PRINT \"HELLO\"", "20 END", "30 PRINT \"BYE\""],
+              "answer": 1,
+              "explanation": "In Dartmouth BASIC, END must be the last line, with the highest line number. Here line 30 comes after END."
+            },
+            {
+              "id": "u1-l1-e6",
+              "type": "multiple_choice",
+              "prompt": "What does this program print?",
+              "code": ["10 PRINT \"ONE\"", "30 PRINT \"THREE\"", "20 PRINT \"TWO\"", "40 END"],
+              "options": ["ONE TWO THREE (each on its own line)", "ONE THREE TWO (each on its own line)", "Only ONE", "An error"],
+              "answer": 0,
+              "explanation": "Line 20 runs before line 30, even though it was written below it. Each PRINT starts a new line."
+            }
+          ]
+        },
+        {
+          "id": "u1-l2",
+          "title": "Variables with LET",
+          "xp": 10,
+          "intro": [
+            "A variable is a named box that stores a number. You can put a number in, read it later, and change it whenever you want.",
+            "You fill a variable with LET. In the original 1964 BASIC, LET was required; later versions made it optional.",
+            "Variable names are very short: one letter (A) or one letter followed by one digit (A1, X9). Names like AB or SUM are not allowed."
+          ],
+          "example": {
+            "code": ["10 LET A = 5", "20 LET B = A + 2", "30 PRINT B", "40 END"],
+            "output": ["7"]
+          },
+          "exercises": [
+            {
+              "id": "u1-l2-e1",
+              "type": "fill_blank",
+              "prompt": "Store the number 7 in A.",
+              "code": ["10 ___ A = 7", "20 PRINT A", "30 END"],
+              "options": ["LET", "SET", "VAR", "PUT"],
+              "answer": "LET",
+              "explanation": "LET assigns a value to a variable. In the original BASIC, LET was required."
+            },
+            {
+              "id": "u1-l2-e2",
+              "type": "multiple_choice",
+              "prompt": "Which one is NOT a valid variable name in Dartmouth BASIC?",
+              "options": ["X", "B7", "AB", "Z0"],
+              "answer": 2,
+              "explanation": "Names are one letter, or one letter plus one digit. AB has two letters, so it is not allowed."
+            },
+            {
+              "id": "u1-l2-e3",
+              "type": "multiple_choice",
+              "prompt": "What does this program print?",
+              "code": ["10 LET A = 3", "20 LET B = 4", "30 PRINT A + B", "40 END"],
+              "options": ["7", "A + B", "34", "12"],
+              "answer": 0,
+              "explanation": "PRINT calculates the expression first: 3 + 4 = 7."
+            },
+            {
+              "id": "u1-l2-e4",
+              "type": "multiple_choice",
+              "prompt": "What does this program print?",
+              "code": ["10 LET X = 5", "20 LET X = X + 1", "30 PRINT X", "40 END"],
+              "options": ["6", "5", "X + 1", "An error"],
+              "answer": 0,
+              "explanation": "LET X = X + 1 takes the old value (5), adds 1, and stores the result back in X."
+            },
+            {
+              "id": "u1-l2-e5",
+              "type": "find_bug",
+              "prompt": "Which line breaks the 1964 rules?",
+              "code": ["10 A = 5", "20 PRINT A", "30 END"],
+              "answer": 0,
+              "explanation": "In the original Dartmouth BASIC you had to write LET A = 5. Later dialects made LET optional."
+            },
+            {
+              "id": "u1-l2-e6",
+              "type": "order_lines",
+              "prompt": "Build a program that prints 10.",
+              "lines": ["30 PRINT A", "40 END", "20 LET A = A * 2", "10 LET A = 5"],
+              "answer": ["10 LET A = 5", "20 LET A = A * 2", "30 PRINT A", "40 END"],
+              "explanation": "A starts at 5, is doubled to 10, then printed."
+            }
+          ]
+        },
+        {
+          "id": "u1-l3",
+          "title": "Calculating",
+          "xp": 15,
+          "intro": [
+            "BASIC knows the usual math operators: + (add), - (subtract), * (multiply), / (divide) and ^ (to the power of).",
+            "The order is the same as in school: powers first, then * and /, then + and -. Parentheses change the order, and whatever is inside them is calculated first.",
+            "BASIC works with decimal numbers, so 10 / 4 gives 2.5, not 2."
+          ],
+          "example": {
+            "code": ["10 PRINT 2 + 3 * 4", "20 PRINT (2 + 3) * 4", "30 END"],
+            "output": ["14", "20"]
+          },
+          "exercises": [
+            {
+              "id": "u1-l3-e1",
+              "type": "multiple_choice",
+              "prompt": "What does this print?",
+              "code": ["10 PRINT 2 + 3 * 4", "20 END"],
+              "options": ["14", "20", "24", "9"],
+              "answer": 0,
+              "explanation": "Multiplication comes first: 3 * 4 = 12, then 2 + 12 = 14."
+            },
+            {
+              "id": "u1-l3-e2",
+              "type": "multiple_choice",
+              "prompt": "And now?",
+              "code": ["10 PRINT (2 + 3) * 4", "20 END"],
+              "options": ["20", "14", "24", "9"],
+              "answer": 0,
+              "explanation": "Parentheses first: 2 + 3 = 5, then 5 * 4 = 20."
+            },
+            {
+              "id": "u1-l3-e3",
+              "type": "multiple_choice",
+              "prompt": "What does this print?",
+              "code": ["10 PRINT 2 ^ 3", "20 END"],
+              "options": ["8", "6", "5", "23"],
+              "answer": 0,
+              "explanation": "^ means 'to the power of': 2 * 2 * 2 = 8. The 1964 original used the arrow ↑ for this."
+            },
+            {
+              "id": "u1-l3-e4",
+              "type": "multiple_choice",
+              "prompt": "What does this print?",
+              "code": ["10 PRINT 10 / 4", "20 END"],
+              "options": ["2.5", "2", "3", "An error"],
+              "answer": 0,
+              "explanation": "BASIC works with decimal numbers, so 10 / 4 is 2.5, not 2."
+            },
+            {
+              "id": "u1-l3-e5",
+              "type": "fill_blank",
+              "prompt": "Calculate the area of a rectangle (length times width).",
+              "code": ["10 LET L = 6", "20 LET W = 4", "30 LET A = L ___ W", "40 PRINT A", "50 END"],
+              "options": ["*", "+", "^", "/"],
+              "answer": "*",
+              "explanation": "Area = length * width = 6 * 4 = 24."
+            },
+            {
+              "id": "u1-l3-e6",
+              "type": "order_lines",
+              "prompt": "Build a program that prints the average of 4 and 8.",
+              "lines": ["40 END", "30 PRINT (A + B) / 2", "10 LET A = 4", "20 LET B = 8"],
+              "answer": ["10 LET A = 4", "20 LET B = 8", "30 PRINT (A + B) / 2", "40 END"],
+              "explanation": "(4 + 8) / 2 = 6. Without parentheses, BASIC would calculate A + B / 2 = 4 + 4 = 8."
+            }
+          ]
+        },
+        {
+          "id": "u1-l4",
+          "title": "Talking to the Screen",
+          "xp": 15,
+          "intro": [
+            "PRINT can show several things in one line. A semicolon ; prints the next item directly after the previous one. A comma , jumps to the next column, which is handy for tables.",
+            "You can mix text and numbers: PRINT \"X IS \"; X shows the text and then the value of X.",
+            "A semicolon at the very end of a PRINT line keeps the cursor on the same line, so the next PRINT continues there.",
+            "REM stands for 'remark'. The computer ignores everything after it, so you can leave notes for yourself and other humans."
+          ],
+          "example": {
+            "code": ["10 REM SHOW A RESULT", "20 LET X = 7", "30 PRINT \"X IS \"; X", "40 END"],
+            "output": ["X IS 7"]
+          },
+          "exercises": [
+            {
+              "id": "u1-l4-e1",
+              "type": "multiple_choice",
+              "prompt": "What does this program print?",
+              "code": ["10 PRINT \"A\"; \"B\"", "20 END"],
+              "options": ["AB", "A B", "A;B", "A and B on separate lines"],
+              "answer": 0,
+              "explanation": "A semicolon prints the next item directly after the previous one, without a gap."
+            },
+            {
+              "id": "u1-l4-e2",
+              "type": "multiple_choice",
+              "prompt": "What does the comma do in this line?",
+              "code": ["10 PRINT \"NAME\", \"SCORE\"", "20 END"],
+              "options": [
+                "Jumps to the next column, leaving a gap",
+                "Prints a comma between the words",
+                "Starts a new line",
+                "Causes an error"
+              ],
+              "answer": 0,
+              "explanation": "The comma moves to the next print zone (a fixed column), which lines things up like a table."
+            },
+            {
+              "id": "u1-l4-e3",
+              "type": "fill_blank",
+              "prompt": "Make the computer show HELLO on one line.",
+              "code": ["10 PRINT \"HEL\"___", "20 PRINT \"LO\"", "30 END"],
+              "options": [";", ",", ".", ":"],
+              "answer": ";",
+              "explanation": "A semicolon at the end of a PRINT keeps the cursor on the same line, so line 20 continues right after HEL."
+            },
+            {
+              "id": "u1-l4-e4",
+              "type": "multiple_choice",
+              "prompt": "What does this program print?",
+              "code": ["10 LET X = 7", "20 PRINT \"X IS \"; X", "30 END"],
+              "options": ["X IS 7", "X IS X", "X IS 7 7", "An error"],
+              "answer": 0,
+              "explanation": "Text in quotes is printed as-is. X without quotes is a variable, so its value 7 is printed."
+            },
+            {
+              "id": "u1-l4-e5",
+              "type": "multiple_choice",
+              "prompt": "What does line 10 do?",
+              "code": ["10 REM CALCULATE THE PRICE", "20 PRINT 24 / 3", "30 END"],
+              "options": [
+                "Nothing, it is a note for humans",
+                "It removes line 20",
+                "It prints CALCULATE THE PRICE",
+                "It repeats the program"
+              ],
+              "answer": 0,
+              "explanation": "REM lines are remarks. The computer skips them completely."
+            },
+            {
+              "id": "u1-l4-e6",
+              "type": "find_bug",
+              "prompt": "This program stops with ?MISSING QUOTE. Which line is wrong?",
+              "code": ["10 PRINT \"HELLO", "20 PRINT \"WORLD\"", "30 END"],
+              "answer": 0,
+              "explanation": "Line 10 opens a quote but never closes it. Text always needs a quote at the start and at the end."
+            },
+            {
+              "id": "u1-l4-e7",
+              "type": "order_lines",
+              "prompt": "Build a program that prints AREA = 12.",
+              "lines": ["40 END", "30 PRINT \"AREA = \"; L * W", "10 LET L = 4", "20 LET W = 3"],
+              "answer": ["10 LET L = 4", "20 LET W = 3", "30 PRINT \"AREA = \"; L * W", "40 END"],
+              "explanation": "First store both sides, then print the text followed by the calculated area: 4 * 3 = 12."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,354 @@
+{
+  "id": "u14",
+  "title": "Text & Matrices",
+  "lessons": [
+    {
+      "id": "u14-l1",
+      "title": "Text Variables",
+      "xp": 15,
+      "intro": [
+        "The first BASIC could only handle numbers. Later editions added text variables, also called strings. Their names end with a dollar sign: N$, A$, X1$.",
+        "LET N$ = \"ADA\" stores a word. PRINT N$ shows it, and INPUT N$ lets the user type a word or name.",
+        "Text and numbers are kept apart: N$ can't hold a number for calculating, and N can't hold text."
+      ],
+      "example": {
+        "code": [
+          "10 PRINT \"WHAT IS YOUR NAME\"",
+          "20 INPUT N$",
+          "30 PRINT \"HELLO, \"; N$",
+          "40 END"
+        ],
+        "inputs": [
+          "ADA"
+        ],
+        "output": [
+          "WHAT IS YOUR NAME",
+          "? ADA",
+          "HELLO, ADA"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "u14-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "Which one is a text variable?",
+          "options": [
+            "N$",
+            "N",
+            "N1",
+            "FNN"
+          ],
+          "answer": 0,
+          "explanation": "Text variables end with $. Some people read N$ as N-string."
+        },
+        {
+          "id": "u14-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "10 LET A$ = \"GOOD\"",
+            "20 LET B$ = \"MORNING\"",
+            "30 PRINT A$; \" \"; B$",
+            "40 END"
+          ],
+          "options": [
+            "GOOD MORNING",
+            "GOODMORNING",
+            "A$ B$",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "The semicolons glue the three pieces together: GOOD, a space, and MORNING."
+        },
+        {
+          "id": "u14-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Store the word YES in W$.",
+          "code": [
+            "10 LET W$ = ___"
+          ],
+          "options": [
+            "\"YES\"",
+            "YES",
+            "Y$",
+            "'YES'"
+          ],
+          "answer": "\"YES\"",
+          "explanation": "Text in a program always needs double quotes. Without them, BASIC would think YES is a variable name."
+        },
+        {
+          "id": "u14-l1-e4",
+          "type": "find_bug",
+          "prompt": "This program stops with ?TYPE MISMATCH. Which line is wrong?",
+          "code": [
+            "10 LET N = \"BOB\"",
+            "20 PRINT N",
+            "30 END"
+          ],
+          "answer": 0,
+          "explanation": "N is a number variable, so it can't hold text. It should be LET N$ = \"BOB\" and PRINT N$."
+        },
+        {
+          "id": "u14-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "The user types MAX. What does this program print at the end?",
+          "code": [
+            "10 INPUT N$",
+            "20 PRINT N$; \" IS HERE\"",
+            "30 END"
+          ],
+          "options": [
+            "MAX IS HERE",
+            "N$ IS HERE",
+            "MAXIS HERE",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "N$ holds MAX, followed directly by the text \" IS HERE\", which starts with a space."
+        },
+        {
+          "id": "u14-l1-e6",
+          "type": "order_lines",
+          "prompt": "Build a program that asks for a color and repeats it.",
+          "lines": [
+            "10 PRINT \"FAVORITE COLOR\"",
+            "20 INPUT C$",
+            "30 PRINT \"YOU LIKE \"; C$",
+            "40 END"
+          ],
+          "answer": [
+            "10 PRINT \"FAVORITE COLOR\"",
+            "20 INPUT C$",
+            "30 PRINT \"YOU LIKE \"; C$",
+            "40 END"
+          ],
+          "explanation": "Ask, read the word into a text variable, and print it back."
+        }
+      ]
+    },
+    {
+      "id": "u14-l2",
+      "title": "Text in Decisions and Data",
+      "xp": 20,
+      "intro": [
+        "IF works with text too: IF A$ = \"YES\" THEN 100. Only exactly the same text counts as equal.",
+        "DATA lines can hold text in quotes, mixed with numbers. READ N$, A takes a name and then a number, in that order.",
+        "Text lists work like number lists: N$(1), N$(2) and so on. That's perfect for names, words or quiz questions."
+      ],
+      "example": {
+        "code": [
+          "10 FOR I = 1 TO 3",
+          "20 READ N$, Y",
+          "30 PRINT N$, Y",
+          "40 NEXT I",
+          "50 DATA \"ADA\", 1815, \"ALAN\", 1912, \"GRACE\", 1906",
+          "60 END"
+        ],
+        "output": [
+          "ADA            1815",
+          "ALAN           1912",
+          "GRACE          1906"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "u14-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is in the second row of the example's output?",
+          "options": [
+            "ALAN and 1912",
+            "ADA and 1815",
+            "1815 and ALAN",
+            "GRACE and 1906"
+          ],
+          "answer": 0,
+          "explanation": "Each round reads one name and one year. The second round gets ALAN and 1912."
+        },
+        {
+          "id": "u14-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "The user types NO. What does this program print?",
+          "code": [
+            "10 INPUT A$",
+            "20 IF A$ = \"YES\" THEN 50",
+            "30 PRINT \"MAYBE LATER\"",
+            "40 STOP",
+            "50 PRINT \"GREAT\"",
+            "60 END"
+          ],
+          "options": [
+            "MAYBE LATER",
+            "GREAT",
+            "Both",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "NO isn't equal to YES, so the program doesn't jump and prints MAYBE LATER."
+        },
+        {
+          "id": "u14-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Store the second name in a text list.",
+          "code": [
+            "20 LET N$(___) = \"BOB\""
+          ],
+          "options": [
+            "2",
+            "B",
+            "$2",
+            "\"2\""
+          ],
+          "answer": "2",
+          "explanation": "The position in a text list is a number, just like in number lists."
+        },
+        {
+          "id": "u14-l2-e4",
+          "type": "find_bug",
+          "prompt": "This stops with ?TYPE MISMATCH. Which line has the values in the wrong order?",
+          "code": [
+            "10 READ A, N$",
+            "20 PRINT N$; A",
+            "30 DATA \"ADA\", 36",
+            "40 END"
+          ],
+          "answer": 0,
+          "explanation": "READ takes the values in order. The first value is the text ADA, but it should go into the number A. Either READ N$, A or swap the DATA."
+        },
+        {
+          "id": "u14-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "Which comparison is true?",
+          "options": [
+            "\"ANNA\" < \"BEN\"",
+            "\"ZOE\" < \"ADAM\"",
+            "\"YES\" = \"yes \"",
+            "\"CAT\" > \"DOG\""
+          ],
+          "answer": 0,
+          "explanation": "Text is compared alphabetically, so ANNA comes before BEN. That's how lists of names can be sorted."
+        },
+        {
+          "id": "u14-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "The user types Yes. Does IF A$ = \"YES\" THEN 100 jump?",
+          "options": [
+            "No, the text must match exactly, including capital letters",
+            "Yes, capital letters don't matter",
+            "Only on Fridays",
+            "It causes an error"
+          ],
+          "answer": 0,
+          "explanation": "Yes and YES are different texts. Old teletypes only had capital letters, so this rarely mattered back then."
+        }
+      ]
+    },
+    {
+      "id": "u14-l3",
+      "title": "Whole Lists with MAT",
+      "xp": 20,
+      "intro": [
+        "Dartmouth BASIC was made for science students, who constantly work with tables of numbers called matrices. So BASIC got MAT statements that work on a whole list at once.",
+        "MAT READ A fills the entire list A from DATA, and MAT PRINT A prints all of it. MAT C = A + B adds two lists element by element. MAT always uses positions 1 up to the DIM size.",
+        "The real MAT could also handle two-dimensional tables and multiply matrices. Here we use it on simple lists."
+      ],
+      "example": {
+        "code": [
+          "10 DIM A(3), B(3), C(3)",
+          "20 MAT READ A, B",
+          "30 MAT C = A + B",
+          "40 MAT PRINT C",
+          "50 DATA 1, 2, 3, 10, 20, 30",
+          "60 END"
+        ],
+        "output": [
+          "11             22             33"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "u14-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "After DIM A(4), how many values does MAT READ A read?",
+          "options": [
+            "4",
+            "5",
+            "1",
+            "10"
+          ],
+          "answer": 0,
+          "explanation": "MAT works with positions 1 up to the DIM size, so it reads 4 values."
+        },
+        {
+          "id": "u14-l3-e2",
+          "type": "fill_blank",
+          "prompt": "Fill the whole list A from the DATA line in one go.",
+          "code": [
+            "10 DIM A(5)",
+            "20 ___ READ A"
+          ],
+          "options": [
+            "MAT",
+            "FOR",
+            "LET",
+            "DIM"
+          ],
+          "answer": "MAT",
+          "explanation": "MAT READ replaces a whole FOR loop with READ A(I) inside."
+        },
+        {
+          "id": "u14-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "A holds 5, 5, 5 and B holds 1, 2, 3. What does MAT C = A - B give?",
+          "options": [
+            "4, 3, 2",
+            "6, 7, 8",
+            "15 - 6",
+            "1, 2, 3"
+          ],
+          "answer": 0,
+          "explanation": "Each position is calculated on its own: 5 - 1, 5 - 2 and 5 - 3."
+        },
+        {
+          "id": "u14-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does MAT PRINT A do?",
+          "options": [
+            "It prints every value of the list in columns",
+            "It prints only A(1)",
+            "It prints the size of the list",
+            "It sorts the list"
+          ],
+          "answer": 0,
+          "explanation": "MAT PRINT goes through the whole list and lines the values up in print zones."
+        },
+        {
+          "id": "u14-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Why did Dartmouth BASIC have MAT statements?",
+          "options": [
+            "Science and engineering students worked with tables of numbers all the time",
+            "To make games",
+            "Because FOR loops didn't exist yet",
+            "To save paper"
+          ],
+          "answer": 0,
+          "explanation": "Matrices are everywhere in physics, engineering and statistics. MAT made that work quick to write."
+        },
+        {
+          "id": "u14-l3-e6",
+          "type": "find_bug",
+          "prompt": "This stops with ?MAT SIZES DON'T MATCH. Which line causes it?",
+          "code": [
+            "10 DIM A(3), B(4)",
+            "20 MAT READ A, B",
+            "30 MAT C = A + B",
+            "40 DATA 1, 2, 3, 4, 5, 6, 7",
+            "50 END"
+          ],
+          "answer": 0,
+          "explanation": "A has 3 places and B has 4, so they can't be added element by element. Both need the same size."
+        }
+      ]
+    }
+  ]
+}

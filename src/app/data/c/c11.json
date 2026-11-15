@@ -1,0 +1,396 @@
+{
+  "id": "c11",
+  "title": "Strings",
+  "lessons": [
+    {
+      "id": "c11-l1",
+      "title": "Strings Are Arrays",
+      "xp": 15,
+      "intro": [
+        "C has no special string type. A string is an array of chars that ends with a zero byte, '\\0'. char word[] = \"unix\"; is really {'u', 'n', 'i', 'x', '\\0'}: five chars.",
+        "The '\\0' marks the end. printf with %s prints characters until it finds it. Forget it, and printf keeps printing whatever is in memory after the string.",
+        "Because a string is an array, word[0] is its first letter, and you can change single letters: word[0] = 'U';"
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    char word[] = \"unix\";",
+          "    printf(\"%s\\n\", word);",
+          "    printf(\"%c\\n\", word[1]);",
+          "    word[0] = 'U';",
+          "    printf(\"%s\\n\", word);",
+          "    printf(\"%d bytes\\n\", (int) sizeof(word));",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "unix",
+          "n",
+          "Unix",
+          "5 bytes"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c11-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "How many chars does \"cat\" take in memory?",
+          "options": [
+            "4",
+            "3",
+            "5",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "Three letters plus the '\\0' at the end."
+        },
+        {
+          "id": "c11-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What marks the end of a string in C?",
+          "options": [
+            "The zero byte '\\0'",
+            "A new line",
+            "A space",
+            "The array size"
+          ],
+          "answer": 0,
+          "explanation": "Every string function looks for it."
+        },
+        {
+          "id": "c11-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    char s[] = \"hello\";",
+            "    printf(\"%c\\n\", s[2]);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "l",
+            "e",
+            "h",
+            "o"
+          ],
+          "answer": 0,
+          "explanation": "s[2] is the third letter of \"hello\"."
+        },
+        {
+          "id": "c11-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Print the whole string.",
+          "code": [
+            "    char name[] = \"ada\";",
+            "    printf(\"___\\n\", name);"
+          ],
+          "options": [
+            "%s",
+            "%c",
+            "%d",
+            "%f"
+          ],
+          "answer": "%s",
+          "explanation": "%s prints a string."
+        },
+        {
+          "id": "c11-l1-e5",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    char code[3] = \"unix\";",
+            "    printf(\"%s\\n\", code);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 3,
+          "explanation": "\"unix\" needs 5 chars (with the '\\0'), but code has only 3."
+        },
+        {
+          "id": "c11-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "What is the difference between 'a' and \"a\"?",
+          "options": [
+            "'a' is one char; \"a\" is a string of two chars: 'a' and '\\0'",
+            "None",
+            "\"a\" is bigger in the alphabet",
+            "'a' is a string"
+          ],
+          "answer": 0,
+          "explanation": "Single quotes for a char, double quotes for a string."
+        }
+      ]
+    },
+    {
+      "id": "c11-l2",
+      "title": "Walking Through a String",
+      "xp": 15,
+      "intro": [
+        "To look at every character, loop until you reach the '\\0': for (i = 0; s[i] != '\\0'; i++).",
+        "Letters are numbers, so you can test and change them: s[i] >= 'a' && s[i] <= 'z' finds lowercase letters, and s[i] - 32 turns one into uppercase ('a' is 97, 'A' is 65).",
+        "This is how Unix tools like tr worked: walk through the text one character at a time."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    char s[] = \"hello, world\";",
+          "    int i, vowels = 0;",
+          "    for (i = 0; s[i] != '\\0'; i++) {",
+          "        if (s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u')",
+          "            vowels++;",
+          "        if (s[i] >= 'a' && s[i] <= 'z')",
+          "            s[i] = s[i] - 32;",
+          "    }",
+          "    printf(\"%s\\n\", s);",
+          "    printf(\"%d vowels\\n\", vowels);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "HELLO, WORLD",
+          "3 vowels"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c11-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "When does for (i = 0; s[i] != '\\0'; i++) stop?",
+          "options": [
+            "At the end of the string",
+            "After 10 characters",
+            "At the first space",
+            "Never"
+          ],
+          "answer": 0,
+          "explanation": "'\\0' is the end marker."
+        },
+        {
+          "id": "c11-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What is 'b' - 32?",
+          "options": [
+            "'B'",
+            "'b'",
+            "'c'",
+            "66"
+          ],
+          "answer": 0,
+          "explanation": "Uppercase letters are 32 below their lowercase partners. (And 'B' is 66, so both mean the same thing!)"
+        },
+        {
+          "id": "c11-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Count the spaces.",
+          "code": [
+            "    if (s[i] == ___)",
+            "        spaces++;"
+          ],
+          "options": [
+            "' '",
+            "\" \"",
+            "'\\0'",
+            "32.0"
+          ],
+          "answer": "' '",
+          "explanation": "A single space in single quotes."
+        },
+        {
+          "id": "c11-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    char s[] = \"cat\";",
+            "    int n = 0;",
+            "    while (s[n] != '\\0')",
+            "        n++;",
+            "    printf(\"%d\\n\", n);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "3",
+            "4",
+            "5",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "The loop counts until '\\0': c, a, t."
+        },
+        {
+          "id": "c11-l2-e5",
+          "type": "find_bug",
+          "prompt": "This program tries to change \"hi\" to \"HI\" but crashes. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    char *s = \"hi\";",
+            "    s[0] = 'H';",
+            "    s[1] = 'I';",
+            "    printf(\"%s\\n\", s);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 3,
+          "explanation": "char *s = \"hi\" points to a string constant, which can't be changed. Use an array: char s[] = \"hi\";"
+        },
+        {
+          "id": "c11-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Why check s[i] >= 'a' && s[i] <= 'z' before subtracting 32?",
+          "options": [
+            "Only lowercase letters should change; a comma minus 32 would become garbage",
+            "C requires it",
+            "To count the letters",
+            "It's not needed"
+          ],
+          "answer": 0,
+          "explanation": "Spaces, digits and punctuation must stay as they are."
+        }
+      ]
+    },
+    {
+      "id": "c11-l3",
+      "title": "The String Library",
+      "xp": 15,
+      "intro": [
+        "#include <string.h> brings ready-made string functions. strlen(s) counts the characters (without the '\\0').",
+        "You can't copy strings with =. strcpy(dst, src) copies src into dst, and strcat(dst, src) adds src to the end of dst. dst must be big enough!",
+        "You can't compare strings with == either. strcmp(a, b) returns 0 when they're equal, a negative number if a comes first in the alphabet, a positive one if b does."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "#include <string.h>",
+          "",
+          "int main() {",
+          "    char name[20];",
+          "    strcpy(name, \"Dennis\");",
+          "    strcat(name, \" Ritchie\");",
+          "    printf(\"%s (%d)\\n\", name, (int) strlen(name));",
+          "    if (strcmp(name, \"Dennis Ritchie\") == 0)",
+          "        printf(\"same\\n\");",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "Dennis Ritchie (14)",
+          "same"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c11-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What is strlen(\"unix\")?",
+          "options": [
+            "4",
+            "5",
+            "3",
+            "8"
+          ],
+          "answer": 0,
+          "explanation": "strlen doesn't count the '\\0'."
+        },
+        {
+          "id": "c11-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "How do you test if two strings a and b are equal?",
+          "options": [
+            "strcmp(a, b) == 0",
+            "a == b",
+            "strcmp(a, b) == 1",
+            "strlen(a) == strlen(b)"
+          ],
+          "answer": 0,
+          "explanation": "a == b compares the addresses of the arrays, not the letters."
+        },
+        {
+          "id": "c11-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Copy \"cc\" into cmd.",
+          "code": [
+            "    char cmd[10];",
+            "    ___(cmd, \"cc\");"
+          ],
+          "options": [
+            "strcpy",
+            "strcat",
+            "strcmp",
+            "strlen"
+          ],
+          "answer": "strcpy",
+          "explanation": "strcpy copies, with the '\\0'."
+        },
+        {
+          "id": "c11-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "#include <string.h>",
+            "",
+            "int main() {",
+            "    char s[10] = \"un\";",
+            "    strcat(s, \"ix\");",
+            "    printf(\"%s\\n\", s);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "unix",
+            "unix and linux",
+            "un",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "strcat adds \"ix\" to the end of \"un\"."
+        },
+        {
+          "id": "c11-l3-e5",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    char a[10];",
+            "    a = \"hello\";",
+            "    printf(\"%s\\n\", a);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 4,
+          "explanation": "Arrays can't be assigned with =. Use strcpy(a, \"hello\");"
+        },
+        {
+          "id": "c11-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "strcpy(dst, src) with a dst that's too small. What happens?",
+          "options": [
+            "It writes past the end of dst into other memory",
+            "It stops in time",
+            "It makes dst bigger",
+            "It returns an error"
+          ],
+          "answer": 0,
+          "explanation": "This kind of buffer overflow caused many famous security holes, like the 1988 Morris worm."
+        }
+      ]
+    }
+  ]
+}

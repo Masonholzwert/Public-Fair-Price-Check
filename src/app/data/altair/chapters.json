@@ -1,0 +1,214 @@
+{
+  "chapters": [
+    {
+      "id": "alc1",
+      "title": "Bits and Switches",
+      "subtitle": "Binary, octal and your first five-byte program.",
+      "units": [
+        {
+          "id": "al1",
+          "title": "Bits and Switches",
+          "learn": [
+            "Switches are bits",
+            "Counting in binary",
+            "Your first program"
+          ],
+          "goal": "Light up the front panel."
+        },
+        {
+          "id": "al2",
+          "title": "Binary Arithmetic",
+          "learn": [
+            "Adding bits",
+            "Overflow and the carry",
+            "Subtracting"
+          ],
+          "goal": "An adding machine."
+        },
+        {
+          "id": "al3",
+          "title": "Octal",
+          "learn": [
+            "Groups of three",
+            "Why the 8080 loves octal",
+            "Writing in octal"
+          ],
+          "goal": "A program in octal only."
+        }
+      ],
+      "project": {
+        "id": "alc1-project",
+        "title": "The Light Show",
+        "xp": 100
+      }
+    },
+    {
+      "id": "alc2",
+      "title": "Registers and Memory",
+      "subtitle": "Inside the 8080.",
+      "units": [
+        {
+          "id": "al4",
+          "title": "Registers",
+          "learn": [
+            "A, B, C, D, E, H, L",
+            "MOV: copy a register",
+            "INR and DCR"
+          ],
+          "goal": "Swap two registers."
+        },
+        {
+          "id": "al5",
+          "title": "Adding Registers",
+          "learn": [
+            "ADD and SUB",
+            "Doubling",
+            "Multiplying by adding"
+          ],
+          "goal": "Multiply by ten without a loop."
+        },
+        {
+          "id": "al6",
+          "title": "Memory",
+          "learn": [
+            "Addresses",
+            "STA and LDA",
+            "HL and M"
+          ],
+          "goal": "Add up bytes from memory."
+        }
+      ],
+      "project": {
+        "id": "alc2-project",
+        "title": "The Cash Register",
+        "xp": 100
+      }
+    },
+    {
+      "id": "alc3",
+      "title": "Jumps and Loops",
+      "subtitle": "Programs that decide and repeat.",
+      "units": [
+        {
+          "id": "al7",
+          "title": "Jumps",
+          "learn": [
+            "JMP",
+            "Counting addresses",
+            "Endless loops"
+          ],
+          "goal": "Jump over a bad byte."
+        },
+        {
+          "id": "al8",
+          "title": "Flags and Decisions",
+          "learn": [
+            "The zero flag",
+            "CPI and the carry",
+            "CMP: the bigger one"
+          ],
+          "goal": "Show the bigger reading."
+        },
+        {
+          "id": "al9",
+          "title": "Loops",
+          "learn": [
+            "Counting down with DCR",
+            "Loops over memory",
+            "Multiplying with a loop"
+          ],
+          "goal": "A countdown on the lights."
+        }
+      ],
+      "project": {
+        "id": "alc3-project",
+        "title": "The Multiplier",
+        "xp": 100
+      }
+    },
+    {
+      "id": "alc4",
+      "title": "Logic and the Panel",
+      "subtitle": "Bits, rotations and the sense switches.",
+      "units": [
+        {
+          "id": "al10",
+          "title": "Logic",
+          "learn": [
+            "ANA, ORA, XRA",
+            "Masks",
+            "Flipping bits"
+          ],
+          "goal": "Switch single lamps on and off."
+        },
+        {
+          "id": "al11",
+          "title": "Rotating",
+          "learn": [
+            "RLC and RRC",
+            "RAL and RAR",
+            "Multiply and divide by 2"
+          ],
+          "goal": "The running light."
+        },
+        {
+          "id": "al12",
+          "title": "Sense Switches",
+          "learn": [
+            "IN 377",
+            "Reacting to the switches",
+            "Kill the Bit"
+          ],
+          "goal": "Play Kill the Bit."
+        }
+      ],
+      "project": {
+        "id": "alc4-project",
+        "title": "Even or Odd",
+        "xp": 100
+      }
+    },
+    {
+      "id": "alc5",
+      "title": "Subroutines and the Teletype",
+      "subtitle": "Bigger programs, and text at last.",
+      "units": [
+        {
+          "id": "al13",
+          "title": "Subroutines",
+          "learn": [
+            "CALL and RET",
+            "The stack",
+            "Reusing a routine"
+          ],
+          "goal": "Square three numbers."
+        },
+        {
+          "id": "al14",
+          "title": "PUSH and POP",
+          "learn": [
+            "Saving registers",
+            "Register pairs",
+            "A routine that cleans up"
+          ],
+          "goal": "A polite routine."
+        },
+        {
+          "id": "al15",
+          "title": "The Teletype",
+          "learn": [
+            "ASCII",
+            "Printing a message",
+            "Altair BASIC"
+          ],
+          "goal": "Print HELLO, ALTAIR."
+        }
+      ],
+      "project": {
+        "id": "alc5-project",
+        "title": "MEMORY SIZE?",
+        "xp": 100
+      }
+    }
+  ]
+}

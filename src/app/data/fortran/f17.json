@@ -1,0 +1,361 @@
+{
+  "id": "f17",
+  "title": "More Digits",
+  "lessons": [
+    {
+      "id": "f17-l1",
+      "title": "How Exact Is REAL?",
+      "xp": 15,
+      "intro": [
+        "A REAL keeps about 7 digits. That's enough for most things, but small errors pile up: 0.1 can't be stored exactly in binary, so adding it 10,000 times doesn't give exactly 1000.",
+        "DOUBLE PRECISION keeps about 16 digits. It uses two words of memory instead of one, and on the old machines it was much slower, so it was only used where it mattered: astronomy, orbits, money in big amounts.",
+        "Declare it like any type: DOUBLE PRECISION D. A double precision constant is written with D instead of E: 0.1D0 means 0.1 × 10⁰."
+      ],
+      "example": {
+        "code": [
+          "      DOUBLE PRECISION D",
+          "      S = 0.0",
+          "      D = 0.0D0",
+          "      DO 10 I = 1, 10000",
+          "      S = S + 0.1",
+          "      D = D + 0.1D0",
+          "   10 CONTINUE",
+          "      WRITE (6,20) S, D",
+          "   20 FORMAT (' REAL  ', F16.6/' DOUBLE', F16.6)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "REAL        999.902893",
+          "DOUBLE     1000.000000"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f17-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "About how many digits does a REAL keep?",
+          "options": [
+            "7",
+            "16",
+            "2",
+            "Any number"
+          ],
+          "answer": 0,
+          "explanation": "Single precision: about 7 significant digits."
+        },
+        {
+          "id": "f17-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Why isn't 10,000 × 0.1 exactly 1000 with REAL?",
+          "options": [
+            "0.1 can't be stored exactly in binary, and the small errors add up",
+            "The loop runs 9,999 times",
+            "REAL can't hold 1000",
+            "FORTRAN rounds every number to 0.1"
+          ],
+          "answer": 0,
+          "explanation": "In binary, 0.1 is an endless fraction, like 1/3 in decimal."
+        },
+        {
+          "id": "f17-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Start the double precision sum at zero.",
+          "code": [
+            "      D = 0.0___0"
+          ],
+          "options": [
+            "D",
+            "E",
+            "R",
+            "."
+          ],
+          "answer": "D",
+          "explanation": "D instead of E makes it a double precision constant."
+        },
+        {
+          "id": "f17-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What did DOUBLE PRECISION cost on the old machines?",
+          "options": [
+            "Twice the memory and much more time",
+            "Nothing",
+            "A special card reader",
+            "It wasn't allowed"
+          ],
+          "answer": 0,
+          "explanation": "That's why REAL stayed the normal choice."
+        },
+        {
+          "id": "f17-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Which job needs DOUBLE PRECISION most?",
+          "options": [
+            "Calculating a spacecraft's orbit over months",
+            "Printing a times table",
+            "Counting cards",
+            "Averaging three grades"
+          ],
+          "answer": 0,
+          "explanation": "Tiny errors, repeated millions of times, would put the craft in the wrong place."
+        },
+        {
+          "id": "f17-l1-e6",
+          "type": "find_bug",
+          "prompt": "D should hold exactly 0.1 with 16 digits, but it only has 7 correct ones. Which card is wrong?",
+          "code": [
+            "      DOUBLE PRECISION D",
+            "      D = 0.1",
+            "      WRITE (6,10) D",
+            "   10 FORMAT (1X, F20.16)",
+            "      END"
+          ],
+          "answer": 1,
+          "explanation": "0.1 is a REAL constant, already rounded to 7 digits. Write 0.1D0."
+        }
+      ]
+    },
+    {
+      "id": "f17-l2",
+      "title": "Double Precision at Work",
+      "xp": 15,
+      "intro": [
+        "Double precision has its own functions: DSQRT, DSIN, DCOS, DEXP, DLOG and DABS. DBLE(X) turns a REAL into double precision, SNGL(D) back into a REAL.",
+        "The D format prints in exponent form like E, but with a D: D24.16 shows 16 digits.",
+        "If a REAL and a DOUBLE PRECISION value meet in a calculation, the result is double precision, but the REAL brings only its 7 digits along."
+      ],
+      "example": {
+        "code": [
+          "      DOUBLE PRECISION R2, X",
+          "      R2 = DSQRT(2.0D0)",
+          "      X = SQRT(2.0)",
+          "      WRITE (6,10) R2, X",
+          "   10 FORMAT (' DSQRT', D24.16/' SQRT ', D24.16)",
+          "      WRITE (6,20) R2 * R2",
+          "   20 FORMAT (' SQUARE AGAIN', F20.16)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "DSQRT  0.1414213562373095D+01",
+          "SQRT   0.1414213538169861D+01",
+          "SQUARE AGAIN  2.0000000000000004"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f17-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "Which function gives the square root in double precision?",
+          "options": [
+            "DSQRT",
+            "SQRT",
+            "DBLSQRT",
+            "ROOT"
+          ],
+          "answer": 0,
+          "explanation": "The D versions work with 16 digits."
+        },
+        {
+          "id": "f17-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does DBLE(X) do?",
+          "options": [
+            "Turns a REAL into DOUBLE PRECISION",
+            "Doubles X",
+            "Prints X twice",
+            "Rounds X"
+          ],
+          "answer": 0,
+          "explanation": "SNGL goes the other way."
+        },
+        {
+          "id": "f17-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Print D with 16 digits in exponent form.",
+          "code": [
+            "   10 FORMAT (1X, ___24.16)"
+          ],
+          "options": [
+            "D",
+            "F",
+            "I",
+            "L"
+          ],
+          "answer": "D",
+          "explanation": "D works like E, with a D in the exponent."
+        },
+        {
+          "id": "f17-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "A REAL X and a DOUBLE PRECISION D are added. What is X + D?",
+          "options": [
+            "DOUBLE PRECISION, but X only adds its 7 digits",
+            "REAL",
+            "An error",
+            "INTEGER"
+          ],
+          "answer": 0,
+          "explanation": "Converting X doesn't give it digits it never had."
+        },
+        {
+          "id": "f17-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this deck print?",
+          "code": [
+            "      DOUBLE PRECISION D",
+            "      D = 2.5D0",
+            "      WRITE (6,10) D",
+            "   10 FORMAT (1X, D10.2)",
+            "      END"
+          ],
+          "options": [
+            "0.25D+01",
+            "2.5",
+            "0.25E+01",
+            "2.50"
+          ],
+          "answer": 0,
+          "explanation": "D10.2 prints like E10.2, with D."
+        },
+        {
+          "id": "f17-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "In the example, why is the square of DSQRT(2) not exactly 2?",
+          "options": [
+            "Even 16 digits are a rounded value of an endless number",
+            "DSQRT is wrong",
+            "F20.16 rounds it",
+            "It is exactly 2"
+          ],
+          "answer": 0,
+          "explanation": "√2 has endless digits. More precision makes the error tiny, not zero."
+        }
+      ]
+    },
+    {
+      "id": "f17-l3",
+      "title": "COMPLEX Numbers",
+      "xp": 15,
+      "intro": [
+        "Engineers needed numbers with two parts: a real part and an imaginary part, where i × i = -1. FORTRAN IV made COMPLEX a type of its own, a big reason electrical engineers loved FORTRAN.",
+        "CMPLX(3.0, 4.0) is 3 + 4i. +, -, * and / work as usual. REAL(Z) and AIMAG(Z) give the two parts, CABS(Z) the length (√(3² + 4²) = 5), and CSQRT the square root, even of negative numbers.",
+        "In a FORMAT, a complex value fills two fields: first the real part, then the imaginary part."
+      ],
+      "example": {
+        "code": [
+          "      COMPLEX Z, W, P",
+          "      Z = CMPLX(3.0, 4.0)",
+          "      W = CMPLX(1.0, -2.0)",
+          "      P = Z * W",
+          "      WRITE (6,10) P",
+          "   10 FORMAT (' Z * W =', F6.1, ' +', F6.1, ' I')",
+          "      WRITE (6,20) CABS(Z), REAL(Z), AIMAG(Z)",
+          "   20 FORMAT (' LENGTH', F5.1, '  PARTS', 2F5.1)",
+          "      P = CSQRT(CMPLX(-9.0, 0.0))",
+          "      WRITE (6,30) P",
+          "   30 FORMAT (' ROOT OF -9 =', F4.1, ' +', F4.1, ' I')",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "Z * W =  11.0 +  -2.0 I",
+          "LENGTH  5.0  PARTS  3.0  4.0",
+          "ROOT OF -9 = 0.0 + 3.0 I"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f17-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What is CMPLX(2.0, 5.0)?",
+          "options": [
+            "2 + 5i",
+            "2.5",
+            "7",
+            "10"
+          ],
+          "answer": 0,
+          "explanation": "The first value is the real part, the second the imaginary part."
+        },
+        {
+          "id": "f17-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does CABS(CMPLX(6.0, 8.0)) give?",
+          "options": [
+            "10.0",
+            "14.0",
+            "48.0",
+            "2.0"
+          ],
+          "answer": 0,
+          "explanation": "√(36 + 64) = √100 = 10."
+        },
+        {
+          "id": "f17-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Get the imaginary part of Z.",
+          "code": [
+            "      Y = ___(Z)"
+          ],
+          "options": [
+            "AIMAG",
+            "REAL",
+            "CABS",
+            "IMAG"
+          ],
+          "answer": "AIMAG",
+          "explanation": "AIMAG: the A makes it REAL by the naming rule."
+        },
+        {
+          "id": "f17-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "How many fields does a COMPLEX value fill in a FORMAT?",
+          "options": [
+            "Two: the real part, then the imaginary part",
+            "One",
+            "Three",
+            "None, it can't be printed"
+          ],
+          "answer": 0,
+          "explanation": "So FORMAT (1X, 2F6.1) prints one complex number."
+        },
+        {
+          "id": "f17-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this deck print?",
+          "code": [
+            "      COMPLEX I1, P",
+            "      I1 = CMPLX(0.0, 1.0)",
+            "      P = I1 * I1",
+            "      WRITE (6,10) P",
+            "   10 FORMAT (1X, F4.1, F4.1)",
+            "      END"
+          ],
+          "options": [
+            "-1.0 0.0",
+            "1.0 0.0",
+            "0.0 1.0",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "i × i = -1, by definition."
+        },
+        {
+          "id": "f17-l3-e6",
+          "type": "find_bug",
+          "prompt": "This deck stops with *ERROR*. Which card is wrong?",
+          "code": [
+            "      X = -9.0",
+            "      Y = SQRT(X)",
+            "      WRITE (6,10) Y",
+            "   10 FORMAT (1X, F6.2)",
+            "      END"
+          ],
+          "answer": 1,
+          "explanation": "A REAL can't have a square root of a negative number. Use CSQRT(CMPLX(X, 0.0)) with a COMPLEX result."
+        }
+      ]
+    }
+  ]
+}

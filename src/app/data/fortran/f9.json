@@ -1,0 +1,348 @@
+{
+  "id": "f9",
+  "title": "Formats in Depth",
+  "lessons": [
+    {
+      "id": "f9-l1",
+      "title": "The E Format",
+      "xp": 15,
+      "intro": [
+        "Science deals with huge and tiny numbers: the speed of light is 299,800,000 m/s, an electron weighs 0.000…0009 grams. F format can't hold those.",
+        "E format prints them in scientific notation: 0.2998E+09 means 0.2998 × 10⁹. E12.4 uses 12 columns and shows 4 digits.",
+        "On the card, E-numbers work too: 2.998E8 is a perfectly good FORTRAN number."
+      ],
+      "example": {
+        "code": [
+          "      C = 2.998E8",
+          "      X = 0.000123",
+          "      WRITE (6,10) C, X",
+          "   10 FORMAT (1X, E12.4, E12.3)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "  0.2998E+09   0.123E-03"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f9-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does 0.15E+03 mean?",
+          "options": [
+            "150",
+            "0.15",
+            "15",
+            "0.00015"
+          ],
+          "answer": 0,
+          "explanation": "0.15 × 10³ = 150."
+        },
+        {
+          "id": "f9-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Which format fits the mass of the Earth, 5.97 × 10²⁴ kg?",
+          "options": [
+            "E12.3",
+            "F8.2",
+            "I8",
+            "F30.2"
+          ],
+          "answer": 0,
+          "explanation": "E format handles any size in a few columns."
+        },
+        {
+          "id": "f9-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "How is 2.998E8 written as a normal number?",
+          "options": [
+            "299800000",
+            "2998",
+            "2.9988",
+            "0.00000002998"
+          ],
+          "answer": 0,
+          "explanation": "Move the decimal point 8 places to the right."
+        },
+        {
+          "id": "f9-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Print X in scientific notation with 4 digits.",
+          "code": [
+            "      WRITE (6,10) X",
+            "   10 FORMAT (1X, ___)"
+          ],
+          "options": [
+            "E12.4",
+            "F12.4",
+            "I12",
+            "X12.4"
+          ],
+          "answer": "E12.4",
+          "explanation": "E for exponent, then width and digits."
+        },
+        {
+          "id": "f9-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What does F8.2 print for a value too big to fit, like 123456789.0?",
+          "options": [
+            "********",
+            "123456789.00",
+            "1.23E+08",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "When a number doesn't fit its field, FORTRAN fills it with stars. Time to switch to E format."
+        },
+        {
+          "id": "f9-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Why does E format need more columns than digits?",
+          "options": [
+            "Room for the sign, 0., and the exponent like E+09",
+            "E needs to be centered",
+            "For spaces between digits",
+            "It doesn't"
+          ],
+          "answer": 0,
+          "explanation": "E12.4 shows 4 digits, but the whole field is 12 columns wide."
+        }
+      ]
+    },
+    {
+      "id": "f9-l2",
+      "title": "Repeat Counts and Groups",
+      "xp": 15,
+      "intro": [
+        "A number in front of a format item repeats it: 3I5 is the same as I5, I5, I5. Brackets repeat whole groups: 2(I3, F6.1) means I3, F6.1, I3, F6.1.",
+        "If the WRITE list has more values than the format, FORTRAN starts a new line and uses the format again. One FORMAT (1X, 5I4) can print 20 numbers as four rows.",
+        "Short formats meant fewer columns on the card, and every card counted."
+      ],
+      "example": {
+        "code": [
+          "      DIMENSION K(10)",
+          "      DO 10 I = 1, 10",
+          "      K(I) = I * 10",
+          "   10 CONTINUE",
+          "      WRITE (6,20) K",
+          "   20 FORMAT (1X, 5I4)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "  10  20  30  40  50",
+          "  60  70  80  90 100"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f9-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is 4F8.2 short for?",
+          "options": [
+            "F8.2, F8.2, F8.2, F8.2",
+            "F32.8",
+            "One F8.2 field, 4 times wider",
+            "F8.2 with 4 decimals"
+          ],
+          "answer": 0,
+          "explanation": "The number in front repeats the item."
+        },
+        {
+          "id": "f9-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "How many lines does the example print?",
+          "options": [
+            "2",
+            "1",
+            "5",
+            "10"
+          ],
+          "answer": 0,
+          "explanation": "10 values, 5 per line: the format is used twice."
+        },
+        {
+          "id": "f9-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Print 6 integers, 3 per line.",
+          "code": [
+            "      WRITE (6,20) (K(I), I = 1, 6)",
+            "   20 FORMAT (1X, ___)"
+          ],
+          "options": [
+            "3I5",
+            "6I5",
+            "I5",
+            "3F5"
+          ],
+          "answer": "3I5",
+          "explanation": "Three per line, and FORTRAN starts a new line for the rest."
+        },
+        {
+          "id": "f9-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does 2(I3, F6.1) expand to?",
+          "options": [
+            "I3, F6.1, I3, F6.1",
+            "I3, I3, F6.1, F6.1",
+            "I6, F12.2",
+            "2I3, F6.1"
+          ],
+          "answer": 0,
+          "explanation": "The whole group is repeated, in order."
+        },
+        {
+          "id": "f9-l2-e5",
+          "type": "find_bug",
+          "prompt": "This job stops with *ERROR*. Which card is wrong?",
+          "code": [
+            "      X = 1.5",
+            "      WRITE (6,10) X",
+            "   10 FORMAT (1X, 3I4)",
+            "      END"
+          ],
+          "answer": 2,
+          "explanation": "X is REAL, but the format only has I fields. Use F, like 3F6.1."
+        },
+        {
+          "id": "f9-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What is the advantage of FORMAT (1X, 5I4) over five separate WRITEs?",
+          "options": [
+            "One card prints the whole array, in neat columns",
+            "It's the only way to print integers",
+            "It prints faster on the 704",
+            "There is none"
+          ],
+          "answer": 0,
+          "explanation": "Fewer cards, and the columns line up by themselves."
+        }
+      ]
+    },
+    {
+      "id": "f9-l3",
+      "title": "Printing a Report",
+      "xp": 15,
+      "intro": [
+        "A good printout has a title, column headers and lined-up numbers. Headers are FORMATs with text; the data lines use matching widths, so everything sits under its header.",
+        "The first character of every line still controls the printer: blank means next line, 0 means skip a line first, 1 starts a new page. Reports started with 1 so each one began on a fresh page.",
+        "Computer centers printed thousands of pages a day on wide, fan-folded paper with green stripes, so your eyes could follow a line across."
+      ],
+      "example": {
+        "code": [
+          "      WRITE (6,10)",
+          "   10 FORMAT (' SQUARES'/' ', '   N  N**2')",
+          "      DO 20 N = 1, 4",
+          "      NN = N ** 2",
+          "      WRITE (6,30) N, NN",
+          "   20 CONTINUE",
+          "   30 FORMAT (1X, I4, I6)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "SQUARES",
+          "   N  N**2",
+          "   1     1",
+          "   2     4",
+          "   3     9",
+          "   4    16"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f9-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does a 0 as the first character of a line do?",
+          "options": [
+            "Skips a line before printing",
+            "Prints a zero",
+            "Starts a new page",
+            "Ends the report"
+          ],
+          "answer": 0,
+          "explanation": "0 = double spacing. 1 = new page. Blank = next line."
+        },
+        {
+          "id": "f9-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "Why do the header and the data line use the same widths?",
+          "options": [
+            "So the numbers line up under their headers",
+            "FORTRAN requires it",
+            "To save paper",
+            "It makes printing faster"
+          ],
+          "answer": 0,
+          "explanation": "'   N  N**2' has N at column 4 and N**2 ending at column 10, matching I4 and I6."
+        },
+        {
+          "id": "f9-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Start the report on a new page.",
+          "code": [
+            "   10 FORMAT ('___TEMPERATURE REPORT')"
+          ],
+          "options": [
+            "1",
+            "0",
+            " ",
+            "P"
+          ],
+          "answer": "1",
+          "explanation": "A 1 in the first position: the printer jumps to the top of the next page."
+        },
+        {
+          "id": "f9-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does the / in FORMAT (' SQUARES'/' ', '   N  N**2') do?",
+          "options": [
+            "Ends the first line, so the headers go on a second line",
+            "Divides",
+            "Prints a slash",
+            "Starts a new page"
+          ],
+          "answer": 0,
+          "explanation": "Each / starts a new line in the same WRITE."
+        },
+        {
+          "id": "f9-l3-e5",
+          "type": "order_lines",
+          "prompt": "Stack the cards for a report with a header and the numbers 1 to 3.",
+          "lines": [
+            "      WRITE (6,10)",
+            "   10 FORMAT (' NUMBERS')",
+            "      DO 20 I = 1, 3",
+            "      WRITE (6,30) I",
+            "   20 CONTINUE",
+            "   30 FORMAT (1X, I5)",
+            "      END"
+          ],
+          "answer": [
+            "      WRITE (6,10)",
+            "   10 FORMAT (' NUMBERS')",
+            "      DO 20 I = 1, 3",
+            "      WRITE (6,30) I",
+            "   20 CONTINUE",
+            "   30 FORMAT (1X, I5)",
+            "      END"
+          ],
+          "explanation": "The header first, outside the loop, then one line per number."
+        },
+        {
+          "id": "f9-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why was printer paper striped green and white?",
+          "options": [
+            "To help the eye follow long lines across the page",
+            "To show where to cut",
+            "Green ink was cheaper",
+            "To mark errors"
+          ],
+          "answer": 0,
+          "explanation": "\"Greenbar paper\" was the look of computing for 30 years."
+        }
+      ]
+    }
+  ]
+}

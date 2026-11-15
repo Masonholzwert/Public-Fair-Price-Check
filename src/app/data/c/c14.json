@@ -1,0 +1,409 @@
+{
+  "id": "c14",
+  "title": "Pointers and Arrays",
+  "lessons": [
+    {
+      "id": "c14-l1",
+      "title": "Arrays Are Addresses",
+      "xp": 15,
+      "intro": [
+        "The name of an array, used on its own, is the address of its first element: a is the same as &a[0]. So int *p = a; makes p point to the start of the array.",
+        "That's why functions get arrays as pointers: void show(int *a, int n) and void show(int a[], int n) mean exactly the same thing. The array itself is never copied.",
+        "And it's why a function can change the caller's array, while it can't change the caller's plain int."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "void double_all(int *a, int n) {",
+          "    int i;",
+          "    for (i = 0; i < n; i++)",
+          "        a[i] = a[i] * 2;",
+          "}",
+          "",
+          "int main() {",
+          "    int v[4] = {1, 2, 3, 4};",
+          "    int i;",
+          "    double_all(v, 4);",
+          "    for (i = 0; i < 4; i++)",
+          "        printf(\"%d \", v[i]);",
+          "    printf(\"\\n\");",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "2 4 6 8 "
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c14-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does the array name a mean on its own?",
+          "options": [
+            "The address of a[0]",
+            "The whole array copied",
+            "The number of elements",
+            "a[1]"
+          ],
+          "answer": 0,
+          "explanation": "a and &a[0] are the same address."
+        },
+        {
+          "id": "c14-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Why can a function change the caller's array?",
+          "options": [
+            "It gets the array's address, not a copy",
+            "Arrays are global",
+            "Arrays are copied twice",
+            "It can't"
+          ],
+          "answer": 0,
+          "explanation": "Arrays are passed as pointers to their first element."
+        },
+        {
+          "id": "c14-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "Are int a[] and int *a the same as function parameters?",
+          "options": [
+            "Yes",
+            "No, a[] is bigger",
+            "Only for chars",
+            "Only in main"
+          ],
+          "answer": 0,
+          "explanation": "Both are pointers. The [] style just shows that an array is expected."
+        },
+        {
+          "id": "c14-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Point p at the start of the array.",
+          "code": [
+            "    int a[5];",
+            "    int *p = ___;"
+          ],
+          "options": [
+            "a",
+            "*a",
+            "&a[5]",
+            "a[]"
+          ],
+          "answer": "a",
+          "explanation": "The array name is the address of its first element."
+        },
+        {
+          "id": "c14-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "void set(int *a) {",
+            "    a[0] = 10;",
+            "}",
+            "",
+            "int main() {",
+            "    int v[2] = {1, 3};",
+            "    set(v);",
+            "    printf(\"%d\\n\", v[0]);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "10",
+            "1",
+            "3",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "set changes the caller's array through the pointer."
+        },
+        {
+          "id": "c14-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Why does a function also need n, the length?",
+          "options": [
+            "A pointer doesn't know how many elements follow it",
+            "C requires two parameters",
+            "To print it",
+            "It doesn't need it"
+          ],
+          "answer": 0,
+          "explanation": "Inside the function, sizeof would only give the size of a pointer."
+        }
+      ]
+    },
+    {
+      "id": "c14-l2",
+      "title": "Pointer Arithmetic",
+      "xp": 15,
+      "intro": [
+        "Adding to a pointer moves it by whole elements: if p points to a[0], then p + 1 points to a[1], and *(p + 2) is a[2]. In fact, C defines a[i] as *(a + i).",
+        "p++ moves the pointer to the next element. Many classic C loops walk through an array this way instead of using an index.",
+        "Subtracting two pointers into the same array gives the number of elements between them."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    int a[5] = {10, 20, 30, 40, 50};",
+          "    int *p = a;",
+          "    printf(\"%d\\n\", *p);",
+          "    printf(\"%d\\n\", *(p + 2));",
+          "    p++;",
+          "    printf(\"%d\\n\", *p);",
+          "    printf(\"%d apart\\n\", (int) (&a[4] - p));",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "10",
+          "30",
+          "20",
+          "3 apart"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c14-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "If p points to a[0], what is *(p + 3)?",
+          "options": [
+            "a[3]",
+            "a[0] + 3",
+            "The address of a[3]",
+            "3"
+          ],
+          "answer": 0,
+          "explanation": "p + 3 points three elements further."
+        },
+        {
+          "id": "c14-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does p++ do to a pointer into an int array?",
+          "options": [
+            "Moves it to the next int",
+            "Adds 1 to the value it points to",
+            "Adds 1 byte",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "C moves it by the size of one element."
+        },
+        {
+          "id": "c14-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int a[3] = {1, 2, 3};",
+            "    int *p = a;",
+            "    p += 2;",
+            "    printf(\"%d\\n\", *p);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "3",
+            "1",
+            "2",
+            "an address"
+          ],
+          "answer": 0,
+          "explanation": "p starts at a[0]; after p += 2, it points to a[2], which is 3."
+        },
+        {
+          "id": "c14-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Read the element after the one p points to.",
+          "code": [
+            "    int next = *(p ___ 1);"
+          ],
+          "options": [
+            "+",
+            "*",
+            "&",
+            "-"
+          ],
+          "answer": "+",
+          "explanation": "p + 1 points to the next element."
+        },
+        {
+          "id": "c14-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "How does C define a[i]?",
+          "options": [
+            "*(a + i)",
+            "a * i",
+            "&a + i",
+            "a[i] is special"
+          ],
+          "answer": 0,
+          "explanation": "That's why i[a] also works in C, a famous party trick."
+        },
+        {
+          "id": "c14-l2-e6",
+          "type": "find_bug",
+          "prompt": "This loop prints one value too many (garbage after the 3). Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int a[3] = {1, 2, 3};",
+            "    int *p = a;",
+            "    while (p <= a + 3) {",
+            "        printf(\"%d\\n\", *p);",
+            "        p++;",
+            "    }",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 5,
+          "explanation": "a + 3 is one past the end. The loop must stop when p < a + 3 is false."
+        }
+      ]
+    },
+    {
+      "id": "c14-l3",
+      "title": "Strings as char *",
+      "xp": 15,
+      "intro": [
+        "A string constant like \"unix\" is an array somewhere in memory, and char *s = \"unix\"; points to its first letter. Walking through it with s++ until *s is '\\0' is classic C.",
+        "while (*s) means \"while the character isn't '\\0'\", because '\\0' is 0, which is false.",
+        "Kernighan and Ritchie's famous strcpy is just one line: while ((*dst++ = *src++) != '\\0'); Short, fast and hard to read: very 1970s."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int length(char *s) {",
+          "    int n = 0;",
+          "    while (*s) {",
+          "        n++;",
+          "        s++;",
+          "    }",
+          "    return n;",
+          "}",
+          "",
+          "int main() {",
+          "    char *msg = \"hello, unix\";",
+          "    printf(\"%d\\n\", length(msg));",
+          "    while (*msg)",
+          "        putchar(*msg++);",
+          "    putchar('\\n');",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "11",
+          "hello, unix"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c14-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does while (*s) check?",
+          "options": [
+            "That s doesn't point to the '\\0' yet",
+            "That s is not NULL",
+            "That the string is long",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "'\\0' is 0, and 0 is false."
+        },
+        {
+          "id": "c14-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does putchar(*s++) do?",
+          "options": [
+            "Prints the current character, then moves s to the next one",
+            "Prints the next character",
+            "Prints s's address",
+            "Adds 1 to the character"
+          ],
+          "answer": 0,
+          "explanation": "*s is used first, then s moves on."
+        },
+        {
+          "id": "c14-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    char *s = \"hello\";",
+            "    printf(\"%s\\n\", s + 2);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "llo",
+            "hello",
+            "he",
+            "l"
+          ],
+          "answer": 0,
+          "explanation": "s + 2 points to the third letter; printf prints from there to the end."
+        },
+        {
+          "id": "c14-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Move to the next character.",
+          "code": [
+            "    while (*s != '\\0') {",
+            "        putchar(*s);",
+            "        s___;",
+            "    }"
+          ],
+          "options": [
+            "++",
+            "--",
+            "+ 1",
+            "*"
+          ],
+          "answer": "++",
+          "explanation": "s++ moves the pointer."
+        },
+        {
+          "id": "c14-l3-e5",
+          "type": "find_bug",
+          "prompt": "This program prints nothing at all. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    char *s = \"abc\";",
+            "    while (*s)",
+            "        s++;",
+            "    while (*s)",
+            "        putchar(*s++);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 5,
+          "explanation": "The first loop already moved s to the '\\0', so the second loop has nothing left to print."
+        },
+        {
+          "id": "c14-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why can't you change the letters of char *s = \"hi\"?",
+          "options": [
+            "It points to a string constant, which is read-only",
+            "Pointers can't change anything",
+            "\"hi\" is too short",
+            "You can"
+          ],
+          "answer": 0,
+          "explanation": "Use char s[] = \"hi\"; to get your own copy you can change."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,381 @@
+{
+  "id": "p3",
+  "title": "Input and Formatting",
+  "lessons": [
+    {
+      "id": "p3-l1",
+      "title": "readln",
+      "xp": 15,
+      "intro": [
+        "readln(x) waits until the user types something and presses Enter, and stores it in x. Put a write before it, so the user knows what to type. What the user types appears right after the question, and Enter starts a new line.",
+        "One readln can read several numbers from the same line: readln(a, b) reads two numbers separated by a space.",
+        "If the user types letters where a number is expected, the program stops with Runtime error 106: Invalid numeric format."
+      ],
+      "example": {
+        "code": [
+          "program Greet;",
+          "var",
+          "  name: string;",
+          "  age: integer;",
+          "begin",
+          "  write('What is your name? ');",
+          "  readln(name);",
+          "  write('How old are you? ');",
+          "  readln(age);",
+          "  writeln('Hello, ', name, '! Next year you will be ', age + 1, '.');",
+          "end."
+        ],
+        "output": [
+          "What is your name? Niklaus",
+          "How old are you? 13",
+          "Hello, Niklaus! Next year you will be 14."
+        ],
+        "inputs": [
+          "Niklaus",
+          "13"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p3-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does readln(x) do?",
+          "options": [
+            "Waits for the user to type a value and stores it in x",
+            "Prints x",
+            "Reads a file",
+            "Deletes x"
+          ],
+          "answer": 0,
+          "explanation": "It reads one line of input."
+        },
+        {
+          "id": "p3-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Why is there a write before readln?",
+          "options": [
+            "So the user knows what to type",
+            "readln needs it to work",
+            "To make a new line",
+            "It doesn't belong there"
+          ],
+          "answer": 0,
+          "explanation": "Without a prompt, the screen would just wait silently."
+        },
+        {
+          "id": "p3-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Read two numbers from one line.",
+          "code": [
+            "  readln(a___ b);"
+          ],
+          "options": [
+            ",",
+            ";",
+            " +",
+            ":"
+          ],
+          "answer": ",",
+          "explanation": "The variables are separated by commas."
+        },
+        {
+          "id": "p3-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What happens if the user types abc for an integer?",
+          "options": [
+            "Runtime error 106: Invalid numeric format",
+            "x becomes 0",
+            "x becomes abc",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "The program stops."
+        },
+        {
+          "id": "p3-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "The app types 4 and 5 on one line. What does this program print?",
+          "code": [
+            "program Sum;",
+            "var",
+            "  a, b: integer;",
+            "begin",
+            "  readln(a, b);",
+            "  writeln(a + b);",
+            "end."
+          ],
+          "options": [
+            "9",
+            "45",
+            "4 5",
+            "20"
+          ],
+          "answer": 0,
+          "explanation": "readln(a, b) reads both numbers, and a + b is 9."
+        },
+        {
+          "id": "p3-l1-e6",
+          "type": "order_lines",
+          "prompt": "Put the lines in order: ask for a number and print its double.",
+          "lines": [
+            "write('Number? ');",
+            "readln(n);",
+            "writeln(n * 2);"
+          ],
+          "answer": [
+            "write('Number? ');",
+            "readln(n);",
+            "writeln(n * 2);"
+          ],
+          "explanation": "Ask, read, then calculate."
+        }
+      ]
+    },
+    {
+      "id": "p3-l2",
+      "title": "Width and Decimals",
+      "xp": 15,
+      "intro": [
+        "write and writeln can format values: x:8 prints x right-aligned in 8 columns. For reals, x:8:2 also rounds to 2 decimals. x:0:2 uses just as much space as needed.",
+        "This also works for strings and integers: name:10 pads the name to 10 characters on the left, which lines up tables.",
+        "Without a format, a real comes out as 1.2345678900E+01. So almost every Pascal program writes reals with :0:2 or similar."
+      ],
+      "example": {
+        "code": [
+          "program Receipt;",
+          "var",
+          "  price: real;",
+          "begin",
+          "  price := 4.5;",
+          "  writeln('Disks', 3:6, (3 * price):10:2);",
+          "  writeln('Manual', 1:5, 29.95:10:2);",
+          "  writeln(price);",
+          "  writeln(price:0:2);",
+          "end."
+        ],
+        "output": [
+          "Disks     3     13.50",
+          "Manual    1     29.95",
+          " 4.5000000000E+00",
+          "4.50"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p3-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does writeln(3.14159:0:2) print?",
+          "options": [
+            "3.14",
+            "3.14159",
+            "3.1",
+            " 3.1415900000E+00"
+          ],
+          "answer": 0,
+          "explanation": "Two decimals, rounded, with no extra space."
+        },
+        {
+          "id": "p3-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does writeln(42:5) print?",
+          "options": [
+            "   42",
+            "42   ",
+            "42.00",
+            "00042"
+          ],
+          "answer": 0,
+          "explanation": "Right-aligned in 5 columns: three spaces, then 42."
+        },
+        {
+          "id": "p3-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Print the price with 2 decimals.",
+          "code": [
+            "  writeln(price___);"
+          ],
+          "options": [
+            ":0:2",
+            ":2",
+            "%.2f",
+            ".2"
+          ],
+          "answer": ":0:2",
+          "explanation": ":0:2 means: no fixed width, 2 decimals."
+        },
+        {
+          "id": "p3-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Third;",
+            "begin",
+            "  writeln(8 / 3:0:2);",
+            "end."
+          ],
+          "options": [
+            "2.67",
+            "2.66",
+            "2.6666666667E+00",
+            "3"
+          ],
+          "answer": 0,
+          "explanation": "8 / 3 is 2.666…, rounded to 2 decimals: 2.67."
+        },
+        {
+          "id": "p3-l2-e5",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program Fmt;",
+            "var",
+            "  n: integer;",
+            "begin",
+            "  n := 7;",
+            "  writeln(n:0:2);",
+            "end."
+          ],
+          "answer": 5,
+          "explanation": "Only reals can have decimals. An integer gets just a width, like n:4."
+        },
+        {
+          "id": "p3-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Why do Pascal programs write reals with :0:2 so often?",
+          "options": [
+            "Without a format they come out in scientific notation",
+            "It makes them faster",
+            "It's required",
+            "To make them integers"
+          ],
+          "answer": 0,
+          "explanation": "1.2345678900E+01 is hard to read."
+        }
+      ]
+    },
+    {
+      "id": "p3-l3",
+      "title": "Constants",
+      "xp": 15,
+      "intro": [
+        "Values that never change get a name in the const section, before var: const VAT = 0.19; Note the = (not :=): a constant is defined, not assigned.",
+        "Trying to change a constant later is an error. That protects values like conversion factors.",
+        "Pascal already knows pi and maxint (32767)."
+      ],
+      "example": {
+        "code": [
+          "program Circle;",
+          "const",
+          "  Radius = 2.5;",
+          "var",
+          "  area: real;",
+          "begin",
+          "  area := pi * Radius * Radius;",
+          "  writeln('Area: ', area:0:3);",
+          "  writeln('Biggest integer: ', maxint);",
+          "end."
+        ],
+        "output": [
+          "Area: 19.635",
+          "Biggest integer: 32767"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p3-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "How is a constant defined?",
+          "options": [
+            "const VAT = 0.19;",
+            "const VAT := 0.19;",
+            "var VAT = 0.19;",
+            "VAT := 0.19;"
+          ],
+          "answer": 0,
+          "explanation": "Constants use = in the const section."
+        },
+        {
+          "id": "p3-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "Where does the const section go?",
+          "options": [
+            "Before begin, usually before var",
+            "After end.",
+            "Between begin and end",
+            "Anywhere"
+          ],
+          "answer": 0,
+          "explanation": "All declarations come before the main begin."
+        },
+        {
+          "id": "p3-l3-e3",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program Fixed;",
+            "const",
+            "  Max = 10;",
+            "begin",
+            "  Max := 20;",
+            "  writeln(Max);",
+            "end."
+          ],
+          "answer": 4,
+          "explanation": "A constant can't be changed."
+        },
+        {
+          "id": "p3-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Define the constant.",
+          "code": [
+            "const",
+            "  CmPerInch ___ 2.54;"
+          ],
+          "options": [
+            "=",
+            ":=",
+            ":",
+            "=="
+          ],
+          "answer": "=",
+          "explanation": "Constants use a single =."
+        },
+        {
+          "id": "p3-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Rect;",
+            "const",
+            "  Width = 10;",
+            "  Height = 5;",
+            "begin",
+            "  writeln(Width * Height);",
+            "end."
+          ],
+          "options": [
+            "50",
+            "10",
+            "5",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "Width × Height = 10 × 5."
+        },
+        {
+          "id": "p3-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What is maxint in Turbo Pascal?",
+          "options": [
+            "32767",
+            "65535",
+            "2147483647",
+            "255"
+          ],
+          "answer": 0,
+          "explanation": "The biggest value of a 16-bit integer."
+        }
+      ]
+    }
+  ]
+}

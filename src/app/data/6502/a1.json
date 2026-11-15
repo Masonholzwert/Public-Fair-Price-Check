@@ -1,0 +1,381 @@
+{
+  "id": "a1",
+  "title": "Registers",
+  "lessons": [
+    {
+      "id": "a1-l1",
+      "title": "Meet the 6502",
+      "xp": 15,
+      "intro": [
+        "In 1975 a tiny company sold a processor for $25 while others cost $300. It was the 6502, and it ended up inside the Apple II, the Commodore 64 and the NES.",
+        "You'll program it the way people did in 1976: on a single-board computer with a hex keypad and red LEDs. No screen, no BASIC. Just you and the chip.",
+        "The 6502 does its work in three small storage boxes called registers: A (the accumulator, where math happens), X and Y. Each one holds a single byte, a number from 0 to 255.",
+        "Every instruction is a three-letter word. LDA #5 means LoaD A with the number 5. LDX and LDY do the same for X and Y. BRK stops the program, and the board shows you the registers on its LEDs."
+      ],
+      "example": {
+        "code": [
+          "LDA #5",
+          "LDX #7",
+          "LDY #9",
+          "BRK"
+        ],
+        "output": [
+          "A = $05   X = $07   Y = $09"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a1-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is a register?",
+          "options": [
+            "A tiny storage box inside the CPU that holds one byte",
+            "A list of all instructions",
+            "The screen of the computer",
+            "A file on a floppy disk"
+          ],
+          "answer": 0,
+          "explanation": "The 6502 has three registers you'll use all the time: A, X and Y. Each holds one byte, a number from 0 to 255."
+        },
+        {
+          "id": "a1-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does LDA stand for?",
+          "options": [
+            "LoaD A",
+            "LoaD Address",
+            "Left Down Arrow",
+            "List Data A"
+          ],
+          "answer": 0,
+          "explanation": "LDA = LoaD A. It puts a value into the A register. LDX and LDY load X and Y."
+        },
+        {
+          "id": "a1-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "After this program, what is in X?",
+          "code": [
+            "LDA #3",
+            "LDX #4",
+            "BRK"
+          ],
+          "options": [
+            "4",
+            "3",
+            "0",
+            "7"
+          ],
+          "answer": 0,
+          "explanation": "LDX #4 puts 4 into X. LDA #3 only changes A, not X."
+        },
+        {
+          "id": "a1-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Put the number 8 into the Y register.",
+          "code": [
+            "___ #8",
+            "BRK"
+          ],
+          "options": [
+            "LDY",
+            "LDA",
+            "LDX",
+            "STY"
+          ],
+          "answer": "LDY",
+          "explanation": "LDY loads the Y register. LDA would load A, LDX would load X."
+        },
+        {
+          "id": "a1-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What is the biggest number one register can hold?",
+          "options": [
+            "255",
+            "100",
+            "999",
+            "65535"
+          ],
+          "answer": 0,
+          "explanation": "A register holds one byte: 8 bits. The biggest 8-bit number is 255."
+        },
+        {
+          "id": "a1-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "What does BRK do in our programs?",
+          "options": [
+            "Stops the program, so you can read the registers",
+            "Breaks the CPU",
+            "Deletes the program",
+            "Starts the program again"
+          ],
+          "answer": 0,
+          "explanation": "BRK stops the 6502. On the board, the LEDs then show what's in the registers."
+        },
+        {
+          "id": "a1-l1-e7",
+          "type": "order_lines",
+          "prompt": "Build a program that loads A with 1 and X with 2, then stops.",
+          "lines": [
+            "LDA #1",
+            "LDX #2",
+            "BRK"
+          ],
+          "answer": [
+            "LDA #1",
+            "LDX #2",
+            "BRK"
+          ],
+          "explanation": "The two loads can go in any order, but BRK has to come last. Anything after BRK never runs."
+        }
+      ]
+    },
+    {
+      "id": "a1-l2",
+      "title": "Hexadecimal",
+      "xp": 15,
+      "intro": [
+        "Machine programmers count in hexadecimal (hex): base 16 instead of base 10. After 9 come the digits A, B, C, D, E and F, so A is 10 and F is 15.",
+        "A $ in front means the number is hex. $0A is 10, $10 is 16 (one sixteen, zero ones), and $FF is 255, the biggest byte. Every byte fits in exactly two hex digits.",
+        "The # in front of a number means: use this number itself. LDA #$0A and LDA #10 do exactly the same thing. Most 6502 code is written in hex, and the LEDs show hex too."
+      ],
+      "example": {
+        "code": [
+          "LDA #$0A",
+          "LDX #16",
+          "LDY #$FF",
+          "BRK"
+        ],
+        "output": [
+          "A = $0A   X = $10   Y = $FF"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a1-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is $0F in normal numbers?",
+          "options": [
+            "15",
+            "10",
+            "16",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "F is the last hex digit and stands for 15. So $0F = 15."
+        },
+        {
+          "id": "a1-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What is $10 in normal numbers?",
+          "options": [
+            "16",
+            "10",
+            "1",
+            "100"
+          ],
+          "answer": 0,
+          "explanation": "$10 means one sixteen and zero ones: 16. In hex, 10 comes right after F."
+        },
+        {
+          "id": "a1-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "Which hex number is 255?",
+          "options": [
+            "$FF",
+            "$255",
+            "$99",
+            "$F0"
+          ],
+          "answer": 0,
+          "explanation": "$FF = 15 × 16 + 15 = 255, the biggest number a byte can hold."
+        },
+        {
+          "id": "a1-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Load A with 16, written in hex.",
+          "code": [
+            "LDA #___",
+            "BRK"
+          ],
+          "options": [
+            "$10",
+            "$16",
+            "$0F",
+            "$0A"
+          ],
+          "answer": "$10",
+          "explanation": "16 in hex is $10. $16 would be 22."
+        },
+        {
+          "id": "a1-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "Which line loads A with 12?",
+          "options": [
+            "LDA #$0C",
+            "LDA #$12",
+            "LDA #$0B",
+            "LDA #$C0"
+          ],
+          "answer": 0,
+          "explanation": "C is 12 in hex, so $0C = 12. $12 would be 18."
+        },
+        {
+          "id": "a1-l2-e6",
+          "type": "find_bug",
+          "prompt": "This program stops with ?VALUE TOO BIG. Which line is wrong?",
+          "code": [
+            "LDA #$100",
+            "LDX #$20",
+            "BRK"
+          ],
+          "answer": 0,
+          "explanation": "$100 is 256, one more than a byte can hold. Registers go from $00 to $FF."
+        },
+        {
+          "id": "a1-l2-e7",
+          "type": "multiple_choice",
+          "prompt": "What does the # in LDA #$20 mean?",
+          "options": [
+            "Use the number $20 itself",
+            "Use hex",
+            "Add $20",
+            "This line is a comment"
+          ],
+          "answer": 0,
+          "explanation": "# means \"this exact number\". The $ is what makes it hex."
+        }
+      ]
+    },
+    {
+      "id": "a1-l3",
+      "title": "Copy and Count",
+      "xp": 15,
+      "intro": [
+        "The registers can copy values to each other. TAX means Transfer A to X: X gets a copy of A, and A keeps its value. TAY, TXA and TYA work the same way.",
+        "X and Y can count by themselves: INX adds 1 to X, DEX takes 1 away. INY and DEY do the same for Y. There's no INA on the 6502, so counting usually happens in X or Y.",
+        "Bytes wrap around like a car's odometer. $FF plus 1 becomes $00, and $00 minus 1 becomes $FF."
+      ],
+      "example": {
+        "code": [
+          "LDA #$05",
+          "TAX",
+          "INX",
+          "INX",
+          "TAY",
+          "BRK"
+        ],
+        "output": [
+          "A = $05   X = $07   Y = $05"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a1-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "After this program, what are A and X?",
+          "code": [
+            "LDA #5",
+            "TAX",
+            "INX",
+            "BRK"
+          ],
+          "options": [
+            "A = 5, X = 6",
+            "A = 6, X = 6",
+            "A = 5, X = 5",
+            "A = 0, X = 6"
+          ],
+          "answer": 0,
+          "explanation": "TAX copies 5 into X, then INX makes X 6. A is never changed."
+        },
+        {
+          "id": "a1-l3-e2",
+          "type": "fill_blank",
+          "prompt": "Copy A into Y.",
+          "code": [
+            "LDA #$20",
+            "___",
+            "BRK"
+          ],
+          "options": [
+            "TAY",
+            "TYA",
+            "TAX",
+            "LDY"
+          ],
+          "answer": "TAY",
+          "explanation": "TAY = Transfer A to Y. TYA would go the other way and copy Y into A."
+        },
+        {
+          "id": "a1-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "X is $00. What is X after DEX?",
+          "options": [
+            "$FF",
+            "$00",
+            "$01",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "Bytes wrap around: $00 minus 1 is $FF."
+        },
+        {
+          "id": "a1-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "X is $FF. What is X after INX?",
+          "options": [
+            "$00",
+            "$100",
+            "$FF",
+            "$FE"
+          ],
+          "answer": 0,
+          "explanation": "$FF plus 1 would be $100, which doesn't fit in a byte, so it wraps to $00."
+        },
+        {
+          "id": "a1-l3-e5",
+          "type": "find_bug",
+          "prompt": "This program should end with Y = 3, but Y stays 0. Which line is wrong?",
+          "code": [
+            "LDA #3",
+            "TAX",
+            "BRK"
+          ],
+          "answer": 1,
+          "explanation": "TAX copies A into X. To copy A into Y, use TAY."
+        },
+        {
+          "id": "a1-l3-e6",
+          "type": "order_lines",
+          "prompt": "Build a program that ends with X = 3.",
+          "lines": [
+            "LDX #1",
+            "INX",
+            "INX",
+            "BRK"
+          ],
+          "answer": [
+            "LDX #1",
+            "INX",
+            "INX",
+            "BRK"
+          ],
+          "explanation": "Start at 1, count up twice, then stop: 1, 2, 3."
+        },
+        {
+          "id": "a1-l3-e7",
+          "type": "multiple_choice",
+          "prompt": "Which instruction copies X into A?",
+          "options": [
+            "TXA",
+            "TAX",
+            "LDA X",
+            "INA"
+          ],
+          "answer": 0,
+          "explanation": "T means transfer, then from X to A: TXA."
+        }
+      ]
+    }
+  ]
+}

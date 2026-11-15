@@ -1,0 +1,348 @@
+{
+  "id": "al4",
+  "title": "Registers",
+  "lessons": [
+    {
+      "id": "al4-l1",
+      "title": "Seven Registers",
+      "xp": 15,
+      "intro": [
+        "The 8080 has seven registers: small stores of one byte each, right inside the processor. They are called A, B, C, D, E, H and L.",
+        "A is special: it's the accumulator. Adding, subtracting and showing a value on the lights all go through A.",
+        "MVI works for every register: 0 r 6 in octal, with the register's number in the middle. From now on, the lessons write programs in octal, with the address of each byte in the comment."
+      ],
+      "example": {
+        "code": [
+          "006   ; 000: MVI B",
+          "007   ;      7",
+          "016   ; 002: MVI C",
+          "003   ;      3",
+          "076   ; 004: MVI A",
+          "011   ;      9",
+          "323   ; 006: OUT 377",
+          "377   ;      port 377",
+          "166   ; 010: HLT"
+        ],
+        "output": [
+          "LEDS ○○○○●○○● = 9"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al4-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "How many bytes does one register hold?",
+          "options": [
+            "One",
+            "Two",
+            "256",
+            "Eight"
+          ],
+          "answer": 0,
+          "explanation": "8 bits, 0 to 255."
+        },
+        {
+          "id": "al4-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Which register is the accumulator?",
+          "options": [
+            "A",
+            "B",
+            "M",
+            "H"
+          ],
+          "answer": 0,
+          "explanation": "Arithmetic and OUT go through A."
+        },
+        {
+          "id": "al4-l1-e3",
+          "type": "switches",
+          "prompt": "Set the switches to MVI D (0 2 6).",
+          "answer": 22,
+          "explanation": "D is register 2: 00 010 110."
+        },
+        {
+          "id": "al4-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show? MVI B 5, MVI A 2, OUT 377, HLT",
+          "code": [
+            "006   ; 000: MVI B",
+            "005   ;      5",
+            "076   ; 002: MVI A",
+            "002   ;      2",
+            "323   ; 004: OUT 377",
+            "377   ;      port 377",
+            "166   ; 006: HLT"
+          ],
+          "options": [
+            "2",
+            "5",
+            "7",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "OUT shows A, and A is 2. B isn't shown."
+        },
+        {
+          "id": "al4-l1-e5",
+          "type": "fill_blank",
+          "prompt": "Put 12 into register E.",
+          "code": [
+            "___   ; MVI E",
+            "014   ; 12"
+          ],
+          "options": [
+            "036",
+            "076",
+            "016",
+            "006"
+          ],
+          "answer": "036",
+          "explanation": "MVI E = 0 3 6."
+        },
+        {
+          "id": "al4-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Why are registers useful?",
+          "options": [
+            "They are inside the processor, so they are very fast",
+            "They hold more than memory",
+            "They can show values on the lights",
+            "They never lose their value"
+          ],
+          "answer": 0,
+          "explanation": "Memory is outside the chip and slower."
+        }
+      ]
+    },
+    {
+      "id": "al4-l2",
+      "title": "MOV",
+      "xp": 15,
+      "intro": [
+        "MOV copies one register into another: 01 ddd sss, or 1 d s in octal. The destination comes first: MOV A,B (170) copies B into A.",
+        "That's how other registers get to the lights: MOV A,B then OUT 377.",
+        "To swap two registers, you need a third one as a parking spot, just like swapping two glasses of juice."
+      ],
+      "example": {
+        "code": [
+          "006   ; 000: MVI B",
+          "052   ;      42",
+          "170   ; 002: MOV A,B",
+          "323   ; 003: OUT 377",
+          "377   ;      port 377",
+          "166   ; 005: HLT"
+        ],
+        "output": [
+          "LEDS ○○●○●○●○ = 42"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al4-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does MOV A,B (170) do?",
+          "options": [
+            "Copies B into A",
+            "Copies A into B",
+            "Swaps A and B",
+            "Adds B to A"
+          ],
+          "answer": 0,
+          "explanation": "The first register is the destination."
+        },
+        {
+          "id": "al4-l2-e2",
+          "type": "switches",
+          "prompt": "Set the switches to MOV A,C (1 7 1).",
+          "answer": 121,
+          "explanation": "01 111 001: destination A (7), source C (1)."
+        },
+        {
+          "id": "al4-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What is the octal code of MOV B,A?",
+          "options": [
+            "107",
+            "170",
+            "117",
+            "071"
+          ],
+          "answer": 0,
+          "explanation": "1, destination B (0), source A (7)."
+        },
+        {
+          "id": "al4-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "016   ; 000: MVI C",
+            "011   ;      9",
+            "076   ; 002: MVI A",
+            "004   ;      4",
+            "171   ; 004: MOV A,C",
+            "323   ; 005: OUT 377",
+            "377   ;      port 377",
+            "166   ; 007: HLT"
+          ],
+          "options": [
+            "9",
+            "4",
+            "0",
+            "13"
+          ],
+          "answer": 0,
+          "explanation": "C gets 9, A gets a copy of C."
+        },
+        {
+          "id": "al4-l2-e5",
+          "type": "order_lines",
+          "prompt": "Swap B and C, using D as the parking spot.",
+          "lines": [
+            "120   ; MOV D,B",
+            "101   ; MOV B,C",
+            "112   ; MOV C,D"
+          ],
+          "answer": [
+            "120   ; MOV D,B",
+            "101   ; MOV B,C",
+            "112   ; MOV C,D"
+          ],
+          "explanation": "Park B in D, copy C into B, then the parked value into C."
+        },
+        {
+          "id": "al4-l2-e6",
+          "type": "fill_blank",
+          "prompt": "Show register E on the lights.",
+          "code": [
+            "___   ; MOV A,E",
+            "323   ; OUT",
+            "377   ; port 377",
+            "166   ; HLT"
+          ],
+          "options": [
+            "173",
+            "137",
+            "176",
+            "107"
+          ],
+          "answer": "173",
+          "explanation": "MOV A,E = 1 7 3."
+        }
+      ]
+    },
+    {
+      "id": "al4-l3",
+      "title": "INR and DCR",
+      "xp": 15,
+      "intro": [
+        "INR r (0 r 4) adds 1 to a register, DCR r (0 r 5) takes 1 away. INR A is 074, DCR A is 075.",
+        "They wrap around too: INR on 255 gives 0, and DCR on 0 gives 255.",
+        "DCR also tells the processor when it reached zero (the zero flag). That will make loops possible in Chapter 3."
+      ],
+      "example": {
+        "code": [
+          "076   ; 000: MVI A",
+          "011   ;      9",
+          "074   ; 002: INR A",
+          "074   ; 003: INR A",
+          "075   ; 004: DCR A",
+          "323   ; 005: OUT 377",
+          "377   ;      port 377",
+          "166   ; 007: HLT"
+        ],
+        "output": [
+          "LEDS ○○○○●○●○ = 10"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al4-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does INR B do?",
+          "options": [
+            "Adds 1 to B",
+            "Takes 1 from B",
+            "Copies B into A",
+            "Shows B"
+          ],
+          "answer": 0,
+          "explanation": "INcRement."
+        },
+        {
+          "id": "al4-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What is the octal code of DCR A?",
+          "options": [
+            "075",
+            "074",
+            "076",
+            "175"
+          ],
+          "answer": 0,
+          "explanation": "0, register 7, 5."
+        },
+        {
+          "id": "al4-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "076   ; 000: MVI A",
+            "012   ;      10",
+            "074   ; 002: INR A",
+            "074   ; 003: INR A",
+            "323   ; 004: OUT 377",
+            "377   ;      port 377",
+            "166   ; 006: HLT"
+          ],
+          "options": [
+            "12",
+            "10",
+            "11",
+            "13"
+          ],
+          "answer": 0,
+          "explanation": "10, then INR twice: 12."
+        },
+        {
+          "id": "al4-l3-e4",
+          "type": "switches",
+          "prompt": "What is in A after MVI A 0 and DCR A? Set the switches to it.",
+          "answer": 255,
+          "explanation": "0 - 1 wraps around to 255."
+        },
+        {
+          "id": "al4-l3-e5",
+          "type": "fill_blank",
+          "prompt": "Add 1 to register C.",
+          "code": [
+            "___   ; INR C"
+          ],
+          "options": [
+            "014",
+            "015",
+            "016",
+            "004"
+          ],
+          "answer": "014",
+          "explanation": "INR C = 0 1 4."
+        },
+        {
+          "id": "al4-l3-e6",
+          "type": "find_bug",
+          "prompt": "This program should show 4, but it shows 2. Which line is wrong?",
+          "code": [
+            "076   ; 000: MVI A",
+            "003   ;      3",
+            "075   ; 002: INR A",
+            "323   ; 003: OUT 377",
+            "377   ;      port 377",
+            "166   ; 005: HLT"
+          ],
+          "answer": 2,
+          "explanation": "075 is DCR A, which makes 3 into 2. INR A is 074."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,374 @@
+{
+  "id": "al5",
+  "title": "Adding Registers",
+  "lessons": [
+    {
+      "id": "al5-l1",
+      "title": "ADD and SUB",
+      "xp": 15,
+      "intro": [
+        "ADD r (10 000 rrr, or 2 0 r in octal) adds a register to A: ADD B is 200. SUB r (2 2 r) subtracts it: SUB B is 220.",
+        "The result always lands in A. The carry flag catches overflow, just like with ADI.",
+        "ADD M and SUB M (r = 6) use a byte from memory instead of a register. More about M in Unit 6."
+      ],
+      "example": {
+        "code": [
+          "006   ; 000: MVI B",
+          "036   ;      30",
+          "016   ; 002: MVI C",
+          "014   ;      12",
+          "170   ; 004: MOV A,B",
+          "201   ; 005: ADD C",
+          "323   ; 006: OUT 377",
+          "377   ;      port 377",
+          "221   ; 010: SUB C",
+          "221   ; 011: SUB C",
+          "323   ; 012: OUT 377",
+          "377   ;      port 377",
+          "166   ; 014: HLT"
+        ],
+        "output": [
+          "LEDS ○○●○●○●○ = 42",
+          "LEDS ○○○●○○●○ = 18"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al5-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "Where does the result of ADD B go?",
+          "options": [
+            "Into A",
+            "Into B",
+            "Onto the lights",
+            "Into memory"
+          ],
+          "answer": 0,
+          "explanation": "Everything goes through the accumulator."
+        },
+        {
+          "id": "al5-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What is the octal code of ADD C?",
+          "options": [
+            "201",
+            "210",
+            "102",
+            "220"
+          ],
+          "answer": 0,
+          "explanation": "2, 0 (add), 1 (C)."
+        },
+        {
+          "id": "al5-l1-e3",
+          "type": "switches",
+          "prompt": "Set the switches to SUB D (2 2 2).",
+          "answer": 146,
+          "explanation": "10 010 010."
+        },
+        {
+          "id": "al5-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "006   ; 000: MVI B",
+            "012   ;      10",
+            "076   ; 002: MVI A",
+            "005   ;      5",
+            "200   ; 004: ADD B",
+            "323   ; 005: OUT 377",
+            "377   ;      port 377",
+            "166   ; 007: HLT"
+          ],
+          "options": [
+            "15",
+            "5",
+            "50",
+            "10"
+          ],
+          "answer": 0,
+          "explanation": "A = 5, B = 10, ADD B gives 15."
+        },
+        {
+          "id": "al5-l1-e5",
+          "type": "fill_blank",
+          "prompt": "Subtract E from A.",
+          "code": [
+            "___   ; SUB E"
+          ],
+          "options": [
+            "223",
+            "203",
+            "232",
+            "123"
+          ],
+          "answer": "223",
+          "explanation": "SUB E = 2 2 3."
+        },
+        {
+          "id": "al5-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "006   ; 000: MVI B",
+            "005   ;      5",
+            "076   ; 002: MVI A",
+            "002   ;      2",
+            "220   ; 004: SUB B",
+            "323   ; 005: OUT 377",
+            "377   ;      port 377",
+            "166   ; 007: HLT"
+          ],
+          "options": [
+            "253",
+            "3",
+            "0",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "2 - 5 wraps around: 256 - 3 = 253."
+        }
+      ]
+    },
+    {
+      "id": "al5-l2",
+      "title": "Doubling",
+      "xp": 15,
+      "intro": [
+        "ADD A (207) adds A to itself, so it doubles A. Do it again and you have 4 times the value, then 8, then 16.",
+        "That's how simple processors multiply by 2, 4, 8 … very fast.",
+        "Watch out: doubling 128 or more overflows past 255."
+      ],
+      "example": {
+        "code": [
+          "076   ; 000: MVI A",
+          "003   ;      3",
+          "207   ; 002: ADD A",
+          "323   ; 003: OUT 377",
+          "377   ;      port 377",
+          "207   ; 005: ADD A",
+          "323   ; 006: OUT 377",
+          "377   ;      port 377",
+          "207   ; 010: ADD A",
+          "323   ; 011: OUT 377",
+          "377   ;      port 377",
+          "166   ; 013: HLT"
+        ],
+        "output": [
+          "LEDS ○○○○○●●○ = 6",
+          "LEDS ○○○○●●○○ = 12",
+          "LEDS ○○○●●○○○ = 24"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al5-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does ADD A do?",
+          "options": [
+            "Doubles A",
+            "Adds 1 to A",
+            "Clears A",
+            "Copies A"
+          ],
+          "answer": 0,
+          "explanation": "A + A = 2 × A."
+        },
+        {
+          "id": "al5-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "A is 5. What is A after ADD A three times?",
+          "options": [
+            "40",
+            "15",
+            "20",
+            "10"
+          ],
+          "answer": 0,
+          "explanation": "5 → 10 → 20 → 40."
+        },
+        {
+          "id": "al5-l2-e3",
+          "type": "switches",
+          "prompt": "Set the switches to ADD A.",
+          "answer": 135,
+          "explanation": "10 000 111."
+        },
+        {
+          "id": "al5-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "076   ; 000: MVI A",
+            "200   ;      128",
+            "207   ; 002: ADD A",
+            "323   ; 003: OUT 377",
+            "377   ;      port 377",
+            "166   ; 005: HLT"
+          ],
+          "options": [
+            "0",
+            "256",
+            "128",
+            "255"
+          ],
+          "answer": 0,
+          "explanation": "128 + 128 = 256, which wraps around to 0."
+        },
+        {
+          "id": "al5-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "How do you multiply A by 8?",
+          "options": [
+            "ADD A three times",
+            "ADD A eight times",
+            "INR A eight times",
+            "ADI 8"
+          ],
+          "answer": 0,
+          "explanation": "×2 ×2 ×2 = ×8."
+        },
+        {
+          "id": "al5-l2-e6",
+          "type": "fill_blank",
+          "prompt": "Make A four times as big.",
+          "code": [
+            "207   ; ADD A",
+            "___   ; and again"
+          ],
+          "options": [
+            "207",
+            "074",
+            "200",
+            "170"
+          ],
+          "answer": "207",
+          "explanation": "Two doublings: ×4."
+        }
+      ]
+    },
+    {
+      "id": "al5-l3",
+      "title": "Multiplying by Adding",
+      "xp": 15,
+      "intro": [
+        "The 8080 has no multiply instruction. But 13 × 10 is 13 × 8 + 13 × 2, and those are just doublings.",
+        "Keep a copy of the number in another register: double A, save the ×2 in B, double twice more for ×8, then ADD B.",
+        "Programmers in 1975 spent a lot of time on tricks like this."
+      ],
+      "example": {
+        "code": [
+          "076   ; 000: MVI A",
+          "015   ;      13",
+          "207   ; 002: ADD A",
+          "107   ; 003: MOV B,A",
+          "207   ; 004: ADD A",
+          "207   ; 005: ADD A",
+          "200   ; 006: ADD B",
+          "323   ; 007: OUT 377",
+          "377   ;      port 377",
+          "166   ; 011: HLT"
+        ],
+        "output": [
+          "LEDS ●○○○○○●○ = 130"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al5-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "How can 6 × 5 be split into doublings?",
+          "options": [
+            "5 × 4 + 5 × 2",
+            "5 × 3 + 3",
+            "6 + 5",
+            "5 × 5 + 1"
+          ],
+          "answer": 0,
+          "explanation": "6 = 4 + 2."
+        },
+        {
+          "id": "al5-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "Why does the program save A in B after the first doubling?",
+          "options": [
+            "To add the ×2 part at the end",
+            "Because A is full",
+            "To show it",
+            "OUT needs B"
+          ],
+          "answer": 0,
+          "explanation": "B keeps 13 × 2 while A goes on to 13 × 8."
+        },
+        {
+          "id": "al5-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "076   ; 000: MVI A",
+            "005   ;      5",
+            "207   ; 002: ADD A",
+            "107   ; 003: MOV B,A",
+            "207   ; 004: ADD A",
+            "200   ; 005: ADD B",
+            "323   ; 006: OUT 377",
+            "377   ;      port 377",
+            "166   ; 010: HLT"
+          ],
+          "options": [
+            "30",
+            "25",
+            "20",
+            "15"
+          ],
+          "answer": 0,
+          "explanation": "5 × 2 = 10 saved in B, then ×4 = 20, plus 10 = 30. That's 5 × 6."
+        },
+        {
+          "id": "al5-l3-e4",
+          "type": "switches",
+          "prompt": "13 × 10 = 130. Set the switches to 130.",
+          "answer": 130,
+          "explanation": "128 + 2: 10 000 010."
+        },
+        {
+          "id": "al5-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Which other way works for 7 × 3?",
+          "options": [
+            "7 + 7 + 7",
+            "7 × 2 × 2",
+            "7 + 3",
+            "ADI 21 with A = 0 only"
+          ],
+          "answer": 0,
+          "explanation": "Multiplying is repeated adding."
+        },
+        {
+          "id": "al5-l3-e6",
+          "type": "order_lines",
+          "prompt": "Put the lines in order to show 6 × 4 (= 24).",
+          "lines": [
+            "076   ; MVI A",
+            "006   ; 6",
+            "207   ; ADD A",
+            "207   ; ADD A",
+            "323   ; OUT",
+            "377   ; port 377",
+            "166   ; HLT"
+          ],
+          "answer": [
+            "076   ; MVI A",
+            "006   ; 6",
+            "207   ; ADD A",
+            "207   ; ADD A",
+            "323   ; OUT",
+            "377   ; port 377",
+            "166   ; HLT"
+          ],
+          "explanation": "6, doubled twice, shown, halt."
+        }
+      ]
+    }
+  ]
+}

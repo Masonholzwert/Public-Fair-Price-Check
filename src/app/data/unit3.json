@@ -1,0 +1,242 @@
+{
+  "id": "u3",
+  "title": "Loops",
+  "lessons": [
+    {
+      "id": "u3-l1",
+      "title": "FOR and NEXT",
+      "xp": 15,
+      "intro": [
+        "In Unit 2 you built loops by hand: set a counter, increase it, check it with IF, jump back with GOTO. Because loops are needed everywhere, BASIC has a shortcut for exactly that pattern.",
+        "FOR I = 1 TO 5 sets I to 1 and marks the start of the loop. NEXT I increases I by 1 and jumps back, until I has passed 5.",
+        "Everything between FOR and NEXT is the body of the loop. It runs once for every value of I."
+      ],
+      "example": {
+        "code": ["10 FOR I = 1 TO 5", "20 PRINT I", "30 NEXT I", "40 END"],
+        "output": ["1", "2", "3", "4", "5"]
+      },
+      "exercises": [
+        {
+          "id": "u3-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": ["10 FOR I = 1 TO 3", "20 PRINT I", "30 NEXT I", "40 END"],
+          "options": ["1, 2, 3 (one per line)", "1, 2, 3, 4", "Only 3", "I, I, I"],
+          "answer": 0,
+          "explanation": "The loop runs for I = 1, 2 and 3, and each round prints the current value of I."
+        },
+        {
+          "id": "u3-l1-e2",
+          "type": "fill_blank",
+          "prompt": "Close the loop.",
+          "code": ["10 FOR I = 1 TO 5", "20 PRINT I", "30 ___ I", "40 END"],
+          "options": ["NEXT", "END", "LOOP", "GOTO"],
+          "answer": "NEXT",
+          "explanation": "NEXT I increases I and jumps back to the start of the loop until I has passed 5."
+        },
+        {
+          "id": "u3-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What is the last number this program prints?",
+          "code": ["10 FOR K = 1 TO 4", "20 PRINT K * K", "30 NEXT K", "40 END"],
+          "options": ["16", "4", "8", "25"],
+          "answer": 0,
+          "explanation": "It prints 1, 4, 9 and 16. The last round has K = 4, and 4 * 4 = 16."
+        },
+        {
+          "id": "u3-l1-e4",
+          "type": "find_bug",
+          "prompt": "This loop can't work. Which line is wrong?",
+          "code": ["10 FOR I = 1 TO 3", "20 PRINT I", "30 NEXT J", "40 END"],
+          "answer": 2,
+          "explanation": "NEXT must name the same variable as its FOR. The loop counts with I, so it has to be NEXT I."
+        },
+        {
+          "id": "u3-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Compared to the counter loops from Unit 2, what does FOR…NEXT do for you?",
+          "options": [
+            "It sets, increases and checks the counter automatically",
+            "It makes the program run backwards",
+            "It removes the need for END",
+            "It can only count up to 10"
+          ],
+          "answer": 0,
+          "explanation": "FOR…NEXT does the LET, the + 1, the IF and the GOTO in just two lines."
+        },
+        {
+          "id": "u3-l1-e6",
+          "type": "order_lines",
+          "prompt": "Build a program that adds up the numbers 1 to 10 and prints 55.",
+          "lines": ["10 LET S = 0", "20 FOR I = 1 TO 10", "30 LET S = S + I", "40 NEXT I", "50 PRINT S", "60 END"],
+          "answer": ["10 LET S = 0", "20 FOR I = 1 TO 10", "30 LET S = S + I", "40 NEXT I", "50 PRINT S", "60 END"],
+          "explanation": "S starts at 0, the loop adds every number from 1 to 10, and after the loop the total is printed."
+        }
+      ]
+    },
+    {
+      "id": "u3-l2",
+      "title": "Counting in Steps",
+      "xp": 15,
+      "intro": [
+        "By default, FOR counts up by 1. With STEP you choose the step size: FOR I = 2 TO 10 STEP 2 counts 2, 4, 6, 8, 10.",
+        "A negative STEP counts down: FOR C = 10 TO 1 STEP -1 is a countdown.",
+        "STEP can even be a decimal number, like 0.5."
+      ],
+      "example": {
+        "code": ["10 FOR I = 2 TO 10 STEP 2", "20 PRINT I", "30 NEXT I", "40 END"],
+        "output": ["2", "4", "6", "8", "10"]
+      },
+      "exercises": [
+        {
+          "id": "u3-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "How many numbers does this program print?",
+          "code": ["10 FOR I = 0 TO 20 STEP 5", "20 PRINT I", "30 NEXT I", "40 END"],
+          "options": ["5", "4", "20", "6"],
+          "answer": 0,
+          "explanation": "It prints 0, 5, 10, 15 and 20. That's five numbers."
+        },
+        {
+          "id": "u3-l2-e2",
+          "type": "fill_blank",
+          "prompt": "Make it count down from 10 to 1.",
+          "code": ["10 FOR C = 10 TO 1 STEP ___", "20 PRINT C", "30 NEXT C", "40 END"],
+          "options": ["-1", "1", "0", "DOWN"],
+          "answer": "-1",
+          "explanation": "STEP -1 subtracts 1 every round, so the loop counts down."
+        },
+        {
+          "id": "u3-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "Which line starts a loop over only the odd numbers from 1 to 9?",
+          "options": [
+            "10 FOR I = 1 TO 9 STEP 2",
+            "10 FOR I = 1 TO 9 STEP 1",
+            "10 FOR I = 2 TO 9 STEP 2",
+            "10 FOR I = 1 TO 9 STEP -2"
+          ],
+          "answer": 0,
+          "explanation": "Starting at 1 with STEP 2 gives 1, 3, 5, 7, 9."
+        },
+        {
+          "id": "u3-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": ["10 FOR X = 1 TO 2 STEP 0.5", "20 PRINT X", "30 NEXT X", "40 END"],
+          "options": ["1, 1.5, 2", "1, 2", "0.5, 1, 1.5, 2", "1, 1.5"],
+          "answer": 0,
+          "explanation": "X starts at 1 and grows by 0.5 each round: 1, 1.5, 2."
+        },
+        {
+          "id": "u3-l2-e5",
+          "type": "find_bug",
+          "prompt": "Which line breaks the 1964 rules?",
+          "code": ["10 FOR I = 1 TO 9 STEP 2", "20 PRINT I", "30 NEXT", "40 END"],
+          "answer": 2,
+          "explanation": "In Dartmouth BASIC, NEXT always names its variable: NEXT I."
+        },
+        {
+          "id": "u3-l2-e6",
+          "type": "order_lines",
+          "prompt": "Build a countdown from 5 to 1, followed by LIFTOFF.",
+          "lines": ["10 FOR C = 5 TO 1 STEP -1", "20 PRINT C", "30 NEXT C", "40 PRINT \"LIFTOFF\"", "50 END"],
+          "answer": ["10 FOR C = 5 TO 1 STEP -1", "20 PRINT C", "30 NEXT C", "40 PRINT \"LIFTOFF\"", "50 END"],
+          "explanation": "The loop counts down with STEP -1. Only after the loop has finished does LIFTOFF appear."
+        }
+      ]
+    },
+    {
+      "id": "u3-l3",
+      "title": "Loops inside Loops",
+      "xp": 20,
+      "intro": [
+        "A loop can contain another loop. For every single round of the outer loop, the inner loop runs completely.",
+        "The inner loop must be closed first: its NEXT comes before the NEXT of the outer loop.",
+        "Tip: a semicolon at the end of PRINT keeps printing on the same line, and an empty PRINT starts a new line. That's how you build rows and tables."
+      ],
+      "example": {
+        "code": [
+          "10 FOR I = 1 TO 3",
+          "20 FOR J = 1 TO 3",
+          "30 PRINT I * J;",
+          "40 NEXT J",
+          "50 PRINT",
+          "60 NEXT I",
+          "70 END"
+        ],
+        "output": ["1 2 3", "2 4 6", "3 6 9"]
+      },
+      "exercises": [
+        {
+          "id": "u3-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "How many times does line 30 run?",
+          "code": ["10 FOR I = 1 TO 3", "20 FOR J = 1 TO 4", "30 PRINT I + J", "40 NEXT J", "50 NEXT I", "60 END"],
+          "options": ["12", "7", "4", "3"],
+          "answer": 0,
+          "explanation": "The inner loop runs 4 times for each of the 3 outer rounds: 3 × 4 = 12."
+        },
+        {
+          "id": "u3-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": ["10 FOR I = 1 TO 2", "20 FOR J = 1 TO 2", "30 PRINT I + J", "40 NEXT J", "50 NEXT I", "60 END"],
+          "options": ["2, 3, 3, 4", "2, 3, 4", "2, 4", "1, 2, 1, 2"],
+          "answer": 0,
+          "explanation": "I = 1 gives 1+1 and 1+2, then I = 2 gives 2+1 and 2+2: 2, 3, 3, 4."
+        },
+        {
+          "id": "u3-l3-e3",
+          "type": "find_bug",
+          "prompt": "The loops are closed in the wrong order. Which line should come later?",
+          "code": ["10 FOR I = 1 TO 3", "20 FOR J = 1 TO 3", "30 PRINT I * J", "40 NEXT I", "50 NEXT J", "60 END"],
+          "answer": 3,
+          "explanation": "The inner loop (J) has to be closed first. It should be NEXT J in line 40 and NEXT I in line 50."
+        },
+        {
+          "id": "u3-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Keep all numbers of a row on the same line.",
+          "code": ["30 PRINT I * J___"],
+          "options": [";", ",", ".", ":"],
+          "answer": ";",
+          "explanation": "A semicolon at the end keeps the cursor on the same line, so the next number continues the row."
+        },
+        {
+          "id": "u3-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What does the empty PRINT in line 50 do?",
+          "code": ["10 FOR I = 1 TO 3", "20 FOR J = 1 TO 3", "30 PRINT I * J;", "40 NEXT J", "50 PRINT", "60 NEXT I", "70 END"],
+          "options": ["It ends the row and starts a new line", "It prints a zero", "It stops the program", "Nothing"],
+          "answer": 0,
+          "explanation": "PRINT without anything just ends the current line. Without it, all numbers would end up in one long row."
+        },
+        {
+          "id": "u3-l3-e6",
+          "type": "order_lines",
+          "prompt": "Build a triangle of stars: one star, then two, then three.",
+          "lines": [
+            "10 FOR R = 1 TO 3",
+            "20 FOR S = 1 TO R",
+            "30 PRINT \"*\";",
+            "40 NEXT S",
+            "50 PRINT",
+            "60 NEXT R",
+            "70 END"
+          ],
+          "answer": [
+            "10 FOR R = 1 TO 3",
+            "20 FOR S = 1 TO R",
+            "30 PRINT \"*\";",
+            "40 NEXT S",
+            "50 PRINT",
+            "60 NEXT R",
+            "70 END"
+          ],
+          "explanation": "The inner loop runs up to R, so row 1 gets one star, row 2 two stars, and row 3 three stars."
+        }
+      ]
+    }
+  ]
+}

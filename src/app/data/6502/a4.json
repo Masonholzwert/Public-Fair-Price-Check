@@ -1,0 +1,363 @@
+{
+  "id": "a4",
+  "title": "Flags and Branches",
+  "lessons": [
+    {
+      "id": "a4-l1",
+      "title": "Flags",
+      "xp": 15,
+      "intro": [
+        "After almost every instruction, the 6502 sets a few one-bit flags that describe the result. You already know the carry (C). Two more matter all the time.",
+        "Z, the zero flag, is 1 when the result was exactly $00. N, the negative flag, is 1 when the result is $80 or more (its highest bit is set). Programmers use $80 to $FF as negative numbers.",
+        "LDA, LDX, LDY, INX, DEX, ADC, SBC and the transfers all set Z and N. STA, STX and STY never touch the flags. On the board, every flag has its own little LED."
+      ],
+      "example": {
+        "code": [
+          "LDX #1",
+          "DEX",
+          "BRK"
+        ],
+        "output": [
+          "X = $00   Z = 1   N = 0"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a4-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is the Z flag after LDA #0?",
+          "options": [
+            "1",
+            "0",
+            "It doesn't change",
+            "$FF"
+          ],
+          "answer": 0,
+          "explanation": "The result is $00, so the zero flag is set to 1."
+        },
+        {
+          "id": "a4-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What is the Z flag after this program?",
+          "code": [
+            "LDX #3",
+            "DEX",
+            "BRK"
+          ],
+          "options": [
+            "0",
+            "1",
+            "$02",
+            "It stays as before"
+          ],
+          "answer": 0,
+          "explanation": "DEX makes X 2, which isn't zero, so Z is 0."
+        },
+        {
+          "id": "a4-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "Which values set the N flag?",
+          "options": [
+            "$80 to $FF",
+            "$00 to $7F",
+            "Only $00",
+            "Only $FF"
+          ],
+          "answer": 0,
+          "explanation": "N copies the highest bit of the result. That bit is 1 for $80 and everything above."
+        },
+        {
+          "id": "a4-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What do N and Z show after LDA #$90?",
+          "options": [
+            "N = 1, Z = 0",
+            "N = 0, Z = 1",
+            "N = 1, Z = 1",
+            "N = 0, Z = 0"
+          ],
+          "answer": 0,
+          "explanation": "$90 is $80 or more, so N = 1. It isn't zero, so Z = 0."
+        },
+        {
+          "id": "a4-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Which instruction never changes the flags?",
+          "options": [
+            "STA",
+            "LDA",
+            "DEX",
+            "TAX"
+          ],
+          "answer": 0,
+          "explanation": "Storing doesn't create a new result, so STA, STX and STY leave all flags alone."
+        },
+        {
+          "id": "a4-l1-e6",
+          "type": "fill_blank",
+          "prompt": "Count X down to zero, so that the Z flag gets set.",
+          "code": [
+            "LDX #1",
+            "___",
+            "BRK"
+          ],
+          "options": [
+            "DEX",
+            "INX",
+            "STX",
+            "TXA"
+          ],
+          "answer": "DEX",
+          "explanation": "DEX turns 1 into 0 and sets Z. INX would make it 2."
+        }
+      ]
+    },
+    {
+      "id": "a4-l2",
+      "title": "Branches and Labels",
+      "xp": 15,
+      "intro": [
+        "Flags become useful when the program reacts to them. A branch jumps to another place in the program, but only if a flag is set a certain way.",
+        "BEQ (Branch if EQual) jumps when Z = 1, so when the last result was zero. BNE (Branch if Not Equal) jumps when Z = 0. If the branch doesn't jump, the program simply continues with the next line.",
+        "Where to? To a label: a name followed by a colon, like DONE: or ZERO:. The assembler works out the address for you."
+      ],
+      "example": {
+        "code": [
+          "LDA #0",
+          "BEQ ZERO",
+          "LDX #1",
+          "BRK",
+          "ZERO: LDX #2",
+          "BRK"
+        ],
+        "output": [
+          "X = $02 (BEQ jumped to ZERO)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a4-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "A is 5 now. What is X at the end?",
+          "code": [
+            "LDA #5",
+            "BEQ ZERO",
+            "LDX #1",
+            "BRK",
+            "ZERO: LDX #2",
+            "BRK"
+          ],
+          "options": [
+            "$01",
+            "$02",
+            "$00",
+            "$05"
+          ],
+          "answer": 0,
+          "explanation": "LDA #5 isn't zero, so Z = 0 and BEQ doesn't jump. LDX #1 runs, then BRK."
+        },
+        {
+          "id": "a4-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What is a label?",
+          "options": [
+            "A name for a place in the program",
+            "A comment",
+            "A register",
+            "A memory address you have to calculate yourself"
+          ],
+          "answer": 0,
+          "explanation": "Labels like LOOP: or DONE: name a line. Branches and jumps use the name, the assembler fills in the address."
+        },
+        {
+          "id": "a4-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Jump to SKIP when the result was not zero.",
+          "code": [
+            "LDA $0300",
+            "___ SKIP",
+            "LDX #1",
+            "SKIP: BRK"
+          ],
+          "options": [
+            "BNE",
+            "BEQ",
+            "JMP",
+            "BRK"
+          ],
+          "answer": "BNE",
+          "explanation": "BNE jumps when Z = 0, so when the value wasn't zero."
+        },
+        {
+          "id": "a4-l2-e4",
+          "type": "find_bug",
+          "prompt": "This program should store 1 at $0300 only when A is 0. But with A = 5 it still stores 1. Which line is wrong?",
+          "code": [
+            "LDA #5",
+            "BEQ SKIP",
+            "LDX #1",
+            "STX $0300",
+            "SKIP: BRK"
+          ],
+          "answer": 1,
+          "explanation": "We want to skip the store when A is not zero. That's BNE. BEQ skips it in exactly the wrong case."
+        },
+        {
+          "id": "a4-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What happens at a BNE when the Z flag is 1?",
+          "options": [
+            "Nothing, the program continues with the next line",
+            "It always jumps",
+            "The program stops",
+            "It jumps back to the start"
+          ],
+          "answer": 0,
+          "explanation": "A branch only jumps when its condition is true. BNE needs Z = 0."
+        },
+        {
+          "id": "a4-l2-e6",
+          "type": "order_lines",
+          "prompt": "Build a program that ends with X = 2.",
+          "lines": [
+            "LDA #0",
+            "BEQ TWO",
+            "LDX #1",
+            "BRK",
+            "TWO: LDX #2",
+            "BRK"
+          ],
+          "answer": [
+            "LDA #0",
+            "BEQ TWO",
+            "LDX #1",
+            "BRK",
+            "TWO: LDX #2",
+            "BRK"
+          ],
+          "explanation": "A is 0, so BEQ jumps over LDX #1 to the label TWO."
+        }
+      ]
+    },
+    {
+      "id": "a4-l3",
+      "title": "More Branches",
+      "xp": 15,
+      "intro": [
+        "JMP LABEL always jumps, no flag needed. Use it to skip over code or to go back to the start of something.",
+        "There are branches for the other flags too: BCS (Carry Set) and BCC (Carry Clear) check the carry, BMI (MInus) and BPL (PLus) check the N flag.",
+        "Branches can only jump about 127 bytes forward or backward, because they store the distance in one byte. If the assembler says BRANCH TOO FAR, use a JMP instead."
+      ],
+      "example": {
+        "code": [
+          "LDA #$C8",
+          "CLC",
+          "ADC #$64",
+          "BCS BIG",
+          "LDX #0",
+          "BRK",
+          "BIG: LDX #1",
+          "BRK"
+        ],
+        "output": [
+          "X = $01 (the sum didn't fit, so the carry was set)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a4-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Which instruction always jumps?",
+          "options": [
+            "JMP",
+            "BEQ",
+            "BNE",
+            "BCS"
+          ],
+          "answer": 0,
+          "explanation": "JMP doesn't look at any flag. The B… instructions only jump when their flag condition is true."
+        },
+        {
+          "id": "a4-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "When does BCS jump?",
+          "options": [
+            "When the carry is 1",
+            "When the carry is 0",
+            "When A is 0",
+            "Always"
+          ],
+          "answer": 0,
+          "explanation": "BCS = Branch if Carry Set."
+        },
+        {
+          "id": "a4-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What is X at the end?",
+          "code": [
+            "LDA #$F0",
+            "BMI NEG",
+            "LDX #1",
+            "BRK",
+            "NEG: LDX #2",
+            "BRK"
+          ],
+          "options": [
+            "$02",
+            "$01",
+            "$F0",
+            "$00"
+          ],
+          "answer": 0,
+          "explanation": "$F0 is $80 or more, so N = 1 and BMI jumps to NEG."
+        },
+        {
+          "id": "a4-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Jump to OK when the carry is clear.",
+          "code": [
+            "CLC",
+            "LDA #10",
+            "ADC #20",
+            "___ OK",
+            "LDX #1",
+            "OK: BRK"
+          ],
+          "options": [
+            "BCC",
+            "BCS",
+            "BEQ",
+            "BMI"
+          ],
+          "answer": "BCC",
+          "explanation": "BCC = Branch if Carry Clear. 10 + 20 fits in a byte, so the carry stays 0 and it jumps."
+        },
+        {
+          "id": "a4-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "The assembler says ?BRANCH TOO FAR. What do you do?",
+          "options": [
+            "Use JMP for the long jump",
+            "Use a shorter label name",
+            "Add a BRK",
+            "Use BEQ instead of BNE"
+          ],
+          "answer": 0,
+          "explanation": "Branches only reach about 127 bytes. JMP can reach any address."
+        },
+        {
+          "id": "a4-l3-e6",
+          "type": "find_bug",
+          "prompt": "This program never stops. Which line causes it?",
+          "code": [
+            "LOOP: LDX #1",
+            "JMP LOOP",
+            "BRK"
+          ],
+          "answer": 1,
+          "explanation": "JMP LOOP always jumps back, so the program never reaches BRK."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,438 @@
+{
+  "id": "c18",
+  "title": "Stacks and Queues",
+  "lessons": [
+    {
+      "id": "c18-l1",
+      "title": "Push and Pop",
+      "xp": 15,
+      "intro": [
+        "A stack is like a pile of plates: you put things on top (push) and take them off the top (pop). The last one in is the first one out.",
+        "With an array it takes three lines: int stack[100]; int top = 0;, push is stack[top++] = x;, and pop is stack[--top].",
+        "Stacks are everywhere: the PDP-11 kept function calls on a stack, and \"undo\" in an editor is a stack of changes."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "char stack[100];",
+          "int top = 0;",
+          "",
+          "void push(char c) {",
+          "    stack[top++] = c;",
+          "}",
+          "",
+          "char pop() {",
+          "    return stack[--top];",
+          "}",
+          "",
+          "int main() {",
+          "    char *word = \"unix\";",
+          "    int i;",
+          "    for (i = 0; word[i] != '\\0'; i++)",
+          "        push(word[i]);",
+          "    while (top > 0)",
+          "        putchar(pop());",
+          "    putchar('\\n');",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "xinu"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c18-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What comes out of a stack first?",
+          "options": [
+            "The last thing pushed",
+            "The first thing pushed",
+            "The smallest",
+            "A random one"
+          ],
+          "answer": 0,
+          "explanation": "Last in, first out: LIFO."
+        },
+        {
+          "id": "c18-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "In the example, why is \"unix\" printed as \"xinu\"?",
+          "options": [
+            "The stack gives the letters back in reverse order",
+            "putchar reverses",
+            "The loop counts down",
+            "It's a bug"
+          ],
+          "answer": 0,
+          "explanation": "x went in last, so it comes out first."
+        },
+        {
+          "id": "c18-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Push x onto the stack.",
+          "code": [
+            "    stack[top___] = x;"
+          ],
+          "options": [
+            "++",
+            "--",
+            "+ 1",
+            "* 2"
+          ],
+          "answer": "++",
+          "explanation": "Store at top, then move top up."
+        },
+        {
+          "id": "c18-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int s[10];",
+            "int top = 0;",
+            "",
+            "int main() {",
+            "    s[top++] = 1;",
+            "    s[top++] = 2;",
+            "    s[top++] = 3;",
+            "    int a = s[--top];",
+            "    int b = s[--top];",
+            "    printf(\"%d %d\\n\", a, b);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "3 2",
+            "1 2",
+            "2 3",
+            "3 1"
+          ],
+          "answer": 0,
+          "explanation": "Pushed 1, 2, 3; the first pop gets 3, the next 2."
+        },
+        {
+          "id": "c18-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What must pop check first?",
+          "options": [
+            "That the stack isn't empty (top > 0)",
+            "That top is even",
+            "Nothing",
+            "That the value is positive"
+          ],
+          "answer": 0,
+          "explanation": "Popping an empty stack is called stack underflow."
+        },
+        {
+          "id": "c18-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Which of these works like a stack?",
+          "options": [
+            "The undo button",
+            "A waiting line at a shop",
+            "An alphabetical phone book",
+            "A clock"
+          ],
+          "answer": 0,
+          "explanation": "Undo takes back the most recent change first."
+        }
+      ]
+    },
+    {
+      "id": "c18-l2",
+      "title": "First In, First Out",
+      "xp": 15,
+      "intro": [
+        "A queue is a waiting line: new things join at the back, and leave from the front. The first one in is the first one out.",
+        "With an array, keep two positions: head (where to take from) and tail (where to add). To reuse the space, both wrap around with % SIZE: a ring buffer.",
+        "Unix used queues everywhere: characters typed on a terminal waited in one, and so did files sent to the line printer."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "#define SIZE 4",
+          "int q[SIZE];",
+          "int head = 0, tail = 0, count = 0;",
+          "",
+          "void put(int x) {",
+          "    q[tail] = x;",
+          "    tail = (tail + 1) % SIZE;",
+          "    count++;",
+          "}",
+          "",
+          "int get() {",
+          "    int x = q[head];",
+          "    head = (head + 1) % SIZE;",
+          "    count--;",
+          "    return x;",
+          "}",
+          "",
+          "int main() {",
+          "    put(1);",
+          "    put(2);",
+          "    put(3);",
+          "    printf(\"%d\\n\", get());",
+          "    put(4);",
+          "    put(5);",
+          "    while (count > 0)",
+          "        printf(\"%d \", get());",
+          "    printf(\"\\n\");",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "1",
+          "2 3 4 5 "
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c18-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What comes out of a queue first?",
+          "options": [
+            "The first thing put in",
+            "The last thing put in",
+            "The biggest",
+            "The newest"
+          ],
+          "answer": 0,
+          "explanation": "First in, first out: FIFO."
+        },
+        {
+          "id": "c18-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Why does the example use % SIZE?",
+          "options": [
+            "So the positions wrap around and reuse the array",
+            "To make it faster",
+            "To sort the queue",
+            "To count the elements"
+          ],
+          "answer": 0,
+          "explanation": "After the last slot, the next one is slot 0 again."
+        },
+        {
+          "id": "c18-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Move tail forward, wrapping around.",
+          "code": [
+            "    tail = (tail + 1) ___ SIZE;"
+          ],
+          "options": [
+            "%",
+            "/",
+            "*",
+            "-"
+          ],
+          "answer": "%",
+          "explanation": "The remainder keeps it between 0 and SIZE - 1."
+        },
+        {
+          "id": "c18-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int q[8];",
+            "int head = 0, tail = 0;",
+            "",
+            "int main() {",
+            "    q[tail++] = 5;",
+            "    q[tail++] = 6;",
+            "    q[tail++] = 7;",
+            "    int a = q[head++];",
+            "    int b = q[head++];",
+            "    printf(\"%d %d\\n\", a, b);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "5 6",
+            "6 5",
+            "5 7",
+            "7 6"
+          ],
+          "answer": 0,
+          "explanation": "Queues keep the order: 5 went in first."
+        },
+        {
+          "id": "c18-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "Which of these is a queue?",
+          "options": [
+            "Jobs waiting for the printer",
+            "The undo history",
+            "A pile of plates",
+            "Nested brackets"
+          ],
+          "answer": 0,
+          "explanation": "The job sent first gets printed first."
+        },
+        {
+          "id": "c18-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What does the count variable protect against?",
+          "options": [
+            "Getting from an empty queue, or putting into a full one",
+            "Wrong order",
+            "Slow programs",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "Check count > 0 before get, and count < SIZE before put."
+        }
+      ]
+    },
+    {
+      "id": "c18-l3",
+      "title": "Built from Lists",
+      "xp": 15,
+      "intro": [
+        "An array stack has a fixed size. A linked list stack can grow as long as there's memory: push adds a node at the front, pop removes the front node and frees it.",
+        "struct node *top; is the whole stack. Empty means top == NULL.",
+        "This is the kind of structure inside a compiler: it uses a stack to match brackets and to work out 2 + 3 * 4."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "#include <stdlib.h>",
+          "",
+          "struct node {",
+          "    int value;",
+          "    struct node *next;",
+          "};",
+          "",
+          "struct node *top = NULL;",
+          "",
+          "void push(int v) {",
+          "    struct node *n = malloc(sizeof(struct node));",
+          "    n->value = v;",
+          "    n->next = top;",
+          "    top = n;",
+          "}",
+          "",
+          "int pop() {",
+          "    struct node *n = top;",
+          "    int v = n->value;",
+          "    top = n->next;",
+          "    free(n);",
+          "    return v;",
+          "}",
+          "",
+          "int main() {",
+          "    int i;",
+          "    for (i = 1; i <= 5; i++)",
+          "        push(i * 100);",
+          "    while (top != NULL)",
+          "        printf(\"%d \", pop());",
+          "    printf(\"\\n\");",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "500 400 300 200 100 "
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c18-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "When is a list stack empty?",
+          "options": [
+            "When top is NULL",
+            "When top->value is 0",
+            "After 100 pushes",
+            "Never"
+          ],
+          "answer": 0,
+          "explanation": "No nodes left means no top."
+        },
+        {
+          "id": "c18-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "Why does pop save the value before calling free?",
+          "options": [
+            "After free, the node can't be read anymore",
+            "free changes the value",
+            "To make it faster",
+            "It doesn't need to"
+          ],
+          "answer": 0,
+          "explanation": "Read first, free after."
+        },
+        {
+          "id": "c18-l3-e3",
+          "type": "order_lines",
+          "prompt": "Put the lines of pop in the right order.",
+          "lines": [
+            "struct node *n = top;",
+            "int v = n->value;",
+            "top = n->next;",
+            "free(n);",
+            "return v;"
+          ],
+          "answer": [
+            "struct node *n = top;",
+            "int v = n->value;",
+            "top = n->next;",
+            "free(n);",
+            "return v;"
+          ],
+          "explanation": "Remember the node, take its value, move top, free, return."
+        },
+        {
+          "id": "c18-l3-e4",
+          "type": "fill_blank",
+          "prompt": "A new node goes on top of the old top.",
+          "code": [
+            "    n->next = ___;",
+            "    top = n;"
+          ],
+          "options": [
+            "top",
+            "NULL",
+            "n",
+            "next"
+          ],
+          "answer": "top",
+          "explanation": "The new node points to the old top."
+        },
+        {
+          "id": "c18-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What is the advantage over the array stack?",
+          "options": [
+            "It has no fixed size limit",
+            "It's simpler",
+            "It doesn't use pointers",
+            "It doesn't need free"
+          ],
+          "answer": 0,
+          "explanation": "It grows one node at a time."
+        },
+        {
+          "id": "c18-l3-e6",
+          "type": "find_bug",
+          "prompt": "This pop crashes on an empty stack. Which line needs a check before it?",
+          "code": [
+            "int pop() {",
+            "    struct node *n = top;",
+            "    int v = n->value;",
+            "    top = n->next;",
+            "    free(n);",
+            "    return v;",
+            "}"
+          ],
+          "answer": 2,
+          "explanation": "If top is NULL, n->value crashes. Check if (top == NULL) first."
+        }
+      ]
+    }
+  ]
+}

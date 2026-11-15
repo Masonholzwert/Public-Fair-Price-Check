@@ -1,0 +1,308 @@
+{
+  "chapters": [
+    {
+      "id": "pc1",
+      "title": "Hello, Pascal",
+      "subtitle": "Your first programs in Turbo Pascal.",
+      "units": [
+        {
+          "id": "p1",
+          "title": "The First Program",
+          "learn": [
+            "program, begin and end.",
+            "write and writeln",
+            "Semicolons and comments"
+          ],
+          "goal": "Print a 1983 splash screen."
+        },
+        {
+          "id": "p2",
+          "title": "Variables and Types",
+          "learn": [
+            "var and :=",
+            "div, mod and real",
+            "char, boolean and string"
+          ],
+          "goal": "Add up a computer store bill."
+        },
+        {
+          "id": "p3",
+          "title": "Input and Formatting",
+          "learn": [
+            "readln",
+            "Width and decimals",
+            "Constants"
+          ],
+          "goal": "Convert inches to centimeters."
+        }
+      ],
+      "project": {
+        "id": "pc1-project",
+        "title": "The Report Card",
+        "xp": 100
+      }
+    },
+    {
+      "id": "pc2",
+      "title": "Decisions and Loops",
+      "subtitle": "Structured programming, the way Wirth meant it.",
+      "units": [
+        {
+          "id": "p4",
+          "title": "if, then, else",
+          "learn": [
+            "if … then … else",
+            "begin … end blocks",
+            "and, or, not"
+          ],
+          "goal": "A museum ticket machine."
+        },
+        {
+          "id": "p5",
+          "title": "for Loops",
+          "learn": [
+            "for … to … do",
+            "downto",
+            "Loops in loops"
+          ],
+          "goal": "Print a times table."
+        },
+        {
+          "id": "p6",
+          "title": "while, repeat and case",
+          "learn": [
+            "while … do",
+            "repeat … until",
+            "case … of"
+          ],
+          "goal": "Guess the number."
+        }
+      ],
+      "project": {
+        "id": "pc2-project",
+        "title": "The Prime Hunter",
+        "xp": 100
+      }
+    },
+    {
+      "id": "pc3",
+      "title": "Procedures and Functions",
+      "subtitle": "Split big programs into small, named pieces.",
+      "units": [
+        {
+          "id": "p7",
+          "title": "Procedures",
+          "learn": [
+            "Your own procedure",
+            "Parameters",
+            "Local variables"
+          ],
+          "goal": "Draw boxes of any size."
+        },
+        {
+          "id": "p8",
+          "title": "Functions and var",
+          "learn": [
+            "Functions return a value",
+            "var parameters",
+            "Boolean functions and scope"
+          ],
+          "goal": "Swap and sort three numbers."
+        },
+        {
+          "id": "p9",
+          "title": "Recursion",
+          "learn": [
+            "A routine that calls itself",
+            "Factorials and powers",
+            "Nested routines and forward"
+          ],
+          "goal": "Solve the Towers of Hanoi."
+        }
+      ],
+      "project": {
+        "id": "pc3-project",
+        "title": "The Change Machine",
+        "xp": 100
+      }
+    },
+    {
+      "id": "pc4",
+      "title": "Arrays and Strings",
+      "subtitle": "Many values under one name.",
+      "units": [
+        {
+          "id": "p10",
+          "title": "Arrays",
+          "learn": [
+            "array[1..n] of",
+            "Loops over arrays",
+            "Two dimensions"
+          ],
+          "goal": "Find the best score."
+        },
+        {
+          "id": "p11",
+          "title": "Strings",
+          "learn": [
+            "s[i] and length",
+            "copy, pos and delete",
+            "upcase, ord and chr"
+          ],
+          "goal": "Write a secret code."
+        },
+        {
+          "id": "p12",
+          "title": "Sorting and Searching",
+          "learn": [
+            "Bubble sort",
+            "Linear search",
+            "Binary search"
+          ],
+          "goal": "Sort a high score table."
+        }
+      ],
+      "project": {
+        "id": "pc4-project",
+        "title": "Letter Statistics",
+        "xp": 100
+      }
+    },
+    {
+      "id": "pc5",
+      "title": "Your Own Types",
+      "subtitle": "The feature that made Pascal special.",
+      "units": [
+        {
+          "id": "p13",
+          "title": "Enumerations and Ranges",
+          "learn": [
+            "(red, yellow, green)",
+            "ord, succ and pred",
+            "Subranges like 1..12"
+          ],
+          "goal": "A traffic light."
+        },
+        {
+          "id": "p14",
+          "title": "Records",
+          "learn": [
+            "record … end",
+            "Arrays of records",
+            "with"
+          ],
+          "goal": "A video store catalog."
+        },
+        {
+          "id": "p15",
+          "title": "Sets",
+          "learn": [
+            "set of char and in",
+            "+, * and -",
+            "Checking input"
+          ],
+          "goal": "Find the vowels."
+        }
+      ],
+      "project": {
+        "id": "pc5-project",
+        "title": "The Software Shop",
+        "xp": 100
+      }
+    },
+    {
+      "id": "pc6",
+      "title": "Pointers and Files",
+      "subtitle": "Memory and disks on the IBM PC.",
+      "units": [
+        {
+          "id": "p16",
+          "title": "Pointers",
+          "learn": [
+            "^ and new",
+            "nil and dispose",
+            "Pointers to records"
+          ],
+          "goal": "Link three nodes by hand."
+        },
+        {
+          "id": "p17",
+          "title": "Linked Lists",
+          "learn": [
+            "Walk a list",
+            "Insert and remove",
+            "Stacks"
+          ],
+          "goal": "A to-do list."
+        },
+        {
+          "id": "p18",
+          "title": "Text Files",
+          "learn": [
+            "assign and rewrite",
+            "reset and readln",
+            "eof and append"
+          ],
+          "goal": "Save a high score table."
+        }
+      ],
+      "project": {
+        "id": "pc6-project",
+        "title": "The Address Book",
+        "xp": 100
+      }
+    },
+    {
+      "id": "pc7",
+      "title": "Turbo Pascal in Practice",
+      "subtitle": "Units, databases, trees and the screen.",
+      "units": [
+        {
+          "id": "p19",
+          "title": "Units",
+          "learn": [
+            "A unit of your own",
+            "Interface and implementation",
+            "Starting up a unit"
+          ],
+          "goal": "A money unit for a shop."
+        },
+        {
+          "id": "p20",
+          "title": "Typed Files",
+          "learn": [
+            "file of",
+            "seek and filesize",
+            "A small database"
+          ],
+          "goal": "Update a high score file."
+        },
+        {
+          "id": "p21",
+          "title": "Binary Trees",
+          "learn": [
+            "Tree nodes",
+            "Searching a tree",
+            "Disposing a tree"
+          ],
+          "goal": "Count words in a tree."
+        },
+        {
+          "id": "p22",
+          "title": "The Screen",
+          "learn": [
+            "clrscr and gotoxy",
+            "Drawing boxes",
+            "A menu with readkey"
+          ],
+          "goal": "Draw a title screen."
+        }
+      ],
+      "project": {
+        "id": "pc7-project",
+        "title": "The Record Shop",
+        "xp": 100
+      }
+    }
+  ]
+}

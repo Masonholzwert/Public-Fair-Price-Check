@@ -1,0 +1,256 @@
+{
+  "chapters": [
+    {
+      "id": "fc1",
+      "title": "The Card Deck",
+      "subtitle": "Columns, variables and your first printout.",
+      "units": [
+        {
+          "id": "f1",
+          "title": "Cards and Columns",
+          "learn": [
+            "Punch a program onto cards",
+            "Follow the columns rule",
+            "End a deck with STOP and END"
+          ],
+          "goal": "Punch your first deck."
+        },
+        {
+          "id": "f2",
+          "title": "Numbers and Names",
+          "learn": [
+            "The I–N rule: INTEGER or REAL",
+            "Avoid the integer division trap",
+            "Write formulas with ** and brackets"
+          ],
+          "goal": "Compute an average correctly."
+        },
+        {
+          "id": "f3",
+          "title": "WRITE and FORMAT",
+          "learn": [
+            "Print integers with I",
+            "Print reals with F",
+            "Add text, spaces and new lines"
+          ],
+          "goal": "Print a neat price list."
+        }
+      ],
+      "project": {
+        "id": "fc1-project",
+        "title": "The Circle Calculator",
+        "xp": 100
+      }
+    },
+    {
+      "id": "fc2",
+      "title": "GO TO, IF and DO",
+      "subtitle": "Jumps, decisions and loops.",
+      "units": [
+        {
+          "id": "f4",
+          "title": "Jumps and the Three-Way IF",
+          "learn": [
+            "Jump with GO TO",
+            "Branch on negative, zero or positive",
+            "Build a counting loop by hand"
+          ],
+          "goal": "Count without a DO loop."
+        },
+        {
+          "id": "f5",
+          "title": "Logical IF",
+          "learn": [
+            "Compare with .GT., .EQ. and friends",
+            "Combine with .AND. and .OR.",
+            "Run one statement on a condition"
+          ],
+          "goal": "Grade test scores."
+        },
+        {
+          "id": "f6",
+          "title": "DO Loops",
+          "learn": [
+            "Repeat with DO and CONTINUE",
+            "Count in steps",
+            "Put loops inside loops"
+          ],
+          "goal": "Print a times table."
+        }
+      ],
+      "project": {
+        "id": "fc2-project",
+        "title": "The Prime Finder",
+        "xp": 100
+      }
+    },
+    {
+      "id": "fc3",
+      "title": "Arrays & Data Cards",
+      "subtitle": "Lists of numbers and reading data.",
+      "units": [
+        {
+          "id": "f7",
+          "title": "Arrays",
+          "learn": [
+            "Create arrays with DIMENSION",
+            "Use them in DO loops",
+            "Work with tables (2D arrays)"
+          ],
+          "goal": "Find the highest value."
+        },
+        {
+          "id": "f8",
+          "title": "Reading Data Cards",
+          "learn": [
+            "READ from the card reader",
+            "Read with formats",
+            "Stop at a sentinel value"
+          ],
+          "goal": "Process a stack of data cards."
+        },
+        {
+          "id": "f9",
+          "title": "Formats in Depth",
+          "learn": [
+            "E format for big and small numbers",
+            "Repeat counts and groups",
+            "Print whole tables"
+          ],
+          "goal": "Print a report."
+        }
+      ],
+      "project": {
+        "id": "fc3-project",
+        "title": "The Weather Station",
+        "xp": 100
+      }
+    },
+    {
+      "id": "fc4",
+      "title": "Subprograms",
+      "subtitle": "Functions, subroutines and shared data.",
+      "units": [
+        {
+          "id": "f10",
+          "title": "Functions",
+          "learn": [
+            "One-line statement functions",
+            "FUNCTION subprograms",
+            "The built-in library"
+          ],
+          "goal": "Write your own function."
+        },
+        {
+          "id": "f11",
+          "title": "Subroutines",
+          "learn": [
+            "SUBROUTINE and CALL",
+            "Passing arrays",
+            "Arguments go both ways"
+          ],
+          "goal": "Sort an array in a subroutine."
+        },
+        {
+          "id": "f12",
+          "title": "COMMON and DATA",
+          "learn": [
+            "Share variables with COMMON",
+            "Start values with DATA",
+            "Organize a bigger program"
+          ],
+          "goal": "Build a small library."
+        }
+      ],
+      "project": {
+        "id": "fc4-project",
+        "title": "The Statistics Library",
+        "xp": 100
+      }
+    },
+    {
+      "id": "fc5",
+      "title": "Computing Science",
+      "subtitle": "What FORTRAN was made for.",
+      "units": [
+        {
+          "id": "f13",
+          "title": "Newton's Square Root",
+          "learn": [
+            "Approximate step by step",
+            "Stop when it's close enough",
+            "Compare with SQRT"
+          ],
+          "goal": "Find square roots like it's 1957."
+        },
+        {
+          "id": "f14",
+          "title": "Trajectories",
+          "learn": [
+            "Simulate motion in small steps",
+            "Sine and cosine for angles",
+            "Print a flight table"
+          ],
+          "goal": "Fire a cannonball."
+        },
+        {
+          "id": "f15",
+          "title": "Area Under a Curve",
+          "learn": [
+            "Integrate with rectangles",
+            "Use the trapezoid rule",
+            "Measure the error"
+          ],
+          "goal": "Compute pi from a circle."
+        }
+      ],
+      "project": {
+        "id": "fc5-project",
+        "title": "Computing Pi",
+        "xp": 100
+      }
+    },
+    {
+      "id": "fc6",
+      "title": "Beyond Numbers",
+      "subtitle": "Logic, precision and text in FORTRAN IV.",
+      "units": [
+        {
+          "id": "f16",
+          "title": "True and False",
+          "learn": [
+            "LOGICAL variables",
+            "LOGICAL FUNCTION",
+            "Computed GO TO"
+          ],
+          "goal": "A leap year function."
+        },
+        {
+          "id": "f17",
+          "title": "More Digits",
+          "learn": [
+            "How exact is REAL?",
+            "DOUBLE PRECISION",
+            "COMPLEX numbers"
+          ],
+          "goal": "Find complex roots."
+        },
+        {
+          "id": "f18",
+          "title": "Text on Cards",
+          "learn": [
+            "Text in variables",
+            "Reading text cards",
+            "Comparing text"
+          ],
+          "goal": "Count the vowels on a card."
+        }
+      ],
+      "project": {
+        "id": "fc6-project",
+        "title": "The Equation Desk",
+        "xp": 100
+      }
+    }
+  ]
+}

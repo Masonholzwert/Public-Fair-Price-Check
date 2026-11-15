@@ -1,0 +1,354 @@
+{
+  "id": "al7",
+  "title": "Jumps",
+  "lessons": [
+    {
+      "id": "al7-l1",
+      "title": "JMP",
+      "xp": 15,
+      "intro": [
+        "Normally the 8080 runs one byte after the other. JMP (303) with an address makes it continue somewhere else.",
+        "A jump forward skips code. A jump backward repeats code.",
+        "The address works like with LDA: low byte, then high byte."
+      ],
+      "example": {
+        "code": [
+          "076   ; 000: MVI A",
+          "001   ;      1",
+          "303   ; 002: JMP show",
+          "007   ;      address 007 (low byte)",
+          "000   ;      (high byte)",
+          "076   ; 005: MVI A",
+          "143   ;      99",
+          "323   ; 007: OUT 377   ← show",
+          "377   ;      port 377",
+          "166   ; 011: HLT"
+        ],
+        "output": [
+          "LEDS ○○○○○○○● = 1"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al7-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does JMP do?",
+          "options": [
+            "Continues the program at another address",
+            "Stops the program",
+            "Shows A",
+            "Loads a byte"
+          ],
+          "answer": 0,
+          "explanation": "JuMP."
+        },
+        {
+          "id": "al7-l1-e2",
+          "type": "switches",
+          "prompt": "Set the switches to JMP (3 0 3).",
+          "answer": 195,
+          "explanation": "11 000 011."
+        },
+        {
+          "id": "al7-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "In the example, why don't the lights show 99?",
+          "options": [
+            "JMP skips over MVI A 99",
+            "99 is too big",
+            "OUT shows B",
+            "HLT comes first"
+          ],
+          "answer": 0,
+          "explanation": "The jump goes straight to OUT."
+        },
+        {
+          "id": "al7-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "076   ; 000: MVI A",
+            "005   ;      5",
+            "303   ; 002: JMP out",
+            "007   ;      address 007 (low byte)",
+            "000   ;      (high byte)",
+            "306   ; 005: ADI",
+            "006   ;      6",
+            "323   ; 007: OUT 377   ← out",
+            "377   ;      port 377",
+            "166   ; 011: HLT"
+          ],
+          "options": [
+            "5",
+            "6",
+            "11",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "The jump skips ADI 6."
+        },
+        {
+          "id": "al7-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "JMP 007 is in the program as 303, 007, …?",
+          "options": [
+            "000",
+            "007",
+            "303",
+            "377"
+          ],
+          "answer": 0,
+          "explanation": "The high byte of address 007 is 000."
+        },
+        {
+          "id": "al7-l1-e6",
+          "type": "fill_blank",
+          "prompt": "Jump to address 012.",
+          "code": [
+            "303   ; JMP",
+            "___   ; low byte",
+            "000   ; high byte"
+          ],
+          "options": [
+            "012",
+            "000",
+            "303",
+            "120"
+          ],
+          "answer": "012",
+          "explanation": "The low byte is the address."
+        }
+      ]
+    },
+    {
+      "id": "al7-l2",
+      "title": "Counting Addresses",
+      "xp": 15,
+      "intro": [
+        "To jump, you must know the address of the target. Count the bytes: 1-byte instructions (MOV, ADD, HLT), 2-byte ones (MVI, ADI, OUT), 3-byte ones (JMP, LDA, STA, LXI).",
+        "If you insert a byte, every address after it moves, and every jump to it must change. That's why programmers kept careful listings with the address of each byte.",
+        "The comments in these lessons show the address (in octal) at the start of each instruction."
+      ],
+      "example": {
+        "code": [
+          "006   ; 000: MVI B",
+          "002   ;      2",
+          "076   ; 002: MVI A",
+          "050   ;      40",
+          "303   ; 004: JMP end",
+          "010   ;      address 010 (low byte)",
+          "000   ;      (high byte)",
+          "200   ; 007: ADD B",
+          "200   ; 010: ADD B   ← end",
+          "323   ; 011: OUT 377",
+          "377   ;      port 377",
+          "166   ; 013: HLT"
+        ],
+        "output": [
+          "LEDS ○○●○●○●○ = 42"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al7-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "How many bytes does MVI A take?",
+          "options": [
+            "2",
+            "1",
+            "3",
+            "4"
+          ],
+          "answer": 0,
+          "explanation": "The opcode and the value."
+        },
+        {
+          "id": "al7-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "How many bytes does JMP take?",
+          "options": [
+            "3",
+            "2",
+            "1",
+            "4"
+          ],
+          "answer": 0,
+          "explanation": "The opcode and a two-byte address."
+        },
+        {
+          "id": "al7-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "A program is MVI A (2 bytes), ADI (2 bytes), then JMP. At which address is JMP?",
+          "options": [
+            "004",
+            "002",
+            "003",
+            "005"
+          ],
+          "answer": 0,
+          "explanation": "2 + 2 = 4 bytes before it: addresses 000 to 003."
+        },
+        {
+          "id": "al7-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "006   ; 000: MVI B",
+            "002   ;      2",
+            "076   ; 002: MVI A",
+            "050   ;      40",
+            "303   ; 004: JMP end",
+            "010   ;      address 010 (low byte)",
+            "000   ;      (high byte)",
+            "200   ; 007: ADD B",
+            "200   ; 010: ADD B   ← end",
+            "323   ; 011: OUT 377",
+            "377   ;      port 377",
+            "166   ; 013: HLT"
+          ],
+          "options": [
+            "42",
+            "44",
+            "40",
+            "2"
+          ],
+          "answer": 0,
+          "explanation": "The jump skips the first ADD B, so only one is done: 40 + 2."
+        },
+        {
+          "id": "al7-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "Why did old listings show the address of every byte?",
+          "options": [
+            "To work out the jump targets",
+            "To make them longer",
+            "The Altair printed them",
+            "No reason"
+          ],
+          "answer": 0,
+          "explanation": "Jumps use exact addresses."
+        },
+        {
+          "id": "al7-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "You insert one extra byte before a jump target. What must you do?",
+          "options": [
+            "Add 1 to the target address in every jump to it",
+            "Nothing",
+            "Remove HLT",
+            "Start again at 000"
+          ],
+          "answer": 0,
+          "explanation": "Everything behind the new byte moved by one."
+        }
+      ]
+    },
+    {
+      "id": "al7-l3",
+      "title": "Endless Loops",
+      "xp": 15,
+      "intro": [
+        "A jump back to an earlier address repeats that part forever. On the real Altair, that's how a program keeps running, like a clock or a light show.",
+        "In this app, a program must end with HLT. One that never stops is halted after a while: \"The program never reached HLT\".",
+        "The next units show how to leave a loop: with a decision."
+      ],
+      "example": {
+        "code": [
+          "076   ; 000: MVI A",
+          "001   ;      1",
+          "323   ; 002: OUT 377",
+          "377   ;      port 377",
+          "207   ; 004: ADD A",
+          "323   ; 005: OUT 377",
+          "377   ;      port 377",
+          "207   ; 007: ADD A",
+          "323   ; 010: OUT 377",
+          "377   ;      port 377",
+          "166   ; 012: HLT"
+        ],
+        "output": [
+          "LEDS ○○○○○○○● = 1",
+          "LEDS ○○○○○○●○ = 2",
+          "LEDS ○○○○○●○○ = 4"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al7-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does a JMP back to an earlier address do?",
+          "options": [
+            "Repeats that part of the program",
+            "Stops the program",
+            "Skips code",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "Backwards means: again."
+        },
+        {
+          "id": "al7-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What happens to a program that never reaches HLT in this app?",
+          "options": [
+            "It's stopped with \"The program never reached HLT\"",
+            "It runs forever",
+            "The phone crashes",
+            "It reaches HLT anyway"
+          ],
+          "answer": 0,
+          "explanation": "There's a limit on the number of steps."
+        },
+        {
+          "id": "al7-l3-e3",
+          "type": "find_bug",
+          "prompt": "This program never stops. Which byte makes it loop forever?",
+          "code": [
+            "076   ; 000: MVI A",
+            "001   ;      1",
+            "074   ; 002: INR A   ← again",
+            "303   ; 003: JMP again",
+            "002   ;      address 002",
+            "000   ;      (high byte)",
+            "166   ; 006: HLT"
+          ],
+          "answer": 3,
+          "explanation": "JMP 002 always goes back, so HLT is never reached."
+        },
+        {
+          "id": "al7-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "How do you leave a loop?",
+          "options": [
+            "With a conditional jump that sometimes doesn't jump",
+            "With JMP",
+            "With OUT",
+            "You can't"
+          ],
+          "answer": 0,
+          "explanation": "Next unit: JZ, JNZ, JC and JNC."
+        },
+        {
+          "id": "al7-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Where were endless loops normal?",
+          "options": [
+            "In programs that run all the time, like a clock or a game",
+            "Nowhere",
+            "Only in BASIC",
+            "Only on the PDP-11"
+          ],
+          "answer": 0,
+          "explanation": "On a real Altair, the operator stopped them with the STOP switch."
+        },
+        {
+          "id": "al7-l3-e6",
+          "type": "switches",
+          "prompt": "Set the switches to INR A.",
+          "answer": 60,
+          "explanation": "00 111 100."
+        }
+      ]
+    }
+  ]
+}

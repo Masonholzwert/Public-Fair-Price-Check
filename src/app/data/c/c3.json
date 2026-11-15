@@ -1,0 +1,363 @@
+{
+  "id": "c3",
+  "title": "printf in Detail",
+  "lessons": [
+    {
+      "id": "c3-l1",
+      "title": "Decimals",
+      "xp": 15,
+      "intro": [
+        "%f prints a double with six decimals: 3.500000. Usually that's too many. %.2f prints two decimals, %.1f one, %.0f none. The value is rounded, not cut off.",
+        "Several placeholders can go into one printf. The values follow in the same order, separated by commas.",
+        "Mixing them up is a classic bug: %d with a double, or %f with an int, prints nonsense."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    double price = 2.499;",
+          "    int count = 3;",
+          "    printf(\"%d items at %.2f\\n\", count, price);",
+          "    printf(\"total %.2f\\n\", count * price);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "3 items at 2.50",
+          "total 7.50"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c3-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does printf(\"%.1f\", 2.26) print?",
+          "options": [
+            "2.3",
+            "2.26",
+            "2.2",
+            "2.260000"
+          ],
+          "answer": 0,
+          "explanation": "%.1f rounds to one decimal place."
+        },
+        {
+          "id": "c3-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does printf(\"%f\", 1.5) print?",
+          "options": [
+            "1.500000",
+            "1.5",
+            "1",
+            "1.50"
+          ],
+          "answer": 0,
+          "explanation": "Without a precision, %f always shows six decimals."
+        },
+        {
+          "id": "c3-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Print the price with two decimals.",
+          "code": [
+            "    printf(\"___\\n\", price);"
+          ],
+          "options": [
+            "%.2f",
+            "%2f",
+            "%d.2",
+            "%f2"
+          ],
+          "answer": "%.2f",
+          "explanation": "The dot and the 2 go between % and f."
+        },
+        {
+          "id": "c3-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int a = 3;",
+            "    double b = 2.5;",
+            "    printf(\"%d and %.1f\\n\", a, b);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "3 and 2.5",
+            "2.5 and 3",
+            "3 and 2",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "The values fill the placeholders in order: first the int, then the double."
+        },
+        {
+          "id": "c3-l1-e5",
+          "type": "find_bug",
+          "prompt": "This prints nonsense instead of 7.50. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    double cost = 7.5;",
+            "    printf(\"%d\\n\", cost);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 4,
+          "explanation": "cost is a double, so it needs %f or %.2f, not %d."
+        },
+        {
+          "id": "c3-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "How many values does printf(\"%d + %d = %d\\n\", ...) need after the text?",
+          "options": [
+            "3",
+            "1",
+            "2",
+            "4"
+          ],
+          "answer": 0,
+          "explanation": "One value per placeholder."
+        }
+      ]
+    },
+    {
+      "id": "c3-l2",
+      "title": "Width and Alignment",
+      "xp": 15,
+      "intro": [
+        "A number between % and the letter sets the width: %5d prints at least 5 characters, right-aligned. %8.2f prints 8 characters with two decimals. Perfect for columns.",
+        "A minus makes it left-aligned: %-10s. %s prints a string. A 0 pads with zeros: %03d prints 7 as 007.",
+        "\\t jumps to the next tab stop, another way to line things up."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    printf(\"%-8s%6s\\n\", \"ITEM\", \"PRICE\");",
+          "    printf(\"%-8s%6.2f\\n\", \"tea\", 1.8);",
+          "    printf(\"%-8s%6.2f\\n\", \"cake\", 12.5);",
+          "    printf(\"ticket %03d\\n\", 7);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "ITEM     PRICE",
+          "tea       1.80",
+          "cake     12.50",
+          "ticket 007"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c3-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does printf(\"[%4d]\", 42) print?",
+          "options": [
+            "[  42]",
+            "[42  ]",
+            "[0042]",
+            "[42]"
+          ],
+          "answer": 0,
+          "explanation": "Width 4, right-aligned: two spaces, then 42."
+        },
+        {
+          "id": "c3-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does printf(\"[%-4d]\", 42) print?",
+          "options": [
+            "[42  ]",
+            "[  42]",
+            "[-42]",
+            "[0042]"
+          ],
+          "answer": 0,
+          "explanation": "The minus aligns it to the left."
+        },
+        {
+          "id": "c3-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What does printf(\"%03d\", 5) print?",
+          "options": [
+            "005",
+            "  5",
+            "5",
+            "500"
+          ],
+          "answer": 0,
+          "explanation": "Width 3, padded with zeros."
+        },
+        {
+          "id": "c3-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Print a name left-aligned in 10 columns.",
+          "code": [
+            "    printf(\"___|\\n\", \"ada\");"
+          ],
+          "options": [
+            "%-10s",
+            "%10s",
+            "%s10",
+            "%-10d"
+          ],
+          "answer": "%-10s",
+          "explanation": "%s for a string, the minus for left, 10 for the width."
+        },
+        {
+          "id": "c3-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "Which format prints 3.14159 as \"   3.14\"?",
+          "options": [
+            "%7.2f",
+            "%2.7f",
+            "%.2f",
+            "%7f"
+          ],
+          "answer": 0,
+          "explanation": "7 characters wide, 2 decimals."
+        },
+        {
+          "id": "c3-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Why line up numbers in columns?",
+          "options": [
+            "Tables are much easier to read",
+            "It's required by C",
+            "It makes the program faster",
+            "It saves memory"
+          ],
+          "answer": 0,
+          "explanation": "Reports from the PDP-11 were read on paper. Neat columns mattered."
+        }
+      ]
+    },
+    {
+      "id": "c3-l3",
+      "title": "Escape Sequences",
+      "xp": 15,
+      "intro": [
+        "Some characters can't be typed into a string directly. A backslash starts an escape sequence: \\n new line, \\t tab, \\\" a quote, \\\\ a backslash.",
+        "To print a percent sign with printf, write %%, because a single % starts a placeholder.",
+        "\\a rang the terminal's bell. On a real teletype, a little bell inside the machine really went ding."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    printf(\"She said \\\"hi\\\"\\n\");",
+          "    printf(\"100%% done\\n\");",
+          "    printf(\"a\\tb\\tc\\n\");",
+          "    printf(\"C:\\\\unix\\n\");",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "She said \"hi\"",
+          "100% done",
+          "a\tb\tc",
+          "C:\\unix"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c3-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "How do you print a double quote inside a string?",
+          "options": [
+            "\\\"",
+            "\"\"",
+            "'\"'",
+            "%\""
+          ],
+          "answer": 0,
+          "explanation": "The backslash tells C the quote is part of the text, not its end."
+        },
+        {
+          "id": "c3-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "How do you print a % sign with printf?",
+          "options": [
+            "%%",
+            "\\%",
+            "%",
+            "%p"
+          ],
+          "answer": 0,
+          "explanation": "A single % starts a placeholder, so printf needs two."
+        },
+        {
+          "id": "c3-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Print a tab between the words.",
+          "code": [
+            "    printf(\"A___B\\n\");"
+          ],
+          "options": [
+            "\\t",
+            "\\n",
+            "\\b",
+            "tab"
+          ],
+          "answer": "\\t",
+          "explanation": "\\t is the tab character."
+        },
+        {
+          "id": "c3-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    printf(\"50%% off\\n\");",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "50% off",
+            "50%% off",
+            "50 off",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "%% becomes a single %."
+        },
+        {
+          "id": "c3-l3-e5",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    printf(\"say \"cheese\"\\n\");",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 3,
+          "explanation": "The quote before cheese ends the string. Write \\\"cheese\\\" instead."
+        },
+        {
+          "id": "c3-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What did \\a do on an old terminal?",
+          "options": [
+            "Rang the bell",
+            "Printed an a",
+            "Started a new page",
+            "Erased a line"
+          ],
+          "answer": 0,
+          "explanation": "a stands for alert. Terminals had a real bell, later a beep."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,395 @@
+{
+  "id": "cb4",
+  "title": "Decimals and Signs",
+  "lessons": [
+    {
+      "id": "cb4-l1",
+      "title": "V: The Invisible Point",
+      "xp": 15,
+      "intro": [
+        "Money has cents. PIC 9(3)V99 holds 3 digits before the decimal point and 2 after it: up to 999.99. The V marks where the point is.",
+        "But the point itself is never stored: V is invisible. The field holds just the 5 digits, so DISPLAY shows 01250 for 12.50. On punched cards and tapes, every character saved cost money.",
+        "To print a real point, COBOL has edited pictures, in the next unit. For calculating, V is what you use."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. PRICES.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 PRICE     PIC 9(3)V99 VALUE 12.50.",
+          "       PROCEDURE DIVISION.",
+          "           ADD 0.75 TO PRICE.",
+          "           DISPLAY \"PRICE: \" PRICE.",
+          "           MOVE 2.999 TO PRICE.",
+          "           DISPLAY \"PRICE: \" PRICE.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "PRICE: 01325",
+          "PRICE: 00299"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb4-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. V.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 X PIC 9(2)V9 VALUE 4.5.",
+            "       PROCEDURE DIVISION.",
+            "           DISPLAY X.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "045",
+            "4.5",
+            "04.5",
+            "45"
+          ],
+          "answer": 0,
+          "explanation": "PIC 9(2)V9 has 3 digits: 04 and 5. The point isn't shown."
+        },
+        {
+          "id": "cb4-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "How many digits come after the point in PIC 9(4)V99?",
+          "options": [
+            "2",
+            "4",
+            "6",
+            "99"
+          ],
+          "answer": 0,
+          "explanation": "The two 9s after the V."
+        },
+        {
+          "id": "cb4-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Declare a price with 2 decimals.",
+          "code": [
+            "       01 PRICE PIC 9(3)___99."
+          ],
+          "options": [
+            "V",
+            ".",
+            ",",
+            "P"
+          ],
+          "answer": "V",
+          "explanation": "V marks the decimal point inside the number."
+        },
+        {
+          "id": "cb4-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "Why is the point invisible (V) in the stored number?",
+          "options": [
+            "To save space: only the digits are stored",
+            "Because COBOL can't print points",
+            "To hide prices",
+            "It's a mistake"
+          ],
+          "answer": 0,
+          "explanation": "The program knows where the point is, so it doesn't need to store it."
+        },
+        {
+          "id": "cb4-l1-e5",
+          "type": "find_bug",
+          "prompt": "This job doesn't compile. Which line is wrong?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. PI.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 PI-VALUE PIC 9V99 VALUE 3.14159.",
+            "       PROCEDURE DIVISION.",
+            "           DISPLAY PI-VALUE.",
+            "           STOP RUN."
+          ],
+          "answer": 4,
+          "explanation": "3.14159 has 5 decimals, but PIC 9V99 has room for 2. Use VALUE 3.14."
+        },
+        {
+          "id": "cb4-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "MOVE 2.999 TO a PIC 9V99 field. What does it hold?",
+          "options": [
+            "2.99",
+            "3.00",
+            "2.999",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "Extra decimals are cut off, not rounded. (Rounding comes later, with ROUNDED.)"
+        }
+      ]
+    },
+    {
+      "id": "cb4-l2",
+      "title": "S: Negative Numbers",
+      "xp": 15,
+      "intro": [
+        "A plain PIC 9 field has no sign: it can't be negative. If a calculation goes below zero, the sign is simply lost. A balance of -150 becomes 150, a classic way to give customers free money.",
+        "PIC S9(4) has a sign. The S takes no extra place: on the mainframe, the sign is stored in the last digit. This app shows a negative field with a - after the digits.",
+        "Rule of thumb: every field that can go below zero, like a balance or a difference, needs an S."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. BALANCE.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 BALANCE   PIC S9(4) VALUE 100.",
+          "       01 WRONG     PIC 9(4)  VALUE 100.",
+          "       PROCEDURE DIVISION.",
+          "           ADD -250 TO BALANCE WRONG.",
+          "           DISPLAY \"WITH S:    \" BALANCE.",
+          "           DISPLAY \"WITHOUT S: \" WRONG.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "WITH S:    0150-",
+          "WITHOUT S: 0150"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb4-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does the S in PIC S9(5) do?",
+          "options": [
+            "Gives the field a sign, so it can be negative",
+            "Makes it a string",
+            "Makes it smaller",
+            "Adds a space"
+          ],
+          "answer": 0,
+          "explanation": "S for sign."
+        },
+        {
+          "id": "cb4-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. NOSIGN.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 N PIC 9(4).",
+            "       PROCEDURE DIVISION.",
+            "           MOVE -7 TO N.",
+            "           DISPLAY N.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "0007",
+            "0007-",
+            "-0007",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "The field has no S, so -7 loses its sign."
+        },
+        {
+          "id": "cb4-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Declare a balance that can go below zero.",
+          "code": [
+            "       01 BALANCE PIC ___9(5)V99 VALUE ZERO."
+          ],
+          "options": [
+            "S",
+            "-",
+            "+",
+            "N"
+          ],
+          "answer": "S",
+          "explanation": "S comes first."
+        },
+        {
+          "id": "cb4-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this job show here?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. SIGN.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 N PIC S9(4).",
+            "       PROCEDURE DIVISION.",
+            "           MOVE -7 TO N.",
+            "           DISPLAY N.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "0007-",
+            "0007",
+            "-7",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "With S, the sign is kept. This app shows it as a - after the digits."
+        },
+        {
+          "id": "cb4-l2-e5",
+          "type": "find_bug",
+          "prompt": "A customer with 50 dollars spends 80. The job reports a balance of 30. Which line is wrong?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. SPEND.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 BALANCE PIC 9(4) VALUE 50.",
+            "       PROCEDURE DIVISION.",
+            "           ADD -80 TO BALANCE.",
+            "           DISPLAY BALANCE.",
+            "           STOP RUN."
+          ],
+          "answer": 4,
+          "explanation": "BALANCE has no S, so -30 loses its sign and looks like +30. Use PIC S9(4)."
+        },
+        {
+          "id": "cb4-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "How many characters does PIC S9(4) take?",
+          "options": [
+            "4: the sign lives in the last digit",
+            "5",
+            "6",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "Unlike a printed minus, the S costs no extra place."
+        }
+      ]
+    },
+    {
+      "id": "cb4-l3",
+      "title": "Exact Money",
+      "xp": 15,
+      "intro": [
+        "In binary, 0.10 can't be stored exactly. FORTRAN's REAL numbers add up tiny errors, and 10,000 × 0.10 isn't quite 1,000. For a bank, being off by a cent is not an option.",
+        "COBOL calculates in decimal, digit by digit, exactly like on paper. 0.10 added ten times is exactly 1.00, every time.",
+        "The price for that: you choose the size. PIC 9(3)V99 can't go above 999.99, and anything bigger loses its front digits."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. CENTS.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 TOTAL     PIC 9(3)V99 VALUE ZERO.",
+          "       PROCEDURE DIVISION.",
+          "           ADD 0.10 0.10 0.10 0.10 0.10 TO TOTAL.",
+          "           ADD 0.10 0.10 0.10 0.10 0.10 TO TOTAL.",
+          "           DISPLAY \"TEN DIMES: \" TOTAL.",
+          "           ADD 999 TO TOTAL.",
+          "           DISPLAY \"TOO BIG:   \" TOTAL.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "TEN DIMES: 00100",
+          "TOO BIG:   00000"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb4-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Why do banks like COBOL's arithmetic?",
+          "options": [
+            "It works in decimal, so cents are always exact",
+            "It's faster than binary",
+            "It rounds everything up",
+            "It has no limits"
+          ],
+          "answer": 0,
+          "explanation": "The same result as on paper, every time."
+        },
+        {
+          "id": "cb4-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What is the biggest value PIC 9(3)V99 can hold?",
+          "options": [
+            "999.99",
+            "999",
+            "99999",
+            "1000.00"
+          ],
+          "answer": 0,
+          "explanation": "Three digits before the point, two after."
+        },
+        {
+          "id": "cb4-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. EXACT.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 X PIC 9V9 VALUE ZERO.",
+            "       PROCEDURE DIVISION.",
+            "           ADD 0.1 0.2 TO X.",
+            "           DISPLAY X.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "03",
+            "0.3",
+            "3",
+            "02"
+          ],
+          "answer": 0,
+          "explanation": "0.1 + 0.2 = 0.3, exactly. PIC 9V9 shows the 2 digits 0 and 3."
+        },
+        {
+          "id": "cb4-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "In the example, why does TOO BIG show 00000?",
+          "options": [
+            "1000.00 doesn't fit: the 1 at the front is lost",
+            "ADD 999 failed",
+            "The point moved",
+            "It rounds down"
+          ],
+          "answer": 0,
+          "explanation": "1.00 + 999 = 1000.00, but only 3 digits fit before the point: 000.00."
+        },
+        {
+          "id": "cb4-l3-e5",
+          "type": "fill_blank",
+          "prompt": "Add three amounts at once.",
+          "code": [
+            "           ADD 1.50 2.25 0.75 ___ TOTAL."
+          ],
+          "options": [
+            "TO",
+            "AND",
+            "INTO",
+            "+"
+          ],
+          "answer": "TO",
+          "explanation": "ADD can add several values in one statement."
+        },
+        {
+          "id": "cb4-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Which field is right for an amount up to 50,000.00 dollars?",
+          "options": [
+            "PIC 9(5)V99",
+            "PIC 9(4)V99",
+            "PIC 9(5)",
+            "PIC X(8)"
+          ],
+          "answer": 0,
+          "explanation": "50000 has 5 digits, plus 2 for the cents."
+        }
+      ]
+    }
+  ]
+}

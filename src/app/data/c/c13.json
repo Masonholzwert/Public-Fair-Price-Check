@@ -1,0 +1,408 @@
+{
+  "id": "c13",
+  "title": "Addresses and Pointers",
+  "lessons": [
+    {
+      "id": "c13-l1",
+      "title": "& and *",
+      "xp": 15,
+      "intro": [
+        "Every variable lives somewhere in memory, at an address. &x gives the address of x. A pointer is a variable that holds such an address: int *p = &x; means \"p points to x\".",
+        "*p follows the pointer: it is the variable p points to. Reading *p reads x, and *p = 7; changes x.",
+        "Pointers are the heart of C. They're why C was fast enough to write a whole operating system in, and why its bugs can be so nasty."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    int x = 5;",
+          "    int *p = &x;",
+          "    printf(\"x = %d\\n\", x);",
+          "    printf(\"*p = %d\\n\", *p);",
+          "    *p = 7;",
+          "    printf(\"x = %d\\n\", x);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "x = 5",
+          "*p = 5",
+          "x = 7"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c13-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does &x give?",
+          "options": [
+            "The address of x",
+            "The value of x",
+            "x times 2",
+            "A copy of x"
+          ],
+          "answer": 0,
+          "explanation": "& is the address-of operator."
+        },
+        {
+          "id": "c13-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does int *p declare?",
+          "options": [
+            "A pointer to an int",
+            "An int called *p",
+            "A multiplication",
+            "An array"
+          ],
+          "answer": 0,
+          "explanation": "The * in a declaration means \"pointer to\"."
+        },
+        {
+          "id": "c13-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int n = 10;",
+            "    int *p = &n;",
+            "    *p = 20;",
+            "    printf(\"%d\\n\", n);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "20",
+            "10",
+            "an address",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "*p = 20 changes the variable p points to, which is n."
+        },
+        {
+          "id": "c13-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Make p point to count.",
+          "code": [
+            "    int count = 3;",
+            "    int *p = ___count;"
+          ],
+          "options": [
+            "&",
+            "*",
+            "%",
+            "#"
+          ],
+          "answer": "&",
+          "explanation": "& takes the address."
+        },
+        {
+          "id": "c13-l1-e5",
+          "type": "find_bug",
+          "prompt": "This program crashes. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int *p = 0;",
+            "    *p = 5;",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 4,
+          "explanation": "p is 0, the NULL pointer: it points nowhere. Following it crashes. Point it at a real variable first."
+        },
+        {
+          "id": "c13-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "What does *p mean when p is a pointer?",
+          "options": [
+            "The variable p points to",
+            "The address of p",
+            "p times something",
+            "A new pointer"
+          ],
+          "answer": 0,
+          "explanation": "In an expression, * follows the pointer."
+        }
+      ]
+    },
+    {
+      "id": "c13-l2",
+      "title": "Changing Variables from Functions",
+      "xp": 15,
+      "intro": [
+        "Remember: functions get copies. But if you pass the address of a variable, the function can follow it and change the original. That's exactly what scanf(\"%d\", &n) does.",
+        "void triple(int *p) takes a pointer. Inside, *p = *p * 3; changes the caller's variable. Call it with triple(&x);.",
+        "This is how a C function gives back more than one result: through pointer parameters."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "void triple(int *p) {",
+          "    *p = *p * 3;",
+          "}",
+          "",
+          "int main() {",
+          "    int x = 4;",
+          "    triple(&x);",
+          "    printf(\"%d\\n\", x);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "12"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c13-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "Why does triple(&x) change x, but triple(x) couldn't?",
+          "options": [
+            "It gets x's address and changes x through it",
+            "&x makes x global",
+            "It's faster",
+            "It doesn't change x"
+          ],
+          "answer": 0,
+          "explanation": "The function follows the address back to the real x."
+        },
+        {
+          "id": "c13-l2-e2",
+          "type": "fill_blank",
+          "prompt": "Add one to the caller's variable.",
+          "code": [
+            "void inc(int *p) {",
+            "    ___ = *p + 1;",
+            "}"
+          ],
+          "options": [
+            "*p",
+            "p",
+            "&p",
+            "p*"
+          ],
+          "answer": "*p",
+          "explanation": "*p is the variable p points to."
+        },
+        {
+          "id": "c13-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "void zero(int *p) {",
+            "    *p = 0;",
+            "}",
+            "",
+            "int main() {",
+            "    int a = 5;",
+            "    zero(&a);",
+            "    printf(\"%d\\n\", a);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "0",
+            "5",
+            "an address",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "zero sets the variable a points to, so a becomes 0."
+        },
+        {
+          "id": "c13-l2-e4",
+          "type": "find_bug",
+          "prompt": "This program crashes instead of changing x. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "void set(int *p) {",
+            "    *p = 99;",
+            "}",
+            "",
+            "int main() {",
+            "    int x = 1;",
+            "    set(x);",
+            "    printf(\"%d\\n\", x);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 8,
+          "explanation": "set needs the address: set(&x)."
+        },
+        {
+          "id": "c13-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "How can a function give back two results, like the minimum and the maximum?",
+          "options": [
+            "Through two pointer parameters",
+            "With two return statements",
+            "It can't",
+            "By printing them"
+          ],
+          "answer": 0,
+          "explanation": "void minmax(int a[], int n, int *min, int *max) is a typical C design."
+        },
+        {
+          "id": "c13-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Which library function you already know works this way?",
+          "options": [
+            "scanf",
+            "printf",
+            "strlen",
+            "sqrt"
+          ],
+          "answer": 0,
+          "explanation": "That's why scanf needs &."
+        }
+      ]
+    },
+    {
+      "id": "c13-l3",
+      "title": "swap",
+      "xp": 15,
+      "intro": [
+        "The classic example from Kernighan and Ritchie's book: a function that swaps two variables. With plain int parameters it can't work, because it would only swap its copies.",
+        "With pointers, it works: void swap(int *a, int *b) { int t = *a; *a = *b; *b = t; }, called as swap(&x, &y);.",
+        "Pointers can also point to nothing: 0, written NULL. Checking if (p != NULL) before following a pointer avoids many crashes."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "void swap(int *a, int *b) {",
+          "    int t = *a;",
+          "    *a = *b;",
+          "    *b = t;",
+          "}",
+          "",
+          "int main() {",
+          "    int x = 1, y = 2;",
+          "    swap(&x, &y);",
+          "    printf(\"x = %d, y = %d\\n\", x, y);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "x = 2, y = 1"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c13-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Why can't void swap(int a, int b) swap the caller's variables?",
+          "options": [
+            "It only gets copies",
+            "int can't be swapped",
+            "It needs a return value",
+            "It can"
+          ],
+          "answer": 0,
+          "explanation": "Call by value: the copies are swapped, and then thrown away."
+        },
+        {
+          "id": "c13-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "How is the pointer version of swap called?",
+          "options": [
+            "swap(&x, &y);",
+            "swap(x, y);",
+            "swap(*x, *y);",
+            "x = swap(y);"
+          ],
+          "answer": 0,
+          "explanation": "Pass the addresses."
+        },
+        {
+          "id": "c13-l3-e3",
+          "type": "order_lines",
+          "prompt": "Put the body of swap in the right order.",
+          "lines": [
+            "void swap(int *a, int *b) {",
+            "    int t = *a;",
+            "    *a = *b;",
+            "    *b = t;",
+            "}"
+          ],
+          "answer": [
+            "void swap(int *a, int *b) {",
+            "    int t = *a;",
+            "    *a = *b;",
+            "    *b = t;",
+            "}"
+          ],
+          "explanation": "Save *a first, then overwrite it, then use the saved value."
+        },
+        {
+          "id": "c13-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What is NULL?",
+          "options": [
+            "A pointer that points to nothing (0)",
+            "An empty string",
+            "The number 1",
+            "A variable called NULL"
+          ],
+          "answer": 0,
+          "explanation": "Following NULL crashes the program, so check first."
+        },
+        {
+          "id": "c13-l3-e5",
+          "type": "fill_blank",
+          "prompt": "Only follow the pointer if it points somewhere.",
+          "code": [
+            "    if (p != ___)",
+            "        *p = 1;"
+          ],
+          "options": [
+            "NULL",
+            "0.0",
+            "'\\0'",
+            "&p"
+          ],
+          "answer": "NULL",
+          "explanation": "NULL is the null pointer."
+        },
+        {
+          "id": "c13-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "void swap(int *a, int *b) {",
+            "    int t = *a;",
+            "    *a = *b;",
+            "    *b = t;",
+            "}",
+            "",
+            "int main() {",
+            "    int a = 4, b = 9;",
+            "    swap(&a, &b);",
+            "    printf(\"%d %d\\n\", a, b);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "9 4",
+            "4 9",
+            "4 4",
+            "9 9"
+          ],
+          "answer": 0,
+          "explanation": "swap exchanges the two values through their addresses."
+        }
+      ]
+    }
+  ]
+}

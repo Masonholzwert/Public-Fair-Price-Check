@@ -1,0 +1,473 @@
+{
+  "id": "p8",
+  "title": "Functions and var",
+  "lessons": [
+    {
+      "id": "p8-l1",
+      "title": "Functions",
+      "xp": 15,
+      "intro": [
+        "A function is a procedure that gives back a value. Its header ends with the result type: function Square(x: integer): integer;",
+        "Inside, you set the result by assigning to the function's name: Square := x * x;",
+        "A function is used inside an expression, like sqrt or length: writeln(Square(7) + 1);"
+      ],
+      "example": {
+        "code": [
+          "program Funcs;",
+          "",
+          "function Square(x: integer): integer;",
+          "begin",
+          "  Square := x * x;",
+          "end;",
+          "",
+          "function Average(a, b: integer): real;",
+          "begin",
+          "  Average := (a + b) / 2;",
+          "end;",
+          "",
+          "begin",
+          "  writeln(Square(7));",
+          "  writeln(Square(3) + Square(4));",
+          "  writeln(Average(7, 8):0:1);",
+          "end."
+        ],
+        "output": [
+          "49",
+          "25",
+          "7.5"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p8-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "How is a function different from a procedure?",
+          "options": [
+            "It gives back a value",
+            "It can't have parameters",
+            "It runs faster",
+            "It has no begin and end"
+          ],
+          "answer": 0,
+          "explanation": "A function is used where a value is needed."
+        },
+        {
+          "id": "p8-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "How does a function set its result?",
+          "options": [
+            "By assigning to its own name: Square := x * x;",
+            "With return x * x;",
+            "With result(x * x);",
+            "With writeln"
+          ],
+          "answer": 0,
+          "explanation": "Classic Pascal has no return statement."
+        },
+        {
+          "id": "p8-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Finish the header.",
+          "code": [
+            "function Double(n: integer)___ integer;"
+          ],
+          "options": [
+            ":",
+            ";",
+            "=",
+            "->"
+          ],
+          "answer": ":",
+          "explanation": "The result type comes after a colon."
+        },
+        {
+          "id": "p8-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program T;",
+            "",
+            "function Triple(n: integer): integer;",
+            "begin",
+            "  Triple := 3 * n;",
+            "end;",
+            "",
+            "begin",
+            "  writeln(Triple(3) + 1);",
+            "end."
+          ],
+          "options": [
+            "10",
+            "5",
+            "25",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "Triple(3) is 9, plus 1 makes 10."
+        },
+        {
+          "id": "p8-l1-e5",
+          "type": "find_bug",
+          "prompt": "This function always returns garbage. Which line is wrong?",
+          "code": [
+            "function Max(a, b: integer): integer;",
+            "begin",
+            "  if a > b then",
+            "    a := a",
+            "  else",
+            "    b := b;",
+            "end;"
+          ],
+          "answer": 3,
+          "explanation": "The result must go into the function's name: Max := a (and Max := b in the else part)."
+        },
+        {
+          "id": "p8-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Ev;",
+            "",
+            "function IsEven(n: integer): boolean;",
+            "begin",
+            "  IsEven := n mod 2 = 0;",
+            "end;",
+            "",
+            "begin",
+            "  writeln(IsEven(14));",
+            "end."
+          ],
+          "options": [
+            "TRUE",
+            "FALSE",
+            "1",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "A function can return a boolean too. 14 mod 2 = 0."
+        }
+      ]
+    },
+    {
+      "id": "p8-l2",
+      "title": "var Parameters",
+      "xp": 15,
+      "intro": [
+        "With var in front of a parameter, the procedure doesn't get a copy: it works directly on the caller's variable. procedure Swap(var a, b: integer); can really swap two variables.",
+        "That's how a procedure gives back more than one result.",
+        "A var parameter needs a variable when it's called: Swap(x, y) works, Swap(3, 4) doesn't."
+      ],
+      "example": {
+        "code": [
+          "program SwapIt;",
+          "var",
+          "  x, y: integer;",
+          "",
+          "procedure Swap(var a, b: integer);",
+          "var",
+          "  t: integer;",
+          "begin",
+          "  t := a;",
+          "  a := b;",
+          "  b := t;",
+          "end;",
+          "",
+          "begin",
+          "  x := 1;",
+          "  y := 2;",
+          "  Swap(x, y);",
+          "  writeln('x = ', x, ', y = ', y);",
+          "end."
+        ],
+        "output": [
+          "x = 2, y = 1"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p8-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does var in front of a parameter do?",
+          "options": [
+            "The procedure works on the caller's variable itself",
+            "It makes a copy",
+            "It makes the parameter a constant",
+            "It declares a global"
+          ],
+          "answer": 0,
+          "explanation": "Changes are seen by the caller."
+        },
+        {
+          "id": "p8-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program B;",
+            "var",
+            "  x: integer;",
+            "",
+            "procedure Bump(var n: integer);",
+            "begin",
+            "  n := n + 1;",
+            "end;",
+            "",
+            "begin",
+            "  x := 5;",
+            "  Bump(x);",
+            "  writeln(x);",
+            "end."
+          ],
+          "options": [
+            "6",
+            "5",
+            "an error",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "With var, Bump changes x itself."
+        },
+        {
+          "id": "p8-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Let the procedure change the caller's variable.",
+          "code": [
+            "procedure Reset(___ n: integer);",
+            "begin",
+            "  n := 0;",
+            "end;"
+          ],
+          "options": [
+            "var",
+            "const",
+            "out",
+            "ref"
+          ],
+          "answer": "var",
+          "explanation": "var makes it a reference to the caller's variable."
+        },
+        {
+          "id": "p8-l2-e4",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program S;",
+            "",
+            "procedure Swap(var a, b: integer);",
+            "var t: integer;",
+            "begin",
+            "  t := a; a := b; b := t;",
+            "end;",
+            "",
+            "begin",
+            "  Swap(1, 2);",
+            "end."
+          ],
+          "answer": 9,
+          "explanation": "A var parameter needs variables. 1 and 2 are just values."
+        },
+        {
+          "id": "p8-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "How can a procedure give back two results, like a minimum and a maximum?",
+          "options": [
+            "Through two var parameters",
+            "With two return statements",
+            "It can't",
+            "With a global function"
+          ],
+          "answer": 0,
+          "explanation": "procedure MinMax(a, b: integer; var lo, hi: integer);"
+        },
+        {
+          "id": "p8-l2-e6",
+          "type": "order_lines",
+          "prompt": "Put the body of Swap in the right order.",
+          "lines": [
+            "t := a;",
+            "a := b;",
+            "b := t;"
+          ],
+          "answer": [
+            "t := a;",
+            "a := b;",
+            "b := t;"
+          ],
+          "explanation": "Save a first, then overwrite it, then use the saved value."
+        }
+      ]
+    },
+    {
+      "id": "p8-l3",
+      "title": "Boolean Functions and Scope",
+      "xp": 15,
+      "intro": [
+        "Functions that return a boolean read like questions: if IsPrime(n) then … They make programs almost read like English.",
+        "A local variable can have the same name as a global one. Inside the routine, the local one wins (it shadows the global). That's legal, but can be confusing.",
+        "A good routine uses its parameters and locals, not globals. Then it's easy to test and reuse."
+      ],
+      "example": {
+        "code": [
+          "program Shadow;",
+          "var",
+          "  n: integer;",
+          "",
+          "function IsVowel(c: char): boolean;",
+          "begin",
+          "  IsVowel := (c = 'a') or (c = 'e') or (c = 'i') or (c = 'o') or (c = 'u');",
+          "end;",
+          "",
+          "procedure Show;",
+          "var",
+          "  n: integer;",
+          "begin",
+          "  n := 99;",
+          "  writeln('Inside: ', n);",
+          "end;",
+          "",
+          "begin",
+          "  n := 1;",
+          "  Show;",
+          "  writeln('Outside: ', n);",
+          "  if IsVowel('e') then",
+          "    writeln('e is a vowel');",
+          "end."
+        ],
+        "output": [
+          "Inside: 99",
+          "Outside: 1",
+          "e is a vowel"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p8-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Sh;",
+            "var",
+            "  n: integer;",
+            "",
+            "procedure Show;",
+            "var",
+            "  n: integer;",
+            "begin",
+            "  n := 99;",
+            "  writeln('Inside: ', n);",
+            "end;",
+            "",
+            "begin",
+            "  n := 1;",
+            "  Show;",
+            "  writeln('Outside: ', n);",
+            "end."
+          ],
+          "options": [
+            "Inside: 99\nOutside: 1",
+            "Inside: 99\nOutside: 99",
+            "Inside: 1\nOutside: 1",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "The local n shadows the global n; the global one stays 1."
+        },
+        {
+          "id": "p8-l3-e2",
+          "type": "fill_blank",
+          "prompt": "Finish the header of a yes/no function.",
+          "code": [
+            "function IsBig(n: integer): ___;"
+          ],
+          "options": [
+            "boolean",
+            "integer",
+            "true",
+            "char"
+          ],
+          "answer": "boolean",
+          "explanation": "It answers yes or no: boolean."
+        },
+        {
+          "id": "p8-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What does IsBig(150) return if IsBig := n > 100?",
+          "options": [
+            "TRUE",
+            "FALSE",
+            "150",
+            "100"
+          ],
+          "answer": 0,
+          "explanation": "150 > 100 is true."
+        },
+        {
+          "id": "p8-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "Why is a routine that only uses its parameters and locals better?",
+          "options": [
+            "It's easier to test and reuse",
+            "It runs on more computers",
+            "It uses less disk space",
+            "It isn't"
+          ],
+          "answer": 0,
+          "explanation": "It doesn't depend on anything else in the program."
+        },
+        {
+          "id": "p8-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Cnt;",
+            "var",
+            "  s: string;",
+            "  i, count: integer;",
+            "",
+            "function IsVowel(c: char): boolean;",
+            "begin",
+            "  IsVowel := (c = 'a') or (c = 'e') or (c = 'i') or (c = 'o') or (c = 'u');",
+            "end;",
+            "",
+            "begin",
+            "  count := 0;",
+            "  s := 'pascal turbo';",
+            "  for i := 1 to length(s) do",
+            "    if IsVowel(s[i]) then",
+            "      count := count + 1;",
+            "  writeln(count);",
+            "end."
+          ],
+          "options": [
+            "4",
+            "3",
+            "5",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "The vowels in 'pascal turbo' are a, a, u and o."
+        },
+        {
+          "id": "p8-l3-e6",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program V;",
+            "",
+            "function Half(n: integer): integer;",
+            "var",
+            "  h: integer;",
+            "begin",
+            "  Half := n div 2;",
+            "end;",
+            "",
+            "begin",
+            "  writeln(Half(10), h);",
+            "end."
+          ],
+          "answer": 10,
+          "explanation": "h is local to Half: the main program can't see it (Error 3: Unknown identifier)."
+        }
+      ]
+    }
+  ]
+}

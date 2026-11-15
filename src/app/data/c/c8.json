@@ -1,0 +1,411 @@
+{
+  "id": "c8",
+  "title": "Parameters and Scope",
+  "lessons": [
+    {
+      "id": "c8-l1",
+      "title": "Passing Values",
+      "xp": 15,
+      "intro": [
+        "The values in the call, like add(2, 3), are called arguments. Inside the function, they arrive in its parameters, a and b. They're matched by position: the first goes to the first.",
+        "A function can take as many parameters as it needs, of different types.",
+        "The argument can be any expression: add(x * 2, y + 1) works it out first and passes the result."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "double area(double w, double h) {",
+          "    return w * h;",
+          "}",
+          "",
+          "int main() {",
+          "    printf(\"%.1f\\n\", area(3.0, 4.5));",
+          "    double side = 2.5;",
+          "    printf(\"%.2f\\n\", area(side, side));",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "13.5",
+          "6.25"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c8-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "In power(2, 5), how are 2 and 5 matched to power(int base, int exp)?",
+          "options": [
+            "By position: base = 2, exp = 5",
+            "By name",
+            "Alphabetically",
+            "Randomly"
+          ],
+          "answer": 0,
+          "explanation": "The first argument goes to the first parameter."
+        },
+        {
+          "id": "c8-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int sub(int a, int b) {",
+            "    return a - b;",
+            "}",
+            "",
+            "int main() {",
+            "    printf(\"%d\\n\", sub(10, 3));",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "7",
+            "10",
+            "3",
+            "13"
+          ],
+          "answer": 0,
+          "explanation": "sub(10, 3) = 10 - 3."
+        },
+        {
+          "id": "c8-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Pass the result of x + 1.",
+          "code": [
+            "    int x = 4;",
+            "    printf(\"%d\\n\", square(___));"
+          ],
+          "options": [
+            "x + 1",
+            "int x + 1",
+            "x, 1",
+            "&x"
+          ],
+          "answer": "x + 1",
+          "explanation": "Any expression can be an argument."
+        },
+        {
+          "id": "c8-l1-e4",
+          "type": "find_bug",
+          "prompt": "This should print 7 (10 minus 3), but prints -7. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int minus(int a, int b) {",
+            "    return a - b;",
+            "}",
+            "",
+            "int main() {",
+            "    printf(\"%d\\n\", minus(3, 10));",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 7,
+          "explanation": "The arguments are in the wrong order: minus(3, 10) works out 3 - 10. It must be minus(10, 3)."
+        },
+        {
+          "id": "c8-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Can a function have parameters of different types?",
+          "options": [
+            "Yes, like f(int n, double x)",
+            "No, all must be int",
+            "Only two parameters",
+            "Only if they're doubles"
+          ],
+          "answer": 0,
+          "explanation": "Each parameter has its own type."
+        },
+        {
+          "id": "c8-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "What happens to the arguments' types when you pass 3 to a double parameter?",
+          "options": [
+            "It's converted to 3.0",
+            "An error",
+            "It stays an int and breaks",
+            "It becomes 0"
+          ],
+          "answer": 0,
+          "explanation": "The prototype tells C to convert it."
+        }
+      ]
+    },
+    {
+      "id": "c8-l2",
+      "title": "Local and Global",
+      "xp": 15,
+      "intro": [
+        "Variables declared inside a function are local: they only exist while the function runs, and no other function can see them. Two functions can both have a variable called i without trouble.",
+        "Variables declared outside of every function are global: every function can see and change them. Handy for things like a counter, but risky in big programs, because anything can change them.",
+        "Each call gets fresh local variables. They're created when the function starts and disappear when it returns."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int calls = 0;",
+          "",
+          "void hello(void) {",
+          "    int i = 5;",
+          "    calls++;",
+          "    printf(\"hello %d\\n\", i);",
+          "}",
+          "",
+          "int main() {",
+          "    hello();",
+          "    hello();",
+          "    printf(\"%d calls\\n\", calls);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "hello 5",
+          "hello 5",
+          "2 calls"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c8-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "Where can a local variable be used?",
+          "options": [
+            "Only inside the function where it's declared",
+            "Everywhere",
+            "Only in main",
+            "Only in printf"
+          ],
+          "answer": 0,
+          "explanation": "That's its scope: the block it lives in."
+        },
+        {
+          "id": "c8-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Where is a global variable declared?",
+          "options": [
+            "Outside of all functions",
+            "Inside main",
+            "In printf",
+            "After return"
+          ],
+          "answer": 0,
+          "explanation": "At the top of the file, usually."
+        },
+        {
+          "id": "c8-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int count = 0;",
+            "",
+            "void bump(void) {",
+            "    count++;",
+            "}",
+            "",
+            "int main() {",
+            "    bump();",
+            "    printf(\"%d\\n\", count);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "1",
+            "2",
+            "0",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "count is global, and bump adds one to it."
+        },
+        {
+          "id": "c8-l2-e4",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "void setup(void) {",
+            "    int speed = 10;",
+            "}",
+            "",
+            "int main() {",
+            "    setup();",
+            "    printf(\"%d\\n\", speed);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 8,
+          "explanation": "speed is local to setup. main can't see it."
+        },
+        {
+          "id": "c8-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "Why are global variables risky in big programs?",
+          "options": [
+            "Any function can change them, so bugs are hard to track down",
+            "They're slower",
+            "They use more memory",
+            "They're not allowed"
+          ],
+          "answer": 0,
+          "explanation": "Passing values as parameters keeps it clear who changes what."
+        },
+        {
+          "id": "c8-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Two different functions both declare int i. What happens?",
+          "options": [
+            "Nothing bad: each has its own i",
+            "A compiler error",
+            "They share one i",
+            "The second one wins"
+          ],
+          "answer": 0,
+          "explanation": "Local names don't clash across functions."
+        }
+      ]
+    },
+    {
+      "id": "c8-l3",
+      "title": "Copies, Not Originals",
+      "xp": 15,
+      "intro": [
+        "C passes copies: when you call f(x), the parameter gets a copy of x's value. If the function changes its parameter, the original x stays the same.",
+        "That's called call by value, and it keeps functions from messing with the caller's variables by accident.",
+        "To let a function change a variable, give it the variable's address, like scanf(\"%d\", &n). That's what pointers are for, in Chapter 5."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "void reset(int n) {",
+          "    n = 0;",
+          "    printf(\"inside: %d\\n\", n);",
+          "}",
+          "",
+          "int main() {",
+          "    int x = 42;",
+          "    reset(x);",
+          "    printf(\"outside: %d\\n\", x);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "inside: 0",
+          "outside: 42"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c8-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "In the example, why is x still 42?",
+          "options": [
+            "reset changed its own copy, not x",
+            "reset never ran",
+            "x is global",
+            "0 and 42 are the same"
+          ],
+          "answer": 0,
+          "explanation": "n is a copy. Changing it doesn't touch x."
+        },
+        {
+          "id": "c8-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "void add_one(int n) {",
+            "    n++;",
+            "}",
+            "",
+            "int main() {",
+            "    int a = 5;",
+            "    add_one(a);",
+            "    printf(\"%d\\n\", a);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "5",
+            "6",
+            "0",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "add_one changes its copy only."
+        },
+        {
+          "id": "c8-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "How can a function give a new value back without pointers?",
+          "options": [
+            "Return it, and let the caller store it: a = add_one(a);",
+            "It can't at all",
+            "By printing it",
+            "By changing its parameter"
+          ],
+          "answer": 0,
+          "explanation": "Returning the result is the clean way."
+        },
+        {
+          "id": "c8-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Store the doubled value back in a.",
+          "code": [
+            "int twice(int n) {",
+            "    return 2 * n;",
+            "}",
+            "",
+            "int main() {",
+            "    int a = 4;",
+            "    a = ___;",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "twice(a)",
+            "twice",
+            "return a",
+            "twice(int a)"
+          ],
+          "answer": "twice(a)",
+          "explanation": "Call the function and store what it returns."
+        },
+        {
+          "id": "c8-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What is call by value?",
+          "options": [
+            "Functions get copies of the arguments",
+            "Functions get the variables themselves",
+            "Functions can't take arguments",
+            "Calling a function by its number"
+          ],
+          "answer": 0,
+          "explanation": "C always passes copies. Even pointers are copies, of an address."
+        },
+        {
+          "id": "c8-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why does scanf need &n and not n?",
+          "options": [
+            "It must store into n, so it needs n's address, not a copy",
+            "& makes it faster",
+            "To print n",
+            "It doesn't"
+          ],
+          "answer": 0,
+          "explanation": "With a copy, scanf could never change n."
+        }
+      ]
+    }
+  ]
+}

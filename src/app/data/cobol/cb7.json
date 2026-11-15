@@ -1,0 +1,400 @@
+{
+  "id": "cb7",
+  "title": "The Four Verbs",
+  "lessons": [
+    {
+      "id": "cb7-l1",
+      "title": "SUBTRACT and MULTIPLY",
+      "xp": 15,
+      "intro": [
+        "COBOL has a verb for each kind of arithmetic. SUBTRACT DISCOUNT FROM PRICE takes the discount off. MULTIPLY QTY BY PRICE would put the result into PRICE.",
+        "Usually you want to keep the inputs, so there's GIVING: MULTIPLY QTY BY PRICE GIVING TOTAL. It works with ADD and SUBTRACT too: ADD A B GIVING C, SUBTRACT A FROM B GIVING C.",
+        "With GIVING, the result can also go into an edited field directly, ready to print."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. SHOP.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 QTY        PIC 9(2)    VALUE 3.",
+          "       01 PRICE      PIC 9(3)V99 VALUE 8.90.",
+          "       01 DISCOUNT   PIC 9(3)V99 VALUE 1.70.",
+          "       01 TOTAL      PIC 9(4)V99.",
+          "       01 TOTAL-OUT  PIC $$$9.99.",
+          "       PROCEDURE DIVISION.",
+          "           MULTIPLY QTY BY PRICE GIVING TOTAL.",
+          "           SUBTRACT DISCOUNT FROM TOTAL.",
+          "           MOVE TOTAL TO TOTAL-OUT.",
+          "           DISPLAY \"3 PIZZAS: \" TOTAL-OUT.",
+          "           ADD TOTAL 2.50 GIVING TOTAL-OUT.",
+          "           DISPLAY \"DELIVERED:\" TOTAL-OUT.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "3 PIZZAS:  $25.00",
+          "DELIVERED: $27.50"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb7-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "SUBTRACT 5 FROM X. What happens?",
+          "options": [
+            "5 is taken off X",
+            "X is taken off 5",
+            "X becomes 5",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "Like in English."
+        },
+        {
+          "id": "cb7-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. MUL.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 A PIC 9 VALUE 6.",
+            "       01 B PIC 9 VALUE 4.",
+            "       01 C PIC 999.",
+            "       PROCEDURE DIVISION.",
+            "           MULTIPLY A BY B GIVING C.",
+            "           DISPLAY C.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "024",
+            "006",
+            "4",
+            "018"
+          ],
+          "answer": 0,
+          "explanation": "6 × 4 = 24, in a PIC 999 field."
+        },
+        {
+          "id": "cb7-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Keep QTY and PRICE, and put the result into TOTAL.",
+          "code": [
+            "           MULTIPLY QTY BY PRICE ___ TOTAL."
+          ],
+          "options": [
+            "GIVING",
+            "INTO",
+            "TO",
+            "="
+          ],
+          "answer": "GIVING",
+          "explanation": "GIVING names the field for the result."
+        },
+        {
+          "id": "cb7-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "MULTIPLY 2 BY PRICE. What changes?",
+          "options": [
+            "PRICE: it's doubled",
+            "Nothing, there's no GIVING",
+            "2 becomes PRICE",
+            "It's an error"
+          ],
+          "answer": 0,
+          "explanation": "Without GIVING, the result goes into the field after BY."
+        },
+        {
+          "id": "cb7-l1-e5",
+          "type": "find_bug",
+          "prompt": "This job doesn't compile. Which line is wrong?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. SUB.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 PRICE PIC 9(3) VALUE 100.",
+            "       PROCEDURE DIVISION.",
+            "           SUBTRACT 10 FROM 100 GIVING PRICE.",
+            "           SUBTRACT 10 FROM 25.",
+            "           STOP RUN."
+          ],
+          "answer": 7,
+          "explanation": "Without GIVING, the result goes into the field after FROM, and 25 isn't a field."
+        },
+        {
+          "id": "cb7-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Which statement computes C = A - B without changing A or B?",
+          "options": [
+            "SUBTRACT B FROM A GIVING C",
+            "SUBTRACT A FROM B GIVING C",
+            "SUBTRACT B FROM A",
+            "SUBTRACT C FROM A GIVING B"
+          ],
+          "answer": 0,
+          "explanation": "B FROM A is A - B."
+        }
+      ]
+    },
+    {
+      "id": "cb7-l2",
+      "title": "DIVIDE",
+      "xp": 15,
+      "intro": [
+        "DIVIDE comes in two forms. DIVIDE 4 INTO TOTAL GIVING SHARE is TOTAL ÷ 4. DIVIDE TOTAL BY 4 GIVING SHARE is the same thing, written the other way round.",
+        "The result is cut to the size of the field: 17 ÷ 5 into a PIC 99 field is 3, not 3.4. REMAINDER keeps what's left over: 17 ÷ 5 is 3, remainder 2.",
+        "Dividing by zero abends the job with S0CB."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. SPLIT.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 BILL       PIC 9(3)V99 VALUE 86.40.",
+          "       01 PEOPLE     PIC 9       VALUE 4.",
+          "       01 SHARE      PIC 9(3)V99.",
+          "       01 BOXES      PIC 99.",
+          "       01 LEFT-OVER  PIC 9.",
+          "       PROCEDURE DIVISION.",
+          "           DIVIDE BILL BY PEOPLE GIVING SHARE.",
+          "           DISPLAY \"EACH PAYS \" SHARE.",
+          "           DIVIDE 7 INTO 100 GIVING BOXES REMAINDER LEFT-OVER.",
+          "           DISPLAY \"100 EGGS: \" BOXES \" BOXES OF 7, \" LEFT-OVER \" LEFT\".",
+          "           STOP RUN."
+        ],
+        "output": [
+          "EACH PAYS 02160",
+          "100 EGGS: 14 BOXES OF 7, 2 LEFT"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb7-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "DIVIDE 4 INTO 20 GIVING X. What is X?",
+          "options": [
+            "5",
+            "80",
+            "0.2",
+            "4"
+          ],
+          "answer": 0,
+          "explanation": "20 ÷ 4."
+        },
+        {
+          "id": "cb7-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. REM.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 Q PIC 99.",
+            "       01 R PIC 9.",
+            "       PROCEDURE DIVISION.",
+            "           DIVIDE 17 BY 5 GIVING Q REMAINDER R.",
+            "           DISPLAY Q \" \" R.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "03 2",
+            "03.4 0",
+            "3 2",
+            "02 3"
+          ],
+          "answer": 0,
+          "explanation": "17 ÷ 5 = 3, and 2 is left over."
+        },
+        {
+          "id": "cb7-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Divide TOTAL by 3.",
+          "code": [
+            "           DIVIDE TOTAL ___ 3 GIVING EACH."
+          ],
+          "options": [
+            "BY",
+            "INTO",
+            "FROM",
+            "OVER"
+          ],
+          "answer": "BY",
+          "explanation": "TOTAL BY 3, or 3 INTO TOTAL."
+        },
+        {
+          "id": "cb7-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does ABEND S0CB mean?",
+          "options": [
+            "Division by zero",
+            "Bad data in a number field",
+            "The job ran too long",
+            "A missing period"
+          ],
+          "answer": 0,
+          "explanation": "B for the divide exception."
+        },
+        {
+          "id": "cb7-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "17 ÷ 5 into a PIC 99V9 field gives:",
+          "options": [
+            "3.4",
+            "3",
+            "3.5",
+            "4"
+          ],
+          "answer": 0,
+          "explanation": "With one decimal place, the .4 fits."
+        },
+        {
+          "id": "cb7-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What does REMAINDER need?",
+          "options": [
+            "DIVIDE … GIVING …, then REMAINDER and a field",
+            "Only DIVIDE … INTO …",
+            "A MOD function",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "DIVIDE 7 INTO 100 GIVING BOXES REMAINDER LEFT-OVER."
+        }
+      ]
+    },
+    {
+      "id": "cb7-l3",
+      "title": "ROUNDED and SIZE ERROR",
+      "xp": 15,
+      "intro": [
+        "Results are cut, not rounded: 2.999 into PIC 9V99 is 2.99. Add ROUNDED after the field, and COBOL rounds instead: 3.00.",
+        "When a result is too big for its field, the front digits are lost without warning. ON SIZE ERROR catches that: the field is left as it was, and your statements run instead.",
+        "NOT ON SIZE ERROR runs when everything fit. END-ADD (or END-MULTIPLY …) closes the statement."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. SAFE.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 TWO        PIC 9    VALUE 2.",
+          "       01 CUT-RES    PIC 9V99.",
+          "       01 ROUND-RES  PIC 9V99.",
+          "       01 SMALL      PIC 999  VALUE 100.",
+          "       PROCEDURE DIVISION.",
+          "           DIVIDE 3 INTO TWO GIVING CUT-RES.",
+          "           DIVIDE 3 INTO TWO GIVING ROUND-RES ROUNDED.",
+          "           DISPLAY \"CUT \" CUT-RES \"  ROUNDED \" ROUND-RES.",
+          "           ADD 950 TO SMALL",
+          "               ON SIZE ERROR DISPLAY \"TOO BIG, NOT CHANGED: \" SMALL",
+          "               NOT ON SIZE ERROR DISPLAY \"OK: \" SMALL",
+          "           END-ADD.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "CUT 066  ROUNDED 067",
+          "TOO BIG, NOT CHANGED: 100"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb7-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "DIVIDE 3 INTO 2 GIVING X ROUNDED, with X PIC 9V9. What is X?",
+          "options": [
+            "0.7",
+            "0.6",
+            "0.66",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "2 ÷ 3 = 0.666…, rounded to one decimal: 0.7."
+        },
+        {
+          "id": "cb7-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does ON SIZE ERROR do?",
+          "options": [
+            "Runs its statements when the result doesn't fit, and leaves the field unchanged",
+            "Makes the field bigger",
+            "Stops the job",
+            "Rounds the result"
+          ],
+          "answer": 0,
+          "explanation": "Without it, the front digits would be lost silently."
+        },
+        {
+          "id": "cb7-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Round the result.",
+          "code": [
+            "           MULTIPLY RATE BY HOURS GIVING PAY ___."
+          ],
+          "options": [
+            "ROUNDED",
+            "ROUND",
+            "EXACT",
+            "UP"
+          ],
+          "answer": "ROUNDED",
+          "explanation": "ROUNDED comes right after the field."
+        },
+        {
+          "id": "cb7-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. SZ.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 N PIC 999 VALUE 999.",
+            "       PROCEDURE DIVISION.",
+            "           ADD 99 TO N",
+            "               ON SIZE ERROR DISPLAY \"TOO BIG\"",
+            "           END-ADD.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "TOO BIG",
+            "099",
+            "1098",
+            "999"
+          ],
+          "answer": 0,
+          "explanation": "999 + 99 needs 4 digits."
+        },
+        {
+          "id": "cb7-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Without ROUNDED, what does 2.999 become in a PIC 9V99 field?",
+          "options": [
+            "2.99",
+            "3.00",
+            "2.999",
+            "3"
+          ],
+          "answer": 0,
+          "explanation": "The extra decimal is cut."
+        },
+        {
+          "id": "cb7-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why does a bank use ON SIZE ERROR?",
+          "options": [
+            "So an amount that doesn't fit is caught instead of silently losing digits",
+            "To make jobs faster",
+            "Because it rounds",
+            "It doesn't"
+          ],
+          "answer": 0,
+          "explanation": "A lost digit could be a million dollars."
+        }
+      ]
+    }
+  ]
+}

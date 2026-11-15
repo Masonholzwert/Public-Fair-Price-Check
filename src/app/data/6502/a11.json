@@ -1,0 +1,334 @@
+{
+  "id": "a11",
+  "title": "Shifts",
+  "lessons": [
+    {
+      "id": "a11-l1",
+      "title": "ASL: Doubling",
+      "xp": 15,
+      "intro": [
+        "ASL (Arithmetic Shift Left) moves every bit one place to the left. A 0 comes in on the right, and bit 7 falls out into the carry.",
+        "Moving bits left doubles the number, just like adding a 0 to a decimal number multiplies it by 10. ASL A turns 5 into 10.",
+        "ASL works on A (write ASL A) or straight on memory (ASL $30). Two ASLs multiply by 4, three by 8."
+      ],
+      "example": {
+        "code": [
+          "LDA #5",
+          "ASL A",
+          "ASL A",
+          "BRK"
+        ],
+        "output": [
+          "A = $14 (5 × 4 = 20)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a11-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does ASL do to the number in A?",
+          "options": [
+            "Doubles it",
+            "Halves it",
+            "Adds 1",
+            "Flips all bits"
+          ],
+          "answer": 0,
+          "explanation": "Every bit moves to the next higher place, so the value doubles."
+        },
+        {
+          "id": "a11-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What is A after LDA #3 and three ASL A?",
+          "options": [
+            "$18",
+            "$09",
+            "$06",
+            "$0C"
+          ],
+          "answer": 0,
+          "explanation": "3 × 2 × 2 × 2 = 24, which is $18."
+        },
+        {
+          "id": "a11-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "A holds $81. What happens with ASL A?",
+          "options": [
+            "A = $02, carry = 1",
+            "A = $102",
+            "A = $40, carry = 1",
+            "A = $02, carry = 0"
+          ],
+          "answer": 0,
+          "explanation": "Bit 7 falls into the carry, and %10000001 becomes %00000010."
+        },
+        {
+          "id": "a11-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Multiply A by 4.",
+          "code": [
+            "LDA #6",
+            "ASL A",
+            "___ A",
+            "BRK"
+          ],
+          "options": [
+            "ASL",
+            "LSR",
+            "ROL",
+            "INC"
+          ],
+          "answer": "ASL",
+          "explanation": "Two shifts left: × 2 × 2 = × 4."
+        },
+        {
+          "id": "a11-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "How do you double the byte at $30 without using A?",
+          "options": [
+            "ASL $30",
+            "ASL #$30",
+            "LDA $30",
+            "INC $30"
+          ],
+          "answer": 0,
+          "explanation": "ASL works directly on memory, like INC."
+        },
+        {
+          "id": "a11-l1-e6",
+          "type": "order_lines",
+          "prompt": "Multiply the byte at $30 by 8.",
+          "lines": [
+            "ASL $30",
+            "ASL $30",
+            "ASL $30",
+            "BRK"
+          ],
+          "answer": [
+            "ASL $30",
+            "ASL $30",
+            "ASL $30",
+            "BRK"
+          ],
+          "explanation": "Three doublings: × 2 × 2 × 2 = × 8."
+        }
+      ]
+    },
+    {
+      "id": "a11-l2",
+      "title": "LSR: Halving",
+      "xp": 15,
+      "intro": [
+        "LSR (Logical Shift Right) moves every bit one place to the right. A 0 comes in at bit 7, and bit 0 drops into the carry.",
+        "That halves the number, rounded down. The carry holds the remainder: 1 if the number was odd.",
+        "Four LSRs move the upper hex digit down to the lower one: $A5 becomes $0A. That's how you get each hex digit of a byte."
+      ],
+      "example": {
+        "code": [
+          "LDA #$A5",
+          "LSR A",
+          "LSR A",
+          "LSR A",
+          "LSR A",
+          "BRK"
+        ],
+        "output": [
+          "A = $0A (the upper digit of $A5)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a11-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is A after LDA #20 and LSR A?",
+          "options": [
+            "10",
+            "40",
+            "5",
+            "21"
+          ],
+          "answer": 0,
+          "explanation": "Shifting right halves the number."
+        },
+        {
+          "id": "a11-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "A holds 7. What do A and the carry show after LSR A?",
+          "options": [
+            "A = 3, carry = 1",
+            "A = 3, carry = 0",
+            "A = 4, carry = 1",
+            "A = 14, carry = 0"
+          ],
+          "answer": 0,
+          "explanation": "7 / 2 = 3 rest 1. The 1 goes into the carry."
+        },
+        {
+          "id": "a11-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What does LSR A four times do to $C8?",
+          "options": [
+            "Gives $0C",
+            "Gives $08",
+            "Gives $80",
+            "Gives $00"
+          ],
+          "answer": 0,
+          "explanation": "Each LSR moves the bits one place. Four places move the upper digit C into the lower half."
+        },
+        {
+          "id": "a11-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Get the lower hex digit of A.",
+          "code": [
+            "LDA #$C8",
+            "___ #$0F",
+            "BRK"
+          ],
+          "options": [
+            "AND",
+            "ORA",
+            "LSR",
+            "EOR"
+          ],
+          "answer": "AND",
+          "explanation": "AND #$0F keeps only the lower digit: $08."
+        },
+        {
+          "id": "a11-l2-e5",
+          "type": "find_bug",
+          "prompt": "This should halve 40 to 20, but gives 80. Which line is wrong?",
+          "code": [
+            "LDA #40",
+            "ASL A",
+            "STA $0300",
+            "BRK"
+          ],
+          "answer": 1,
+          "explanation": "ASL doubles. To halve, shift right with LSR A."
+        },
+        {
+          "id": "a11-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "How can you test if a number is odd with LSR?",
+          "options": [
+            "LSR A, then BCS: the carry holds bit 0",
+            "LSR A, then BEQ",
+            "LSR A, then BMI",
+            "You can't"
+          ],
+          "answer": 0,
+          "explanation": "The bit that falls out is bit 0. It's 1 for odd numbers."
+        }
+      ]
+    },
+    {
+      "id": "a11-l3",
+      "title": "ROL and ROR",
+      "xp": 15,
+      "intro": [
+        "ROL and ROR are shifts that take the carry along. ROL (ROtate Left) shifts left, puts the old carry into bit 0, and bit 7 goes into the carry. ROR does the same to the right.",
+        "That's how numbers bigger than one byte get shifted. ASL the low byte; the bit that falls out lands in the carry; ROL the high byte, which picks it up.",
+        "So ASL $30 followed by ROL $31 doubles the 16-bit number stored in $30 (low) and $31 (high)."
+      ],
+      "example": {
+        "code": [
+          "LDA #$80",
+          "STA $30",
+          "ASL $30",
+          "ROL $31",
+          "BRK"
+        ],
+        "output": [
+          "$0030 = $00   $0031 = $01 ($0080 doubled is $0100)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a11-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "The carry is 1 and A is $00. What is A after ROL A?",
+          "options": [
+            "$01",
+            "$00",
+            "$80",
+            "$02"
+          ],
+          "answer": 0,
+          "explanation": "The old carry moves into bit 0."
+        },
+        {
+          "id": "a11-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "The carry is 1 and A is $00. What is A after ROR A?",
+          "options": [
+            "$80",
+            "$01",
+            "$00",
+            "$40"
+          ],
+          "answer": 0,
+          "explanation": "ROR puts the old carry into bit 7."
+        },
+        {
+          "id": "a11-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "Why is ROL $31 used after ASL $30?",
+          "options": [
+            "It catches the bit that fell out of the low byte",
+            "It doubles $31 a second time",
+            "It clears the carry",
+            "It's needed to stop the program"
+          ],
+          "answer": 0,
+          "explanation": "ASL $30 drops bit 7 into the carry, and ROL $31 brings it in at bit 0."
+        },
+        {
+          "id": "a11-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Double the 16-bit number in $30 (low) and $31 (high).",
+          "code": [
+            "ASL $30",
+            "___ $31",
+            "BRK"
+          ],
+          "options": [
+            "ROL",
+            "ROR",
+            "ASL",
+            "LSR"
+          ],
+          "answer": "ROL",
+          "explanation": "ROL takes the carry from the low byte into the high byte."
+        },
+        {
+          "id": "a11-l3-e5",
+          "type": "find_bug",
+          "prompt": "This should double the 16-bit number $0080 in $30/$31, but $31 stays 0. Which line is wrong?",
+          "code": [
+            "LDA #$80",
+            "STA $30",
+            "ASL $30",
+            "ASL $31",
+            "BRK"
+          ],
+          "answer": 3,
+          "explanation": "ASL ignores the carry. ROL $31 is needed to take over the bit from the low byte."
+        },
+        {
+          "id": "a11-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What is a 16-bit number?",
+          "options": [
+            "A number stored in two bytes, low byte and high byte",
+            "A number with 16 digits",
+            "A byte with 16 bits",
+            "A hex number"
+          ],
+          "answer": 0,
+          "explanation": "Two bytes together go from 0 to 65,535. The high byte counts the 256s."
+        }
+      ]
+    }
+  ]
+}

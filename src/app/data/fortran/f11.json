@@ -1,0 +1,409 @@
+{
+  "id": "f11",
+  "title": "Subroutines",
+  "lessons": [
+    {
+      "id": "f11-l1",
+      "title": "SUBROUTINE and CALL",
+      "xp": 15,
+      "intro": [
+        "A function gives back one value. A SUBROUTINE does a job: print a header, sort a list, fill a table. You start it with CALL, and when it reaches RETURN, the program continues after the CALL.",
+        "Like a FUNCTION, a SUBROUTINE is its own little deck after the main program's END.",
+        "Subroutines came with FORTRAN II in 1958. They let teams split big programs into parts, and swap useful decks with other computer centers."
+      ],
+      "example": {
+        "code": [
+          "      CALL LINE",
+          "      WRITE (6,10)",
+          "   10 FORMAT (' MONTHLY REPORT')",
+          "      CALL LINE",
+          "      STOP",
+          "      END",
+          "      SUBROUTINE LINE",
+          "      WRITE (6,20)",
+          "   20 FORMAT (' --------------')",
+          "      RETURN",
+          "      END"
+        ],
+        "output": [
+          "--------------",
+          "MONTHLY REPORT",
+          "--------------"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f11-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "How do you start a subroutine called HEADER?",
+          "options": [
+            "CALL HEADER",
+            "GO TO HEADER",
+            "HEADER",
+            "RUN HEADER"
+          ],
+          "answer": 0,
+          "explanation": "CALL jumps into the subroutine. RETURN comes back."
+        },
+        {
+          "id": "f11-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Where does the program continue after RETURN?",
+          "options": [
+            "On the card right after the CALL",
+            "At the start of the program",
+            "At END",
+            "At the next subroutine"
+          ],
+          "answer": 0,
+          "explanation": "RETURN goes back to where the CALL came from."
+        },
+        {
+          "id": "f11-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What is the main difference between a FUNCTION and a SUBROUTINE?",
+          "options": [
+            "A FUNCTION gives back a value, a SUBROUTINE does a job",
+            "A SUBROUTINE is faster",
+            "Only functions can have arguments",
+            "There is none"
+          ],
+          "answer": 0,
+          "explanation": "You use a function in a formula. You CALL a subroutine on its own card."
+        },
+        {
+          "id": "f11-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Print the header twice.",
+          "code": [
+            "      ___ HEADER",
+            "      CALL HEADER"
+          ],
+          "options": [
+            "CALL",
+            "GO TO",
+            "DO",
+            "RETURN"
+          ],
+          "answer": "CALL",
+          "explanation": "Each CALL runs the subroutine once."
+        },
+        {
+          "id": "f11-l1-e5",
+          "type": "find_bug",
+          "prompt": "This job stops with *ERROR*. Which card is wrong?",
+          "code": [
+            "      CALL LINES",
+            "      STOP",
+            "      END",
+            "      SUBROUTINE LINE",
+            "      WRITE (6,10)",
+            "   10 FORMAT (' -----')",
+            "      RETURN",
+            "      END"
+          ],
+          "answer": 0,
+          "explanation": "The subroutine is called LINE, but the CALL says LINES."
+        },
+        {
+          "id": "f11-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "In 1955, IBM users founded SHARE. What did they share?",
+          "options": [
+            "Programs and subroutines, punched on cards",
+            "Computers",
+            "Electricity",
+            "Programmers"
+          ],
+          "answer": 0,
+          "explanation": "SHARE was one of the first software libraries: a deck written in one city could save weeks of work in another."
+        }
+      ]
+    },
+    {
+      "id": "f11-l2",
+      "title": "Arguments Go Both Ways",
+      "xp": 15,
+      "intro": [
+        "A subroutine gets its values through arguments: CALL SWAP(I, J). Inside, they have their own names, like SUBROUTINE SWAP(K, L).",
+        "FORTRAN doesn't copy the values, it hands over the variables themselves. When the subroutine changes K, it changes I in the main program. That's how a subroutine gives back results.",
+        "On old systems this had a famous trap: CALL ADD1(2), with a subroutine that changes its argument, could change the constant 2 itself. After that, 2 + 2 wasn't 4 any more."
+      ],
+      "example": {
+        "code": [
+          "      I = 1",
+          "      J = 2",
+          "      CALL SWAP(I, J)",
+          "      WRITE (6,10) I, J",
+          "   10 FORMAT (1X, 2I3)",
+          "      STOP",
+          "      END",
+          "      SUBROUTINE SWAP(K, L)",
+          "      M = K",
+          "      K = L",
+          "      L = M",
+          "      RETURN",
+          "      END"
+        ],
+        "output": [
+          "  2  1"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f11-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "In the example, why do I and J change in the main program?",
+          "options": [
+            "The subroutine works on the variables themselves, not copies",
+            "SWAP is a built-in function",
+            "WRITE swaps them",
+            "They don't change"
+          ],
+          "answer": 0,
+          "explanation": "K and L are other names for I and J while SWAP runs."
+        },
+        {
+          "id": "f11-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Why does SWAP need M?",
+          "options": [
+            "To keep K's value before it's overwritten",
+            "M is required in every subroutine",
+            "To count the swaps",
+            "It doesn't need M"
+          ],
+          "answer": 0,
+          "explanation": "Without M, K = L would lose the old value of K."
+        },
+        {
+          "id": "f11-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this deck print?",
+          "code": [
+            "      N = 3",
+            "      CALL DOUBLE(N)",
+            "      WRITE (6,10) N",
+            "   10 FORMAT (1X, I2)",
+            "      STOP",
+            "      END",
+            "      SUBROUTINE DOUBLE(K)",
+            "      K = 2 * K",
+            "      RETURN",
+            "      END"
+          ],
+          "options": [
+            "6",
+            "3",
+            "0",
+            "9"
+          ],
+          "answer": 0,
+          "explanation": "DOUBLE stores 2 × 3 in K, and K is N in the main program."
+        },
+        {
+          "id": "f11-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Give back the sum in S.",
+          "code": [
+            "      SUBROUTINE ADD(A, B, S)",
+            "      ___ = A + B",
+            "      RETURN",
+            "      END"
+          ],
+          "options": [
+            "S",
+            "ADD",
+            "A",
+            "B"
+          ],
+          "answer": "S",
+          "explanation": "Storing into the argument S changes the caller's variable."
+        },
+        {
+          "id": "f11-l2-e5",
+          "type": "find_bug",
+          "prompt": "The main program's X never changes. Which card is wrong?",
+          "code": [
+            "      X = 1.0",
+            "      CALL ZERO(Y)",
+            "      WRITE (6,10) X",
+            "   10 FORMAT (1X, F4.1)",
+            "      STOP",
+            "      END",
+            "      SUBROUTINE ZERO(A)",
+            "      A = 0.0",
+            "      RETURN",
+            "      END"
+          ],
+          "answer": 1,
+          "explanation": "The CALL hands over Y, not X. CALL ZERO(X) would set X to zero."
+        },
+        {
+          "id": "f11-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Why was CALL ADD1(2) dangerous on old systems?",
+          "options": [
+            "The subroutine could change the constant 2 for the rest of the program",
+            "2 is not a valid argument",
+            "It used too much memory",
+            "It wasn't dangerous"
+          ],
+          "answer": 0,
+          "explanation": "Constants lived in memory too. Change one, and every later 2 in the program had a new value. Debugging that was a nightmare."
+        }
+      ]
+    },
+    {
+      "id": "f11-l3",
+      "title": "Passing Arrays",
+      "xp": 15,
+      "intro": [
+        "Arrays can be passed too: CALL SORT(A, 5). The subroutine declares the array again, often with a size that comes in as an argument: DIMENSION X(N). One subroutine then works for arrays of any length.",
+        "Sorting was one of the most common jobs for early computers: payrolls, phone books, census results. A simple way: compare every element with the ones after it, and swap whenever two are in the wrong order.",
+        "The array isn't copied either. When SORT swaps elements in X, it's sorting the main program's A."
+      ],
+      "example": {
+        "code": [
+          "      DIMENSION A(5)",
+          "      A(1) = 5.0",
+          "      A(2) = 2.0",
+          "      A(3) = 9.0",
+          "      A(4) = 1.0",
+          "      A(5) = 4.0",
+          "      CALL SORT(A, 5)",
+          "      WRITE (6,10) A",
+          "   10 FORMAT (1X, 5F5.1)",
+          "      STOP",
+          "      END",
+          "      SUBROUTINE SORT(X, N)",
+          "      DIMENSION X(N)",
+          "      M = N - 1",
+          "      DO 20 I = 1, M",
+          "      K = I + 1",
+          "      DO 10 J = K, N",
+          "      IF (X(J) .GE. X(I)) GO TO 10",
+          "      T = X(I)",
+          "      X(I) = X(J)",
+          "      X(J) = T",
+          "   10 CONTINUE",
+          "   20 CONTINUE",
+          "      RETURN",
+          "      END"
+        ],
+        "output": [
+          "  1.0  2.0  4.0  5.0  9.0"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f11-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does DIMENSION X(N) inside a subroutine mean?",
+          "options": [
+            "X is as long as the N that was passed in",
+            "X always has room for N = 1",
+            "A new array is created",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "Adjustable dimensions: one subroutine works for arrays of any size."
+        },
+        {
+          "id": "f11-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "In the example, why does A come out sorted?",
+          "options": [
+            "SORT works directly on A's elements",
+            "SORT returns a new array",
+            "WRITE sorts the numbers",
+            "The values were already in order"
+          ],
+          "answer": 0,
+          "explanation": "X is just another name for A while SORT runs."
+        },
+        {
+          "id": "f11-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Sum up the N elements of X.",
+          "code": [
+            "      SUBROUTINE TOTAL(X, N, S)",
+            "      DIMENSION X(___)",
+            "      S = 0.0",
+            "      DO 10 I = 1, N",
+            "      S = S + X(I)",
+            "   10 CONTINUE",
+            "      RETURN",
+            "      END"
+          ],
+          "options": [
+            "N",
+            "S",
+            "10",
+            "I"
+          ],
+          "answer": "N",
+          "explanation": "The length comes in as N."
+        },
+        {
+          "id": "f11-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this deck print?",
+          "code": [
+            "      DIMENSION A(3)",
+            "      A(1) = 1.0",
+            "      A(2) = 2.0",
+            "      A(3) = 3.0",
+            "      CALL TOTAL(A, 3, SUM)",
+            "      WRITE (6,10) SUM",
+            "   10 FORMAT (1X, F4.1)",
+            "      STOP",
+            "      END",
+            "      SUBROUTINE TOTAL(X, N, S)",
+            "      DIMENSION X(N)",
+            "      S = 0.0",
+            "      DO 10 I = 1, N",
+            "      S = S + X(I)",
+            "   10 CONTINUE",
+            "      RETURN",
+            "      END"
+          ],
+          "options": [
+            "6.0",
+            "3.0",
+            "1.0",
+            "0.0"
+          ],
+          "answer": 0,
+          "explanation": "TOTAL adds 1.0 + 2.0 + 3.0 into S, which is SUM in the main program."
+        },
+        {
+          "id": "f11-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "To sort from biggest to smallest, what changes in the example's SORT?",
+          "options": [
+            "The comparison: IF (X(J) .LE. X(I)) GO TO 10",
+            "Nothing",
+            "The DIMENSION",
+            "The RETURN"
+          ],
+          "answer": 0,
+          "explanation": "Swap when the later element is bigger instead of smaller."
+        },
+        {
+          "id": "f11-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What is a swap done with in the example?",
+          "options": [
+            "A spare variable T",
+            "A built-in SWAP function",
+            "Two READs",
+            "It can't be done"
+          ],
+          "answer": 0,
+          "explanation": "T keeps X(I) while X(I) gets X(J)'s value."
+        }
+      ]
+    }
+  ]
+}

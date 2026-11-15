@@ -1,0 +1,436 @@
+{
+  "id": "cb9",
+  "title": "Decisions",
+  "lessons": [
+    {
+      "id": "cb9-l1",
+      "title": "IF and ELSE",
+      "xp": 15,
+      "intro": [
+        "IF BALANCE < 0 runs the next statements only when the condition is true. ELSE gives the other way, and END-IF closes the IF.",
+        "Before END-IF existed (1985), a period ended the IF. That made bugs easy: a period too early ended the IF in the middle. Always close with END-IF.",
+        "Conditions use =, <, >, <=, >= or the words EQUAL TO, LESS THAN, GREATER THAN, and NOT."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. ACCOUNT.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 BALANCE  PIC S9(5)V99 VALUE -250.",
+          "       PROCEDURE DIVISION.",
+          "           IF BALANCE < 0",
+          "               DISPLAY \"OVERDRAWN\"",
+          "           ELSE",
+          "               DISPLAY \"IN CREDIT\"",
+          "           END-IF.",
+          "           IF BALANCE IS LESS THAN -100",
+          "               DISPLAY \"CALL THE CUSTOMER\"",
+          "           END-IF.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "OVERDRAWN",
+          "CALL THE CUSTOMER"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb9-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. IF.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 N PIC 99 VALUE 50.",
+            "       PROCEDURE DIVISION.",
+            "           IF N > 10",
+            "               DISPLAY \"BIG\"",
+            "           ELSE",
+            "               DISPLAY \"SMALL\"",
+            "           END-IF.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "BIG",
+            "SMALL",
+            "BIG SMALL",
+            "nothing"
+          ],
+          "answer": 0,
+          "explanation": "50 > 10."
+        },
+        {
+          "id": "cb9-l1-e2",
+          "type": "fill_blank",
+          "prompt": "Close the IF.",
+          "code": [
+            "           IF STOCK = 0",
+            "               DISPLAY \"ORDER MORE\"",
+            "           ___."
+          ],
+          "options": [
+            "END-IF",
+            "ENDIF",
+            "FI",
+            "END"
+          ],
+          "answer": "END-IF",
+          "explanation": "END-IF, with a hyphen."
+        },
+        {
+          "id": "cb9-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What does NOT GREATER THAN mean?",
+          "options": [
+            "<=",
+            "<",
+            ">=",
+            "="
+          ],
+          "answer": 0,
+          "explanation": "Not bigger: smaller or equal."
+        },
+        {
+          "id": "cb9-l1-e4",
+          "type": "find_bug",
+          "prompt": "This job always shows WELCOME BACK, even for new customers. Which line is wrong?",
+          "code": [
+            "           IF VISITS = 0",
+            "               DISPLAY \"FIRST VISIT\".",
+            "           ELSE",
+            "               DISPLAY \"WELCOME BACK\"",
+            "           END-IF."
+          ],
+          "answer": 1,
+          "explanation": "The period after the first DISPLAY ends the IF early. Remove it: END-IF closes the IF."
+        },
+        {
+          "id": "cb9-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Which is the same as IF A >= B?",
+          "options": [
+            "IF A NOT LESS THAN B",
+            "IF A NOT GREATER THAN B",
+            "IF A > B",
+            "IF B >= A"
+          ],
+          "answer": 0,
+          "explanation": "Not less: greater or equal."
+        },
+        {
+          "id": "cb9-l1-e6",
+          "type": "order_lines",
+          "prompt": "Put the lines in order.",
+          "lines": [
+            "           IF AMOUNT > 1000",
+            "               DISPLAY \"CHECK BY HAND\"",
+            "           ELSE",
+            "               DISPLAY \"APPROVED\"",
+            "           END-IF."
+          ],
+          "answer": [
+            "           IF AMOUNT > 1000",
+            "               DISPLAY \"CHECK BY HAND\"",
+            "           ELSE",
+            "               DISPLAY \"APPROVED\"",
+            "           END-IF."
+          ],
+          "explanation": "IF, its statement, ELSE, the other statement, END-IF."
+        }
+      ]
+    },
+    {
+      "id": "cb9-l2",
+      "title": "Conditions and 88 Levels",
+      "xp": 15,
+      "intro": [
+        "Conditions combine with AND, OR and NOT. COBOL even lets you leave out a repeated subject: IF CODE = \"A\" OR \"B\" means CODE = \"A\" OR CODE = \"B\".",
+        "An 88 level gives a name to values of a field: under 01 STATUS-CODE, 88 ACTIVE VALUE \"A\" makes IF ACTIVE mean IF STATUS-CODE = \"A\". It reads like English, and SET ACTIVE TO TRUE puts the \"A\" in.",
+        "Class tests check what a field holds: IF AMOUNT IS NUMERIC, IF BALANCE IS NEGATIVE."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. STATUS.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 ACCT-STATUS  PIC X VALUE \"A\".",
+          "          88 ACTIVE   VALUE \"A\".",
+          "          88 CLOSED   VALUE \"C\".",
+          "          88 FROZEN   VALUE \"F\".",
+          "       01 GRADE        PIC 9 VALUE 2.",
+          "       PROCEDURE DIVISION.",
+          "           IF ACTIVE",
+          "               DISPLAY \"ACCOUNT IS ACTIVE\"",
+          "           END-IF.",
+          "           SET CLOSED TO TRUE.",
+          "           IF CLOSED OR FROZEN",
+          "               DISPLAY \"NOW: \" ACCT-STATUS",
+          "           END-IF.",
+          "           IF GRADE >= 1 AND GRADE <= 3",
+          "               DISPLAY \"GOOD CUSTOMER\"",
+          "           END-IF.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "ACCOUNT IS ACTIVE",
+          "NOW: C",
+          "GOOD CUSTOMER"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb9-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is an 88 level?",
+          "options": [
+            "A name for one or more values of the field above it",
+            "A field with 88 characters",
+            "A comment",
+            "A loop"
+          ],
+          "answer": 0,
+          "explanation": "A condition name."
+        },
+        {
+          "id": "cb9-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. SET.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 DOOR PIC X VALUE \"O\".",
+            "          88 SHUT VALUE \"C\".",
+            "       PROCEDURE DIVISION.",
+            "           SET SHUT TO TRUE.",
+            "           IF SHUT",
+            "               DISPLAY \"CLOSED\"",
+            "           ELSE",
+            "               DISPLAY \"OPEN\"",
+            "           END-IF.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "CLOSED",
+            "OPEN",
+            "nothing",
+            "C"
+          ],
+          "answer": 0,
+          "explanation": "SET SHUT TO TRUE moved \"C\" into DOOR, so SHUT is true."
+        },
+        {
+          "id": "cb9-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Name the value Y.",
+          "code": [
+            "       01 ANSWER  PIC X.",
+            "          ___ SAID-YES VALUE \"Y\"."
+          ],
+          "options": [
+            "88",
+            "77",
+            "05",
+            "01"
+          ],
+          "answer": "88",
+          "explanation": "88 makes a condition name."
+        },
+        {
+          "id": "cb9-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "IF CODE = \"A\" OR \"B\" means:",
+          "options": [
+            "CODE = \"A\" OR CODE = \"B\"",
+            "CODE = \"AB\"",
+            "CODE = \"A\" OR \"B\" is true",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "The subject and = are repeated for you."
+        },
+        {
+          "id": "cb9-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "How do you put \"C\" into ACCT-STATUS using its 88 level CLOSED?",
+          "options": [
+            "SET CLOSED TO TRUE",
+            "MOVE CLOSED TO ACCT-STATUS",
+            "CLOSED = TRUE",
+            "IF CLOSED"
+          ],
+          "answer": 0,
+          "explanation": "SET … TO TRUE moves the 88's value into the field."
+        },
+        {
+          "id": "cb9-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What does IF AMOUNT IS NUMERIC check?",
+          "options": [
+            "That the field holds only digits, so it's safe to calculate with",
+            "That it's positive",
+            "That it's PIC 9",
+            "That it's not zero"
+          ],
+          "answer": 0,
+          "explanation": "A check before you risk an S0C7."
+        }
+      ]
+    },
+    {
+      "id": "cb9-l3",
+      "title": "EVALUATE",
+      "xp": 15,
+      "intro": [
+        "When there are many choices, EVALUATE is clearer than nested IFs. EVALUATE TRUE checks one WHEN condition after another and runs the first one that's true.",
+        "EVALUATE can also look at a field: EVALUATE REGION WHEN \"N\" … WHEN \"S\" …. WHEN 1 THRU 5 covers a range, and WHEN OTHER catches everything else.",
+        "Several WHENs in a row share the statements after them. END-EVALUATE closes it all."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. TAX.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 INCOME   PIC 9(6) VALUE 35000.",
+          "       01 RATE     PIC 99.",
+          "       01 DAY-NO   PIC 9 VALUE 6.",
+          "       PROCEDURE DIVISION.",
+          "           EVALUATE TRUE",
+          "               WHEN INCOME < 10000",
+          "                   MOVE 0 TO RATE",
+          "               WHEN INCOME < 50000",
+          "                   MOVE 20 TO RATE",
+          "               WHEN OTHER",
+          "                   MOVE 40 TO RATE",
+          "           END-EVALUATE.",
+          "           DISPLAY \"TAX RATE: \" RATE \"%\".",
+          "           EVALUATE DAY-NO",
+          "               WHEN 1 THRU 5",
+          "                   DISPLAY \"WORKDAY\"",
+          "               WHEN 6",
+          "               WHEN 7",
+          "                   DISPLAY \"WEEKEND\"",
+          "           END-EVALUATE.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "TAX RATE: 20%",
+          "WEEKEND"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb9-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does EVALUATE TRUE do?",
+          "options": [
+            "Runs the statements of the first WHEN whose condition is true",
+            "Runs every WHEN",
+            "Checks if TRUE is true",
+            "Loops until TRUE"
+          ],
+          "answer": 0,
+          "explanation": "Like a chain of IF … ELSE IF."
+        },
+        {
+          "id": "cb9-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. EV.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 SCORE PIC 99 VALUE 75.",
+            "       PROCEDURE DIVISION.",
+            "           EVALUATE TRUE",
+            "               WHEN SCORE < 60 DISPLAY \"C\"",
+            "               WHEN SCORE < 80 DISPLAY \"B\"",
+            "               WHEN OTHER DISPLAY \"A\"",
+            "           END-EVALUATE.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "B",
+            "A",
+            "C",
+            "nothing"
+          ],
+          "answer": 0,
+          "explanation": "75 is not below 60, but below 80."
+        },
+        {
+          "id": "cb9-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Catch every other value.",
+          "code": [
+            "               WHEN ___",
+            "                   DISPLAY \"UNKNOWN CODE\""
+          ],
+          "options": [
+            "OTHER",
+            "ELSE",
+            "DEFAULT",
+            "ANY"
+          ],
+          "answer": "OTHER",
+          "explanation": "WHEN OTHER."
+        },
+        {
+          "id": "cb9-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does WHEN 1 THRU 5 cover?",
+          "options": [
+            "The values 1, 2, 3, 4 and 5",
+            "Only 1 and 5",
+            "1.5",
+            "5 values starting at 2"
+          ],
+          "answer": 0,
+          "explanation": "THRU is a range, both ends included."
+        },
+        {
+          "id": "cb9-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "In the example, why do WHEN 6 and WHEN 7 both show WEEKEND?",
+          "options": [
+            "WHENs in a row share the statements after them",
+            "WHEN 6 does nothing",
+            "It's a bug",
+            "7 is OTHER"
+          ],
+          "answer": 0,
+          "explanation": "That's how you list several values for one answer."
+        },
+        {
+          "id": "cb9-l3-e6",
+          "type": "order_lines",
+          "prompt": "Put the lines in order.",
+          "lines": [
+            "           EVALUATE SIZE-CODE",
+            "               WHEN \"S\"",
+            "                   DISPLAY \"SMALL\"",
+            "               WHEN OTHER",
+            "                   DISPLAY \"BIG\"",
+            "           END-EVALUATE."
+          ],
+          "answer": [
+            "           EVALUATE SIZE-CODE",
+            "               WHEN \"S\"",
+            "                   DISPLAY \"SMALL\"",
+            "               WHEN OTHER",
+            "                   DISPLAY \"BIG\"",
+            "           END-EVALUATE."
+          ],
+          "explanation": "EVALUATE, a WHEN with its statement, WHEN OTHER, END-EVALUATE."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,383 @@
+{
+  "id": "p15",
+  "title": "Sets",
+  "lessons": [
+    {
+      "id": "p15-l1",
+      "title": "set of",
+      "xp": 15,
+      "intro": [
+        "A set holds a group of values, each either in or out: var vowels: set of char; vowels := ['a', 'e', 'i', 'o', 'u'];",
+        "in checks if a value is in the set: if c in vowels then … That replaces long chains of or.",
+        "A set can hold ranges too: ['a'..'z', 'A'..'Z'] is all letters. Sets work with small ordinal values (0 to 255): chars, enumerations, small numbers."
+      ],
+      "example": {
+        "code": [
+          "program Vowels;",
+          "var",
+          "  vowels: set of char;",
+          "  s: string;",
+          "  i, n: integer;",
+          "begin",
+          "  vowels := ['a', 'e', 'i', 'o', 'u'];",
+          "  s := 'turbo pascal';",
+          "  n := 0;",
+          "  for i := 1 to length(s) do",
+          "    if s[i] in vowels then",
+          "      n := n + 1;",
+          "  writeln(n, ' vowels');",
+          "  if '7' in ['0'..'9'] then",
+          "    writeln('7 is a digit');",
+          "end."
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "p15-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does c in ['0'..'9'] check?",
+          "options": [
+            "Whether c is a digit",
+            "Whether c is a number between 0 and 9",
+            "Whether c is a set",
+            "It counts the digits"
+          ],
+          "answer": 0,
+          "explanation": "in tests if a value is in a set."
+        },
+        {
+          "id": "p15-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Which is shorter than (c = 'a') or (c = 'e') or (c = 'i') or (c = 'o') or (c = 'u')?",
+          "options": [
+            "c in ['a', 'e', 'i', 'o', 'u']",
+            "c = 'aeiou'",
+            "pos(c, 'aeiou')",
+            "c in 'aeiou'"
+          ],
+          "answer": 0,
+          "explanation": "A set does it in one test."
+        },
+        {
+          "id": "p15-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Check whether c is a letter.",
+          "code": [
+            "  if c ___ ['a'..'z', 'A'..'Z'] then"
+          ],
+          "options": [
+            "in",
+            "=",
+            "of",
+            "is"
+          ],
+          "answer": "in",
+          "explanation": "in tests membership."
+        },
+        {
+          "id": "p15-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program P;",
+            "var",
+            "  primes: set of 0..9;",
+            "  i, n: integer;",
+            "begin",
+            "  primes := [2, 3, 5, 7];",
+            "  n := 0;",
+            "  for i := 1 to 6 do",
+            "    if i in primes then",
+            "      n := n + 1;",
+            "  writeln(n);",
+            "end."
+          ],
+          "options": [
+            "3",
+            "2",
+            "5",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "2, 3 and 5 are in the set."
+        },
+        {
+          "id": "p15-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Can a set hold the number 1000?",
+          "options": [
+            "No, sets only hold values from 0 to 255",
+            "Yes",
+            "Only in a set of integer",
+            "Only twice"
+          ],
+          "answer": 0,
+          "explanation": "Turbo Pascal sets have 256 possible members."
+        },
+        {
+          "id": "p15-l1-e6",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program Digits;",
+            "var",
+            "  c: char;",
+            "begin",
+            "  c := '5';",
+            "  if c in '0'..'9' then",
+            "    writeln('digit');",
+            "end."
+          ],
+          "answer": 5,
+          "explanation": "A set needs square brackets: c in ['0'..'9']."
+        }
+      ]
+    },
+    {
+      "id": "p15-l2",
+      "title": "+, * and -",
+      "xp": 15,
+      "intro": [
+        "Sets can be combined: a + b has everything that's in a or b (union), a * b only what's in both (intersection), a - b what's in a but not in b (difference).",
+        "include(s, x) adds one value, exclude(s, x) removes one. [] is the empty set.",
+        "a = b compares two sets, a <= b checks if a is part of b."
+      ],
+      "example": {
+        "code": [
+          "program Toppings;",
+          "type",
+          "  TTopping = (cheese, ham, mushrooms, olives);",
+          "const",
+          "  name: array[TTopping] of string = ('cheese', 'ham', 'mushrooms', 'olives');",
+          "var",
+          "  ann, ben, both, any: set of TTopping;",
+          "  t: TTopping;",
+          "begin",
+          "  ann := [cheese, ham, olives];",
+          "  ben := [cheese, mushrooms];",
+          "  both := ann * ben;",
+          "  any := ann + ben;",
+          "  for t := cheese to olives do",
+          "  begin",
+          "    if t in both then writeln(name[t], ': both like it')",
+          "    else if t in any then writeln(name[t], ': one likes it');",
+          "  end;",
+          "  exclude(ann, ham);",
+          "  if ann <= [cheese, olives] then",
+          "    writeln('Ann eats no ham now');",
+          "end."
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "p15-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is ['a', 'b'] + ['b', 'c']?",
+          "options": [
+            "['a', 'b', 'c']",
+            "['b']",
+            "['a']",
+            "['a', 'b', 'b', 'c']"
+          ],
+          "answer": 0,
+          "explanation": "Union: everything in either set (each value only once)."
+        },
+        {
+          "id": "p15-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What is ['a', 'b'] * ['b', 'c']?",
+          "options": [
+            "['b']",
+            "['a', 'b', 'c']",
+            "['a', 'c']",
+            "[]"
+          ],
+          "answer": 0,
+          "explanation": "Intersection: only what's in both."
+        },
+        {
+          "id": "p15-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What is ['a', 'b'] - ['b', 'c']?",
+          "options": [
+            "['a']",
+            "['c']",
+            "['b']",
+            "['a', 'c']"
+          ],
+          "answer": 0,
+          "explanation": "Difference: in the first, but not in the second."
+        },
+        {
+          "id": "p15-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Add 'x' to the set s.",
+          "code": [
+            "  ___(s, 'x');"
+          ],
+          "options": [
+            "include",
+            "exclude",
+            "add",
+            "insert"
+          ],
+          "answer": "include",
+          "explanation": "include adds, exclude removes."
+        },
+        {
+          "id": "p15-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Sub;",
+            "var",
+            "  a: set of 1..9;",
+            "begin",
+            "  a := [1, 2];",
+            "  writeln(a <= [1, 2, 3]);",
+            "end."
+          ],
+          "options": [
+            "TRUE",
+            "FALSE",
+            "[]",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "[1, 2] is part of [1, 2, 3]."
+        },
+        {
+          "id": "p15-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What is []?",
+          "options": [
+            "The empty set",
+            "An error",
+            "An empty array",
+            "Zero"
+          ],
+          "answer": 0,
+          "explanation": "A set with nothing in it."
+        }
+      ]
+    },
+    {
+      "id": "p15-l3",
+      "title": "Checking Input",
+      "xp": 15,
+      "intro": [
+        "Sets are perfect for checking what the user types: if not (answer in ['y', 'n']) then … Ask again until it's valid.",
+        "Combined with upcase, it doesn't matter whether the user types y or Y.",
+        "Turbo Pascal programs used this everywhere for menus: case choice of … after checking choice in ['1'..'4']."
+      ],
+      "example": {
+        "code": [
+          "program Menu;",
+          "var",
+          "  answer: char;",
+          "begin",
+          "  repeat",
+          "    write('Continue (Y/N)? ');",
+          "    readln(answer);",
+          "    answer := upcase(answer);",
+          "  until answer in ['Y', 'N'];",
+          "  if answer = 'Y' then",
+          "    writeln('Continuing...')",
+          "  else",
+          "    writeln('Bye!');",
+          "end."
+        ],
+        "output": [],
+        "inputs": [
+          "maybe",
+          "y"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p15-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Why are sets good for checking input?",
+          "options": [
+            "One in test checks against many allowed values",
+            "They are faster than strings",
+            "They store the input",
+            "They can't be wrong"
+          ],
+          "answer": 0,
+          "explanation": "answer in ['Y', 'N'] instead of two comparisons."
+        },
+        {
+          "id": "p15-l3-e2",
+          "type": "fill_blank",
+          "prompt": "Repeat until the answer is valid.",
+          "code": [
+            "  until choice ___ ['1'..'4'];"
+          ],
+          "options": [
+            "in",
+            "=",
+            "<=",
+            "of"
+          ],
+          "answer": "in",
+          "explanation": "in checks against the set."
+        },
+        {
+          "id": "p15-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "Why use upcase on the answer first?",
+          "options": [
+            "So y and Y both work",
+            "Sets only hold capitals",
+            "To make it a string",
+            "It's required"
+          ],
+          "answer": 0,
+          "explanation": "Then the set only needs the capitals."
+        },
+        {
+          "id": "p15-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "The user types x, then 7, then 2. Which answer does repeat … until choice in ['1'..'4'] accept?",
+          "options": [
+            "2",
+            "x",
+            "7",
+            "none"
+          ],
+          "answer": 0,
+          "explanation": "x and 7 are not in the set, so it asks again."
+        },
+        {
+          "id": "p15-l3-e5",
+          "type": "find_bug",
+          "prompt": "This program asks forever, even for y. Which line is wrong?",
+          "code": [
+            "repeat",
+            "  write('Sure (y/n)? ');",
+            "  readln(a);",
+            "until a in ['Y', 'N'];"
+          ],
+          "answer": 3,
+          "explanation": "The set only has capitals, but the user types y. Add a := upcase(a); or use ['y', 'n', 'Y', 'N']."
+        },
+        {
+          "id": "p15-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What does not (c in ['a'..'z']) mean?",
+          "options": [
+            "c is not a small letter",
+            "c is a small letter",
+            "c is empty",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "The brackets around the in test are needed, because not is stronger."
+        }
+      ]
+    }
+  ]
+}

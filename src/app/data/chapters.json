@@ -1,0 +1,142 @@
+{
+  "chapters": [
+    {
+      "id": "c1",
+      "title": "Hello, Computer",
+      "subtitle": "The fundamentals: output, variables, decisions and loops.",
+      "units": [
+        {
+          "id": "u1",
+          "title": "First Steps",
+          "learn": ["Show text and numbers with PRINT", "Store numbers in variables with LET", "Let BASIC do the math"],
+          "goal": "Write a program that calculates a result and prints it."
+        },
+        {
+          "id": "u2",
+          "title": "Jumps & Decisions",
+          "learn": ["Jump to any line with GOTO", "Make decisions with IF…THEN", "Repeat code with a counter"],
+          "goal": "Write a countdown that repeats itself instead of copying lines."
+        },
+        {
+          "id": "u3",
+          "title": "Loops",
+          "learn": ["Repeat code with FOR and NEXT", "Count in steps with STEP", "Put loops inside loops"],
+          "goal": "Print a whole table with just a few lines."
+        }
+      ],
+      "project": { "id": "c1-project", "title": "Times Table Printer", "xp": 100 }
+    },
+    {
+      "id": "c2",
+      "title": "Working with Data",
+      "subtitle": "Store, read and process whole lists of numbers.",
+      "units": [
+        {
+          "id": "u4",
+          "title": "READ & DATA",
+          "learn": ["Keep values inside the program with DATA", "Read them one by one with READ"],
+          "goal": "Process a list of values without a LET for each one."
+        },
+        {
+          "id": "u5",
+          "title": "Lists with DIM",
+          "learn": ["Create lists with DIM", "Access items by their position"],
+          "goal": "Store a list of scores and work with every item."
+        },
+        {
+          "id": "u6",
+          "title": "Built-in Functions",
+          "learn": [
+            "Round numbers with INT and use ABS and SQR",
+            "Random numbers with RND",
+            "Math functions: SIN, COS, EXP and LOG"
+          ],
+          "goal": "Find perfect squares with SQR and INT, and roll virtual dice."
+        }
+      ],
+      "project": { "id": "c2-project", "title": "Grade Statistics", "xp": 120 }
+    },
+    {
+      "id": "c3",
+      "title": "Bigger Programs",
+      "subtitle": "Structure larger programs like a real 1960s programmer.",
+      "units": [
+        {
+          "id": "u7",
+          "title": "Subroutines",
+          "learn": ["Reuse code with GOSUB", "Come back with RETURN"],
+          "goal": "Split a program into clean, reusable parts."
+        },
+        {
+          "id": "u8",
+          "title": "Your Own Functions",
+          "learn": ["Define functions with DEF FN", "Use them in calculations"],
+          "goal": "Write your own math helpers."
+        },
+        {
+          "id": "u9",
+          "title": "Debugging & Style",
+          "learn": ["Find and fix bugs step by step", "Write programs others can read"],
+          "goal": "Repair a broken program."
+        }
+      ],
+      "project": { "id": "c3-project", "title": "Prime Number Finder", "xp": 150 }
+    },
+    {
+      "id": "c4",
+      "title": "Classic Programs",
+      "subtitle": "No new statements, just real programming: the problems everyone solved in BASIC.",
+      "units": [
+        {
+          "id": "u10",
+          "title": "Patterns & Tables",
+          "learn": ["Draw shapes with PRINT and loops", "Line up neat tables with commas", "Plan a program before you write it"],
+          "goal": "Print a perfectly centered pyramid of stars."
+        },
+        {
+          "id": "u11",
+          "title": "Searching & Sorting",
+          "learn": ["Find the biggest and smallest value and where it is", "Search a list for a number", "Sort a list with bubble sort"],
+          "goal": "Sort a messy list of numbers from smallest to biggest."
+        },
+        {
+          "id": "u12",
+          "title": "Simulations",
+          "learn": ["Simulate dice and coins with RND", "Try every possibility with nested loops", "Count results with lists"],
+          "goal": "Find out exactly how often each sum comes up with three dice."
+        }
+      ],
+      "project": { "id": "c4-project", "title": "League Table", "xp": 180 }
+    },
+    {
+      "id": "c5",
+      "title": "Beyond 1964",
+      "subtitle": "What came after the first BASIC, and where to go from here.",
+      "units": [
+        {
+          "id": "u13",
+          "title": "INPUT: Talking Back",
+          "learn": ["Ask the user for numbers with INPUT", "Check input and ask again", "Keep asking until a stop value"],
+          "goal": "Write a calculator that reacts to what the user types."
+        },
+        {
+          "id": "u14",
+          "title": "Text & Matrices",
+          "learn": ["Store words in text variables like N$", "Use text in decisions and DATA", "Work with whole lists using MAT"],
+          "goal": "Build a small quiz that stores questions as text."
+        },
+        {
+          "id": "u15",
+          "title": "From BASIC to Today",
+          "learn": [
+            "How BASIC spread to home computers like the Commodore 64",
+            "The same ideas in Python",
+            "What to learn next"
+          ],
+          "goal": "See how everything you learned carries over to modern languages."
+        }
+      ],
+      "project": { "id": "c5-project", "title": "Number Guessing Game", "xp": 200 }
+    }
+  ]
+}

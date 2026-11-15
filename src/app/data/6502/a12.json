@@ -1,0 +1,355 @@
+{
+  "id": "a12",
+  "title": "Multiplication",
+  "lessons": [
+    {
+      "id": "a12-l1",
+      "title": "Shift and Add",
+      "xp": 15,
+      "intro": [
+        "Adding in a loop works, but 200 × 200 would need 200 rounds. Real 6502 programs multiply the way you learned on paper, just in binary.",
+        "Go through the bits of the second number. For every 1 bit, add the first number, shifted to that bit's place. 5 × 6: 6 is %110, so add 5 × 2 and 5 × 4: 10 + 20 = 30.",
+        "In code: shift the second number right with LSR. If the bit that falls out is 1 (BCC skips if not), add the first number. Then double the first number with ASL. Eight rounds, done."
+      ],
+      "example": {
+        "code": [
+          "LDA #0",
+          "STA $32",
+          "LDX #8",
+          "LOOP: LSR $31",
+          "BCC SKIP",
+          "CLC",
+          "LDA $32",
+          "ADC $30",
+          "STA $32",
+          "SKIP: ASL $30",
+          "DEX",
+          "BNE LOOP",
+          "BRK"
+        ],
+        "output": [
+          "With $30 = 5 and $31 = 6: $0032 = $1E (30)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a12-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "6 is %110. Which multiples of 5 are added for 5 × 6?",
+          "options": [
+            "5 × 2 and 5 × 4",
+            "5 × 1 and 5 × 2",
+            "5 × 6",
+            "5 × 1, 5 × 2 and 5 × 4"
+          ],
+          "answer": 0,
+          "explanation": "Bits 1 and 2 are set, worth 2 and 4."
+        },
+        {
+          "id": "a12-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Why does the loop run exactly 8 times?",
+          "options": [
+            "The second number has 8 bits",
+            "8 is the biggest result",
+            "BNE needs 8",
+            "Each round adds 8"
+          ],
+          "answer": 0,
+          "explanation": "One round per bit of the multiplier."
+        },
+        {
+          "id": "a12-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What does BCC SKIP do?",
+          "options": [
+            "Skips the adding when the bit that fell out was 0",
+            "Stops the loop",
+            "Skips when the result is too big",
+            "Clears the carry"
+          ],
+          "answer": 0,
+          "explanation": "LSR $31 drops the lowest bit into the carry. Only 1 bits add something."
+        },
+        {
+          "id": "a12-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Double the first number for the next bit.",
+          "code": [
+            "SKIP: ___ $30",
+            "DEX",
+            "BNE LOOP"
+          ],
+          "options": [
+            "ASL",
+            "LSR",
+            "INC",
+            "ROR"
+          ],
+          "answer": "ASL",
+          "explanation": "Each round, the first number moves one place left: × 2."
+        },
+        {
+          "id": "a12-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "How many rounds does adding in a loop need for 200 × 200, and how many does shift and add need?",
+          "options": [
+            "200 and 8",
+            "8 and 200",
+            "200 and 200",
+            "40000 and 8"
+          ],
+          "answer": 0,
+          "explanation": "Shift and add always takes 8 rounds, no matter how big the numbers are."
+        }
+      ]
+    },
+    {
+      "id": "a12-l2",
+      "title": "16-Bit Results",
+      "xp": 15,
+      "intro": [
+        "255 × 255 is 65,025: much more than a byte. The result needs two bytes: a low byte (the ones up to 255) and a high byte (how many 256s).",
+        "To add to a 16-bit number, add the low bytes first, then the high bytes with ADC, which also adds the carry from the low byte. Clear the carry only once, at the start.",
+        "To add a single byte, the high part is ADC #0: it just picks up the carry."
+      ],
+      "example": {
+        "code": [
+          "CLC",
+          "LDA $30",
+          "ADC #$C8",
+          "STA $30",
+          "LDA $31",
+          "ADC #0",
+          "STA $31",
+          "BRK"
+        ],
+        "output": [
+          "With $30 = $C8: $0030 = $90   $0031 = $01 ($0190 = 200 + 200)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a12-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "A 16-bit number has the high byte $02 and the low byte $10. What is it?",
+          "options": [
+            "$0210 (528)",
+            "$1002",
+            "$12",
+            "210"
+          ],
+          "answer": 0,
+          "explanation": "High byte first when writing it: $0210 = 2 × 256 + 16 = 528."
+        },
+        {
+          "id": "a12-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Why is there no CLC before ADC #0?",
+          "options": [
+            "The carry from the low byte has to be added to the high byte",
+            "ADC #0 doesn't use the carry",
+            "CLC was forgotten",
+            "It would be too slow"
+          ],
+          "answer": 0,
+          "explanation": "That carry is exactly the overflow from the low byte."
+        },
+        {
+          "id": "a12-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Add the carry to the high byte.",
+          "code": [
+            "CLC",
+            "LDA $30",
+            "ADC #50",
+            "STA $30",
+            "LDA $31",
+            "ADC #___",
+            "STA $31"
+          ],
+          "options": [
+            "0",
+            "1",
+            "50",
+            "$FF"
+          ],
+          "answer": "0",
+          "explanation": "ADC #0 adds nothing but the carry."
+        },
+        {
+          "id": "a12-l2-e4",
+          "type": "find_bug",
+          "prompt": "This 16-bit addition sometimes loses 256. Which line is wrong?",
+          "code": [
+            "CLC",
+            "LDA $30",
+            "ADC #$C8",
+            "STA $30",
+            "CLC",
+            "LDA $31",
+            "ADC #0",
+            "STA $31"
+          ],
+          "answer": 4,
+          "explanation": "The second CLC throws away the carry from the low byte. Only clear it once, at the start."
+        },
+        {
+          "id": "a12-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What is the biggest number two bytes can hold?",
+          "options": [
+            "65,535 ($FFFF)",
+            "255",
+            "511",
+            "1,000,000"
+          ],
+          "answer": 0,
+          "explanation": "256 × 256 values, from 0 to 65,535."
+        },
+        {
+          "id": "a12-l2-e6",
+          "type": "order_lines",
+          "prompt": "Add 1 to the 16-bit number in $30 (low) and $31 (high).",
+          "lines": [
+            "CLC",
+            "LDA $30",
+            "ADC #1",
+            "STA $30",
+            "LDA $31",
+            "ADC #0",
+            "STA $31",
+            "BRK"
+          ],
+          "answer": [
+            "CLC",
+            "LDA $30",
+            "ADC #1",
+            "STA $30",
+            "LDA $31",
+            "ADC #0",
+            "STA $31",
+            "BRK"
+          ],
+          "explanation": "Low byte first, then the high byte picks up the carry."
+        }
+      ]
+    },
+    {
+      "id": "a12-l3",
+      "title": "Dividing",
+      "xp": 15,
+      "intro": [
+        "The 6502 can't divide either. The simplest way: subtract the divisor as long as you can, and count how often. You did that with 10 for tens and ones.",
+        "The count is the quotient, and what's left over is the remainder. 23 / 5: subtract 5 four times, 3 is left. Quotient 4, remainder 3.",
+        "Watch out for dividing by 0: subtracting 0 never makes the number smaller, so the loop would never end. Check for 0 first."
+      ],
+      "example": {
+        "code": [
+          "LDA $30",
+          "LDX #0",
+          "LOOP: CMP $31",
+          "BCC DONE",
+          "SEC",
+          "SBC $31",
+          "INX",
+          "JMP LOOP",
+          "DONE: BRK"
+        ],
+        "output": [
+          "With $30 = 23 and $31 = 5: X = $04, A = $03"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a12-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What are the quotient and remainder of 17 / 5?",
+          "options": [
+            "3, remainder 2",
+            "2, remainder 7",
+            "3, remainder 0",
+            "5, remainder 3"
+          ],
+          "answer": 0,
+          "explanation": "5 fits 3 times into 17 (15), and 2 is left."
+        },
+        {
+          "id": "a12-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "In the example, where is the quotient at the end?",
+          "options": [
+            "In X",
+            "In A",
+            "In $30",
+            "In the carry"
+          ],
+          "answer": 0,
+          "explanation": "INX counts every subtraction."
+        },
+        {
+          "id": "a12-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "Why does the loop stop at BCC DONE?",
+          "options": [
+            "After CMP, carry clear means A is smaller than the divisor",
+            "BCC means A is 0",
+            "The remainder is always 0 then",
+            "It never stops"
+          ],
+          "answer": 0,
+          "explanation": "Once the rest is smaller than the divisor, you can't subtract any more."
+        },
+        {
+          "id": "a12-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Count one more subtraction.",
+          "code": [
+            "LOOP: CMP $31",
+            "BCC DONE",
+            "SEC",
+            "SBC $31",
+            "___",
+            "JMP LOOP"
+          ],
+          "options": [
+            "INX",
+            "DEX",
+            "INC A",
+            "CLC"
+          ],
+          "answer": "INX",
+          "explanation": "X counts how often the divisor was taken away."
+        },
+        {
+          "id": "a12-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What happens if $31 is 0?",
+          "options": [
+            "The loop never ends",
+            "X becomes $FF",
+            "A becomes 0",
+            "The 6502 shows an error"
+          ],
+          "answer": 0,
+          "explanation": "Subtracting 0 changes nothing, so A never gets smaller than the divisor."
+        },
+        {
+          "id": "a12-l3-e6",
+          "type": "find_bug",
+          "prompt": "This division gives one too few in X. Which line is wrong?",
+          "code": [
+            "LOOP: CMP $31",
+            "BCC DONE",
+            "CLC",
+            "SBC $31",
+            "INX",
+            "JMP LOOP"
+          ],
+          "answer": 2,
+          "explanation": "With CLC, SBC subtracts one extra each round. Use SEC before SBC."
+        }
+      ]
+    }
+  ]
+}

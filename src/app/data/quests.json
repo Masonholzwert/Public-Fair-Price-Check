@@ -1,0 +1,533 @@
+{
+  "u1": {
+    "title": "The Cafeteria Problem",
+    "xp": 30,
+    "story": "Dartmouth College, 1964. The cafeteria splits a $24 pizza between 3 students and needs a program to work out the price per person.",
+    "task": "Store the price in P and the number of students in S using LET. Then PRINT the price per person by dividing P by S. Don't forget END.",
+    "starter": "10 REM PIZZA CALCULATOR\n",
+    "expectedOutput": "8",
+    "requirements": [
+      {
+        "pattern": "^\\s*\\d+\\s*LET\\s+[A-Z][0-9]?\\s*=",
+        "message": "Store the price in a variable using LET, like LET P = 72."
+      },
+      {
+        "pattern": "LET[\\s\\S]*LET",
+        "message": "Store the number of students in a second variable using LET."
+      },
+      {
+        "pattern": "[A-Z][0-9]?\\s*/\\s*[A-Z]",
+        "message": "Let the computer do the math: divide one variable by the other instead of typing the answer."
+      }
+    ],
+    "hints": [
+      "Line 20 could be: 20 LET P = 24",
+      "Dividing works with /, for example P / S",
+      "PRINT can calculate directly: 40 PRINT P / S",
+      "Every program needs END as its last line."
+    ]
+  },
+  "u2": {
+    "title": "Countdown to Launch",
+    "xp": 40,
+    "story": "Mission control needs a launch countdown on the teletype. Writing ten PRINT lines would waste paper and time, so they want a smarter program.",
+    "task": "Print the numbers from 10 down to 1, each on its own line, and then LIFTOFF. Use a counter that goes down and IF...THEN to repeat. Your program may have at most 8 lines.",
+    "starter": "10 REM COUNTDOWN\n",
+    "expectedOutput": "10\n9\n8\n7\n6\n5\n4\n3\n2\n1\nLIFTOFF",
+    "maxLines": 8,
+    "requirements": [
+      {
+        "pattern": "IF\\s+.+THEN\\s*\\d+",
+        "message": "Use IF ... THEN to jump back and repeat your PRINT line."
+      },
+      {
+        "pattern": "LET\\s+([A-Z][0-9]?)\\s*=\\s*\\1\\s*-",
+        "message": "Count down by taking something away from your counter, like LET C = C - 1."
+      }
+    ],
+    "hints": [
+      "Start your counter at 10: 20 LET C = 10",
+      "Print it, then count down: 30 PRINT C and 40 LET C = C - 1",
+      "Jump back while C is still above 0: 50 IF C > 0 THEN 30",
+      "After the loop: PRINT \"LIFTOFF\", then END."
+    ]
+  },
+  "u3": {
+    "title": "The Square Table",
+    "xp": 50,
+    "story": "A math teacher at Dartmouth wants a table of square numbers for her class, printed neatly in two columns on the teletype.",
+    "task": "Print the numbers 1 to 10 in the first column and their squares in the second column (1 1, 2 4, 3 9 …). Use a FOR loop and a comma in PRINT. Your program may have at most 5 lines.",
+    "starter": "10 REM SQUARE TABLE\n",
+    "expectedOutput": "1 1\n2 4\n3 9\n4 16\n5 25\n6 36\n7 49\n8 64\n9 81\n10 100",
+    "maxLines": 5,
+    "requirements": [
+      {
+        "pattern": "FOR\\s+[A-Z][0-9]?\\s*=.+TO",
+        "message": "Use a FOR loop to go through the numbers 1 to 10."
+      },
+      {
+        "pattern": "PRINT\\s+.+,",
+        "message": "Use a comma in PRINT to put the square into its own column."
+      }
+    ],
+    "hints": [
+      "Start the loop: 20 FOR N = 1 TO 10",
+      "A comma moves to the next column: PRINT N, N * N",
+      "Close the loop with NEXT N",
+      "Don't forget END as the last line."
+    ]
+  },
+  "c1-project": {
+    "title": "Times Table Printer",
+    "xp": 100,
+    "story": "Your first real assignment: the Dartmouth math department wants printed multiplication tables for local schools. Each row shows one number multiplied by 1 to 5.",
+    "task": "Print a 5 by 5 times table: the first row is 1 2 3 4 5, the second row is 2 4 6 8 10, and so on up to the fifth row. Use two nested FOR loops. Your program may have at most 8 lines.",
+    "starter": "10 REM TIMES TABLE\n",
+    "expectedOutput": "1 2 3 4 5\n2 4 6 8 10\n3 6 9 12 15\n4 8 12 16 20\n5 10 15 20 25",
+    "maxLines": 8,
+    "requirements": [
+      {
+        "pattern": "FOR[\\s\\S]*FOR",
+        "message": "Use two FOR loops, one inside the other."
+      },
+      {
+        "pattern": "\\*",
+        "message": "Let the computer multiply the numbers with *."
+      }
+    ],
+    "hints": [
+      "The outer loop picks the row: 20 FOR R = 1 TO 5",
+      "The inner loop picks the column: 30 FOR C = 1 TO 5",
+      "Print R * C with a semicolon at the end to stay on the same line",
+      "After NEXT C, an empty PRINT starts the next row. Then NEXT R and END."
+    ]
+  },
+  "u4": {
+    "title": "The Bake Sale",
+    "xp": 50,
+    "story": "The Dartmouth computing club held a bake sale. Six items were sold for 2, 3.5, 1.5, 4, 2.5 and 3 dollars, and the treasurer wants the computer to add up the money.",
+    "task": "Put the six prices into a DATA line. Read them one by one in a FOR loop, add them up and PRINT the total. Your program may have at most 9 lines.",
+    "starter": "10 REM BAKE SALE\n",
+    "expectedOutput": "16.5",
+    "maxLines": 9,
+    "requirements": [
+      {
+        "pattern": "^\\s*\\d+\\s*DATA\\s+",
+        "message": "Store the six prices in a DATA line."
+      },
+      {
+        "pattern": "FOR[\\s\\S]*READ",
+        "message": "Read the prices inside a FOR loop instead of one by one."
+      },
+      {
+        "pattern": "LET\\s+([A-Z][0-9]?)\\s*=\\s*(\\1\\s*\\+|.*\\+\\s*\\1\\b)",
+        "message": "Add each price to a running total, like LET T = T + P."
+      }
+    ],
+    "hints": [
+      "Start the total at zero: 20 LET T = 0",
+      "Loop six times: 30 FOR I = 1 TO 6",
+      "Inside the loop: READ P, then LET T = T + P",
+      "After NEXT I, PRINT T. Put DATA 2, 3.5, 1.5, 4, 2.5, 3 before END."
+    ]
+  },
+  "u5": {
+    "title": "High Scores",
+    "xp": 60,
+    "story": "The Dartmouth chess club wrote down the scores of their last 8 games: 12, 7, 15, 9, 20, 4, 11 and 18. They want the latest game first, and the best score at the bottom.",
+    "task": "Read the 8 scores into a list. Print them in reverse order, one per line, starting with 18. Then print HIGHEST = followed by the highest score.",
+    "starter": "10 REM HIGH SCORES\n",
+    "expectedOutput": "18\n11\n4\n20\n9\n15\n7\n12\nHIGHEST = 20",
+    "maxLines": 16,
+    "requirements": [
+      {
+        "pattern": "READ\\s+[A-Z]\\s*\\(",
+        "message": "Read the scores into a list, like READ S(I)."
+      },
+      {
+        "pattern": "STEP\\s*-",
+        "message": "Print the list backwards with a FOR loop and a negative STEP."
+      }
+    ],
+    "hints": [
+      "Fill the list: FOR I = 1 TO 8, READ S(I), NEXT I",
+      "Print it backwards: FOR I = 8 TO 1 STEP -1, PRINT S(I), NEXT I",
+      "Find the highest: start with M = S(1), then replace M whenever S(I) is bigger",
+      "At the end: PRINT \"HIGHEST = \"; M, then the DATA line and END."
+    ]
+  },
+  "u6": {
+    "title": "Perfect Squares",
+    "xp": 60,
+    "story": "A math professor wants a list of all perfect squares up to 50, the numbers whose square root is a whole number, like 9 (3 × 3) or 16 (4 × 4).",
+    "task": "Print every number from 1 to 50 whose square root is a whole number, one per line. Use a FOR loop, SQR and INT. Your program may have at most 7 lines.",
+    "starter": "10 REM PERFECT SQUARES\n",
+    "expectedOutput": "1\n4\n9\n16\n25\n36\n49",
+    "maxLines": 7,
+    "requirements": [
+      {
+        "pattern": "FOR\\s+[A-Z][0-9]?\\s*=.+TO",
+        "message": "Use a FOR loop to check the numbers 1 to 50."
+      },
+      {
+        "pattern": "SQR\\s*\\(",
+        "message": "Use SQR to get the square root."
+      },
+      {
+        "pattern": "INT\\s*\\(",
+        "message": "Use INT to check if the square root is a whole number."
+      }
+    ],
+    "hints": [
+      "Check every number: 20 FOR N = 1 TO 50",
+      "A square root is whole if SQR(N) = INT(SQR(N))",
+      "Skip the PRINT when it's not whole: IF SQR(N) <> INT(SQR(N)) THEN 50",
+      "Line 40 prints N, line 50 is NEXT N, then END."
+    ]
+  },
+  "c2-project": {
+    "title": "Grade Statistics",
+    "xp": 120,
+    "story": "The Dartmouth physics department needs statistics for a test. Ten students scored 72, 45, 90, 30, 66, 88, 51, 79, 95 and 60 points. Back then, a teacher would have spent an evening on this. Your program needs a second.",
+    "task": "Read the 10 scores into a list and print four lines: AVERAGE = (rounded to a whole number), HIGHEST = , LOWEST = and PASSED = (how many scored 50 or more).",
+    "starter": "10 REM GRADE STATISTICS\n",
+    "expectedOutput": "AVERAGE = 68\nHIGHEST = 95\nLOWEST = 30\nPASSED = 8",
+    "maxLines": 26,
+    "requirements": [
+      {
+        "pattern": "READ\\s+[A-Z]\\s*\\(",
+        "message": "Read the scores into a list, like READ G(I)."
+      },
+      {
+        "pattern": "INT\\s*\\(",
+        "message": "Round the average with INT, for example INT(S / 10 + 0.5)."
+      }
+    ],
+    "hints": [
+      "First loop: READ G(I) and add each score to a total S",
+      "Average: INT(S / 10 + 0.5) rounds to the nearest whole number",
+      "Second loop: update H when G(I) is bigger, L when it's smaller, and count P when G(I) >= 50",
+      "Print each result with a label: PRINT \"HIGHEST = \"; H"
+    ]
+  },
+  "u7": {
+    "title": "The Receipt Printer",
+    "xp": 60,
+    "story": "The Dartmouth bookstore wants receipts from the teletype. Each receipt has a line of = signs at the top, below the heading and at the bottom. Typing that line three times is exactly what subroutines are for.",
+    "task": "Print the receipt shown below. Write the line of ten = signs only once, in a subroutine, and call it with GOSUB. The total is the sum of two books costing 4 and 8 dollars, so let the computer add them.\n\n==========\nRECEIPT\n==========\nTOTAL = 12\n==========",
+    "starter": "10 REM RECEIPT\n",
+    "expectedOutput": "==========\nRECEIPT\n==========\nTOTAL = 12\n==========",
+    "maxLines": 11,
+    "requirements": [
+      {
+        "pattern": "GOSUB\\s*\\d+",
+        "message": "Print the = line with a subroutine and call it with GOSUB."
+      },
+      {
+        "pattern": "^\\s*\\d+\\s*RETURN\\s*$",
+        "message": "End your subroutine with RETURN."
+      },
+      {
+        "pattern": "\\+",
+        "message": "Let the computer add the two prices: 4 + 8."
+      }
+    ],
+    "hints": [
+      "Put the subroutine at line 1000: 1000 PRINT \"==========\" and 1010 RETURN",
+      "The main program calls GOSUB 1000 three times, with PRINT lines in between",
+      "The total line: PRINT \"TOTAL = \"; 4 + 8",
+      "Put STOP before the subroutine, and END as the very last line."
+    ]
+  },
+  "u8": {
+    "title": "Temperature Converter",
+    "xp": 60,
+    "story": "A visiting scientist from Europe is confused by Fahrenheit. She asks for a conversion table from 0 to 100 degrees Celsius, in steps of 20.",
+    "task": "Define a function that turns Celsius into Fahrenheit (C × 9 / 5 + 32). Then print a two-column table: Celsius from 0 to 100 in steps of 20, and the Fahrenheit value next to it. Your program may have at most 7 lines.",
+    "starter": "10 REM TEMPERATURE CONVERTER\n",
+    "expectedOutput": "0 32\n20 68\n40 104\n60 140\n80 176\n100 212",
+    "maxLines": 7,
+    "requirements": [
+      {
+        "pattern": "DEF\\s*FN\\s*[A-Z]",
+        "message": "Put the formula into a function with DEF, like DEF FNF(C) = ..."
+      },
+      {
+        "pattern": "PRINT.*FN\\s*[A-Z]\\s*\\(",
+        "message": "Use your function in the PRINT line."
+      },
+      {
+        "pattern": "STEP\\s*20",
+        "message": "Count from 0 to 100 with STEP 20."
+      }
+    ],
+    "hints": [
+      "The function: 20 DEF FNF(C) = C * 9 / 5 + 32",
+      "The loop: 30 FOR C = 0 TO 100 STEP 20",
+      "Two columns: 40 PRINT C, FNF(C)",
+      "Then NEXT C and END."
+    ]
+  },
+  "u9": {
+    "title": "Bug Hunt",
+    "xp": 70,
+    "story": "A student left this program on the teletype the night before an exam. It should print the average of five test scores: 70, 85, 90, 65 and 80. It's full of bugs.",
+    "task": "The broken program is already in the editor. Press RUN to see what goes wrong, then fix all the bugs so it prints AVERAGE = 78. There are four bugs hiding in it.",
+    "starter": "10 REM AVERAGE OF FIVE SCORES\n20 LET S = 0\n30 FOR I = 1 TO 5\n40 READ X\n50 LET S = X\n60 NEXT J\n70 PRINT \"AVERAGE = \"; S / 4\n80 DATA 70, 85, 90, 65\n90 END\n",
+    "expectedOutput": "AVERAGE = 78",
+    "maxLines": 10,
+    "requirements": [
+      {
+        "pattern": "LET\\s+([A-Z][0-9]?)\\s*=\\s*(\\1\\s*\\+|.*\\+\\s*\\1\\b)",
+        "message": "The total has to grow every round: LET S = S + X."
+      },
+      {
+        "pattern": "/\\s*5",
+        "message": "There are five scores, so divide the total by 5."
+      }
+    ],
+    "hints": [
+      "Run it first and read the error message. Which line does it name?",
+      "NEXT has to name the same variable as its FOR.",
+      "Count the values in the DATA line. Is the fifth score there?",
+      "Line 50 overwrites the total instead of adding to it, and the average divides by the wrong number."
+    ]
+  },
+  "c3-project": {
+    "title": "Prime Number Finder",
+    "xp": 150,
+    "story": "In 1964, finding prime numbers was a classic test for a new computer. A number is prime when it can only be divided evenly by 1 and itself, like 7 or 13. Show what the Dartmouth system can do.",
+    "task": "Print every prime number from 2 to 50, one per line, and then COUNT = followed by how many you found. Check each number in a subroutine, and use a DEF function to calculate the remainder of a division.",
+    "starter": "10 REM PRIME NUMBER FINDER\n",
+    "expectedOutput": "2\n3\n5\n7\n11\n13\n17\n19\n23\n29\n31\n37\n41\n43\n47\nCOUNT = 15",
+    "maxLines": 22,
+    "requirements": [
+      {
+        "pattern": "DEF\\s*FN\\s*[A-Z]",
+        "message": "Use a DEF function for the remainder, like DEF FNR(D) = N - D * INT(N / D)."
+      },
+      {
+        "pattern": "GOSUB\\s*\\d+",
+        "message": "Check whether a number is prime in a subroutine, called with GOSUB."
+      },
+      {
+        "pattern": "^\\s*\\d+\\s*RETURN\\s*$",
+        "message": "End your subroutine with RETURN."
+      }
+    ],
+    "hints": [
+      "The remainder of N divided by D: DEF FNR(D) = N - D * INT(N / D). If it's 0, D divides N evenly.",
+      "Main loop: FOR N = 2 TO 50, GOSUB 1000, and only PRINT N if the subroutine says it's prime.",
+      "Subroutine: start with LET P = 1, then FOR D = 2 TO SQR(N) and set P = 0 when FNR(D) = 0.",
+      "Count the primes in C, print COUNT = after the loop, then STOP before the subroutine."
+    ]
+  },
+  "u10": {
+    "title": "The Pyramid",
+    "xp": 60,
+    "story": "The Dartmouth computing center wants a poster for its open day, printed on the teletype: a perfectly centered pyramid of stars.",
+    "task": "Print a pyramid of stars that is 5 rows high. Row 1 has 4 spaces and 1 star, row 2 has 3 spaces and 3 stars, and so on, down to row 5 with no spaces and 9 stars. Spaces count here, so the pyramid has to be centered exactly. Use nested FOR loops. Your program may have at most 11 lines.",
+    "starter": "10 REM PYRAMID\n",
+    "expectedOutput": "    *\n   ***\n  *****\n *******\n*********",
+    "exact": true,
+    "maxLines": 11,
+    "requirements": [
+      {
+        "pattern": "FOR[\\s\\S]*FOR",
+        "message": "Use nested FOR loops: one for the rows, others for the spaces and stars."
+      },
+      {
+        "pattern": "PRINT\\s*\"\\s\"\\s*;",
+        "message": "Print the spaces one by one with PRINT \" \";"
+      }
+    ],
+    "hints": [
+      "Outer loop for the rows: FOR R = 1 TO 5",
+      "Spaces first: FOR S = 1 TO 5 - R, then PRINT \" \";, then NEXT S",
+      "Then the stars: FOR C = 1 TO 2 * R - 1, PRINT \"*\";, NEXT C",
+      "An empty PRINT ends the row, then NEXT R and END."
+    ]
+  },
+  "u11": {
+    "title": "The Sorting Machine",
+    "xp": 70,
+    "story": "The registrar has eight student ID numbers in a messy order: 42, 17, 8, 99, 23, 56, 4 and 71. Sorting them by hand is error-prone. Sorting them by computer takes a blink.",
+    "task": "Put the numbers into a DATA line in exactly this order: 42, 17, 8, 99, 23, 56, 4, 71. Read them into a list, sort it from smallest to biggest with bubble sort, and print the sorted numbers, one per line.",
+    "starter": "10 REM SORTING MACHINE\n",
+    "expectedOutput": "4\n8\n17\n23\n42\n56\n71\n99",
+    "maxLines": 18,
+    "requirements": [
+      {
+        "pattern": "DATA\\s*42\\s*,\\s*17\\s*,\\s*8\\s*,\\s*99\\s*,\\s*23\\s*,\\s*56\\s*,\\s*4\\s*,\\s*71",
+        "message": "Keep the DATA in the original messy order: 42, 17, 8, 99, 23, 56, 4, 71. The program has to do the sorting."
+      },
+      {
+        "pattern": "FOR[\\s\\S]*FOR[\\s\\S]*NEXT[\\s\\S]*NEXT",
+        "message": "Bubble sort needs two nested FOR loops: one for the passes, one for the comparisons."
+      },
+      {
+        "pattern": "LET\\s+[A-Z][0-9]?\\s*=\\s*[A-Z]\\s*\\(",
+        "message": "Swap with a helper variable, like LET T = A(I)."
+      }
+    ],
+    "hints": [
+      "Read the list: FOR I = 1 TO 8, READ A(I), NEXT I",
+      "Passes: FOR P = 1 TO 7, comparisons: FOR I = 1 TO 8 - P",
+      "Skip the swap when the pair is in order: IF A(I) <= A(I + 1) THEN …",
+      "Swap with T, close both loops, then print A(1) to A(8)."
+    ]
+  },
+  "u12": {
+    "title": "Three Dice",
+    "xp": 70,
+    "story": "A professor claims that with three dice, 10 and 11 come up more often than any other sum. Your program will settle the argument by counting every single possibility.",
+    "task": "Count how many of the 6 × 6 × 6 = 216 combinations of three dice give each sum from 3 to 18. Print a table with the sum in the first column and the number of ways in the second.",
+    "starter": "10 REM THREE DICE\n",
+    "expectedOutput": "3 1\n4 3\n5 6\n6 10\n7 15\n8 21\n9 25\n10 27\n11 27\n12 25\n13 21\n14 15\n15 10\n16 6\n17 3\n18 1",
+    "maxLines": 14,
+    "requirements": [
+      {
+        "pattern": "FOR[\\s\\S]*FOR[\\s\\S]*FOR",
+        "message": "Use three nested FOR loops, one for each die."
+      },
+      {
+        "pattern": "([A-Z])\\s*\\(.+\\)\\s*=\\s*\\1\\s*\\(",
+        "message": "Count with a list, like LET S(A + B + C) = S(A + B + C) + 1."
+      }
+    ],
+    "hints": [
+      "Make room for sums up to 18: DIM S(18)",
+      "Three loops: FOR A, FOR B and FOR C, each from 1 to 6",
+      "Inside: LET S(A + B + C) = S(A + B + C) + 1",
+      "Afterwards: FOR T = 3 TO 18, PRINT T, S(T), NEXT T"
+    ]
+  },
+  "c4-project": {
+    "title": "League Table",
+    "xp": 180,
+    "story": "The Dartmouth intramural football league needs its final table. Teams 1 to 6 finished with 12, 18, 7, 21, 15 and 9 points. The table must list them from first place to last.",
+    "task": "Put the points into a DATA line in team order (12, 18, 7, 21, 15, 9). Sort the teams by points, highest first, and print a table with the header RANK, TEAM, POINTS and one row per team. Careful: when you swap two points, the team numbers have to move with them.",
+    "starter": "10 REM LEAGUE TABLE\n",
+    "expectedOutput": "RANK TEAM POINTS\n1 4 21\n2 2 18\n3 5 15\n4 1 12\n5 6 9\n6 3 7",
+    "maxLines": 28,
+    "requirements": [
+      {
+        "pattern": "DATA\\s*12\\s*,\\s*18\\s*,\\s*7\\s*,\\s*21\\s*,\\s*15\\s*,\\s*9",
+        "message": "Keep the points in team order in the DATA line: 12, 18, 7, 21, 15, 9."
+      },
+      {
+        "pattern": "FOR[\\s\\S]*FOR[\\s\\S]*NEXT[\\s\\S]*NEXT",
+        "message": "Sort with two nested FOR loops, like in bubble sort."
+      },
+      {
+        "pattern": "LET\\s+[A-Z][0-9]?\\s*=\\s*[A-Z]\\s*\\(",
+        "message": "Swap with a helper variable, like LET X = P(I)."
+      }
+    ],
+    "hints": [
+      "Use two lists: P(I) for the points and T(I) for the team number. While reading, set LET T(I) = I.",
+      "Sort by points, highest first: skip the swap when P(I) >= P(I + 1).",
+      "Every swap of P(I) and P(I + 1) needs the same swap for T(I) and T(I + 1).",
+      "Print the header once, then FOR I = 1 TO 6: PRINT I, T(I), P(I)"
+    ]
+  },
+  "u13": {
+    "title": "Shopping Calculator",
+    "xp": 70,
+    "story": "The campus shop wants a calculator for the cashier. She types in each price, and when she types 0, the program shows how many items there were and the total.",
+    "task": "Read prices with INPUT until the price is 0. Then print ITEMS = with the number of items and TOTAL = with the sum. Use plain INPUT X without a question text. INPUT shows the ? and the typed value by itself.",
+    "starter": "10 REM SHOPPING CALCULATOR\n",
+    "inputs": [
+      4.5,
+      12,
+      3.25,
+      0
+    ],
+    "expectedOutput": "? 4.5\n? 12\n? 3.25\n? 0\nITEMS = 3\nTOTAL = 19.75",
+    "maxLines": 11,
+    "requirements": [
+      {
+        "pattern": "INPUT\\s+[A-Z]",
+        "message": "Ask for each price with INPUT."
+      },
+      {
+        "pattern": "IF\\s+[^\\n]*\\b0\\b[^\\n]*THEN",
+        "message": "Stop when the price is 0, like IF X = 0 THEN …"
+      }
+    ],
+    "hints": [
+      "Start with LET T = 0 and LET C = 0",
+      "Ask with INPUT X and jump out with IF X = 0 THEN …",
+      "Otherwise add the price to T, add 1 to C, and GOTO back to the INPUT",
+      "At the end: PRINT \"ITEMS = \"; C and PRINT \"TOTAL = \"; T"
+    ]
+  },
+  "u14": {
+    "title": "Pop Quiz",
+    "xp": 80,
+    "story": "The computing club wants a quiz program for their open day. The questions and answers are stored in DATA lines, so new questions can be added without changing the rest of the program.",
+    "task": "Store three questions with their answers as text in DATA: CAPITAL OF FRANCE (PARIS), LANGUAGE OF THIS COURSE (BASIC) and COLLEGE WHERE BASIC WAS BORN (DARTMOUTH). For each one, print the question and read the answer with INPUT. Print RIGHT, or WRONG, IT IS followed by the correct answer. At the end, print SCORE = and the number of right answers.",
+    "starter": "10 REM POP QUIZ\n",
+    "inputs": [
+      "PARIS",
+      "PYTHON",
+      "DARTMOUTH"
+    ],
+    "expectedOutput": "CAPITAL OF FRANCE\n? PARIS\nRIGHT\nLANGUAGE OF THIS COURSE\n? PYTHON\nWRONG, IT IS BASIC\nCOLLEGE WHERE BASIC WAS BORN\n? DARTMOUTH\nRIGHT\nSCORE = 2",
+    "maxLines": 16,
+    "requirements": [
+      {
+        "pattern": "READ\\s+[A-Z][0-9]?\\$",
+        "message": "Read the questions and answers into text variables, like READ Q$, A$."
+      },
+      {
+        "pattern": "INPUT\\s+[A-Z][0-9]?\\$",
+        "message": "Read the player's answer into a text variable, like INPUT R$."
+      },
+      {
+        "pattern": "IF\\s+[A-Z][0-9]?\\$\\s*(=|<>)\\s*[A-Z][0-9]?\\$",
+        "message": "Compare the answer with the correct one, like IF R$ = A$ THEN …"
+      }
+    ],
+    "hints": [
+      "DATA \"CAPITAL OF FRANCE\", \"PARIS\", and so on for all three",
+      "Loop: FOR I = 1 TO 3, READ Q$, A$, PRINT Q$, INPUT R$",
+      "IF R$ = A$ THEN jump to a line that prints RIGHT and adds 1 to the score",
+      "Otherwise print \"WRONG, IT IS \"; A$. After the loop: PRINT \"SCORE = \"; S"
+    ]
+  },
+  "c5-project": {
+    "title": "Number Guessing Game",
+    "xp": 200,
+    "story": "The grand finale: one of the most famous BASIC games ever. The computer thinks of a number from 1 to 100, and the player has to guess it with as few tries as possible.",
+    "task": "Print GUESS A NUMBER FROM 1 TO 100. Then keep asking for guesses with INPUT and answer TOO HIGH or TOO LOW, until the guess is right. Then print CORRECT! GUESSES = and the number of tries. In a real game, the secret number would be INT(100 * RND(1)) + 1, but so the app can check your program, use LET S = 37.",
+    "starter": "10 REM NUMBER GUESSING GAME\n",
+    "inputs": [
+      50,
+      25,
+      37
+    ],
+    "expectedOutput": "GUESS A NUMBER FROM 1 TO 100\n? 50\nTOO HIGH\n? 25\nTOO LOW\n? 37\nCORRECT! GUESSES = 3",
+    "maxLines": 14,
+    "requirements": [
+      {
+        "pattern": "\\b37\\b",
+        "message": "Put the secret number 37 into your program, like LET S = 37."
+      },
+      {
+        "pattern": "INPUT\\s+[A-Z]",
+        "message": "Ask for each guess with INPUT."
+      },
+      {
+        "pattern": "LET\\s+([A-Z][0-9]?)\\s*=\\s*(\\1\\s*\\+\\s*1\\b|1\\s*\\+\\s*\\1\\b)",
+        "message": "Count the guesses, like LET G = G + 1."
+      }
+    ],
+    "hints": [
+      "Set up: LET S = 37 and LET G = 0, then print the instructions",
+      "Ask: INPUT N, then LET G = G + 1",
+      "IF N = S THEN jump to the end. IF N > S THEN jump to a line printing TOO HIGH. Otherwise print TOO LOW.",
+      "After TOO HIGH or TOO LOW, GOTO back to the INPUT. At the end: PRINT \"CORRECT! GUESSES = \"; G"
+    ]
+  }
+}

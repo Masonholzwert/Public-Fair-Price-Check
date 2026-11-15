@@ -1,0 +1,456 @@
+{
+  "id": "p17",
+  "title": "Linked Lists",
+  "lessons": [
+    {
+      "id": "p17-l1",
+      "title": "Walk a List",
+      "xp": 15,
+      "intro": [
+        "A linked list is a chain of nodes. The program keeps a pointer to the first one, the head, and each node points to the next. The last one points to nil.",
+        "Walking through the list: start at head and follow next until you reach nil: p := head; while p <> nil do begin … p := p^.next end;",
+        "Adding at the front is the easiest: the new node points to the old head, and becomes the new head."
+      ],
+      "example": {
+        "code": [
+          "program List;",
+          "type",
+          "  PNode = ^TNode;",
+          "  TNode = record",
+          "    value: integer;",
+          "    next: PNode;",
+          "  end;",
+          "var",
+          "  head, p: PNode;",
+          "",
+          "procedure Push(var head: PNode; v: integer);",
+          "var",
+          "  n: PNode;",
+          "begin",
+          "  new(n);",
+          "  n^.value := v;",
+          "  n^.next := head;",
+          "  head := n;",
+          "end;",
+          "",
+          "begin",
+          "  head := nil;",
+          "  Push(head, 10);",
+          "  Push(head, 20);",
+          "  Push(head, 30);",
+          "  p := head;",
+          "  while p <> nil do",
+          "  begin",
+          "    write(p^.value, ' ');",
+          "    p := p^.next;",
+          "  end;",
+          "  writeln;",
+          "end."
+        ],
+        "output": [
+          "30 20 10 "
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p17-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "How do you know you've reached the end of a list?",
+          "options": [
+            "The pointer is nil",
+            "The value is 0",
+            "After 10 nodes",
+            "head is nil"
+          ],
+          "answer": 0,
+          "explanation": "The last node's next is nil."
+        },
+        {
+          "id": "p17-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Why does the example print 30 20 10?",
+          "options": [
+            "Push adds at the front",
+            "The loop runs backwards",
+            "The list is sorted",
+            "writeln reverses it"
+          ],
+          "answer": 0,
+          "explanation": "The newest node becomes the head."
+        },
+        {
+          "id": "p17-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Move to the next node.",
+          "code": [
+            "    p := p^___;"
+          ],
+          "options": [
+            ".next",
+            "^next",
+            "next",
+            "+ 1"
+          ],
+          "answer": ".next",
+          "explanation": "p^.next is the pointer to the next node."
+        },
+        {
+          "id": "p17-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "Why does Push have var head?",
+          "options": [
+            "It changes head, so the caller must see the new head",
+            "Pointers always need var",
+            "To copy the list",
+            "It doesn't need it"
+          ],
+          "answer": 0,
+          "explanation": "Without var, only a copy of head would change."
+        },
+        {
+          "id": "p17-l1-e5",
+          "type": "order_lines",
+          "prompt": "Put the lines of Push in the right order.",
+          "lines": [
+            "new(n);",
+            "n^.value := v;",
+            "n^.next := head;",
+            "head := n;"
+          ],
+          "answer": [
+            "new(n);",
+            "n^.value := v;",
+            "n^.next := head;",
+            "head := n;"
+          ],
+          "explanation": "Make the node, fill it, link it in front, move the head."
+        },
+        {
+          "id": "p17-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "What does this loop count? n := 0; p := head; while p <> nil do begin inc(n); p := p^.next end;",
+          "options": [
+            "The number of nodes",
+            "The sum of the values",
+            "The last value",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "One step per node."
+        }
+      ]
+    },
+    {
+      "id": "p17-l2",
+      "title": "Insert and Remove",
+      "xp": 15,
+      "intro": [
+        "To insert behind a node p: the new node points to p^.next, then p points to the new node. No values have to move, unlike in an array.",
+        "To remove the node after p: remember it, let p skip it with p^.next := p^.next^.next, then dispose it.",
+        "At the end, free every node. Save the next pointer before dispose, because afterwards you can't read it."
+      ],
+      "example": {
+        "code": [
+          "program Insert;",
+          "type",
+          "  PNode = ^TNode;",
+          "  TNode = record",
+          "    value: integer;",
+          "    next: PNode;",
+          "  end;",
+          "var",
+          "  head, n, old: PNode;",
+          "",
+          "procedure Show(p: PNode);",
+          "begin",
+          "  while p <> nil do",
+          "  begin",
+          "    write(p^.value, ' ');",
+          "    p := p^.next;",
+          "  end;",
+          "  writeln;",
+          "end;",
+          "",
+          "begin",
+          "  new(head); head^.value := 1;",
+          "  new(n); n^.value := 3; n^.next := nil;",
+          "  head^.next := n;",
+          "  Show(head);",
+          "  new(n); n^.value := 2;",
+          "  n^.next := head^.next;",
+          "  head^.next := n;",
+          "  Show(head);",
+          "  old := head^.next;",
+          "  head^.next := old^.next;",
+          "  dispose(old);",
+          "  Show(head);",
+          "end."
+        ],
+        "output": [
+          "1 3 ",
+          "1 2 3 ",
+          "1 3 "
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p17-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What changes when you insert into a linked list?",
+          "options": [
+            "Only two pointers",
+            "Every value after it",
+            "The whole list",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "That's why lists are fast at inserting."
+        },
+        {
+          "id": "p17-l2-e2",
+          "type": "order_lines",
+          "prompt": "Insert node n behind node p.",
+          "lines": [
+            "n^.next := p^.next;",
+            "p^.next := n;"
+          ],
+          "answer": [
+            "n^.next := p^.next;",
+            "p^.next := n;"
+          ],
+          "explanation": "First link n to the rest, or the rest of the list is lost."
+        },
+        {
+          "id": "p17-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "How do you skip the node after p?",
+          "options": [
+            "p^.next := p^.next^.next",
+            "p := nil",
+            "dispose(p)",
+            "p^.next := nil"
+          ],
+          "answer": 0,
+          "explanation": "p now points past it. Then dispose the skipped node."
+        },
+        {
+          "id": "p17-l2-e4",
+          "type": "find_bug",
+          "prompt": "This loop uses memory that was already given back. Which line is wrong?",
+          "code": [
+            "p := head;",
+            "while p <> nil do",
+            "begin",
+            "  dispose(p);",
+            "  p := p^.next;",
+            "end;"
+          ],
+          "answer": 3,
+          "explanation": "Save the next pointer first: next := p^.next; dispose(p); p := next;"
+        },
+        {
+          "id": "p17-l2-e5",
+          "type": "fill_blank",
+          "prompt": "Free the whole list safely.",
+          "code": [
+            "  while p <> nil do",
+            "  begin",
+            "    next := p^.___;",
+            "    dispose(p);",
+            "    p := next;",
+            "  end;"
+          ],
+          "options": [
+            "next",
+            "value",
+            "head",
+            "nil"
+          ],
+          "answer": "next",
+          "explanation": "Read next before disposing the node."
+        },
+        {
+          "id": "p17-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Why is Show(p: PNode) allowed to change p?",
+          "options": [
+            "p is a copy of the pointer; the caller's head stays",
+            "It isn't",
+            "Because of var",
+            "Because the list is global"
+          ],
+          "answer": 0,
+          "explanation": "Moving the copy doesn't move the caller's head."
+        }
+      ]
+    },
+    {
+      "id": "p17-l3",
+      "title": "Stacks",
+      "xp": 15,
+      "intro": [
+        "A stack is a list where you only add and remove at the front: push puts a value on top, pop takes the top one off. Last in, first out.",
+        "Turbo Pascal itself used a stack for every procedure call: that's where Runtime error 202: Stack overflow comes from.",
+        "A function can pop: it returns the top value and disposes its node."
+      ],
+      "example": {
+        "code": [
+          "program Stack;",
+          "type",
+          "  PNode = ^TNode;",
+          "  TNode = record",
+          "    value: integer;",
+          "    next: PNode;",
+          "  end;",
+          "var",
+          "  top: PNode;",
+          "  i: integer;",
+          "",
+          "procedure Push(v: integer);",
+          "var",
+          "  n: PNode;",
+          "begin",
+          "  new(n);",
+          "  n^.value := v;",
+          "  n^.next := top;",
+          "  top := n;",
+          "end;",
+          "",
+          "function Pop: integer;",
+          "var",
+          "  n: PNode;",
+          "begin",
+          "  n := top;",
+          "  Pop := n^.value;",
+          "  top := n^.next;",
+          "  dispose(n);",
+          "end;",
+          "",
+          "begin",
+          "  top := nil;",
+          "  for i := 1 to 4 do",
+          "    Push(i * 100);",
+          "  while top <> nil do",
+          "    write(Pop, ' ');",
+          "  writeln;",
+          "end."
+        ],
+        "output": [
+          "400 300 200 100 "
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p17-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What comes out of a stack first?",
+          "options": [
+            "The last value pushed",
+            "The first value pushed",
+            "The smallest",
+            "A random one"
+          ],
+          "answer": 0,
+          "explanation": "Last in, first out."
+        },
+        {
+          "id": "p17-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "When is a list stack empty?",
+          "options": [
+            "When top is nil",
+            "When top^.value is 0",
+            "After 10 pops",
+            "Never"
+          ],
+          "answer": 0,
+          "explanation": "No nodes left."
+        },
+        {
+          "id": "p17-l3-e3",
+          "type": "fill_blank",
+          "prompt": "A new node goes on top.",
+          "code": [
+            "  n^.next := ___;",
+            "  top := n;"
+          ],
+          "options": [
+            "top",
+            "nil",
+            "n",
+            "next"
+          ],
+          "answer": "top",
+          "explanation": "It points to the old top."
+        },
+        {
+          "id": "p17-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program S;",
+            "type",
+            "  PNode = ^TNode;",
+            "  TNode = record",
+            "    value: integer;",
+            "    next: PNode;",
+            "  end;",
+            "var",
+            "  top: PNode;",
+            "",
+            "procedure Push(v: integer);",
+            "var n: PNode;",
+            "begin",
+            "  new(n); n^.value := v; n^.next := top; top := n;",
+            "end;",
+            "",
+            "begin",
+            "  top := nil;",
+            "  Push(1); Push(2); Push(3);",
+            "  while top <> nil do",
+            "  begin",
+            "    write(top^.value, ' ');",
+            "    top := top^.next;",
+            "  end;",
+            "  writeln;",
+            "end."
+          ],
+          "options": [
+            "3 2 1",
+            "1 2 3",
+            "3",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "Pushed 1, 2, 3; popped from the top."
+        },
+        {
+          "id": "p17-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Why does Pop save n := top first?",
+          "options": [
+            "So it can still dispose the old top after moving top",
+            "To copy the value",
+            "It doesn't need to",
+            "Because of var"
+          ],
+          "answer": 0,
+          "explanation": "After top := top^.next, the old node would be lost otherwise."
+        },
+        {
+          "id": "p17-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What uses a stack inside Turbo Pascal itself?",
+          "options": [
+            "Procedure calls",
+            "The editor's colors",
+            "The disk",
+            "Strings"
+          ],
+          "answer": 0,
+          "explanation": "Each call is pushed, each return pops."
+        }
+      ]
+    }
+  ]
+}

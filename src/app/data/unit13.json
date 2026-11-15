@@ -1,0 +1,395 @@
+{
+  "id": "u13",
+  "title": "INPUT: Talking Back",
+  "lessons": [
+    {
+      "id": "u13-l1",
+      "title": "Asking Questions",
+      "xp": 15,
+      "intro": [
+        "Until now, every value came from LET or DATA. To use different numbers, you had to change the program. A later edition of Dartmouth BASIC added INPUT, and suddenly programs could talk to people.",
+        "INPUT N stops the program, shows a question mark on the teletype, and waits for the user to type a number. That number is stored in N, and the program continues.",
+        "In the example below, the user typed 7. In quests, the app types fixed test answers for you, so your program can be checked."
+      ],
+      "example": {
+        "code": [
+          "10 PRINT \"PICK A NUMBER\"",
+          "20 INPUT N",
+          "30 PRINT \"DOUBLE = \"; N * 2",
+          "40 END"
+        ],
+        "inputs": [
+          7
+        ],
+        "output": [
+          "PICK A NUMBER",
+          "? 7",
+          "DOUBLE = 14"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "u13-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does INPUT N do?",
+          "options": [
+            "It waits until the user types a value and stores it in N",
+            "It prints the value of N",
+            "It reads N from a DATA line",
+            "It deletes N"
+          ],
+          "answer": 0,
+          "explanation": "INPUT pauses the program, shows a question mark, and puts whatever the user types into N."
+        },
+        {
+          "id": "u13-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "The user types 4. What does this program print after the question mark line?",
+          "code": [
+            "10 INPUT A",
+            "20 PRINT A * A",
+            "30 END"
+          ],
+          "options": [
+            "16",
+            "4",
+            "8",
+            "A * A"
+          ],
+          "answer": 0,
+          "explanation": "A gets the 4 the user typed, and 4 * 4 = 16."
+        },
+        {
+          "id": "u13-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Let the user type a number into X.",
+          "code": [
+            "10 PRINT \"HOW OLD ARE YOU\"",
+            "20 ___ X"
+          ],
+          "options": [
+            "INPUT",
+            "READ",
+            "LET",
+            "ASK"
+          ],
+          "answer": "INPUT",
+          "explanation": "INPUT takes the value from the keyboard, READ takes it from DATA lines."
+        },
+        {
+          "id": "u13-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "The user types 3 and then 5. What does this program print at the end?",
+          "code": [
+            "10 INPUT A, B",
+            "20 PRINT A + B",
+            "30 END"
+          ],
+          "options": [
+            "8",
+            "35",
+            "3",
+            "15"
+          ],
+          "answer": 0,
+          "explanation": "One INPUT can ask for several values. A gets 3, B gets 5, and 3 + 5 = 8."
+        },
+        {
+          "id": "u13-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Why was INPUT such a big change?",
+          "options": [
+            "Programs could react to the user without being changed",
+            "Programs became faster",
+            "It replaced PRINT",
+            "It made line numbers unnecessary"
+          ],
+          "answer": 0,
+          "explanation": "With DATA, new values meant editing the program. With INPUT, anyone could use it, even people who couldn't program."
+        },
+        {
+          "id": "u13-l1-e6",
+          "type": "order_lines",
+          "prompt": "Build a program that asks for a number and prints its square.",
+          "lines": [
+            "10 PRINT \"ENTER A NUMBER\"",
+            "20 INPUT N",
+            "30 PRINT N * N",
+            "40 END"
+          ],
+          "answer": [
+            "10 PRINT \"ENTER A NUMBER\"",
+            "20 INPUT N",
+            "30 PRINT N * N",
+            "40 END"
+          ],
+          "explanation": "First tell the user what to type, then ask with INPUT, then use the value."
+        }
+      ]
+    },
+    {
+      "id": "u13-l2",
+      "title": "Checking Input",
+      "xp": 20,
+      "intro": [
+        "Users make mistakes. If a program asks for a number from 1 to 10 and gets 15, it should say so and ask again.",
+        "The pattern: INPUT, then IF lines that check the value. If it's wrong, print a message and GOTO back to the INPUT.",
+        "In the example, the user first typed 0, then 15, and finally 5."
+      ],
+      "example": {
+        "code": [
+          "10 PRINT \"ENTER 1 TO 10\"",
+          "20 INPUT N",
+          "30 IF N < 1 THEN 60",
+          "40 IF N > 10 THEN 60",
+          "50 GOTO 80",
+          "60 PRINT \"TRY AGAIN\"",
+          "70 GOTO 20",
+          "80 PRINT \"YOU CHOSE \"; N",
+          "90 END"
+        ],
+        "inputs": [
+          0,
+          15,
+          5
+        ],
+        "output": [
+          "ENTER 1 TO 10",
+          "? 0",
+          "TRY AGAIN",
+          "? 15",
+          "TRY AGAIN",
+          "? 5",
+          "YOU CHOSE 5"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "u13-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "In the example, how often is TRY AGAIN printed?",
+          "options": [
+            "2 times",
+            "1 time",
+            "3 times",
+            "Never"
+          ],
+          "answer": 0,
+          "explanation": "0 is too small and 15 is too big. Only the third answer, 5, is accepted."
+        },
+        {
+          "id": "u13-l2-e2",
+          "type": "fill_blank",
+          "prompt": "Ask again when the number is negative.",
+          "code": [
+            "20 INPUT N",
+            "30 IF N ___ 0 THEN 20"
+          ],
+          "options": [
+            "<",
+            ">",
+            "=",
+            ">="
+          ],
+          "answer": "<",
+          "explanation": "Any number below 0 jumps back to the INPUT line."
+        },
+        {
+          "id": "u13-l2-e3",
+          "type": "find_bug",
+          "prompt": "After a wrong answer, the instruction ENTER 1 TO 10 should not be repeated. Which line should jump somewhere else?",
+          "code": [
+            "10 PRINT \"ENTER 1 TO 10\"",
+            "20 INPUT N",
+            "30 IF N >= 1 THEN 60",
+            "40 PRINT \"TOO SMALL\"",
+            "50 GOTO 10",
+            "60 END"
+          ],
+          "answer": 4,
+          "explanation": "GOTO 10 prints the instruction again. GOTO 20 goes straight back to the INPUT."
+        },
+        {
+          "id": "u13-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "The program asks for a number, but the user types HELLO. What happens?",
+          "options": [
+            "The program stops with a type mismatch error",
+            "N becomes 0",
+            "N becomes HELLO",
+            "The program ignores it"
+          ],
+          "answer": 0,
+          "explanation": "A number variable can't hold text. Some BASICs asked again with ?REDO, here you get ?TYPE MISMATCH."
+        },
+        {
+          "id": "u13-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "Why should a program check its input?",
+          "options": [
+            "So wrong values don't lead to wrong results or crashes",
+            "To make the program longer",
+            "Because INPUT doesn't work otherwise",
+            "It's only needed for text"
+          ],
+          "answer": 0,
+          "explanation": "A program that trusts every input can divide by zero, run out of range in a list, or give nonsense results."
+        },
+        {
+          "id": "u13-l2-e6",
+          "type": "order_lines",
+          "prompt": "Build a program that keeps asking until the number is positive, then prints it.",
+          "lines": [
+            "10 INPUT N",
+            "20 IF N > 0 THEN 50",
+            "30 PRINT \"MUST BE POSITIVE\"",
+            "40 GOTO 10",
+            "50 PRINT N",
+            "60 END"
+          ],
+          "answer": [
+            "10 INPUT N",
+            "20 IF N > 0 THEN 50",
+            "30 PRINT \"MUST BE POSITIVE\"",
+            "40 GOTO 10",
+            "50 PRINT N",
+            "60 END"
+          ],
+          "explanation": "A good number jumps over the warning. A bad one gets the message and goes back to INPUT."
+        }
+      ]
+    },
+    {
+      "id": "u13-l3",
+      "title": "Keep Asking",
+      "xp": 20,
+      "intro": [
+        "Often you don't know in advance how many values the user will type. The solution is a stop value: the user types 0 when they're done.",
+        "The loop reads a value, checks if it's the stop value, and otherwise adds it and asks again. The check must come before the value is used.",
+        "In the example, the user typed 5, 8, 2 and finally 0 to stop."
+      ],
+      "example": {
+        "code": [
+          "10 LET T = 0",
+          "20 INPUT X",
+          "30 IF X = 0 THEN 60",
+          "40 LET T = T + X",
+          "50 GOTO 20",
+          "60 PRINT \"TOTAL = \"; T",
+          "70 END"
+        ],
+        "inputs": [
+          5,
+          8,
+          2,
+          0
+        ],
+        "output": [
+          "? 5",
+          "? 8",
+          "? 2",
+          "? 0",
+          "TOTAL = 15"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "u13-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What is the stop value in the example?",
+          "options": [
+            "0",
+            "60",
+            "T",
+            "There is none"
+          ],
+          "answer": 0,
+          "explanation": "When the user types 0, line 30 jumps out of the loop to print the total."
+        },
+        {
+          "id": "u13-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "The user types 10, 20, 0. What does the example print at the end?",
+          "options": [
+            "TOTAL = 30",
+            "TOTAL = 0",
+            "TOTAL = 10",
+            "TOTAL = 20"
+          ],
+          "answer": 0,
+          "explanation": "10 and 20 are added, then the 0 ends the loop: 10 + 20 = 30."
+        },
+        {
+          "id": "u13-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Count how many values were typed.",
+          "code": [
+            "40 LET T = T + X",
+            "45 LET C = C ___ 1"
+          ],
+          "options": [
+            "+",
+            "-",
+            "*",
+            "/"
+          ],
+          "answer": "+",
+          "explanation": "C goes up by one for every value. With T and C, you can calculate the average: T / C."
+        },
+        {
+          "id": "u13-l3-e4",
+          "type": "find_bug",
+          "prompt": "This program also counts the stop value 0 as a number. Which line is in the wrong place?",
+          "code": [
+            "10 LET C = 0",
+            "20 INPUT X",
+            "30 LET C = C + 1",
+            "40 IF X = 0 THEN 60",
+            "50 GOTO 20",
+            "60 PRINT \"COUNT = \"; C",
+            "70 END"
+          ],
+          "answer": 2,
+          "explanation": "The counting happens before the check. It belongs after the IF, so the 0 is never counted."
+        },
+        {
+          "id": "u13-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Why is 0 a bad stop value for a program that adds up temperatures?",
+          "options": [
+            "0 degrees is a real temperature that someone might want to enter",
+            "0 can't be typed",
+            "INPUT doesn't accept 0",
+            "It's a perfect stop value"
+          ],
+          "answer": 0,
+          "explanation": "The stop value must be something that can never be a real answer, like -999 for temperatures."
+        },
+        {
+          "id": "u13-l3-e6",
+          "type": "order_lines",
+          "prompt": "Build a program that adds up numbers until the user types 0.",
+          "lines": [
+            "10 LET T = 0",
+            "20 INPUT X",
+            "30 IF X = 0 THEN 60",
+            "40 LET T = T + X",
+            "50 GOTO 20",
+            "60 PRINT T",
+            "70 END"
+          ],
+          "answer": [
+            "10 LET T = 0",
+            "20 INPUT X",
+            "30 IF X = 0 THEN 60",
+            "40 LET T = T + X",
+            "50 GOTO 20",
+            "60 PRINT T",
+            "70 END"
+          ],
+          "explanation": "Ask, check for the stop value, add, and go back to ask again."
+        }
+      ]
+    }
+  ]
+}

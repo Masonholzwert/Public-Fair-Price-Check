@@ -1,0 +1,396 @@
+{
+  "id": "c7",
+  "title": "Writing Functions",
+  "lessons": [
+    {
+      "id": "c7-l1",
+      "title": "Your Own Function",
+      "xp": 15,
+      "intro": [
+        "main is a function, and so are printf and scanf. You can write your own: a name for a piece of code that does one job, used as often as you like.",
+        "int square(int x) means: square takes an int called x, and gives back an int. return sends the result back to whoever called the function.",
+        "Unix was built from thousands of small functions. Kernighan and Ritchie's advice: if a piece of code is used twice, give it a name."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int square(int x) {",
+          "    return x * x;",
+          "}",
+          "",
+          "int main() {",
+          "    printf(\"%d\\n\", square(7));",
+          "    printf(\"%d\\n\", square(3) + square(4));",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "49",
+          "25"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c7-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "In int square(int x), what does the first int mean?",
+          "options": [
+            "square gives back an int",
+            "x is the first value",
+            "square runs once",
+            "The function is called int"
+          ],
+          "answer": 0,
+          "explanation": "The type before the name is the type of the result."
+        },
+        {
+          "id": "c7-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does return do?",
+          "options": [
+            "Ends the function and hands back a value",
+            "Prints the value",
+            "Starts the function again",
+            "Returns to main's first line"
+          ],
+          "answer": 0,
+          "explanation": "The value after return becomes the value of the call, like square(7)."
+        },
+        {
+          "id": "c7-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int twice(int n) {",
+            "    return n + n;",
+            "}",
+            "",
+            "int main() {",
+            "    printf(\"%d\\n\", twice(5));",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "10",
+            "5",
+            "25",
+            "7"
+          ],
+          "answer": 0,
+          "explanation": "twice(5) returns 5 + 5."
+        },
+        {
+          "id": "c7-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Return the bigger number.",
+          "code": [
+            "int max(int a, int b) {",
+            "    if (a > b)",
+            "        ___ a;",
+            "    return b;",
+            "}"
+          ],
+          "options": [
+            "return",
+            "print",
+            "break",
+            "give"
+          ],
+          "answer": "return",
+          "explanation": "return a; hands a back and ends the function."
+        },
+        {
+          "id": "c7-l1-e5",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int cube(int x) {",
+            "    return x * x * x;",
+            "}",
+            "",
+            "int main() {",
+            "    printf(\"%d\\n\", cube());",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 7,
+          "explanation": "cube needs one argument, like cube(3)."
+        },
+        {
+          "id": "c7-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Why write functions?",
+          "options": [
+            "Each job gets a name, is written once and can be used many times",
+            "Programs run faster without main",
+            "C requires one per line",
+            "To save paper"
+          ],
+          "answer": 0,
+          "explanation": "Small named pieces make big programs readable and easy to fix."
+        }
+      ]
+    },
+    {
+      "id": "c7-l2",
+      "title": "void Functions",
+      "xp": 15,
+      "intro": [
+        "Not every function computes a value. Some just do something, like print a line. Their result type is void, which means nothing. They don't need a return value.",
+        "A function with no arguments has empty brackets, or (void). You still need the brackets when you call it: line();",
+        "A function can call other functions, and the program jumps back to the right place every time."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "void line(void) {",
+          "    printf(\"----------\\n\");",
+          "}",
+          "",
+          "void title(void) {",
+          "    line();",
+          "    printf(\"  REPORT\\n\");",
+          "    line();",
+          "}",
+          "",
+          "int main() {",
+          "    title();",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "----------",
+          "  REPORT",
+          "----------"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c7-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does void mean as a result type?",
+          "options": [
+            "The function gives back nothing",
+            "The function is empty",
+            "It returns 0",
+            "It can't be called"
+          ],
+          "answer": 0,
+          "explanation": "void functions do a job instead of computing a value."
+        },
+        {
+          "id": "c7-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "How do you call void beep(void)?",
+          "options": [
+            "beep();",
+            "beep;",
+            "call beep;",
+            "void beep();"
+          ],
+          "answer": 0,
+          "explanation": "The brackets are needed, even when they're empty."
+        },
+        {
+          "id": "c7-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "How many dashed lines does the example print?",
+          "options": [
+            "2",
+            "1",
+            "3",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "title calls line twice."
+        },
+        {
+          "id": "c7-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Write a function that gives back nothing.",
+          "code": [
+            "___ hello(void) {",
+            "    printf(\"hello\\n\");",
+            "}"
+          ],
+          "options": [
+            "void",
+            "int",
+            "return",
+            "none"
+          ],
+          "answer": "void",
+          "explanation": "void as the result type."
+        },
+        {
+          "id": "c7-l2-e5",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "void greet(void) {",
+            "    printf(\"hi\\n\");",
+            "}",
+            "",
+            "int main() {",
+            "    int x = greet();",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 7,
+          "explanation": "greet is void: it gives back nothing, so there's nothing to store in x."
+        },
+        {
+          "id": "c7-l2-e6",
+          "type": "order_lines",
+          "prompt": "Put the lines in order: a function stars() that prints *** and is called from main.",
+          "lines": [
+            "#include <stdio.h>",
+            "void stars(void) {",
+            "    printf(\"***\\n\");",
+            "}",
+            "int main() {",
+            "    stars();",
+            "    return 0;",
+            "}"
+          ],
+          "answer": [
+            "#include <stdio.h>",
+            "void stars(void) {",
+            "    printf(\"***\\n\");",
+            "}",
+            "int main() {",
+            "    stars();",
+            "    return 0;",
+            "}"
+          ],
+          "explanation": "The function comes first, then main, which calls it."
+        }
+      ]
+    },
+    {
+      "id": "c7-l3",
+      "title": "Declare Before Use",
+      "xp": 15,
+      "intro": [
+        "The C compiler reads the file from top to bottom. To call a function that's written further down, tell the compiler about it first with a prototype: int square(int x); with a semicolon and no body.",
+        "Prototypes are what header files like stdio.h are full of: printf's prototype is in there, the code for it is in the C library.",
+        "A common style puts the prototypes at the top, main next, and the functions after it, so the file reads like a table of contents."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "double average(int a, int b);",
+          "",
+          "int main() {",
+          "    printf(\"%.1f\\n\", average(4, 7));",
+          "    return 0;",
+          "}",
+          "",
+          "double average(int a, int b) {",
+          "    return (a + b) / 2.0;",
+          "}"
+        ],
+        "output": [
+          "5.5"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c7-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What is a prototype?",
+          "options": [
+            "The first line of a function, with a semicolon, telling the compiler it exists",
+            "A copy of main",
+            "An unfinished program",
+            "A comment"
+          ],
+          "answer": 0,
+          "explanation": "It announces the name, the result type and the argument types."
+        },
+        {
+          "id": "c7-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What is inside stdio.h?",
+          "options": [
+            "Prototypes for printf, scanf and friends",
+            "The code of every program",
+            "Your functions",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "The compiler checks your calls against these prototypes."
+        },
+        {
+          "id": "c7-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Announce a function that's written further down.",
+          "code": [
+            "int add(int a, int b)___",
+            "",
+            "int main() {",
+            "    printf(\"%d\\n\", add(2, 3));",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            ";",
+            "{",
+            "()",
+            ":"
+          ],
+          "answer": ";",
+          "explanation": "A prototype ends with a semicolon instead of a body."
+        },
+        {
+          "id": "c7-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does the example print?",
+          "options": [
+            "5.5",
+            "5",
+            "11",
+            "5.50"
+          ],
+          "answer": 0,
+          "explanation": "(4 + 7) / 2.0 = 5.5, printed with one decimal."
+        },
+        {
+          "id": "c7-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Why does average divide by 2.0 and not 2?",
+          "options": [
+            "To keep the decimals: 11 / 2 would be 5",
+            "2.0 is faster",
+            "To make it a void function",
+            "It doesn't matter"
+          ],
+          "answer": 0,
+          "explanation": "With 2.0, the division is done as a double."
+        },
+        {
+          "id": "c7-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What happens in modern C if you call a function the compiler hasn't seen yet?",
+          "options": [
+            "An error or warning: implicit declaration",
+            "It works perfectly",
+            "The program crashes later",
+            "The function is skipped"
+          ],
+          "answer": 0,
+          "explanation": "Early C guessed that unknown functions return int. That caused so many bugs that modern C stopped guessing."
+        }
+      ]
+    }
+  ]
+}

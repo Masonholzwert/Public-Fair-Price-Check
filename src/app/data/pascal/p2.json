@@ -1,0 +1,380 @@
+{
+  "id": "p2",
+  "title": "Variables and Types",
+  "lessons": [
+    {
+      "id": "p2-l1",
+      "title": "var and :=",
+      "xp": 15,
+      "intro": [
+        "Variables are declared before begin, in a var section, with their type: var age: integer; Pascal wants to know every variable before it's used.",
+        "A value is stored with := (say \"becomes\"): age := 13; A single = only compares. Mixing them up gives Error 91: \":=\" expected.",
+        "integer holds whole numbers. On the IBM PC, from -32768 to 32767."
+      ],
+      "example": {
+        "code": [
+          "program Ages;",
+          "var",
+          "  a, b: integer;",
+          "begin",
+          "  a := 1983;",
+          "  b := 1970;",
+          "  writeln('Turbo Pascal came ', a - b, ' years after Pascal.');",
+          "end."
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "p2-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "Where are variables declared?",
+          "options": [
+            "In the var section, before begin",
+            "Anywhere in the program",
+            "After end.",
+            "They don't need to be declared"
+          ],
+          "answer": 0,
+          "explanation": "Pascal checks every variable before the program runs."
+        },
+        {
+          "id": "p2-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "How do you store 5 in x?",
+          "options": [
+            "x := 5;",
+            "x = 5;",
+            "5 -> x;",
+            "let x = 5;"
+          ],
+          "answer": 0,
+          "explanation": ":= stores a value. = compares."
+        },
+        {
+          "id": "p2-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Declare two whole-number variables.",
+          "code": [
+            "var",
+            "  a, b: ___;"
+          ],
+          "options": [
+            "integer",
+            "int",
+            "number",
+            "real"
+          ],
+          "answer": "integer",
+          "explanation": "The type for whole numbers is integer."
+        },
+        {
+          "id": "p2-l1-e4",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program Wrong;",
+            "var",
+            "  n: integer;",
+            "begin",
+            "  n = 10;",
+            "  writeln(n);",
+            "end."
+          ],
+          "answer": 4,
+          "explanation": "Assignment is := in Pascal: n := 10;"
+        },
+        {
+          "id": "p2-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Add;",
+            "var",
+            "  x: integer;",
+            "begin",
+            "  x := 10;",
+            "  x := x + 5;",
+            "  writeln(x);",
+            "end."
+          ],
+          "options": [
+            "15",
+            "10",
+            "5",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "x becomes 10, then x becomes x + 5."
+        },
+        {
+          "id": "p2-l1-e6",
+          "type": "find_bug",
+          "prompt": "This program stops with Error 3: Unknown identifier. Which line is wrong?",
+          "code": [
+            "program Count;",
+            "var",
+            "  n: integer;",
+            "begin",
+            "  n := 3;",
+            "  total := n * 2;",
+            "  writeln(total);",
+            "end."
+          ],
+          "answer": 5,
+          "explanation": "total was never declared. Add it to the var section: total: integer;"
+        }
+      ]
+    },
+    {
+      "id": "p2-l2",
+      "title": "div, mod and real",
+      "xp": 15,
+      "intro": [
+        "For whole numbers, div divides and cuts off the rest: 17 div 5 is 3. mod gives the rest: 17 mod 5 is 2.",
+        "The / sign always gives a real number, a number with decimals: 7 / 2 is 3.5. Store it in a variable of type real. Without a format, Turbo Pascal writes reals in scientific notation: 3.5000000000E+00 means 3.5 × 10^0. The next unit shows how to make that prettier.",
+        "integer only goes up to 32767. Above that it overflows and turns negative! For bigger whole numbers there's longint (up to about 2 billion)."
+      ],
+      "example": {
+        "code": [
+          "program Numbers;",
+          "var",
+          "  i: integer;",
+          "  big: longint;",
+          "  r: real;",
+          "begin",
+          "  writeln(17 div 5, ' rest ', 17 mod 5);",
+          "  r := 7 / 2;",
+          "  writeln(r);",
+          "  i := 32767;",
+          "  i := i + 1;",
+          "  writeln(i);",
+          "  big := 32767;",
+          "  big := big + 1;",
+          "  writeln(big);",
+          "end."
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "p2-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is 23 div 4?",
+          "options": [
+            "5",
+            "3",
+            "5.75",
+            "6"
+          ],
+          "answer": 0,
+          "explanation": "4 fits 5 times into 23. The rest is dropped."
+        },
+        {
+          "id": "p2-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What is 23 mod 4?",
+          "options": [
+            "3",
+            "5",
+            "0",
+            "4"
+          ],
+          "answer": 0,
+          "explanation": "23 = 5 × 4 + 3."
+        },
+        {
+          "id": "p2-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What type is the result of 10 / 4?",
+          "options": [
+            "real",
+            "integer",
+            "longint",
+            "char"
+          ],
+          "answer": 0,
+          "explanation": "/ always gives a real: 2.5."
+        },
+        {
+          "id": "p2-l2-e4",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program Half;",
+            "var",
+            "  n: integer;",
+            "begin",
+            "  n := 9 / 2;",
+            "  writeln(n);",
+            "end."
+          ],
+          "answer": 4,
+          "explanation": "9 / 2 is a real (4.5) and can't go into an integer: Error 26: Type mismatch. Use 9 div 2 for a whole number."
+        },
+        {
+          "id": "p2-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Wrap;",
+            "var",
+            "  n: integer;",
+            "begin",
+            "  n := 32767;",
+            "  n := n + 1;",
+            "  writeln(n);",
+            "end."
+          ],
+          "options": [
+            "-32768",
+            "32768",
+            "32767",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "integer goes up to 32767. One more wraps around to the smallest value, -32768."
+        },
+        {
+          "id": "p2-l2-e6",
+          "type": "fill_blank",
+          "prompt": "Get the minutes left over after the full hours.",
+          "code": [
+            "  minutes := 135 ___ 60;"
+          ],
+          "options": [
+            "mod",
+            "div",
+            "/",
+            "rest"
+          ],
+          "answer": "mod",
+          "explanation": "135 mod 60 is 15: 2 full hours and 15 minutes."
+        }
+      ]
+    },
+    {
+      "id": "p2-l3",
+      "title": "char, boolean and string",
+      "xp": 15,
+      "intro": [
+        "char holds one character: c := 'A'; boolean holds true or false: ok := 5 > 3; string holds text, up to 255 characters: name := 'Niklaus';",
+        "length(s) gives the number of characters in a string. Strings can be joined with +.",
+        "Pascal is strict about types: a string can't go into an integer, and a real can't go into an integer. That catches many mistakes before the program even runs."
+      ],
+      "example": {
+        "code": [
+          "program Kinds;",
+          "var",
+          "  grade: char;",
+          "  passed: boolean;",
+          "  name: string;",
+          "begin",
+          "  grade := 'A';",
+          "  passed := true;",
+          "  name := 'Anders';",
+          "  name := name + ' Hejlsberg';",
+          "  writeln(name, ' (', length(name), ' characters)');",
+          "  writeln('Grade ', grade, ', passed: ', passed);",
+          "end."
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "p2-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Which type holds true or false?",
+          "options": [
+            "boolean",
+            "char",
+            "bool",
+            "integer"
+          ],
+          "answer": 0,
+          "explanation": "Named after George Boole, who invented the logic of true and false."
+        },
+        {
+          "id": "p2-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does length('Pascal') give?",
+          "options": [
+            "6",
+            "7",
+            "5",
+            "'Pascal'"
+          ],
+          "answer": 0,
+          "explanation": "P-a-s-c-a-l: six characters."
+        },
+        {
+          "id": "p2-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Bool;",
+            "var",
+            "  big: boolean;",
+            "begin",
+            "  big := 10 > 3;",
+            "  writeln(big);",
+            "end."
+          ],
+          "options": [
+            "TRUE",
+            "FALSE",
+            "1",
+            "yes"
+          ],
+          "answer": 0,
+          "explanation": "10 > 3 is true, and Turbo Pascal writes booleans as TRUE or FALSE."
+        },
+        {
+          "id": "p2-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Join the two strings.",
+          "code": [
+            "  full := first ___ ' ' + last;"
+          ],
+          "options": [
+            "+",
+            "&",
+            ",",
+            "."
+          ],
+          "answer": "+",
+          "explanation": "+ joins strings in Pascal."
+        },
+        {
+          "id": "p2-l3-e5",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program Kind;",
+            "var",
+            "  c: char;",
+            "begin",
+            "  c := 'AB';",
+            "  writeln(c);",
+            "end."
+          ],
+          "answer": 4,
+          "explanation": "A char holds exactly one character. For 'AB' you need a string."
+        },
+        {
+          "id": "p2-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Who wrote Turbo Pascal?",
+          "options": [
+            "Anders Hejlsberg",
+            "Niklaus Wirth",
+            "Bill Gates",
+            "Ken Thompson"
+          ],
+          "answer": 0,
+          "explanation": "Hejlsberg later designed Delphi, C# and TypeScript."
+        }
+      ]
+    }
+  ]
+}

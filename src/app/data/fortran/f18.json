@@ -1,0 +1,380 @@
+{
+  "id": "f18",
+  "title": "Text on Cards",
+  "lessons": [
+    {
+      "id": "f18-l1",
+      "title": "Text in Variables",
+      "xp": 15,
+      "intro": [
+        "FORTRAN was made for numbers, and early FORTRAN had no type for text. Programmers stored letters in INTEGER variables: on the IBM System/360, one INTEGER word holds 4 characters.",
+        "In a DATA statement, 4HFORT is a Hollerith constant: 4 characters, F, O, R, T. The H is for Herman Hollerith, who invented punched cards for the 1890 US census. FORTRAN IV also allowed quotes: 'FORT'.",
+        "To print text from a variable, FORMAT has the A code: A4 prints the 4 characters. An array of words holds a longer text."
+      ],
+      "example": {
+        "code": [
+          "      INTEGER NAME(3), LANG(2)",
+          "      DATA NAME /4HFORT, 4HRAN , 'IV'/",
+          "      DATA LANG /'IBM ', '360'/",
+          "      WRITE (6,10) NAME",
+          "   10 FORMAT (1X, 3A4)",
+          "      WRITE (6,20) LANG",
+          "   20 FORMAT (' RUNS ON THE ', 2A4)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "FORTRAN IV",
+          "RUNS ON THE IBM 360"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f18-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "How many characters does one INTEGER word hold on the System/360?",
+          "options": [
+            "4",
+            "1",
+            "6",
+            "80"
+          ],
+          "answer": 0,
+          "explanation": "4 bytes, one character each. (The older IBM 7090 fit 6 characters in its 36-bit words.)"
+        },
+        {
+          "id": "f18-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What is 5HHELLO?",
+          "options": [
+            "A Hollerith constant: the 5 characters HELLO",
+            "5 times HELLO",
+            "The number 5",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "The count comes first, then H, then exactly that many characters."
+        },
+        {
+          "id": "f18-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Print the text in WORD.",
+          "code": [
+            "   10 FORMAT (1X, ___4)"
+          ],
+          "options": [
+            "A",
+            "I",
+            "H",
+            "L"
+          ],
+          "answer": "A",
+          "explanation": "A is the format code for text in variables."
+        },
+        {
+          "id": "f18-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "Who is the H in Hollerith constants named after?",
+          "options": [
+            "Herman Hollerith, inventor of the punched card machines",
+            "Grace Hopper",
+            "Hewlett-Packard",
+            "The letter H in HELLO"
+          ],
+          "answer": 0,
+          "explanation": "His company later became part of IBM."
+        },
+        {
+          "id": "f18-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this deck print?",
+          "code": [
+            "      INTEGER W",
+            "      DATA W /4HCARD/",
+            "      WRITE (6,10) W",
+            "   10 FORMAT (1X, A4)",
+            "      END"
+          ],
+          "options": [
+            "CARD",
+            "4HCARD",
+            "1128350276",
+            "C"
+          ],
+          "answer": 0,
+          "explanation": "A4 turns the stored characters back into text."
+        },
+        {
+          "id": "f18-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Why did programmers use INTEGER variables for text?",
+          "options": [
+            "Early FORTRAN had no type for text",
+            "INTEGER is faster",
+            "REAL can't be printed",
+            "It was the law"
+          ],
+          "answer": 0,
+          "explanation": "CHARACTER only arrived with FORTRAN 77."
+        }
+      ]
+    },
+    {
+      "id": "f18-l2",
+      "title": "Reading Text Cards",
+      "xp": 15,
+      "intro": [
+        "The A format reads text, too. READ (5,10) WORD with 10 FORMAT (A4) takes the next 4 columns of the card as characters.",
+        "To read a whole line of text, read an array: 20A4 fills 20 words, 80 columns: a whole punched card.",
+        "One character per word is handy for working letter by letter: 80A1 puts each column into its own array element, filled up with blanks."
+      ],
+      "example": {
+        "code": [
+          "      INTEGER LINE(20), C(10)",
+          "      READ (5,10) LINE",
+          "   10 FORMAT (20A4)",
+          "      WRITE (6,20) LINE(1), LINE(2)",
+          "   20 FORMAT (' FIRST 8 COLUMNS: ', 2A4)",
+          "      READ (5,30) C",
+          "   30 FORMAT (10A1)",
+          "      WRITE (6,40) (C(I), I = 10, 1, -1)",
+          "   40 FORMAT (' BACKWARDS: ', 10A1)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "FIRST 8 COLUMNS: PUNCHED",
+          "BACKWARDS: TI HCTERTS"
+        ],
+        "inputs": [
+          "PUNCHED CARDS",
+          "STRETCH IT"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f18-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "How many columns does FORMAT (A4) read?",
+          "options": [
+            "4",
+            "1",
+            "80",
+            "As many as there are"
+          ],
+          "answer": 0,
+          "explanation": "The number after A is the width."
+        },
+        {
+          "id": "f18-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "How many words do you need for a whole 80-column card with A4?",
+          "options": [
+            "20",
+            "80",
+            "4",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "80 ÷ 4 = 20."
+        },
+        {
+          "id": "f18-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Read one character into each element of C.",
+          "code": [
+            "   30 FORMAT (10___)"
+          ],
+          "options": [
+            "A1",
+            "A4",
+            "I1",
+            "L1"
+          ],
+          "answer": "A1",
+          "explanation": "A1: one column per variable."
+        },
+        {
+          "id": "f18-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this deck print, with the data card HELLO?",
+          "code": [
+            "      INTEGER C(5)",
+            "      READ (5,10) C",
+            "   10 FORMAT (5A1)",
+            "      WRITE (6,20) (C(I), I = 5, 1, -1)",
+            "   20 FORMAT (1X, 5A1)",
+            "      END"
+          ],
+          "options": [
+            "OLLEH",
+            "HELLO",
+            "H",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "The implied DO loop goes from 5 down to 1."
+        },
+        {
+          "id": "f18-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What's in C(9) and C(10) when the card only has 8 characters?",
+          "options": [
+            "Blanks",
+            "Zeros",
+            "The last letter again",
+            "*ERROR*"
+          ],
+          "answer": 0,
+          "explanation": "A short card counts as blank columns."
+        },
+        {
+          "id": "f18-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Why read letters one per word with A1?",
+          "options": [
+            "To work with each letter on its own",
+            "It's faster",
+            "A4 can't read letters",
+            "To save memory"
+          ],
+          "answer": 0,
+          "explanation": "Counting, comparing or reversing letters is easy then."
+        }
+      ]
+    },
+    {
+      "id": "f18-l3",
+      "title": "Comparing Text",
+      "xp": 15,
+      "intro": [
+        "Text in variables can be compared with .EQ.: the same characters give the same stored number. To find all the E's on a card, compare each letter with a variable that holds E.",
+        "That's why DATA statements full of single letters, like DATA BLANK /1H /, E /1HE/, were at the top of many FORTRAN programs.",
+        "The letters are also stored in alphabetical order as numbers, so .LT. can sort names too."
+      ],
+      "example": {
+        "code": [
+          "      INTEGER C(40), E, BLANK",
+          "      DATA E /1HE/, BLANK /1H /",
+          "      READ (5,10) C",
+          "   10 FORMAT (40A1)",
+          "      NE = 0",
+          "      NW = 0",
+          "      DO 20 I = 1, 40",
+          "      IF (C(I) .EQ. E) NE = NE + 1",
+          "      IF (I .EQ. 1) GO TO 15",
+          "      IF (C(I) .NE. BLANK .AND. C(I - 1) .EQ. BLANK) NW = NW + 1",
+          "      GO TO 20",
+          "   15 IF (C(1) .NE. BLANK) NW = NW + 1",
+          "   20 CONTINUE",
+          "      WRITE (6,30) NE, NW",
+          "   30 FORMAT (' E:', I3, '   WORDS:', I3)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "E:  8   WORDS:  6"
+        ],
+        "inputs": [
+          "THERE ARE THREE E WORDS HERE"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f18-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "How do you check if C(I) is the letter A?",
+          "options": [
+            "Compare it with a variable that holds A: IF (C(I) .EQ. LA)",
+            "IF (C(I) .EQ. A)",
+            "IF (C(I) = 'A')",
+            "You can't"
+          ],
+          "answer": 0,
+          "explanation": "In FORTRAN IV, letters are compared through variables filled by DATA."
+        },
+        {
+          "id": "f18-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "Why does DATA BLANK /1H / appear in so many old programs?",
+          "options": [
+            "To compare letters with a blank, for example to find words",
+            "It clears the screen",
+            "It's needed to print",
+            "It starts the card reader"
+          ],
+          "answer": 0,
+          "explanation": "A new word starts where a blank is followed by a letter."
+        },
+        {
+          "id": "f18-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Count the letter S.",
+          "code": [
+            "      IF (C(I) .EQ. ___) NS = NS + 1"
+          ],
+          "options": [
+            "LS",
+            "'S'",
+            "S",
+            "1HS"
+          ],
+          "answer": "LS",
+          "explanation": "Here LS holds the letter, from DATA LS /1HS/."
+        },
+        {
+          "id": "f18-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this deck print, with the data card ABBA?",
+          "code": [
+            "      INTEGER C(4), B",
+            "      DATA B /1HB/",
+            "      READ (5,10) C",
+            "   10 FORMAT (4A1)",
+            "      N = 0",
+            "      DO 20 I = 1, 4",
+            "      IF (C(I) .EQ. B) N = N + 1",
+            "   20 CONTINUE",
+            "      WRITE (6,30) N",
+            "   30 FORMAT (1X, I2)",
+            "      END"
+          ],
+          "options": [
+            "2",
+            "4",
+            "1",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "Two of the four letters are B."
+        },
+        {
+          "id": "f18-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Can text in INTEGER variables be sorted with .LT.?",
+          "options": [
+            "Yes: the letters are stored in alphabetical order as numbers",
+            "No, never",
+            "Only numbers",
+            "Only with A1"
+          ],
+          "answer": 0,
+          "explanation": "A has a smaller code than B, so ADA .LT. KEN."
+        },
+        {
+          "id": "f18-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Which FORTRAN version finally added a CHARACTER type?",
+          "options": [
+            "FORTRAN 77",
+            "FORTRAN II",
+            "FORTRAN IV",
+            "Fortran 2008"
+          ],
+          "answer": 0,
+          "explanation": "With CHARACTER*20 NAME and real string operations."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,418 @@
+{
+  "id": "c15",
+  "title": "Structs",
+  "lessons": [
+    {
+      "id": "c15-l1",
+      "title": "Grouping Values",
+      "xp": 15,
+      "intro": [
+        "A struct groups related values into one new type: struct point { int x; int y; }; Every struct point now has an x and a y.",
+        "Access the parts, called members, with a dot: p.x = 3;. A struct can be filled right away: struct point p = {3, 4};",
+        "Unix itself is full of structs: every file has a struct stat with its size, owner and dates."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "struct point {",
+          "    int x;",
+          "    int y;",
+          "};",
+          "",
+          "int main() {",
+          "    struct point a = {3, 4};",
+          "    struct point b;",
+          "    b.x = a.x + 10;",
+          "    b.y = a.y * 2;",
+          "    printf(\"a = (%d, %d)\\n\", a.x, a.y);",
+          "    printf(\"b = (%d, %d)\\n\", b.x, b.y);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "a = (3, 4)",
+          "b = (13, 8)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c15-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is a struct?",
+          "options": [
+            "A type that groups several values",
+            "An array of chars",
+            "A function",
+            "A pointer"
+          ],
+          "answer": 0,
+          "explanation": "It bundles things that belong together."
+        },
+        {
+          "id": "c15-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "How do you read the member y of p?",
+          "options": [
+            "p.y",
+            "p->y always",
+            "p[y]",
+            "y(p)"
+          ],
+          "answer": 0,
+          "explanation": "The dot accesses a member of a struct."
+        },
+        {
+          "id": "c15-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "struct rect {",
+            "    int w;",
+            "    int h;",
+            "};",
+            "",
+            "int main() {",
+            "    struct rect r = {3, 4};",
+            "    printf(\"%d\\n\", r.w * r.h);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "12",
+            "7",
+            "3",
+            "4"
+          ],
+          "answer": 0,
+          "explanation": "r.w * r.h = 3 * 4."
+        },
+        {
+          "id": "c15-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Set the age of student s.",
+          "code": [
+            "    s___age = 17;"
+          ],
+          "options": [
+            ".",
+            "->",
+            "*",
+            ","
+          ],
+          "answer": ".",
+          "explanation": "A dot for a struct variable."
+        },
+        {
+          "id": "c15-l1-e5",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "struct point {",
+            "    int x;",
+            "    int y;",
+            "}",
+            "",
+            "int main() {",
+            "    struct point p = {1, 2};",
+            "    printf(\"%d\\n\", p.x);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 5,
+          "explanation": "A struct definition ends with a semicolon after the closing brace: };"
+        },
+        {
+          "id": "c15-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Can a struct hold different types?",
+          "options": [
+            "Yes, like an int, a double and a char array",
+            "No, all members must be int",
+            "Only two members",
+            "Only chars"
+          ],
+          "answer": 0,
+          "explanation": "Mixing types is what structs are for."
+        }
+      ]
+    },
+    {
+      "id": "c15-l2",
+      "title": "Arrays of Structs",
+      "xp": 15,
+      "intro": [
+        "An array of structs is like a table with named columns: struct student class[3]; and class[1].grade is the grade of the second student.",
+        "Members can be arrays too: char name[20]; holds a name inside the struct.",
+        "Loops over arrays of structs are how early databases worked: payrolls, phone books, inventories."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "struct student {",
+          "    char name[20];",
+          "    int grade;",
+          "};",
+          "",
+          "int main() {",
+          "    struct student c[3] = {{\"ada\", 92}, {\"ken\", 78}, {\"dmr\", 88}};",
+          "    int i, best = 0;",
+          "    for (i = 1; i < 3; i++)",
+          "        if (c[i].grade > c[best].grade)",
+          "            best = i;",
+          "    printf(\"best: %s with %d\\n\", c[best].name, c[best].grade);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "best: ada with 92"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c15-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "In the example, what is c[1].name?",
+          "options": [
+            "ken",
+            "ada",
+            "dmr",
+            "78"
+          ],
+          "answer": 0,
+          "explanation": "Index 1 is the second student."
+        },
+        {
+          "id": "c15-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "How do you fill an array of structs right away?",
+          "options": [
+            "With nested braces: {{\"ada\", 92}, {\"ken\", 78}}",
+            "With one long string",
+            "With a loop only",
+            "It's not possible"
+          ],
+          "answer": 0,
+          "explanation": "One pair of braces per struct, inside the array's braces."
+        },
+        {
+          "id": "c15-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Print the grade of the first student.",
+          "code": [
+            "    printf(\"%d\\n\", c[0]___grade);"
+          ],
+          "options": [
+            ".",
+            "->",
+            "[",
+            ","
+          ],
+          "answer": ".",
+          "explanation": "c[0] is a struct, so use a dot."
+        },
+        {
+          "id": "c15-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "struct item {",
+            "    int id;",
+            "    int qty;",
+            "};",
+            "",
+            "int main() {",
+            "    struct item s[2] = {{1, 7}, {2, 8}};",
+            "    printf(\"%d\\n\", s[1].qty);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "8",
+            "15",
+            "7",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "The second item has qty 8."
+        },
+        {
+          "id": "c15-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "Can you copy a whole struct with =?",
+          "options": [
+            "Yes, unlike arrays",
+            "No, never",
+            "Only with strcpy",
+            "Only small structs"
+          ],
+          "answer": 0,
+          "explanation": "struct point b = a; copies all members, even arrays inside the struct."
+        },
+        {
+          "id": "c15-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What did early business computers mostly do with records like these?",
+          "options": [
+            "Payrolls, inventories and phone books",
+            "Games",
+            "Drawing",
+            "Music"
+          ],
+          "answer": 0,
+          "explanation": "Most computing time in the 1960s and 70s went into processing records."
+        }
+      ]
+    },
+    {
+      "id": "c15-l3",
+      "title": "Pointers to Structs",
+      "xp": 15,
+      "intro": [
+        "Big structs are usually passed to functions as pointers, so nothing has to be copied, and the function can change them.",
+        "With a pointer p to a struct, (*p).x is the member x. Because that's so common, C has a shortcut: p->x.",
+        "Pointers to structs are the building blocks of everything that comes next: linked lists, trees, and the data structures inside Unix."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "struct account {",
+          "    char owner[20];",
+          "    int balance;",
+          "};",
+          "",
+          "void deposit(struct account *a, int amount) {",
+          "    a->balance += amount;",
+          "}",
+          "",
+          "int main() {",
+          "    struct account acc = {\"ritchie\", 100};",
+          "    deposit(&acc, 50);",
+          "    printf(\"%s: %d\\n\", acc.owner, acc.balance);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "ritchie: 150"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c15-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does p->x mean?",
+          "options": [
+            "(*p).x: member x of the struct p points to",
+            "p minus x",
+            "A pointer to x",
+            "p.x"
+          ],
+          "answer": 0,
+          "explanation": "The arrow is shorthand for following the pointer and taking a member."
+        },
+        {
+          "id": "c15-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "Why pass a struct as a pointer?",
+          "options": [
+            "No copying, and the function can change it",
+            "Pointers are required for structs",
+            "To make it smaller",
+            "It's slower otherwise… no reason"
+          ],
+          "answer": 0,
+          "explanation": "Both reasons matter for big records."
+        },
+        {
+          "id": "c15-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Set the balance through the pointer a.",
+          "code": [
+            "    a___balance = 0;"
+          ],
+          "options": [
+            "->",
+            ".",
+            "*",
+            "&"
+          ],
+          "answer": "->",
+          "explanation": "a is a pointer, so use ->."
+        },
+        {
+          "id": "c15-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "struct person {",
+            "    int age;",
+            "};",
+            "",
+            "void older(struct person *p) {",
+            "    p->age++;",
+            "}",
+            "",
+            "int main() {",
+            "    struct person p = {10};",
+            "    older(&p);",
+            "    printf(\"%d\\n\", p.age);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "11",
+            "10",
+            "1",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "older gets the address of p and adds one to its age."
+        },
+        {
+          "id": "c15-l3-e5",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "struct box {",
+            "    int size;",
+            "};",
+            "",
+            "int main() {",
+            "    struct box b = {5};",
+            "    struct box *p = &b;",
+            "    printf(\"%d\\n\", p.size);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 9,
+          "explanation": "p is a pointer, so it's p->size (or (*p).size)."
+        },
+        {
+          "id": "c15-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Which do you use for a struct variable s, and which for a pointer p?",
+          "options": [
+            "s.x and p->x",
+            "s->x and p.x",
+            "Always ->",
+            "Always ."
+          ],
+          "answer": 0,
+          "explanation": "Dot for the struct itself, arrow for a pointer to it."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,340 @@
+{
+  "id": "u15",
+  "title": "From BASIC to Today",
+  "lessons": [
+    {
+      "id": "u15-l1",
+      "title": "BASIC Comes Home",
+      "xp": 15,
+      "intro": [
+        "In 1975, two young programmers, Bill Gates and Paul Allen, wrote a BASIC for the Altair 8800, one of the first home computers. It was the first product of their company, Microsoft.",
+        "Soon almost every home computer came with BASIC built in: the Apple II, the ZX Spectrum and the Commodore 64 from 1982, the best-selling home computer ever. When you switched one on, it greeted you with READY. and you could start programming right away.",
+        "These BASICs looked very much like what you've learned. LET became optional, a colon allowed several statements in one line, and new commands added graphics and sound. Programs like the one below run on both."
+      ],
+      "example": {
+        "code": [
+          "10 REM RUNS AT DARTMOUTH AND ON A C64",
+          "20 FOR I = 1 TO 3",
+          "30 PRINT \"HELLO\", I",
+          "40 NEXT I",
+          "50 END"
+        ],
+        "output": [
+          "HELLO          1",
+          "HELLO          2",
+          "HELLO          3"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "u15-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "Which company started with a BASIC for the Altair 8800?",
+          "options": [
+            "Microsoft",
+            "Apple",
+            "Commodore",
+            "IBM"
+          ],
+          "answer": 0,
+          "explanation": "Altair BASIC from 1975 was Microsoft's very first product."
+        },
+        {
+          "id": "u15-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What did a Commodore 64 show right after switching it on?",
+          "options": [
+            "READY. and a blinking cursor",
+            "A desktop with icons",
+            "A login screen",
+            "Nothing until a disk was inserted"
+          ],
+          "answer": 0,
+          "explanation": "The computer started straight into BASIC, just like the screen of this app."
+        },
+        {
+          "id": "u15-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "On a C64, this line works. What's different from Dartmouth BASIC?",
+          "code": [
+            "10 A = 5"
+          ],
+          "options": [
+            "LET is left out",
+            "The line number is too small",
+            "A is not a valid name",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "Home computer BASICs made LET optional. At Dartmouth in 1964, it was required."
+        },
+        {
+          "id": "u15-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does the colon do in this C64 line?",
+          "code": [
+            "10 PRINT \"HI\" : GOTO 10"
+          ],
+          "options": [
+            "It puts two statements in one line",
+            "It starts a comment",
+            "It divides two numbers",
+            "It ends the program"
+          ],
+          "answer": 0,
+          "explanation": "The colon separates statements, so PRINT and GOTO share line 10. This line prints HI forever."
+        },
+        {
+          "id": "u15-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Why did BASIC become so popular in the 1980s?",
+          "options": [
+            "It came built into almost every home computer",
+            "It was the only language that existed",
+            "It needed no line numbers",
+            "Schools banned other languages"
+          ],
+          "answer": 0,
+          "explanation": "Millions of kids typed their first programs into a home computer's BASIC, often copied from magazines."
+        },
+        {
+          "id": "u15-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Which of these did home computer BASICs add that the 1964 original didn't have?",
+          "options": [
+            "Commands for graphics and sound",
+            "PRINT",
+            "FOR loops",
+            "Line numbers"
+          ],
+          "answer": 0,
+          "explanation": "PRINT, FOR and line numbers were there from the start. Graphics and sound came with the home computers."
+        }
+      ]
+    },
+    {
+      "id": "u15-l2",
+      "title": "The Same Ideas in Python",
+      "xp": 20,
+      "intro": [
+        "Python is one of the most popular languages today, and almost everything you learned carries over. The words are different, the ideas are the same.",
+        "PRINT \"HI\" becomes print(\"HI\"). LET X = 5 becomes x = 5. FOR I = 1 TO 10 becomes for i in range(1, 11): and IF X > 5 THEN becomes if x > 5:",
+        "There are no line numbers. Instead, the lines that belong to a loop or an IF are indented. GOTO doesn't exist at all, and GOSUB with RETURN becomes a function made with def."
+      ],
+      "example": {
+        "code": [
+          "10 LET S = 0",
+          "20 FOR I = 1 TO 10",
+          "30 LET S = S + I",
+          "40 NEXT I",
+          "50 PRINT S",
+          "60 END"
+        ],
+        "output": [
+          "55"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "u15-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "This is the example program in Python. What does it print?",
+          "code": [
+            "s = 0",
+            "for i in range(1, 11):",
+            "    s = s + i",
+            "print(s)"
+          ],
+          "options": [
+            "55",
+            "45",
+            "10",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "It's the same program as the BASIC example: the numbers 1 to 10 add up to 55."
+        },
+        {
+          "id": "u15-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Why does Python write range(1, 11) for the numbers 1 to 10?",
+          "options": [
+            "The end value of range is not included",
+            "It's a typo",
+            "Python counts from 11 down",
+            "range always adds 1"
+          ],
+          "answer": 0,
+          "explanation": "range(1, 11) stops before 11. FOR I = 1 TO 10 in BASIC includes the 10."
+        },
+        {
+          "id": "u15-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Show HELLO in Python.",
+          "code": [
+            "___(\"HELLO\")"
+          ],
+          "options": [
+            "print",
+            "PRINT",
+            "show",
+            "say"
+          ],
+          "answer": "print",
+          "explanation": "Python's print works like BASIC's PRINT, written in lowercase with parentheses."
+        },
+        {
+          "id": "u15-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What tells Python which lines belong inside a loop?",
+          "options": [
+            "The indentation at the start of the line",
+            "Line numbers",
+            "A NEXT line",
+            "Semicolons"
+          ],
+          "answer": 0,
+          "explanation": "Indented lines belong to the loop or IF above them. There's no NEXT, the indentation ends the loop."
+        },
+        {
+          "id": "u15-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "Which Python feature is closest to GOSUB and RETURN?",
+          "options": [
+            "A function made with def",
+            "A for loop",
+            "An if statement",
+            "A list"
+          ],
+          "answer": 0,
+          "explanation": "def creates a named block of code you can call from anywhere, and it can even return a value, like DEF FN."
+        },
+        {
+          "id": "u15-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Which BASIC line does this Python code match?",
+          "code": [
+            "if score >= 50:",
+            "    print(\"PASSED\")"
+          ],
+          "options": [
+            "IF S >= 50 THEN, followed by a PRINT \"PASSED\" line",
+            "FOR S = 1 TO 50",
+            "READ S",
+            "DEF FNS(X) = 50"
+          ],
+          "answer": 0,
+          "explanation": "Same decision, same comparison. Python can just put the action right under the if instead of jumping to a line."
+        }
+      ]
+    },
+    {
+      "id": "u15-l3",
+      "title": "What's Next",
+      "xp": 20,
+      "intro": [
+        "You've learned the language that brought programming to millions: output, variables, decisions, loops, lists, subroutines, functions, input, text, and how to find bugs.",
+        "Those ideas are the foundation of every programming language. In Python, JavaScript, Java or Swift, you'll recognize all of them, just in new clothes.",
+        "The best next step is to build things: small games, calculators, tools for your own life. You know how to break a problem into steps. That's the real skill."
+      ],
+      "example": {
+        "code": [
+          "10 REM YOU MADE IT",
+          "20 FOR I = 1 TO 3",
+          "30 PRINT \"*** \";",
+          "40 NEXT I",
+          "50 PRINT",
+          "60 PRINT \"YOU KNOW BASIC NOW\"",
+          "70 END"
+        ],
+        "output": [
+          "*** *** ***",
+          "YOU KNOW BASIC NOW"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "u15-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Which of your BASIC skills will you need in other languages?",
+          "options": [
+            "All of them: variables, decisions, loops, lists, functions and debugging",
+            "Only PRINT",
+            "None, modern languages are completely different",
+            "Only line numbers"
+          ],
+          "answer": 0,
+          "explanation": "The words change, the ideas don't. That's why a first language is never wasted."
+        },
+        {
+          "id": "u15-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "This loop is JavaScript. Which BASIC line does it match?",
+          "code": [
+            "for (let i = 1; i <= 10; i++) {"
+          ],
+          "options": [
+            "FOR I = 1 TO 10",
+            "FOR I = 1 TO 9",
+            "IF I = 10 THEN 50",
+            "LET I = 10"
+          ],
+          "answer": 0,
+          "explanation": "Start at 1, keep going while i is at most 10, and add 1 each round. Exactly FOR I = 1 TO 10."
+        },
+        {
+          "id": "u15-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "In Python, scores = [72, 45, 90] creates a list. What's the BASIC way?",
+          "options": [
+            "DIM S(3) and READ the values from a DATA line",
+            "LET S = 72, 45, 90",
+            "INPUT S$",
+            "There are no lists in BASIC"
+          ],
+          "answer": 0,
+          "explanation": "Python writes the list directly. In BASIC, you'd fill S(1) to S(3), for example with READ in a loop."
+        },
+        {
+          "id": "u15-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "Who created BASIC at Dartmouth College in 1964?",
+          "options": [
+            "John Kemeny and Thomas Kurtz",
+            "Bill Gates and Paul Allen",
+            "Ada Lovelace",
+            "Alan Turing"
+          ],
+          "answer": 0,
+          "explanation": "Kemeny and Kurtz wanted every student to be able to use a computer, not just scientists."
+        },
+        {
+          "id": "u15-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What's the best way to keep getting better at programming?",
+          "options": [
+            "Build small projects you actually care about",
+            "Only read about programming",
+            "Memorize every command",
+            "Wait until you know everything before starting"
+          ],
+          "answer": 0,
+          "explanation": "Every project teaches you something new, and finished projects are the best motivation."
+        },
+        {
+          "id": "u15-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What does BASIC stand for?",
+          "options": [
+            "Beginners' All-purpose Symbolic Instruction Code",
+            "Basic Automatic System for Internal Calculation",
+            "Binary And Simple Instruction Code",
+            "It's not short for anything"
+          ],
+          "answer": 0,
+          "explanation": "The B for Beginners says it all: BASIC was made so anyone could learn to program. Now you have."
+        }
+      ]
+    }
+  ]
+}

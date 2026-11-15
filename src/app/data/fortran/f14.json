@@ -1,0 +1,361 @@
+{
+  "id": "f14",
+  "title": "Trajectories",
+  "lessons": [
+    {
+      "id": "f14-l1",
+      "title": "Small Steps",
+      "xp": 15,
+      "intro": [
+        "Computers were built to calculate how things move: shells, rockets, planets. The idea: cut time into small steps. In each step, the velocity changes by acceleration × step, and the position changes by velocity × step.",
+        "For a falling object, the acceleration is gravity, 9.81 m/s² downwards. Repeat the two update lines in a loop, and you get the whole fall.",
+        "The smaller the step, the more accurate the result, and the more work for the computer. ENIAC, one of the first computers, was built to compute artillery tables exactly like this."
+      ],
+      "example": {
+        "code": [
+          "      H = 100.0",
+          "      V = 0.0",
+          "      DT = 1.0",
+          "      DO 10 I = 1, 4",
+          "      V = V - 9.81 * DT",
+          "      H = H + V * DT",
+          "      T = FLOAT(I) * DT",
+          "      WRITE (6,20) T, H",
+          "   10 CONTINUE",
+          "   20 FORMAT (1X, F5.1, F9.2)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "  1.0    90.19",
+          "  2.0    70.57",
+          "  3.0    41.14",
+          "  4.0     1.90"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f14-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "In each step, how does the position change?",
+          "options": [
+            "By velocity × time step",
+            "By acceleration × time step",
+            "By gravity",
+            "It doesn't"
+          ],
+          "answer": 0,
+          "explanation": "H = H + V * DT."
+        },
+        {
+          "id": "f14-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "And the velocity?",
+          "options": [
+            "By acceleration × time step",
+            "By position × time step",
+            "It stays the same",
+            "By 1 each step"
+          ],
+          "answer": 0,
+          "explanation": "V = V - 9.81 * DT for gravity pulling down."
+        },
+        {
+          "id": "f14-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What happens with a smaller time step, like DT = 0.01?",
+          "options": [
+            "More accurate results, but many more steps",
+            "Less accurate results",
+            "The same result",
+            "The program stops"
+          ],
+          "answer": 0,
+          "explanation": "Small steps follow the real curve more closely."
+        },
+        {
+          "id": "f14-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Update the height with the velocity.",
+          "code": [
+            "      H = H + V * ___"
+          ],
+          "options": [
+            "DT",
+            "9.81",
+            "T",
+            "H"
+          ],
+          "answer": "DT",
+          "explanation": "Distance = velocity × time."
+        },
+        {
+          "id": "f14-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Which early computer was built to compute artillery tables?",
+          "options": [
+            "ENIAC",
+            "The IBM 704",
+            "The Apple II",
+            "The KIM-1"
+          ],
+          "answer": 0,
+          "explanation": "ENIAC (1945) calculated shell trajectories for the US Army, step by step."
+        },
+        {
+          "id": "f14-l1-e6",
+          "type": "find_bug",
+          "prompt": "The ball falls up. Which card is wrong?",
+          "code": [
+            "      H = 100.0",
+            "      V = 0.0",
+            "      DO 10 I = 1, 4",
+            "      V = V + 9.81",
+            "      H = H + V",
+            "   10 CONTINUE",
+            "      END"
+          ],
+          "answer": 3,
+          "explanation": "Gravity pulls down, so the velocity must decrease: V = V - 9.81."
+        }
+      ]
+    },
+    {
+      "id": "f14-l2",
+      "title": "Angles",
+      "xp": 15,
+      "intro": [
+        "A cannon fires at an angle. The speed splits into a part along the ground, V × COS(angle), and a part upwards, V × SIN(angle).",
+        "SIN and COS want radians. Convert degrees with RAD = DEG * 3.14159 / 180.0.",
+        "From the two parts, physics gives exact formulas: the flight time is 2 × upward speed / g, and the distance is ground speed × flight time."
+      ],
+      "example": {
+        "code": [
+          "      V = 50.0",
+          "      DEG = 30.0",
+          "      RAD = DEG * 3.14159 / 180.0",
+          "      VX = V * COS(RAD)",
+          "      VY = V * SIN(RAD)",
+          "      WRITE (6,10) VX, VY",
+          "   10 FORMAT (' ALONG', F7.2/' UP', F10.2)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "ALONG  43.30",
+          "UP     25.00"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f14-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "How many radians are 180 degrees?",
+          "options": [
+            "π, about 3.14159",
+            "180",
+            "1",
+            "2π"
+          ],
+          "answer": 0,
+          "explanation": "A half circle is π radians."
+        },
+        {
+          "id": "f14-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "At 90 degrees, how fast does the shell move along the ground?",
+          "options": [
+            "Zero: it goes straight up",
+            "Full speed",
+            "Half speed",
+            "It depends on the cannon"
+          ],
+          "answer": 0,
+          "explanation": "COS(90°) = 0."
+        },
+        {
+          "id": "f14-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Convert DEG to radians.",
+          "code": [
+            "      RAD = DEG * 3.14159 / ___"
+          ],
+          "options": [
+            "180.0",
+            "360.0",
+            "90.0",
+            "3.14159"
+          ],
+          "answer": "180.0",
+          "explanation": "180 degrees = π radians."
+        },
+        {
+          "id": "f14-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this deck print?",
+          "code": [
+            "      RAD = 90.0 * 3.14159 / 180.0",
+            "      S = SIN(RAD)",
+            "      WRITE (6,10) S",
+            "   10 FORMAT (1X, F4.1)",
+            "      END"
+          ],
+          "options": [
+            "1.0",
+            "0.0",
+            "0.5",
+            "90.0"
+          ],
+          "answer": 0,
+          "explanation": "90 degrees is π / 2 radians, and SIN(π / 2) = 1."
+        },
+        {
+          "id": "f14-l2-e5",
+          "type": "find_bug",
+          "prompt": "The upward speed comes out wrong. Which card is wrong?",
+          "code": [
+            "      V = 50.0",
+            "      DEG = 30.0",
+            "      VY = V * SIN(DEG)",
+            "      WRITE (6,10) VY",
+            "   10 FORMAT (1X, F7.2)",
+            "      END"
+          ],
+          "answer": 2,
+          "explanation": "SIN wants radians. 30 radians is a completely different angle. Convert first."
+        },
+        {
+          "id": "f14-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Which angle sends a shell the farthest (without air)?",
+          "options": [
+            "45 degrees",
+            "30 degrees",
+            "60 degrees",
+            "90 degrees"
+          ],
+          "answer": 0,
+          "explanation": "The distance depends on SIN(2 × angle), which is biggest at 90°, so at 45°."
+        }
+      ]
+    },
+    {
+      "id": "f14-l3",
+      "title": "A Flight Table",
+      "xp": 15,
+      "intro": [
+        "Now combine the two: start with the speed parts, then step through time. Each step moves X and Y, and pulls VY down by gravity.",
+        "The loop runs until the shell hits the ground: Y below zero. A counter prints only every tenth step, so the table stays short.",
+        "Tables like this, for every gun and every angle, filled whole books. Computing them by hand took teams of human \"computers\" weeks."
+      ],
+      "example": {
+        "code": [
+          "      RAD = 45.0 * 3.14159 / 180.0",
+          "      VX = 20.0 * COS(RAD)",
+          "      VY = 20.0 * SIN(RAD)",
+          "      X = 0.0",
+          "      Y = 0.0",
+          "      DT = 0.1",
+          "      N = 0",
+          "   10 X = X + VX * DT",
+          "      Y = Y + VY * DT",
+          "      VY = VY - 9.81 * DT",
+          "      N = N + 1",
+          "      IF (MOD(N, 10) .EQ. 0) WRITE (6,20) X, Y",
+          "      IF (Y .GT. 0.0) GO TO 10",
+          "   20 FORMAT (1X, 2F8.2)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "   14.14    9.73",
+          "   28.28    9.65",
+          "   42.43   -0.25"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f14-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "In the example, when does the loop stop?",
+          "options": [
+            "When Y is no longer above zero",
+            "After 10 steps",
+            "When X is 100",
+            "Never"
+          ],
+          "answer": 0,
+          "explanation": "IF (Y .GT. 0.0) GO TO 10 keeps going while the shell is in the air."
+        },
+        {
+          "id": "f14-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "Why MOD(N, 10) .EQ. 0?",
+          "options": [
+            "To print only every tenth step",
+            "To count to 10",
+            "To stop after 10 steps",
+            "To round the numbers"
+          ],
+          "answer": 0,
+          "explanation": "Printing all steps would fill pages. Every tenth is one line per second here."
+        },
+        {
+          "id": "f14-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "Which value changes in every step, apart from X and Y?",
+          "options": [
+            "VY, pulled down by gravity",
+            "VX",
+            "DT",
+            "RAD"
+          ],
+          "answer": 0,
+          "explanation": "Without air, nothing slows the shell along the ground: VX stays the same."
+        },
+        {
+          "id": "f14-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Pull the upward speed down by gravity.",
+          "code": [
+            "      VY = VY - 9.81 * ___"
+          ],
+          "options": [
+            "DT",
+            "VX",
+            "Y",
+            "N"
+          ],
+          "answer": "DT",
+          "explanation": "Acceleration × time step."
+        },
+        {
+          "id": "f14-l3-e5",
+          "type": "find_bug",
+          "prompt": "The table stops after the first step. Which card is wrong?",
+          "code": [
+            "      Y = 0.0",
+            "   10 Y = Y + VY * DT",
+            "      VY = VY - 9.81 * DT",
+            "      IF (Y .LT. 0.0) GO TO 10"
+          ],
+          "answer": 3,
+          "explanation": "The loop should jump back while Y is above ground: IF (Y .GT. 0.0) GO TO 10."
+        },
+        {
+          "id": "f14-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Who were the human \"computers\"?",
+          "options": [
+            "People, often women, who calculated tables by hand",
+            "The first machines",
+            "IBM engineers",
+            "Army officers"
+          ],
+          "answer": 0,
+          "explanation": "Before electronic computers, \"computer\" was a job title."
+        }
+      ]
+    }
+  ]
+}

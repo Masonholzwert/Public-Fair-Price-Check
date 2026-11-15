@@ -1,0 +1,393 @@
+{
+  "id": "u11",
+  "title": "Searching & Sorting",
+  "lessons": [
+    {
+      "id": "u11-l1",
+      "title": "Biggest, Smallest, Where",
+      "xp": 15,
+      "intro": [
+        "You already know how to find the biggest value. Often you also want to know where it is. The trick: remember the position M instead of the value.",
+        "With the position, you get both: A(M) is the value, and M tells you where it sits in the list.",
+        "Searching works the same way: go through the list and stop as soon as you find what you're looking for."
+      ],
+      "example": {
+        "code": [
+          "10 FOR I = 1 TO 5",
+          "20 READ A(I)",
+          "30 NEXT I",
+          "40 LET M = 1",
+          "50 FOR I = 2 TO 5",
+          "60 IF A(I) <= A(M) THEN 80",
+          "70 LET M = I",
+          "80 NEXT I",
+          "90 PRINT \"BIGGEST = \"; A(M)",
+          "100 PRINT \"POSITION = \"; M",
+          "110 DATA 40, 75, 90, 15, 60",
+          "120 END"
+        ],
+        "output": [
+          "BIGGEST = 90",
+          "POSITION = 3"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "u11-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "Why does the example remember the position M instead of the value?",
+          "options": [
+            "With the position, you know both the value A(M) and where it is",
+            "Positions use less memory",
+            "Values can't be stored in variables",
+            "It runs faster"
+          ],
+          "answer": 0,
+          "explanation": "A(M) gives the value at any time, so storing M is enough for both."
+        },
+        {
+          "id": "u11-l1-e2",
+          "type": "fill_blank",
+          "prompt": "Change the search so it finds the smallest value instead.",
+          "code": [
+            "60 IF A(I) ___ A(M) THEN 80",
+            "70 LET M = I"
+          ],
+          "options": [
+            ">=",
+            "<=",
+            "=",
+            "<>"
+          ],
+          "answer": ">=",
+          "explanation": "Skip the update when A(I) is bigger or equal. M only moves when a smaller value comes along."
+        },
+        {
+          "id": "u11-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "10 FOR I = 1 TO 4",
+            "20 READ A(I)",
+            "30 NEXT I",
+            "40 FOR I = 1 TO 4",
+            "50 IF A(I) = 7 THEN 80",
+            "60 NEXT I",
+            "70 STOP",
+            "80 PRINT \"POSITION = \"; I",
+            "90 DATA 3, 9, 7, 7",
+            "100 END"
+          ],
+          "options": [
+            "POSITION = 3",
+            "POSITION = 4",
+            "POSITION = 2",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "The search jumps out of the loop at the first 7 it finds, which is at position 3."
+        },
+        {
+          "id": "u11-l1-e4",
+          "type": "find_bug",
+          "prompt": "When 9 is missing, this prints NOT FOUND and then FOUND. After which line is a STOP missing?",
+          "code": [
+            "10 FOR I = 1 TO 3",
+            "20 READ A(I)",
+            "30 NEXT I",
+            "40 FOR I = 1 TO 3",
+            "50 IF A(I) = 9 THEN 80",
+            "60 NEXT I",
+            "70 PRINT \"NOT FOUND\"",
+            "80 PRINT \"FOUND\"",
+            "90 DATA 1, 2, 3",
+            "100 END"
+          ],
+          "answer": 6,
+          "explanation": "After NOT FOUND, the program just continues with line 80. A STOP after line 70 ends it there."
+        },
+        {
+          "id": "u11-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "How many values does a search through a list of 100 have to check in the worst case?",
+          "options": [
+            "100",
+            "1",
+            "50",
+            "10"
+          ],
+          "answer": 0,
+          "explanation": "If the value is last or missing, every element has to be checked. That's called a linear search."
+        },
+        {
+          "id": "u11-l1-e6",
+          "type": "order_lines",
+          "prompt": "Build a program that prints the position of the biggest value, 2.",
+          "lines": [
+            "10 FOR I = 1 TO 3",
+            "20 READ A(I)",
+            "30 NEXT I",
+            "40 LET M = 1",
+            "50 FOR I = 2 TO 3",
+            "60 IF A(I) <= A(M) THEN 80",
+            "70 LET M = I",
+            "80 NEXT I",
+            "90 PRINT M",
+            "100 DATA 4, 8, 6",
+            "110 END"
+          ],
+          "answer": [
+            "10 FOR I = 1 TO 3",
+            "20 READ A(I)",
+            "30 NEXT I",
+            "40 LET M = 1",
+            "50 FOR I = 2 TO 3",
+            "60 IF A(I) <= A(M) THEN 80",
+            "70 LET M = I",
+            "80 NEXT I",
+            "90 PRINT M",
+            "100 DATA 4, 8, 6",
+            "110 END"
+          ],
+          "explanation": "Fill the list, start with position 1, and move M whenever a bigger value shows up."
+        }
+      ]
+    },
+    {
+      "id": "u11-l2",
+      "title": "Bubble Sort",
+      "xp": 20,
+      "intro": [
+        "Sorting means putting a list in order. Bubble sort is the simplest way: compare each pair of neighbors and swap them if they're in the wrong order.",
+        "One pass through the list moves the biggest value all the way to the end, like a bubble rising. Repeat the passes until everything is in order.",
+        "A list of N values needs at most N - 1 passes. And since the end of the list is already sorted after each pass, the inner loop can get shorter each time."
+      ],
+      "example": {
+        "code": [
+          "10 DIM A(4)",
+          "20 FOR I = 1 TO 4",
+          "30 READ A(I)",
+          "40 NEXT I",
+          "50 FOR P = 1 TO 3",
+          "60 FOR I = 1 TO 4 - P",
+          "70 IF A(I) <= A(I + 1) THEN 110",
+          "80 LET T = A(I)",
+          "90 LET A(I) = A(I + 1)",
+          "100 LET A(I + 1) = T",
+          "110 NEXT I",
+          "120 NEXT P",
+          "130 FOR I = 1 TO 4",
+          "140 PRINT A(I);",
+          "150 NEXT I",
+          "160 DATA 7, 2, 9, 4",
+          "170 END"
+        ],
+        "output": [
+          "2 4 7 9"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "u11-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "After the first pass of bubble sort, where is the biggest value?",
+          "options": [
+            "At the end of the list",
+            "At the start",
+            "In the middle",
+            "Still where it was"
+          ],
+          "answer": 0,
+          "explanation": "The biggest value wins every comparison, so it gets swapped forward until it reaches the end."
+        },
+        {
+          "id": "u11-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "The list is 5, 3, 8, 1. What does it look like after the first pass?",
+          "options": [
+            "3, 5, 1, 8",
+            "1, 3, 5, 8",
+            "3, 5, 8, 1",
+            "5, 3, 1, 8"
+          ],
+          "answer": 0,
+          "explanation": "5 and 3 swap, 5 and 8 stay, 8 and 1 swap. The 8 has bubbled to the end."
+        },
+        {
+          "id": "u11-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "How many passes does a list of 4 values need at most?",
+          "options": [
+            "3",
+            "4",
+            "2",
+            "16"
+          ],
+          "answer": 0,
+          "explanation": "Each pass puts one more value in its final place. After 3 passes, the last one is automatically right too."
+        },
+        {
+          "id": "u11-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Sort from highest to lowest instead.",
+          "code": [
+            "70 IF A(I) ___ A(I + 1) THEN 110"
+          ],
+          "options": [
+            ">=",
+            "<=",
+            "=",
+            "<>"
+          ],
+          "answer": ">=",
+          "explanation": "Now a pair is already in order when the first value is bigger or equal, so it's only swapped otherwise."
+        },
+        {
+          "id": "u11-l2-e5",
+          "type": "find_bug",
+          "prompt": "This swap loses a value. Which line is the problem?",
+          "code": [
+            "70 IF A(I) <= A(I + 1) THEN 100",
+            "80 LET A(I) = A(I + 1)",
+            "90 LET A(I + 1) = A(I)",
+            "100 NEXT I"
+          ],
+          "answer": 1,
+          "explanation": "Line 80 overwrites A(I) before it was saved. Like in Unit 5, a helper variable T is needed."
+        },
+        {
+          "id": "u11-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Why does the inner loop run only to 4 - P?",
+          "code": [
+            "50 FOR P = 1 TO 3",
+            "60 FOR I = 1 TO 4 - P"
+          ],
+          "options": [
+            "The values at the end are already sorted, so they don't need to be compared again",
+            "Otherwise BASIC would crash",
+            "To sort backwards",
+            "It's just a style choice and changes nothing"
+          ],
+          "answer": 0,
+          "explanation": "After pass P, the last P values are in place. Skipping them saves work."
+        }
+      ]
+    },
+    {
+      "id": "u11-l3",
+      "title": "Using a Sorted List",
+      "xp": 20,
+      "intro": [
+        "Once a list is sorted, many questions become easy. The smallest value is first, the biggest is last.",
+        "The median, the value in the middle, is simply A(3) in a sorted list of 5. To show the top three, print the last three values backwards.",
+        "Equal values sit next to each other in a sorted list, so duplicates are easy to count by comparing neighbors."
+      ],
+      "example": {
+        "code": [
+          "10 DIM A(5)",
+          "20 FOR I = 1 TO 5",
+          "30 READ A(I)",
+          "40 NEXT I",
+          "50 PRINT \"SMALLEST = \"; A(1)",
+          "60 PRINT \"MEDIAN = \"; A(3)",
+          "70 PRINT \"BIGGEST = \"; A(5)",
+          "80 DATA 12, 25, 31, 47, 80",
+          "90 END"
+        ],
+        "output": [
+          "SMALLEST = 12",
+          "MEDIAN = 31",
+          "BIGGEST = 80"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "u11-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "In a sorted list of 5 values, which element is the median?",
+          "options": [
+            "A(3)",
+            "A(1)",
+            "A(5)",
+            "A(2.5)"
+          ],
+          "answer": 0,
+          "explanation": "The median has as many values below it as above it: two on each side."
+        },
+        {
+          "id": "u11-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "The list is sorted from small to big. How do you print the biggest value first?",
+          "options": [
+            "Loop backwards with STEP -1",
+            "Sort it again",
+            "Use READ again",
+            "That's not possible"
+          ],
+          "answer": 0,
+          "explanation": "FOR I = 5 TO 1 STEP -1 walks through the list from the end."
+        },
+        {
+          "id": "u11-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "A is sorted: 2, 4, 7, 9. What does PRINT A(4) - A(1) show?",
+          "options": [
+            "7",
+            "9",
+            "2",
+            "5"
+          ],
+          "answer": 0,
+          "explanation": "9 - 2 = 7. This difference between biggest and smallest is called the range."
+        },
+        {
+          "id": "u11-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Print only the top three of a list sorted from high to low.",
+          "code": [
+            "100 FOR I = 1 TO ___",
+            "110 PRINT A(I)",
+            "120 NEXT I"
+          ],
+          "options": [
+            "3",
+            "5",
+            "1",
+            "10"
+          ],
+          "answer": "3",
+          "explanation": "In a list sorted from high to low, the first three positions are the top three."
+        },
+        {
+          "id": "u11-l3-e5",
+          "type": "find_bug",
+          "prompt": "This counts equal neighbors, but stops with ?INDEX 6 OUT OF RANGE. Which line has to change?",
+          "code": [
+            "10 DIM A(5)",
+            "20 LET C = 0",
+            "30 FOR I = 1 TO 5",
+            "40 IF A(I) <> A(I + 1) THEN 60",
+            "50 LET C = C + 1",
+            "60 NEXT I"
+          ],
+          "answer": 2,
+          "explanation": "For I = 5, line 40 looks at A(6), which doesn't exist. The loop must stop at 4."
+        },
+        {
+          "id": "u11-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why sort the list before finding the median?",
+          "options": [
+            "The median is only in the middle position once the list is in order",
+            "Sorting changes the values",
+            "READ only works on sorted lists",
+            "BASIC requires it"
+          ],
+          "answer": 0,
+          "explanation": "In an unsorted list, the middle position can hold any value."
+        }
+      ]
+    }
+  ]
+}

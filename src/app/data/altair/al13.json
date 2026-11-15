@@ -1,0 +1,405 @@
+{
+  "id": "al13",
+  "title": "Subroutines",
+  "lessons": [
+    {
+      "id": "al13-l1",
+      "title": "CALL and RET",
+      "xp": 15,
+      "intro": [
+        "CALL (315) jumps to a subroutine, but first remembers where it came from. RET (311) at the end of the subroutine goes back to right after the CALL.",
+        "So the same piece of code can be used from many places: write it once, CALL it often.",
+        "Subroutines go after the main program's HLT, so they're only ever reached through CALL."
+      ],
+      "example": {
+        "code": [
+          "076   ; 000: MVI A",
+          "003   ;      3",
+          "315   ; 002: CALL triple",
+          "017   ;      address 017 (low byte)",
+          "000   ;      (high byte)",
+          "323   ; 005: OUT 377",
+          "377   ;      port 377",
+          "076   ; 007: MVI A",
+          "012   ;      10",
+          "315   ; 011: CALL triple",
+          "017   ;      address 017 (low byte)",
+          "000   ;      (high byte)",
+          "323   ; 014: OUT 377",
+          "377   ;      port 377",
+          "166   ; 016: HLT",
+          "107   ; 017: MOV B,A   ← triple",
+          "207   ; 020: ADD A",
+          "200   ; 021: ADD B",
+          "311   ; 022: RET"
+        ],
+        "output": [
+          "LEDS ○○○○●○○● = 9",
+          "LEDS ○○○●●●●○ = 30"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al13-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does CALL do that JMP doesn't?",
+          "options": [
+            "It remembers where to come back to",
+            "It's faster",
+            "It shows A",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "RET uses that remembered address."
+        },
+        {
+          "id": "al13-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does RET do?",
+          "options": [
+            "Goes back to right after the CALL",
+            "Stops the program",
+            "Returns to address 000",
+            "Clears A"
+          ],
+          "answer": 0,
+          "explanation": "RETurn."
+        },
+        {
+          "id": "al13-l1-e3",
+          "type": "switches",
+          "prompt": "Set the switches to CALL (3 1 5).",
+          "answer": 205,
+          "explanation": "11 001 101."
+        },
+        {
+          "id": "al13-l1-e4",
+          "type": "switches",
+          "prompt": "Set the switches to RET (3 1 1).",
+          "answer": 201,
+          "explanation": "11 001 001."
+        },
+        {
+          "id": "al13-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "076   ; 000: MVI A",
+            "012   ;      10",
+            "315   ; 002: CALL dbl",
+            "010   ;      address 010 (low byte)",
+            "000   ;      (high byte)",
+            "323   ; 005: OUT 377",
+            "377   ;      port 377",
+            "166   ; 007: HLT",
+            "207   ; 010: ADD A   ← dbl",
+            "311   ; 011: RET"
+          ],
+          "options": [
+            "20",
+            "10",
+            "5",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "The subroutine doubles A."
+        },
+        {
+          "id": "al13-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Why do subroutines come after HLT?",
+          "options": [
+            "So the main program never runs into them by accident",
+            "CALL needs it",
+            "RET needs it",
+            "No reason"
+          ],
+          "answer": 0,
+          "explanation": "Running into a RET without a CALL goes somewhere random."
+        }
+      ]
+    },
+    {
+      "id": "al13-l2",
+      "title": "The Stack",
+      "xp": 15,
+      "intro": [
+        "Where does CALL remember the address? On the stack: a piece of memory at the end, used from the top down. The register SP (stack pointer) points to its top.",
+        "CALL pushes the return address (2 bytes) onto the stack, RET pops it off. Calls inside calls just stack up, which is why it's called a stack.",
+        "LXI SP (061) sets the stack pointer. On a 256-byte Altair, SP starts at the very end: address 400 (just past 377), written as 000 001."
+      ],
+      "example": {
+        "code": [
+          "061   ; 000: LXI SP",
+          "000   ;      address 400 (low byte)",
+          "001   ;      (high byte)",
+          "076   ; 003: MVI A",
+          "001   ;      1",
+          "315   ; 005: CALL a",
+          "013   ;      address 013 (low byte)",
+          "000   ;      (high byte)",
+          "323   ; 010: OUT 377",
+          "377   ;      port 377",
+          "166   ; 012: HLT",
+          "207   ; 013: ADD A   ← a",
+          "315   ; 014: CALL b",
+          "020   ;      address 020 (low byte)",
+          "000   ;      (high byte)",
+          "311   ; 017: RET",
+          "306   ; 020: ADI   ← b",
+          "012   ;      10",
+          "311   ; 022: RET"
+        ],
+        "output": [
+          "LEDS ○○○○●●○○ = 12"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al13-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "Where does CALL store the return address?",
+          "options": [
+            "On the stack",
+            "In register B",
+            "At address 000",
+            "In the program"
+          ],
+          "answer": 0,
+          "explanation": "SP points to the top of the stack."
+        },
+        {
+          "id": "al13-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Which way does the stack grow?",
+          "options": [
+            "Down, towards smaller addresses",
+            "Up",
+            "It doesn't move",
+            "Randomly"
+          ],
+          "answer": 0,
+          "explanation": "It starts at the end of memory."
+        },
+        {
+          "id": "al13-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "How many bytes does one return address take on the stack?",
+          "options": [
+            "2",
+            "1",
+            "3",
+            "8"
+          ],
+          "answer": 0,
+          "explanation": "An address has two bytes."
+        },
+        {
+          "id": "al13-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "061   ; 000: LXI SP",
+            "000   ;      address 400 (low byte)",
+            "001   ;      (high byte)",
+            "076   ; 003: MVI A",
+            "001   ;      1",
+            "315   ; 005: CALL a",
+            "013   ;      address 013 (low byte)",
+            "000   ;      (high byte)",
+            "323   ; 010: OUT 377",
+            "377   ;      port 377",
+            "166   ; 012: HLT",
+            "207   ; 013: ADD A   ← a",
+            "315   ; 014: CALL b",
+            "020   ;      address 020 (low byte)",
+            "000   ;      (high byte)",
+            "311   ; 017: RET",
+            "306   ; 020: ADI   ← b",
+            "012   ;      10",
+            "311   ; 022: RET"
+          ],
+          "options": [
+            "12",
+            "11",
+            "2",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "a doubles 1 to 2, then calls b, which adds 10."
+        },
+        {
+          "id": "al13-l2-e5",
+          "type": "fill_blank",
+          "prompt": "Set the stack pointer.",
+          "code": [
+            "___   ; LXI SP",
+            "000   ; low byte",
+            "001   ; high byte: address 400"
+          ],
+          "options": [
+            "061",
+            "041",
+            "001",
+            "311"
+          ],
+          "answer": "061",
+          "explanation": "LXI SP = 0 6 1."
+        },
+        {
+          "id": "al13-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What happens if a program uses too much stack on a 256-byte Altair?",
+          "options": [
+            "The stack runs into the program and overwrites it",
+            "Nothing",
+            "It gets more memory",
+            "The Altair beeps"
+          ],
+          "answer": 0,
+          "explanation": "Memory is tiny: stack and program share it."
+        }
+      ]
+    },
+    {
+      "id": "al13-l3",
+      "title": "Reusing a Routine",
+      "xp": 15,
+      "intro": [
+        "A good subroutine does one job, takes its input in a register and gives its result in a register. Then any program can use it.",
+        "A delay loop, a multiply routine, a print routine: Altair owners swapped such routines in club newsletters, printed as octal listings.",
+        "Write down which registers a routine uses: a CALL can change them without the caller noticing."
+      ],
+      "example": {
+        "code": [
+          "076   ; 000: MVI A",
+          "006   ;      6",
+          "016   ; 002: MVI C",
+          "007   ;      7",
+          "315   ; 004: CALL mul",
+          "012   ;      address 012 (low byte)",
+          "000   ;      (high byte)",
+          "323   ; 007: OUT 377",
+          "377   ;      port 377",
+          "166   ; 011: HLT",
+          "107   ; 012: MOV B,A   ← mul",
+          "257   ; 013: XRA A",
+          "201   ; 014: ADD C   ← loop",
+          "005   ; 015: DCR B",
+          "302   ; 016: JNZ loop",
+          "014   ;      address 014 (low byte)",
+          "000   ;      (high byte)",
+          "311   ; 021: RET"
+        ],
+        "output": [
+          "LEDS ○○●○●○●○ = 42"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al13-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What makes a subroutine easy to reuse?",
+          "options": [
+            "One job, input and output in registers",
+            "It's long",
+            "It uses JMP",
+            "It ends with HLT"
+          ],
+          "answer": 0,
+          "explanation": "Then you can CALL it from anywhere."
+        },
+        {
+          "id": "al13-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "In the example, which registers does mul change?",
+          "options": [
+            "A and B",
+            "Only A",
+            "C",
+            "None"
+          ],
+          "answer": 0,
+          "explanation": "B counts, A collects the product."
+        },
+        {
+          "id": "al13-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "076   ; 000: MVI A",
+            "006   ;      6",
+            "016   ; 002: MVI C",
+            "007   ;      7",
+            "315   ; 004: CALL mul",
+            "012   ;      address 012 (low byte)",
+            "000   ;      (high byte)",
+            "323   ; 007: OUT 377",
+            "377   ;      port 377",
+            "166   ; 011: HLT",
+            "107   ; 012: MOV B,A   ← mul",
+            "257   ; 013: XRA A",
+            "201   ; 014: ADD C   ← loop",
+            "005   ; 015: DCR B",
+            "302   ; 016: JNZ loop",
+            "014   ;      address 014 (low byte)",
+            "000   ;      (high byte)",
+            "311   ; 021: RET"
+          ],
+          "options": [
+            "42",
+            "13",
+            "6",
+            "7"
+          ],
+          "answer": 0,
+          "explanation": "6 × 7."
+        },
+        {
+          "id": "al13-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "How did Altair owners share routines?",
+          "options": [
+            "Printed octal listings in club newsletters",
+            "By email",
+            "On USB sticks",
+            "They didn't"
+          ],
+          "answer": 0,
+          "explanation": "The Homebrew Computer Club newsletter was full of them."
+        },
+        {
+          "id": "al13-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What is missing at the end of this subroutine?",
+          "code": [
+            "207   ; dbl: ADD A",
+            "323   ; OUT",
+            "377   ; port 377"
+          ],
+          "options": [
+            "RET (311)",
+            "HLT (166)",
+            "CALL (315)",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "Without RET, the 8080 runs on into whatever bytes come next."
+        },
+        {
+          "id": "al13-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why write down which registers a routine changes?",
+          "options": [
+            "The caller might need them afterwards",
+            "For the lights",
+            "CALL needs it",
+            "No reason"
+          ],
+          "answer": 0,
+          "explanation": "Or save them first, with PUSH (next unit)."
+        }
+      ]
+    }
+  ]
+}

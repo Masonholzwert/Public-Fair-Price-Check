@@ -1,0 +1,359 @@
+{
+  "id": "p1",
+  "title": "The First Program",
+  "lessons": [
+    {
+      "id": "p1-l1",
+      "title": "Hello, World",
+      "xp": 15,
+      "intro": [
+        "1983: Borland sells Turbo Pascal for $49.95. It compiles in seconds on an IBM PC, and a whole generation learns to program with it. The language itself is older: Niklaus Wirth designed Pascal in 1970 in Zurich, to teach programming the clean way.",
+        "A Pascal program starts with program and a name. The statements go between begin and end, and the very last end has a full stop: end.",
+        "writeln('…') prints the text between the single quotes, and then moves to the next line."
+      ],
+      "example": {
+        "code": [
+          "program Hello;",
+          "begin",
+          "  writeln('Hello, world!');",
+          "end."
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "p1-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does writeln do?",
+          "options": [
+            "Prints text and then moves to a new line",
+            "Reads a line",
+            "Writes to a file only",
+            "Ends the program"
+          ],
+          "answer": 0,
+          "explanation": "write + ln: \"write line\"."
+        },
+        {
+          "id": "p1-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "How does the last line of every Pascal program look?",
+          "options": [
+            "end.",
+            "end;",
+            "stop",
+            "}"
+          ],
+          "answer": 0,
+          "explanation": "The final end has a full stop. All the others don't."
+        },
+        {
+          "id": "p1-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Finish the program.",
+          "code": [
+            "program Hi;",
+            "begin",
+            "  writeln('Hi there');",
+            "___"
+          ],
+          "options": [
+            "end.",
+            "end;",
+            "end",
+            "stop."
+          ],
+          "answer": "end.",
+          "explanation": "The program ends with end and a full stop."
+        },
+        {
+          "id": "p1-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "Which quotes does Pascal use for text?",
+          "options": [
+            "Single quotes: 'like this'",
+            "Double quotes: \"like this\"",
+            "Backticks",
+            "No quotes"
+          ],
+          "answer": 0,
+          "explanation": "Pascal strings use single quotes."
+        },
+        {
+          "id": "p1-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Two;",
+            "begin",
+            "  writeln('Turbo');",
+            "  writeln('Pascal');",
+            "end."
+          ],
+          "options": [
+            "Turbo\nPascal",
+            "Turbo Pascal",
+            "'Turbo'\n'Pascal'",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "Each writeln prints its text and moves to the next line."
+        },
+        {
+          "id": "p1-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Who designed Pascal?",
+          "options": [
+            "Niklaus Wirth",
+            "Dennis Ritchie",
+            "John Kemeny",
+            "Blaise Pascal"
+          ],
+          "answer": 0,
+          "explanation": "Wirth named it after the 17th-century mathematician Blaise Pascal, who built one of the first mechanical calculators."
+        }
+      ]
+    },
+    {
+      "id": "p1-l2",
+      "title": "write and writeln",
+      "xp": 15,
+      "intro": [
+        "write prints without moving to a new line, so the next output continues on the same line. writeln prints and then starts a new line. An empty writeln just makes a blank line.",
+        "One writeln can print several things, separated by commas: writeln('Answer: ', 42).",
+        "Numbers are written without quotes, and Pascal can calculate: writeln(6 * 7) prints 42."
+      ],
+      "example": {
+        "code": [
+          "program Lines;",
+          "begin",
+          "  write('Turbo ');",
+          "  write('Pascal ');",
+          "  writeln('3.0');",
+          "  writeln;",
+          "  writeln('6 times 7 is ', 6 * 7);",
+          "end."
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "p1-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is the difference between write and writeln?",
+          "options": [
+            "writeln moves to a new line afterwards, write doesn't",
+            "write is faster",
+            "writeln can only print numbers",
+            "There is none"
+          ],
+          "answer": 0,
+          "explanation": "write keeps the cursor on the same line."
+        },
+        {
+          "id": "p1-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Abc;",
+            "begin",
+            "  write('A');",
+            "  write('B');",
+            "  write('C');",
+            "  writeln;",
+            "end."
+          ],
+          "options": [
+            "ABC",
+            "A\nB\nC",
+            "A B C",
+            "AB\nC"
+          ],
+          "answer": 0,
+          "explanation": "Three writes all stay on one line, and the final writeln ends it."
+        },
+        {
+          "id": "p1-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What does writeln('2 + 3 = ', 2 + 3) print?",
+          "options": [
+            "2 + 3 = 5",
+            "2 + 3 = 2 + 3",
+            "5 = 5",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "The text in quotes is printed as it is; the calculation outside the quotes is worked out."
+        },
+        {
+          "id": "p1-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Print an empty line.",
+          "code": [
+            "  writeln('Line 1');",
+            "  ___;",
+            "  writeln('Line 3');"
+          ],
+          "options": [
+            "writeln",
+            "write",
+            "newline",
+            "skip"
+          ],
+          "answer": "writeln",
+          "explanation": "writeln with nothing to print makes a blank line."
+        },
+        {
+          "id": "p1-l2-e5",
+          "type": "order_lines",
+          "prompt": "Put the lines in order to print Hello, Pascal! on one line.",
+          "lines": [
+            "program Greet;",
+            "begin",
+            "  write('Hello, ');",
+            "  writeln('Pascal!');",
+            "end."
+          ],
+          "answer": [
+            "program Greet;",
+            "begin",
+            "  write('Hello, ');",
+            "  writeln('Pascal!');",
+            "end."
+          ],
+          "explanation": "write first, so writeln can continue on the same line."
+        },
+        {
+          "id": "p1-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Nums;",
+            "begin",
+            "  writeln(10, ' ', 20);",
+            "end."
+          ],
+          "options": [
+            "10 20",
+            "1020",
+            "10\n20",
+            "30"
+          ],
+          "answer": 0,
+          "explanation": "The ' ' between the numbers prints a space."
+        }
+      ]
+    },
+    {
+      "id": "p1-l3",
+      "title": "Semicolons and Comments",
+      "xp": 15,
+      "intro": [
+        "In Pascal, ; separates statements, like commas in a list. That's why the statement right before end doesn't need one (but one there doesn't hurt). A missing ; between two statements is the most common error: Turbo Pascal stops with Error 85: \";\" expected.",
+        "Comments are notes for people: everything between { and } is ignored. (* and *) work too.",
+        "Pascal doesn't care about upper and lower case: WriteLn, WRITELN and writeln are the same."
+      ],
+      "example": {
+        "code": [
+          "program Comments;",
+          "{ This program prints a short poem }",
+          "begin",
+          "  WriteLn('Roses are red,');",
+          "  WRITELN('Pascal is blue,');  (* case doesn't matter *)",
+          "  writeln('Error 85 means');",
+          "  writeln('a ; is missing too.')",
+          "end."
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "p1-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does Error 85: \";\" expected mean?",
+          "options": [
+            "A semicolon is missing between two statements",
+            "The program is too long",
+            "There is a spelling mistake in writeln",
+            "The program needs a comment"
+          ],
+          "answer": 0,
+          "explanation": "Turbo Pascal shows it at the end of the line where the ; should be."
+        },
+        {
+          "id": "p1-l3-e2",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is missing a semicolon?",
+          "code": [
+            "program Oops;",
+            "begin",
+            "  writeln('One')",
+            "  writeln('Two');",
+            "end."
+          ],
+          "answer": 2,
+          "explanation": "Between the two writelns there must be a ;."
+        },
+        {
+          "id": "p1-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "Which of these is a comment in Pascal?",
+          "options": [
+            "{ like this }",
+            "// only in C",
+            "# like this",
+            "<!-- like this -->"
+          ],
+          "answer": 0,
+          "explanation": "Curly brackets (and (* *)) mark comments. Newer Pascals also allow //."
+        },
+        {
+          "id": "p1-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "Are writeln and WriteLn the same in Pascal?",
+          "options": [
+            "Yes, Pascal ignores upper and lower case",
+            "No, it must be lowercase",
+            "No, it must be WriteLn",
+            "Only inside comments"
+          ],
+          "answer": 0,
+          "explanation": "Unlike C, Pascal is not case-sensitive."
+        },
+        {
+          "id": "p1-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Does the statement right before end need a semicolon?",
+          "options": [
+            "No, ; only separates statements, but one there is allowed",
+            "Yes, always",
+            "No, and one there is an error",
+            "Only in the last end."
+          ],
+          "answer": 0,
+          "explanation": "Pascal treats ; as a separator."
+        },
+        {
+          "id": "p1-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program C;",
+            "begin",
+            "  { write('Turbo '); }",
+            "  writeln('Pascal');",
+            "end."
+          ],
+          "options": [
+            "Pascal",
+            "Turbo Pascal",
+            "{ Turbo } Pascal",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "The comment is ignored."
+        }
+      ]
+    }
+  ]
+}

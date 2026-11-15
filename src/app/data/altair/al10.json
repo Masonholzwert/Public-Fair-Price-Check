@@ -1,0 +1,370 @@
+{
+  "id": "al10",
+  "title": "Logic",
+  "lessons": [
+    {
+      "id": "al10-l1",
+      "title": "AND, OR, XOR",
+      "xp": 15,
+      "intro": [
+        "The 8080 can combine bytes bit by bit. ANA r (2 4 r) keeps a 1 only where both A and r have a 1 (AND). ORA r (2 6 r) gives a 1 where either has one (OR). XRA r (2 5 r) gives a 1 where they differ (exclusive OR).",
+        "Each of the 8 bits is worked out on its own, like 8 tiny calculations side by side.",
+        "With numbers instead of registers: ANI (346), ORI (366) and XRI (356)."
+      ],
+      "example": {
+        "code": [
+          "006   ; 000: MVI B",
+          "074   ;      60",
+          "076   ; 002: MVI A",
+          "125   ;      85",
+          "240   ; 004: ANA B",
+          "323   ; 005: OUT 377",
+          "377   ;      port 377",
+          "076   ; 007: MVI A",
+          "125   ;      85",
+          "260   ; 011: ORA B",
+          "323   ; 012: OUT 377",
+          "377   ;      port 377",
+          "076   ; 014: MVI A",
+          "125   ;      85",
+          "250   ; 016: XRA B",
+          "323   ; 017: OUT 377",
+          "377   ;      port 377",
+          "166   ; 021: HLT"
+        ],
+        "output": [
+          "LEDS ○○○●○●○○ = 20",
+          "LEDS ○●●●●●○● = 125",
+          "LEDS ○●●○●○○● = 105"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al10-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is 1100 AND 1010?",
+          "options": [
+            "1000",
+            "1110",
+            "0110",
+            "0010"
+          ],
+          "answer": 0,
+          "explanation": "Only the leftmost bit is 1 in both."
+        },
+        {
+          "id": "al10-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What is 1100 OR 1010?",
+          "options": [
+            "1110",
+            "1000",
+            "0110",
+            "1111"
+          ],
+          "answer": 0,
+          "explanation": "1 wherever either has a 1."
+        },
+        {
+          "id": "al10-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What is 1100 XOR 1010?",
+          "options": [
+            "0110",
+            "1110",
+            "1000",
+            "0000"
+          ],
+          "answer": 0,
+          "explanation": "1 where they differ."
+        },
+        {
+          "id": "al10-l1-e4",
+          "type": "switches",
+          "prompt": "Set the switches to ANI (3 4 6).",
+          "answer": 230,
+          "explanation": "11 100 110."
+        },
+        {
+          "id": "al10-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "076   ; 000: MVI A",
+            "377   ;      255",
+            "346   ; 002: ANI",
+            "017   ;      15",
+            "323   ; 004: OUT 377",
+            "377   ;      port 377",
+            "166   ; 006: HLT"
+          ],
+          "options": [
+            "15",
+            "255",
+            "240",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "11111111 AND 00001111 keeps only the lower four bits."
+        },
+        {
+          "id": "al10-l1-e6",
+          "type": "switches",
+          "prompt": "What is 10101010 XOR 11111111? Set the switches to it.",
+          "answer": 85,
+          "explanation": "XOR with all ones flips every bit."
+        }
+      ]
+    },
+    {
+      "id": "al10-l2",
+      "title": "Masks",
+      "xp": 15,
+      "intro": [
+        "A mask is a byte that picks out bits. ANI 00001111 clears the upper four bits and keeps the lower four.",
+        "ORI with a mask turns bits on and leaves the others alone: ORI 10000000 switches on the top light.",
+        "To test a single bit, AND it out and look at the zero flag: ANI 00000001 then JZ means \"jump if bit 0 is off\". That's also how you test if a number is even."
+      ],
+      "example": {
+        "code": [
+          "076   ; 000: MVI A",
+          "266   ;      182",
+          "346   ; 002: ANI",
+          "017   ;      15",
+          "323   ; 004: OUT 377",
+          "377   ;      port 377",
+          "366   ; 006: ORI",
+          "200   ;      128",
+          "323   ; 010: OUT 377",
+          "377   ;      port 377",
+          "166   ; 012: HLT"
+        ],
+        "output": [
+          "LEDS ○○○○○●●○ = 6",
+          "LEDS ●○○○○●●○ = 134"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al10-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does ANI 11110000 do?",
+          "options": [
+            "Clears the lower 4 bits, keeps the upper 4",
+            "Sets the upper 4 bits",
+            "Flips all bits",
+            "Clears A"
+          ],
+          "answer": 0,
+          "explanation": "AND with 0 clears, AND with 1 keeps."
+        },
+        {
+          "id": "al10-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Which instruction turns on bit 7 and leaves the rest?",
+          "options": [
+            "ORI 10000000",
+            "ANI 10000000",
+            "XRI 01111111",
+            "MVI A 10000000"
+          ],
+          "answer": 0,
+          "explanation": "OR with 1 sets, OR with 0 keeps."
+        },
+        {
+          "id": "al10-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "How do you check if A is even?",
+          "options": [
+            "ANI 1, then the zero flag is set if it's even",
+            "CPI 2",
+            "ADD A",
+            "ORI 1"
+          ],
+          "answer": 0,
+          "explanation": "Even numbers have bit 0 off."
+        },
+        {
+          "id": "al10-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "076   ; 000: MVI A",
+            "366   ;      246",
+            "346   ; 002: ANI",
+            "017   ;      15",
+            "323   ; 004: OUT 377",
+            "377   ;      port 377",
+            "166   ; 006: HLT"
+          ],
+          "options": [
+            "6",
+            "246",
+            "240",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "246 = 11110110. ANI 00001111 keeps 0110 = 6."
+        },
+        {
+          "id": "al10-l2-e5",
+          "type": "fill_blank",
+          "prompt": "Turn on bit 0 and keep the rest.",
+          "code": [
+            "___   ; ORI",
+            "001   ; mask 00000001"
+          ],
+          "options": [
+            "366",
+            "346",
+            "356",
+            "376"
+          ],
+          "answer": "366",
+          "explanation": "ORI = 3 6 6."
+        },
+        {
+          "id": "al10-l2-e6",
+          "type": "switches",
+          "prompt": "Which mask keeps only bits 2 and 3? Set the switches to it.",
+          "answer": 12,
+          "explanation": "8 + 4: 00001100."
+        }
+      ]
+    },
+    {
+      "id": "al10-l3",
+      "title": "Flipping Bits",
+      "xp": 15,
+      "intro": [
+        "XRI with a mask flips exactly the bits that are 1 in the mask. XRI 11111111 flips every bit (that's what CMA, 057, does too).",
+        "Flipping twice brings everything back: perfect for blinking lights.",
+        "XRA A (257) is a quick way to clear A: anything XOR itself is 0. 8080 programmers used it all the time because it's one byte instead of two."
+      ],
+      "example": {
+        "code": [
+          "076   ; 000: MVI A",
+          "017   ;      15",
+          "323   ; 002: OUT 377",
+          "377   ;      port 377",
+          "356   ; 004: XRI",
+          "377   ;      255",
+          "323   ; 006: OUT 377",
+          "377   ;      port 377",
+          "356   ; 010: XRI",
+          "377   ;      255",
+          "323   ; 012: OUT 377",
+          "377   ;      port 377",
+          "257   ; 014: XRA A",
+          "323   ; 015: OUT 377",
+          "377   ;      port 377",
+          "166   ; 017: HLT"
+        ],
+        "output": [
+          "LEDS ○○○○●●●● = 15",
+          "LEDS ●●●●○○○○ = 240",
+          "LEDS ○○○○●●●● = 15",
+          "LEDS ○○○○○○○○ = 0"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al10-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does XRI 00000001 do?",
+          "options": [
+            "Flips bit 0",
+            "Clears bit 0",
+            "Sets bit 0",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "XOR with 1 flips."
+        },
+        {
+          "id": "al10-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "Why is XRA A used to clear A?",
+          "options": [
+            "A XOR A is always 0, and it's only one byte",
+            "It's faster than OUT",
+            "MVI can't load 0",
+            "It isn't"
+          ],
+          "answer": 0,
+          "explanation": "MVI A 0 needs two bytes."
+        },
+        {
+          "id": "al10-l3-e3",
+          "type": "switches",
+          "prompt": "Set the switches to XRA A (2 5 7).",
+          "answer": 175,
+          "explanation": "10 101 111."
+        },
+        {
+          "id": "al10-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "076   ; 000: MVI A",
+            "125   ;      85",
+            "356   ; 002: XRI",
+            "377   ;      255",
+            "323   ; 004: OUT 377",
+            "377   ;      port 377",
+            "166   ; 006: HLT"
+          ],
+          "options": [
+            "170",
+            "85",
+            "255",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "01010101 flipped is 10101010 = 170."
+        },
+        {
+          "id": "al10-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What does CMA (057) do?",
+          "options": [
+            "Flips every bit of A",
+            "Clears A",
+            "Compares A",
+            "Copies A"
+          ],
+          "answer": 0,
+          "explanation": "CoMplement A."
+        },
+        {
+          "id": "al10-l3-e6",
+          "type": "order_lines",
+          "prompt": "Blink the lights: show a pattern, flip it, show it again.",
+          "lines": [
+            "076   ; MVI A",
+            "360   ; 11110000",
+            "323   ; OUT",
+            "377   ; port 377",
+            "356   ; XRI",
+            "377   ; 11111111",
+            "323   ; OUT",
+            "377   ; port 377",
+            "166   ; HLT"
+          ],
+          "answer": [
+            "076   ; MVI A",
+            "360   ; 11110000",
+            "323   ; OUT",
+            "377   ; port 377",
+            "356   ; XRI",
+            "377   ; 11111111",
+            "323   ; OUT",
+            "377   ; port 377",
+            "166   ; HLT"
+          ],
+          "explanation": "Show, flip, show, halt."
+        }
+      ]
+    }
+  ]
+}

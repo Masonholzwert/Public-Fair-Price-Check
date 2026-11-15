@@ -1,0 +1,602 @@
+{
+  "f1": {
+    "title": "Punch Your First Deck",
+    "xp": 40,
+    "story": "Your very first job on the IBM 704. The operator takes your deck, and twenty minutes later the printout lands in your mailbox.",
+    "task": "Print IBM 704 on the first line and FORTRAN 1957 on the second. Use one WRITE and one FORMAT per line. End the deck with STOP and END.",
+    "starter": "C     MY FIRST DECK\n",
+    "expectedOutput": "IBM 704\nFORTRAN 1957",
+    "requirements": [
+      {
+        "pattern": "WRITE[\\s\\S]*WRITE",
+        "message": "Use one WRITE for each line."
+      },
+      {
+        "pattern": "^\\s*END\\s*$",
+        "message": "The last card has to be END."
+      }
+    ],
+    "hints": [
+      "      WRITE (6,10) prints the line described by FORMAT number 10.",
+      "   10 FORMAT (' IBM 704'): don't forget the blank at the start, it's eaten by the printer.",
+      "Then a second WRITE (6,20) with its own FORMAT 20, and STOP and END at the end."
+    ]
+  },
+  "f2": {
+    "title": "The Average",
+    "xp": 40,
+    "story": "A physics teacher has three measurements: 7, 8 and 8 seconds. The computer must print their average with two decimals. Last week's program printed 7.00. Oops.",
+    "task": "Compute the average of 7, 8 and 8 and print it with two decimals (7.67). Avoid the integer division trap!",
+    "starter": "C     THE AVERAGE\n",
+    "expectedOutput": "7.67",
+    "requirements": [
+      {
+        "pattern": "/",
+        "message": "Let the computer divide by 3."
+      },
+      {
+        "pattern": "F\\s*\\d+\\s*\\.\\s*2",
+        "message": "Print the result with an F format and two decimals, like F6.2."
+      }
+    ],
+    "hints": [
+      "If you add integers, the sum is an integer, and dividing by 3 cuts off the decimals.",
+      "Use REAL numbers: X = (7. + 8. + 8.) / 3. Or FLOAT(ISUM) / 3.",
+      "WRITE (6,10) X with 10 FORMAT (1X, F6.2)."
+    ]
+  },
+  "f3": {
+    "title": "The Price List",
+    "xp": 40,
+    "story": "The university shop wants a printed price list, with the item numbers and prices lined up neatly.",
+    "task": "Print this table exactly: a header ITEM PRICE, then items 1 to 3 with the prices 2.50, 12.75 and 0.99. Use FORMAT (1X, I4, F8.2) for the item lines.",
+    "starter": "C     THE PRICE LIST\n",
+    "expectedOutput": "ITEM   PRICE\n   1    2.50\n   2   12.75\n   3    0.99",
+    "exact": true,
+    "requirements": [
+      {
+        "pattern": "I\\s*4\\s*,\\s*F\\s*8\\s*\\.\\s*2",
+        "message": "Use FORMAT (1X, I4, F8.2) for the item lines."
+      }
+    ],
+    "hints": [
+      "The header: 10 FORMAT (' ITEM   PRICE'). The blank at the start is for the printer.",
+      "One FORMAT for all item lines: 20 FORMAT (1X, I4, F8.2).",
+      "WRITE (6,20) 1, 2.50 works, but nicer: put the price in a variable first, like P = 2.50."
+    ]
+  },
+  "fc1-project": {
+    "title": "The Circle Calculator",
+    "xp": 100,
+    "story": "An engineer needs the measurements of a pipe with a radius of 2.5 cm, printed with labels, for the workshop.",
+    "task": "For R = 2.5, compute the area (pi × R²) and the circumference (2 × pi × R), with pi = 3.14159. Print three lines: RADIUS, AREA and CIRCUMFERENCE, each followed by its value with two decimals.",
+    "starter": "C     THE CIRCLE CALCULATOR\n",
+    "expectedOutput": "RADIUS 2.50\nAREA 19.63\nCIRCUMFERENCE 15.71",
+    "requirements": [
+      {
+        "pattern": "\\*\\*\\s*2|R\\s*\\*\\s*R",
+        "message": "Square the radius in your formula, like R ** 2."
+      },
+      {
+        "pattern": "F\\s*\\d+\\s*\\.\\s*2",
+        "message": "Print the values with two decimals, like F8.2."
+      }
+    ],
+    "hints": [
+      "PI = 3.14159, R = 2.5, then A = PI * R ** 2 and C = 2. * PI * R.",
+      "One FORMAT can print all three lines: 10 FORMAT (' RADIUS', F12.2/' AREA', F14.2/' CIRCUMFERENCE', F6.2).",
+      "Or three WRITEs, each with its own FORMAT. Don't forget STOP and END."
+    ]
+  },
+  "f4": {
+    "title": "Countdown",
+    "xp": 40,
+    "story": "Cape Canaveral, 1962. The launch computer has to count down from 5 and then give the signal. DO loops can't count backwards, so the engineers do it the old way.",
+    "task": "Print 5, 4, 3, 2, 1, each on its own line, then LIFTOFF. Build the loop by hand with GO TO and the three-way IF.",
+    "starter": "C     COUNTDOWN\n",
+    "expectedOutput": "5\n4\n3\n2\n1\nLIFTOFF",
+    "requirements": [
+      {
+        "pattern": "IF\\s*\\(.*\\)\\s*\\d+\\s*,\\s*\\d+\\s*,\\s*\\d+",
+        "message": "Use the three-way IF, like IF (K) 10, 20, 30."
+      }
+    ],
+    "hints": [
+      "Start with K = 5. Print K, then K = K - 1.",
+      "IF (K) 30, 30, 10 jumps back to 10 while K is still positive, and goes on to 30 at zero.",
+      "At 30, write LIFTOFF with its own FORMAT. Don't forget STOP and END."
+    ]
+  },
+  "f5": {
+    "title": "Leap Years",
+    "xp": 40,
+    "story": "The calendar office wants a list of leap years. The rule: a year divisible by 4 is a leap year, except years divisible by 100, unless they are also divisible by 400. That's why 1900 wasn't one.",
+    "task": "Check every year from 1896 to 1904 and print only the leap years. Loop with a counter and GO TO, and test the rule with MOD, .AND. and .OR.",
+    "starter": "C     LEAP YEARS\n",
+    "expectedOutput": "1896\n1904",
+    "requirements": [
+      {
+        "pattern": "MOD\\s*\\(",
+        "message": "Test divisibility with MOD, like MOD(IY, 4) .EQ. 0."
+      },
+      {
+        "pattern": "\\.(AND|OR)\\.",
+        "message": "Combine the rule with .AND. or .OR."
+      }
+    ],
+    "hints": [
+      "IY = 1896 to start. At the end of the loop: IY = IY + 1, then IF (IY .LE. 1904) GO TO 10.",
+      "Divisible by 4 and not by 100: MOD(IY, 4) .EQ. 0 .AND. MOD(IY, 100) .NE. 0.",
+      "Add the 400 rule with .OR.: IF (… .OR. MOD(IY, 400) .EQ. 0) WRITE (6,20) IY, with 20 FORMAT (1X, I4)."
+    ]
+  },
+  "f6": {
+    "title": "The Times Table",
+    "xp": 40,
+    "story": "A school in 1965 orders printed times tables from the university computer: one neat sheet per class.",
+    "task": "Print the times table from 1 to 5: five lines, each with the numbers I, 2×I, 3×I, 4×I and 5×I. Use a DO loop and FORMAT (1X, 5I4).",
+    "starter": "C     THE TIMES TABLE\n",
+    "expectedOutput": "   1   2   3   4   5\n   2   4   6   8  10\n   3   6   9  12  15\n   4   8  12  16  20\n   5  10  15  20  25",
+    "exact": true,
+    "requirements": [
+      {
+        "pattern": "^\\s*DO\\s+\\d+",
+        "message": "Use a DO loop."
+      },
+      {
+        "pattern": "5\\s*I\\s*4",
+        "message": "Use FORMAT (1X, 5I4) to line the numbers up."
+      }
+    ],
+    "hints": [
+      "DO 10 I = 1, 5 with a CONTINUE numbered 10.",
+      "One WRITE per line, with five values: WRITE (6,20) I, 2*I, 3*I, 4*I, 5*I.",
+      "20 FORMAT (1X, 5I4) gives each number four columns."
+    ]
+  },
+  "fc2-project": {
+    "title": "The Prime Finder",
+    "xp": 100,
+    "story": "Mathematicians used early computers to hunt for prime numbers, numbers that can only be divided by 1 and themselves. Your job: find all of them up to 50.",
+    "task": "Print every prime number from 2 to 50, one per line. For each N, try the divisors 2 up to N - 1 with MOD. If one divides evenly, N isn't prime.",
+    "starter": "C     THE PRIME FINDER\n",
+    "expectedOutput": "2\n3\n5\n7\n11\n13\n17\n19\n23\n29\n31\n37\n41\n43\n47",
+    "requirements": [
+      {
+        "pattern": "^\\s*DO\\s+\\d+[\\s\\S]*^\\s*DO\\s+\\d+",
+        "message": "Use two DO loops: one for N, one for the divisors."
+      },
+      {
+        "pattern": "MOD\\s*\\(",
+        "message": "Test the divisors with MOD."
+      }
+    ],
+    "hints": [
+      "2 is the only even prime: print it first, then let N run from 3 to 50.",
+      "Before the inner loop, set M = N - 1. Then DO 10 K = 2, M, and inside: IF (MOD(N, K) .EQ. 0) GO TO 30.",
+      "After the inner loop's CONTINUE, WRITE N. Number the outer loop's CONTINUE 30, so a divisor jumps past the WRITE."
+    ]
+  },
+  "f7": {
+    "title": "The Warmest Day",
+    "xp": 40,
+    "story": "The weather service logged a week of noon temperatures: 12.5, 15.0, 17.5, 21.0, 19.5, 16.0 and 14.5 degrees. Which day was the warmest?",
+    "task": "Store the seven temperatures in an array T(7). Find the highest one with a DO loop and print the day and the temperature, like DAY 4 21.0.",
+    "starter": "C     THE WARMEST DAY\n      DIMENSION T(7)\n",
+    "expectedOutput": "DAY 4 21.0",
+    "requirements": [
+      {
+        "pattern": "DIMENSION",
+        "message": "Keep the temperatures in an array with DIMENSION T(7)."
+      },
+      {
+        "pattern": "^\\s*DO\\s+\\d+",
+        "message": "Find the maximum with a DO loop."
+      }
+    ],
+    "hints": [
+      "Set T(1) = 12.5, T(2) = 15.0 … one card each.",
+      "Start with BIG = T(1) and IDAY = 1, then DO 10 I = 2, 7.",
+      "Inside the loop: IF (T(I) .GT. BIG) IDAY = I, then IF (T(I) .GT. BIG) BIG = T(I). Print with FORMAT (' DAY', I2, F6.1)."
+    ]
+  },
+  "f8": {
+    "title": "The Class Average",
+    "xp": 40,
+    "story": "A teacher brings a stack of data cards: one test score per card, columns 1–4, and a last card with -1. The office wants the number of students and the average.",
+    "task": "Read scores until the -1 card. Print STUDENTS with the count, then AVERAGE with one decimal.",
+    "starter": "C     THE CLASS AVERAGE\n",
+    "inputs": [
+      "  72",
+      "  85",
+      "  90",
+      "  64",
+      "  77",
+      "  -1"
+    ],
+    "expectedOutput": "STUDENTS 5\nAVERAGE 77.6",
+    "requirements": [
+      {
+        "pattern": "READ\\s*\\(\\s*5",
+        "message": "Read the scores with READ (5, …)."
+      }
+    ],
+    "hints": [
+      "Loop: 10 READ (5,20) K with 20 FORMAT (I4), then IF (K .LT. 0) GO TO 30.",
+      "Count with N = N + 1 and add with ISUM = ISUM + K, then GO TO 10.",
+      "At 30: AVG = FLOAT(ISUM) / FLOAT(N). Watch out for the integer division trap! Print with FORMAT (' STUDENTS', I3/' AVERAGE', F6.1)."
+    ]
+  },
+  "f9": {
+    "title": "The Square Root Table",
+    "xp": 40,
+    "story": "Before pocket calculators, engineers looked up square roots in printed tables. Your computer center sells them.",
+    "task": "Print a header line N SQRT(N), then the numbers 1 to 5 with their square roots to 4 decimals. Use FORMAT (1X, I4, F10.4) for the number lines.",
+    "starter": "C     THE SQUARE ROOT TABLE\n",
+    "expectedOutput": "   N   SQRT(N)\n   1    1.0000\n   2    1.4142\n   3    1.7321\n   4    2.0000\n   5    2.2361",
+    "exact": true,
+    "requirements": [
+      {
+        "pattern": "SQRT\\s*\\(",
+        "message": "Use the built-in SQRT function."
+      },
+      {
+        "pattern": "I\\s*4\\s*,\\s*F\\s*10\\s*\\.\\s*4",
+        "message": "Use FORMAT (1X, I4, F10.4) for the number lines."
+      }
+    ],
+    "hints": [
+      "Header: 10 FORMAT ('    N   SQRT(N)'). The first blank is eaten by the printer.",
+      "DO 20 N = 1, 5. SQRT needs a REAL: X = SQRT(FLOAT(N)).",
+      "WRITE (6,30) N, X with 30 FORMAT (1X, I4, F10.4)."
+    ]
+  },
+  "fc3-project": {
+    "title": "The Weather Station",
+    "xp": 100,
+    "story": "A weather station sends a week of readings on seven data cards, one temperature per card in columns 1–6. The meteorologist wants a report.",
+    "task": "Read the seven temperatures into an array. Print the average, the highest and the lowest temperature, each with one decimal: AVERAGE, HIGHEST and LOWEST.",
+    "starter": "C     THE WEATHER STATION\n      DIMENSION T(7)\n",
+    "inputs": [
+      "  11.5",
+      "  14.0",
+      "  16.5",
+      "  13.0",
+      "   9.5",
+      "  12.0",
+      "  15.5"
+    ],
+    "expectedOutput": "AVERAGE 13.1\nHIGHEST 16.5\nLOWEST 9.5",
+    "requirements": [
+      {
+        "pattern": "DIMENSION",
+        "message": "Keep the readings in an array."
+      },
+      {
+        "pattern": "READ\\s*\\(\\s*5",
+        "message": "Read the data cards with READ (5, …)."
+      },
+      {
+        "pattern": "^\\s*DO\\s+\\d+",
+        "message": "Use a DO loop to go through the readings."
+      }
+    ],
+    "hints": [
+      "READ (5,10) (T(I), I = 1, 7) with 10 FORMAT (F6.1) reads one card per value: the format is used again for each card.",
+      "SUM = 0.0, BIG = T(1), SMALL = T(1). Then DO 20 I = 1, 7: add T(I), and compare with BIG and SMALL using logical IFs.",
+      "Print with FORMAT (' AVERAGE', F6.1/' HIGHEST', F6.1/' LOWEST', F7.1), and AVERAGE = SUM / 7.0."
+    ]
+  },
+  "f10": {
+    "title": "Factorials",
+    "xp": 40,
+    "story": "A statistics professor needs factorials: 5! = 1 × 2 × 3 × 4 × 5 = 120. She wants a table from 1 to 6, and a function she can reuse.",
+    "task": "Write FUNCTION IFACT(N) that works out N!. In the main program, print N and IFACT(N) for N = 1 to 6, one pair per line.",
+    "starter": "C     FACTORIALS\n",
+    "expectedOutput": "1 1\n2 2\n3 6\n4 24\n5 120\n6 720",
+    "requirements": [
+      {
+        "pattern": "FUNCTION\\s+IFACT",
+        "message": "Write the factorial as FUNCTION IFACT(N)."
+      },
+      {
+        "pattern": "IFACT\\s*\\(",
+        "message": "Use IFACT(N) in the main program."
+      }
+    ],
+    "hints": [
+      "Main program: DO 10 N = 1, 6, then WRITE (6,20) N, IFACT(N) with 20 FORMAT (1X, I3, I6).",
+      "After the main END: FUNCTION IFACT(N), then IFACT = 1.",
+      "DO 10 I = 1, N with IFACT = IFACT * I inside, then RETURN and END."
+    ]
+  },
+  "f11": {
+    "title": "Sort the Scores",
+    "xp": 40,
+    "story": "The sports club punched six race times in seconds: 72, 85, 64, 90, 77 and 58. The results board needs them from fastest to slowest.",
+    "task": "Put the six times in an integer array, sort it in SUBROUTINE ISORT(K, N) and print them on one line with FORMAT (1X, 6I4).",
+    "starter": "C     SORT THE SCORES\n      DIMENSION K(6)\n      K(1) = 72\n      K(2) = 85\n      K(3) = 64\n      K(4) = 90\n      K(5) = 77\n      K(6) = 58\n",
+    "expectedOutput": "58 64 72 77 85 90",
+    "requirements": [
+      {
+        "pattern": "SUBROUTINE\\s+ISORT",
+        "message": "Sort in SUBROUTINE ISORT(K, N)."
+      },
+      {
+        "pattern": "CALL\\s+ISORT",
+        "message": "CALL ISORT from the main program."
+      }
+    ],
+    "hints": [
+      "Main program: CALL ISORT(K, 6), then WRITE (6,10) K with 10 FORMAT (1X, 6I4).",
+      "SUBROUTINE ISORT(K, N) with DIMENSION K(N). Use the SORT from the lesson, but with integers: the spare variable must be an integer too, like M.",
+      "Inside the two loops: IF (K(J) .GE. K(I)) GO TO 10, then M = K(I), K(I) = K(J), K(J) = M."
+    ]
+  },
+  "f12": {
+    "title": "The Price Calculator",
+    "xp": 40,
+    "story": "The university shop changes its tax rate now and then. The prices are fixed, so they go in a DATA card, and the tax rate is shared through COMMON.",
+    "task": "Prices 2.50, 12.75 and 0.99 in a DATA statement. Set the tax rate to 0.20 in the main program and share it with COMMON. A subroutine prints each price with tax, two decimals per line.",
+    "starter": "C     THE PRICE CALCULATOR\n",
+    "expectedOutput": "3.00\n15.30\n1.19",
+    "requirements": [
+      {
+        "pattern": "^\\s*DATA",
+        "message": "Put the prices in a DATA statement."
+      },
+      {
+        "pattern": "^\\s*COMMON[\\s\\S]*^\\s*COMMON",
+        "message": "Share the tax rate with COMMON in the main program and in the subroutine."
+      },
+      {
+        "pattern": "^\\s*SUBROUTINE",
+        "message": "Print the prices in a subroutine."
+      }
+    ],
+    "hints": [
+      "DIMENSION P(3), DATA P / 2.50, 12.75, 0.99 /, COMMON RATE, RATE = 0.20.",
+      "DO 10 I = 1, 3 with CALL GROSS(P(I)) inside.",
+      "SUBROUTINE GROSS(X) with COMMON R. Then Q = X * (1.0 + R) and WRITE (6,10) Q with 10 FORMAT (1X, F8.2)."
+    ]
+  },
+  "fc4-project": {
+    "title": "The Statistics Library",
+    "xp": 100,
+    "story": "A lab has eight measurements and wants a little library of reusable statistics routines, the way SHARE members swapped them in the 1950s.",
+    "task": "Keep the values 4, 8, 15, 16, 23, 42, 7 and 9 in a DATA statement. Write FUNCTION AVG(X, N) and SUBROUTINE MINMAX(X, N, SMALL, BIG). Print AVERAGE, LOWEST, HIGHEST and RANGE (highest minus lowest), each with one decimal.",
+    "starter": "C     THE STATISTICS LIBRARY\n      DIMENSION A(8)\n",
+    "expectedOutput": "AVERAGE 15.5\nLOWEST 4.0\nHIGHEST 42.0\nRANGE 38.0",
+    "requirements": [
+      {
+        "pattern": "^\\s*DATA",
+        "message": "Put the measurements in a DATA statement."
+      },
+      {
+        "pattern": "FUNCTION\\s+AVG",
+        "message": "Write FUNCTION AVG(X, N)."
+      },
+      {
+        "pattern": "SUBROUTINE\\s+MINMAX",
+        "message": "Write SUBROUTINE MINMAX(X, N, SMALL, BIG)."
+      }
+    ],
+    "hints": [
+      "DATA A / 4., 8., 15., 16., 23., 42., 7., 9. /. Then CALL MINMAX(A, 8, S, B) and WRITE (6,10) AVG(A, 8), S, B, B - S.",
+      "10 FORMAT (' AVERAGE', F6.1/' LOWEST', F6.1/' HIGHEST', F6.1/' RANGE', F6.1).",
+      "MINMAX: SMALL = X(1), BIG = X(1), then a DO loop with IF (X(I) .LT. SMALL) SMALL = X(I) and the same for BIG."
+    ]
+  },
+  "f13": {
+    "title": "The Square Root of 10",
+    "xp": 40,
+    "story": "1957: the IBM 704 at the university gets a new job. A physicist needs the square root of 10 to five decimals, and wants to see that Newton's method can do it without the library.",
+    "task": "Find the square root of 10 with Newton's method, starting from X = 1.0. Repeat until the change is smaller than 1.0E-6, then print the result with five decimals.",
+    "starter": "C     THE SQUARE ROOT OF 10\n",
+    "expectedOutput": "3.16228",
+    "requirements": [
+      {
+        "pattern": "ABS\\s*\\(",
+        "message": "Stop when ABS(XNEW - X) is small enough."
+      },
+      {
+        "pattern": "/\\s*X",
+        "message": "Use Newton's step: (X + A / X) / 2."
+      }
+    ],
+    "hints": [
+      "A = 10.0, X = 1.0. Then 10 XNEW = (X + A / X) / 2.0.",
+      "IF (ABS(XNEW - X) .LT. 1.0E-6) GO TO 20, otherwise X = XNEW and GO TO 10.",
+      "At 20: WRITE (6,30) XNEW with 30 FORMAT (1X, F10.5)."
+    ]
+  },
+  "f14": {
+    "title": "The Best Angle",
+    "xp": 40,
+    "story": "An artillery officer asks: at 50 m/s, how far does a shell fly at different angles? Without air, the physics is exact: flight time T = 2 × VY / 9.81, distance = VX × T.",
+    "task": "For the angles 15, 30, 45, 60 and 75 degrees, print the angle and the distance with one decimal. Use a DO loop with a step of 15, and convert to radians with 3.14159.",
+    "starter": "C     THE BEST ANGLE\n",
+    "expectedOutput": "15 127.4\n30 220.7\n45 254.8\n60 220.7\n75 127.4",
+    "requirements": [
+      {
+        "pattern": "^\\s*DO\\s+\\d+\\s+\\w+\\s*=\\s*15\\s*,\\s*75\\s*,\\s*15",
+        "message": "Loop over the angles with DO … = 15, 75, 15."
+      },
+      {
+        "pattern": "SIN\\s*\\(",
+        "message": "Split the speed with SIN and COS."
+      }
+    ],
+    "hints": [
+      "DO 10 IDEG = 15, 75, 15, then RAD = FLOAT(IDEG) * 3.14159 / 180.0.",
+      "VX = 50.0 * COS(RAD), VY = 50.0 * SIN(RAD), T = 2.0 * VY / 9.81, D = VX * T.",
+      "WRITE (6,20) IDEG, D with 20 FORMAT (1X, I3, F8.1). Notice which angles give the same distance!"
+    ]
+  },
+  "f15": {
+    "title": "The Area Under a Sine",
+    "xp": 40,
+    "story": "The area under one arch of the sine curve, from 0 to π, is exactly 2. A good check for your trapezoid program.",
+    "task": "Use the trapezoid rule with N = 100 strips to work out the area under SIN(X) from 0 to 3.14159. Print it with four decimals.",
+    "starter": "C     THE AREA UNDER A SINE\n",
+    "expectedOutput": "1.9998",
+    "requirements": [
+      {
+        "pattern": "SIN\\s*\\(",
+        "message": "Integrate SIN(X)."
+      },
+      {
+        "pattern": "/\\s*2",
+        "message": "Count the two end points half: (F(A) + F(B)) / 2."
+      }
+    ],
+    "hints": [
+      "PI = 3.14159, N = 100, H = PI / FLOAT(N).",
+      "SUM = (SIN(0.0) + SIN(PI)) / 2.0, then DO 10 I = 1, 99 with SUM = SUM + SIN(FLOAT(I) * H).",
+      "SUM = SUM * H, then WRITE with FORMAT (1X, F8.4). It's just below 2: why?"
+    ]
+  },
+  "fc5-project": {
+    "title": "Computing Pi",
+    "xp": 100,
+    "story": "A quarter circle with radius 1 has the area π/4. Its curve is Y = SQRT(1 - X²). In 1949, ENIAC computed π to 2037 digits. You'll settle for a table that shows how the trapezoid rule closes in on it.",
+    "task": "Compute 4 × the area under SQRT(1 - X**2) from 0 to 1 with the trapezoid rule, for N = 10, 100 and 1000 strips. Print N and the result with five decimals on each line.",
+    "starter": "C     COMPUTING PI\n",
+    "expectedOutput": "10 3.10452\n100 3.14042\n1000 3.14155",
+    "requirements": [
+      {
+        "pattern": "SQRT\\s*\\(",
+        "message": "The quarter circle is SQRT(1.0 - X ** 2)."
+      },
+      {
+        "pattern": "^\\s*DO\\s+\\d+[\\s\\S]*^\\s*DO\\s+\\d+",
+        "message": "Use one loop for N and one for the strips."
+      }
+    ],
+    "hints": [
+      "The end points are known: F(0) = 1 and F(1) = 0, so start with SUM = (1.0 + 0.0) / 2.0. That also avoids SQRT of a tiny negative number at X = 1.",
+      "N = 10, then DO 30 K = 1, 3. Inside: H = 1.0 / FLOAT(N), M = N - 1, and DO 20 I = 1, M with X = FLOAT(I) * H and SUM = SUM + SQRT(1.0 - X ** 2).",
+      "PI = 4.0 * SUM * H. Print with FORMAT (1X, I5, F10.5), then N = N * 10."
+    ]
+  },
+  "f16": {
+    "title": "The Leap Year Function",
+    "xp": 40,
+    "story": "The Gregorian calendar has a tricky rule: every 4th year is a leap year, but not every 100th, unless it's a 400th. A perfect logical function.",
+    "task": "Write LOGICAL FUNCTION LEAP(IY). Then print each of the years 1900, 1957, 1960, 2000 and 2100 with T or F for leap year, using an I5 and an L3 field.",
+    "starter": "C     LEAP YEARS\n",
+    "expectedOutput": "1900 F\n1957 F\n1960 T\n2000 T\n2100 F",
+    "requirements": [
+      {
+        "pattern": "LOGICAL\\s+FUNCTION\\s+LEAP",
+        "message": "Write LOGICAL FUNCTION LEAP(IY)."
+      },
+      {
+        "pattern": "LOGICAL\\s+LEAP",
+        "message": "Declare LOGICAL LEAP in the main program too."
+      },
+      {
+        "pattern": "L\\s*\\d",
+        "message": "Print the answer with an L format."
+      }
+    ],
+    "hints": [
+      "LEAP = (MOD(IY, 4) .EQ. 0 .AND. MOD(IY, 100) .NE. 0) .OR. MOD(IY, 400) .EQ. 0",
+      "Keep the years in an array: DIMENSION IYS(5) with DATA IYS /1900, 1957, 1960, 2000, 2100/.",
+      "WRITE (6,20) IYS(I), LEAP(IYS(I)) with 20 FORMAT (1X, I5, L3)."
+    ]
+  },
+  "f17": {
+    "title": "The Roots of x² + 2x + 5",
+    "xp": 40,
+    "story": "An engineer's circuit gives the equation x² + 2x + 5 = 0. Its discriminant is negative, so the roots are complex: a job for FORTRAN's COMPLEX type.",
+    "task": "Use the formula x = (-B ± √(B² - 4AC)) / 2A with A = 1, B = 2, C = 5. Compute the square root with CSQRT, and print both roots, each with its real and imaginary part, as F6.2 fields:\n -1.00  2.00\n -1.00 -2.00",
+    "starter": "C     COMPLEX ROOTS\n      COMPLEX R, X1, X2\n",
+    "expectedOutput": "-1.00 2.00\n-1.00 -2.00",
+    "requirements": [
+      {
+        "pattern": "COMPLEX",
+        "message": "Use COMPLEX variables."
+      },
+      {
+        "pattern": "CSQRT\\s*\\(",
+        "message": "Take the square root with CSQRT."
+      },
+      {
+        "pattern": "CMPLX\\s*\\(",
+        "message": "Make a complex value with CMPLX."
+      }
+    ],
+    "hints": [
+      "DISC = B ** 2 - 4.0 * A * C is -16.0.",
+      "R = CSQRT(CMPLX(DISC, 0.0)) gives 0 + 4i.",
+      "X1 = (CMPLX(-B, 0.0) + R) / (2.0 * A), X2 the same with -. Then WRITE (6,10) X1 with 10 FORMAT (1X, 2F6.2)."
+    ]
+  },
+  "f18": {
+    "title": "The Vowel Counter",
+    "xp": 40,
+    "story": "A linguist wants to know how many vowels a line of text has. She brings a deck of cards, but you only need to handle the first one.",
+    "task": "Read a 40-column card with 40A1. Count how many letters are A, E, I, O or U (keep the vowels in an array filled by DATA), and print the count and the card again:\n 7 VOWELS IN: PROGRAMMING IN FORTRAN IV",
+    "starter": "C     THE VOWEL COUNTER\n      INTEGER C(40), V(5)\n",
+    "inputs": [
+      "PROGRAMMING IN FORTRAN IV"
+    ],
+    "expectedOutput": "7 VOWELS IN: PROGRAMMING IN FORTRAN IV",
+    "requirements": [
+      {
+        "pattern": "A\\s*1",
+        "message": "Read one character per element with A1."
+      },
+      {
+        "pattern": "DATA",
+        "message": "Fill the vowels in with DATA."
+      },
+      {
+        "pattern": "\\.EQ\\.",
+        "message": "Compare letters with .EQ.."
+      }
+    ],
+    "hints": [
+      "DATA V /1HA, 1HE, 1HI, 1HO, 1HU/",
+      "Two DO loops: for each of the 40 letters, check all 5 vowels.",
+      "WRITE (6,30) N, C with 30 FORMAT (1X, I2, ' VOWELS IN: ', 40A1)."
+    ]
+  },
+  "fc6-project": {
+    "title": "The Equation Desk",
+    "xp": 100,
+    "story": "1965: the engineering department sends a deck of cards, each with a name and three coefficients. Your program solves every equation, real or complex.",
+    "task": "Each card has a name in columns 1-4 (A4), then A, B and C (3F6.1). For each of the three cards, solve Ax² + Bx + C = 0. Use a LOGICAL variable REALRT that is .TRUE. when B² - 4AC is not negative. Print the name and T or F, then the two roots: as real numbers (F8.2) if REALRT, otherwise as complex numbers (each as two F8.2 fields).",
+    "starter": "C     THE EQUATION DESK\n      INTEGER NAME\n      LOGICAL REALRT\n      COMPLEX R, X1, X2\n",
+    "inputs": [
+      "EQ1    1.0  -3.0   2.0",
+      "EQ2    1.0   2.0   5.0",
+      "EQ3    2.0   4.0   2.0"
+    ],
+    "expectedOutput": "EQ1 T\n2.00 1.00\nEQ2 F\n-1.00 2.00 -1.00 -2.00\nEQ3 T\n-1.00 -1.00",
+    "requirements": [
+      {
+        "pattern": "LOGICAL",
+        "message": "Use a LOGICAL variable for the kind of roots."
+      },
+      {
+        "pattern": "COMPLEX",
+        "message": "Use COMPLEX for the complex roots."
+      },
+      {
+        "pattern": "A\\s*4",
+        "message": "Read the name with A4."
+      },
+      {
+        "pattern": "L\\s*\\d",
+        "message": "Print the logical value with an L format."
+      }
+    ],
+    "hints": [
+      "READ (5,10) NAME, A, B, C with 10 FORMAT (A4, 3F6.1), inside DO 50 K = 1, 3.",
+      "DISC = B ** 2 - 4.0 * A * C, REALRT = DISC .GE. 0.0, and WRITE (6,20) NAME, REALRT with 20 FORMAT (1X, A4, L2).",
+      "IF (REALRT) GO TO 30. Complex: R = CSQRT(CMPLX(DISC, 0.0)), X1 = (CMPLX(-B, 0.0) + R) / (2.0 * A), and X2 with -. Real: X1 = (-B + SQRT(DISC)) / (2.0 * A)."
+    ]
+  }
+}

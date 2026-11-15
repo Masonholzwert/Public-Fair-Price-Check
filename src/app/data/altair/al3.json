@@ -1,0 +1,298 @@
+{
+  "id": "al3",
+  "title": "Octal",
+  "lessons": [
+    {
+      "id": "al3-l1",
+      "title": "Groups of Three",
+      "xp": 15,
+      "intro": [
+        "Long rows of 0s and 1s are hard to read. So Altair programmers grouped the bits in threes, from the right: 01 111 110.",
+        "Three bits make one octal digit, from 0 (000) to 7 (111). 01 111 110 becomes 1 7 6: octal 176. A byte goes from octal 000 to 377.",
+        "The Altair's front panel even marked the switches in groups of three."
+      ],
+      "example": {
+        "code": [
+          "00 111 110   ; MVI A",
+          "10 101 010   ; octal 252",
+          "11 010 011   ; OUT",
+          "11 111 111   ; port 377: the lights",
+          "01 110 110   ; HLT"
+        ],
+        "output": [
+          "LEDS ●○●○●○●○ = 170"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al3-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is 101 as an octal digit?",
+          "options": [
+            "5",
+            "3",
+            "101",
+            "6"
+          ],
+          "answer": 0,
+          "explanation": "4 + 1 = 5."
+        },
+        {
+          "id": "al3-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What is 11 111 111 in octal?",
+          "options": [
+            "377",
+            "777",
+            "255",
+            "11111111"
+          ],
+          "answer": 0,
+          "explanation": "3, 7, 7."
+        },
+        {
+          "id": "al3-l1-e3",
+          "type": "switches",
+          "prompt": "Set the switches to octal 052.",
+          "answer": 42,
+          "explanation": "0 = 00, 5 = 101, 2 = 010: 00 101 010."
+        },
+        {
+          "id": "al3-l1-e4",
+          "type": "fill_blank",
+          "prompt": "01 000 111 in octal is ___",
+          "code": [
+            "01 000 111 = ___"
+          ],
+          "options": [
+            "107",
+            "147",
+            "71",
+            "017"
+          ],
+          "answer": "107",
+          "explanation": "1, 0, 7."
+        },
+        {
+          "id": "al3-l1-e5",
+          "type": "switches",
+          "prompt": "Set the switches to octal 300.",
+          "answer": 192,
+          "explanation": "3 = 11, then 000 000: the two top switches up."
+        },
+        {
+          "id": "al3-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Why did programmers like octal?",
+          "options": [
+            "One digit is exactly three switches",
+            "It's shorter than decimal",
+            "The 8080 can't count in decimal",
+            "It's from the Romans"
+          ],
+          "answer": 0,
+          "explanation": "Reading 076 is easier than 00111110."
+        }
+      ]
+    },
+    {
+      "id": "al3-l2",
+      "title": "Why the 8080 Loves Octal",
+      "xp": 15,
+      "intro": [
+        "Look at MVI in octal: MVI A is 076, MVI B is 006, MVI C is 016. The middle digit is the register! The 8080 numbers its registers 0 to 7: B 0, C 1, D 2, E 3, H 4, L 5, M 6 (memory) and A 7.",
+        "So MVI r is always 0 r 6 in octal: 00 rrr 110 in binary. HLT is 166, OUT 323, ADI 306, SUI 326.",
+        "Once you know the pattern, you can work out instructions in your head. That's why 8080 programmers thought in octal."
+      ],
+      "example": {
+        "code": [
+          "00 000 110   ; 006: MVI B",
+          "00 001 001   ; 9",
+          "00 111 110   ; 076: MVI A",
+          "00 000 001   ; 1",
+          "11 010 011   ; 323: OUT",
+          "11 111 111   ; 377: the lights",
+          "01 110 110   ; 166: HLT"
+        ],
+        "output": [
+          "LEDS ○○○○○○○● = 1"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al3-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "Which register is number 7?",
+          "options": [
+            "A",
+            "B",
+            "M",
+            "L"
+          ],
+          "answer": 0,
+          "explanation": "A, the accumulator, is 7."
+        },
+        {
+          "id": "al3-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "MVI A is 076. What is MVI B?",
+          "options": [
+            "006",
+            "076",
+            "106",
+            "060"
+          ],
+          "answer": 0,
+          "explanation": "B is register 0: 0 0 6."
+        },
+        {
+          "id": "al3-l2-e3",
+          "type": "switches",
+          "prompt": "Set the switches to MVI C (0 1 6).",
+          "answer": 14,
+          "explanation": "00 001 110: C is register 1."
+        },
+        {
+          "id": "al3-l2-e4",
+          "type": "fill_blank",
+          "prompt": "The octal code for HLT is ___",
+          "code": [
+            "HLT = ___"
+          ],
+          "options": [
+            "166",
+            "076",
+            "323",
+            "377"
+          ],
+          "answer": "166",
+          "explanation": "01 110 110."
+        },
+        {
+          "id": "al3-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What does the middle octal digit of MVI tell you?",
+          "options": [
+            "Which register gets the value",
+            "The value itself",
+            "The port",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "MVI r = 0 r 6."
+        },
+        {
+          "id": "al3-l2-e6",
+          "type": "switches",
+          "prompt": "Set the switches to MVI E.",
+          "answer": 30,
+          "explanation": "E is register 3: 0 3 6 = 00 011 110."
+        }
+      ]
+    },
+    {
+      "id": "al3-l3",
+      "title": "Writing in Octal",
+      "xp": 15,
+      "intro": [
+        "In this app, a byte can be written as 3 octal digits instead of 8 bits: 076 means the same as 00 111 110.",
+        "Programs from the 70s were printed like that: long lists of three-digit octal numbers that people toggled in by hand.",
+        "Careful: octal digits only go up to 7. 080 isn't octal, and a byte never goes above 377."
+      ],
+      "example": {
+        "code": [
+          "076   ; MVI A",
+          "052   ; octal 52 = 42",
+          "323   ; OUT",
+          "377   ; the lights",
+          "166   ; HLT"
+        ],
+        "output": [
+          "LEDS ○○●○●○●○ = 42"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al3-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What is 076 in binary?",
+          "options": [
+            "00 111 110",
+            "01 110 110",
+            "00 000 076",
+            "11 111 110"
+          ],
+          "answer": 0,
+          "explanation": "0, 7 (111), 6 (110)."
+        },
+        {
+          "id": "al3-l3-e2",
+          "type": "order_lines",
+          "prompt": "Put the octal program in order.",
+          "lines": [
+            "076   ; MVI A",
+            "007   ; 7",
+            "323   ; OUT",
+            "377   ; the lights",
+            "166   ; HLT"
+          ],
+          "answer": [
+            "076   ; MVI A",
+            "007   ; 7",
+            "323   ; OUT",
+            "377   ; the lights",
+            "166   ; HLT"
+          ],
+          "explanation": "MVI A and its value, OUT and its port, HLT."
+        },
+        {
+          "id": "al3-l3-e3",
+          "type": "find_bug",
+          "prompt": "This program doesn't load. Which line is wrong?",
+          "code": [
+            "076   ; MVI A",
+            "089   ; the value",
+            "323   ; OUT",
+            "377   ; the lights",
+            "166   ; HLT"
+          ],
+          "answer": 1,
+          "explanation": "8 and 9 aren't octal digits."
+        },
+        {
+          "id": "al3-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show for 076, 077, 323, 377, 166?",
+          "options": [
+            "○○●●●●●● = 63",
+            "○○○○○●●● = 7",
+            "●●●●●●●● = 255",
+            "nothing"
+          ],
+          "answer": 0,
+          "explanation": "077 octal = 63 = 00 111 111."
+        },
+        {
+          "id": "al3-l3-e5",
+          "type": "switches",
+          "prompt": "The value byte is 125 in octal. Set the switches to it.",
+          "answer": 85,
+          "explanation": "1 = 01, 2 = 010, 5 = 101: 01 010 101."
+        },
+        {
+          "id": "al3-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Which is the biggest byte in octal?",
+          "options": [
+            "377",
+            "777",
+            "255",
+            "999"
+          ],
+          "answer": 0,
+          "explanation": "11 111 111 = 3 7 7."
+        }
+      ]
+    }
+  ]
+}

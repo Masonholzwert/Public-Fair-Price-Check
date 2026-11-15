@@ -1,0 +1,421 @@
+{
+  "id": "a5",
+  "title": "Loops",
+  "lessons": [
+    {
+      "id": "a5-l1",
+      "title": "Counting Loops",
+      "xp": 15,
+      "intro": [
+        "A loop is a branch that jumps backwards. The classic 6502 loop counts down in X: put the number of rounds into X, do the work, DEX, and BNE back as long as X isn't zero yet.",
+        "Put the label on the first line of the work, not on the LDX. Otherwise X would be reset every round and the loop would never end.",
+        "Counting down to zero is a favorite trick: DEX sets the Z flag by itself, so you don't need an extra compare."
+      ],
+      "example": {
+        "code": [
+          "LDX #5",
+          "LOOP: INC $0300",
+          "DEX",
+          "BNE LOOP",
+          "BRK"
+        ],
+        "output": [
+          "$0300 = $05 (the loop ran 5 times)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a5-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is Y at the end?",
+          "code": [
+            "LDX #3",
+            "LOOP: INY",
+            "DEX",
+            "BNE LOOP",
+            "BRK"
+          ],
+          "options": [
+            "$03",
+            "$01",
+            "$00",
+            "$04"
+          ],
+          "answer": 0,
+          "explanation": "X counts 3, 2, 1, 0. INY runs once per round, so Y ends at 3."
+        },
+        {
+          "id": "a5-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What is at $0300 at the end?",
+          "code": [
+            "LDX #4",
+            "LOOP: INC $0300",
+            "DEX",
+            "BNE LOOP",
+            "BRK"
+          ],
+          "options": [
+            "$04",
+            "$03",
+            "$05",
+            "$01"
+          ],
+          "answer": 0,
+          "explanation": "The loop runs 4 times, and every round adds 1 to $0300."
+        },
+        {
+          "id": "a5-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Jump back to LOOP as long as X isn't zero.",
+          "code": [
+            "LDX #8",
+            "LOOP: INY",
+            "DEX",
+            "___ LOOP",
+            "BRK"
+          ],
+          "options": [
+            "BNE",
+            "BEQ",
+            "BCS",
+            "JMP"
+          ],
+          "answer": "BNE",
+          "explanation": "BNE jumps while Z = 0, so while X is not zero yet. JMP would never stop."
+        },
+        {
+          "id": "a5-l1-e4",
+          "type": "find_bug",
+          "prompt": "This should add 1 to $0300 three times, but $0300 ends up as $FD. Which line is wrong?",
+          "code": [
+            "LDX #3",
+            "LOOP: INC $0300",
+            "INX",
+            "BNE LOOP",
+            "BRK"
+          ],
+          "answer": 2,
+          "explanation": "INX counts up: 4, 5, … all the way to $FF and then $00. That's 253 rounds. To count 3 rounds down to zero, use DEX."
+        },
+        {
+          "id": "a5-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Why is the label on INY and not on LDX #3?",
+          "options": [
+            "Otherwise X would be set back to 3 every round, and the loop would never end",
+            "Labels can't be on LDX lines",
+            "It makes the program shorter",
+            "BNE can only jump forward"
+          ],
+          "answer": 0,
+          "explanation": "The loop has to jump back to the work, not to the start value."
+        },
+        {
+          "id": "a5-l1-e6",
+          "type": "order_lines",
+          "prompt": "Build a loop that adds 1 to Y three times.",
+          "lines": [
+            "LDX #3",
+            "LOOP: INY",
+            "DEX",
+            "BNE LOOP",
+            "BRK"
+          ],
+          "answer": [
+            "LDX #3",
+            "LOOP: INY",
+            "DEX",
+            "BNE LOOP",
+            "BRK"
+          ],
+          "explanation": "Set the counter, do the work, count down, branch back."
+        }
+      ]
+    },
+    {
+      "id": "a5-l2",
+      "title": "Comparing with CMP",
+      "xp": 15,
+      "intro": [
+        "CMP #10 compares A with 10. It doesn't change A, it only sets the flags: Z = 1 if they are equal, C = 1 if A is 10 or more, C = 0 if A is smaller.",
+        "CPX and CPY do the same for X and Y. With them, loops can count up: INX, CPX #5, BNE LOOP repeats until X reaches 5.",
+        "So after a compare: BEQ means \"equal\", BNE \"not equal\", BCS \"bigger or equal\" and BCC \"smaller\"."
+      ],
+      "example": {
+        "code": [
+          "LDA #7",
+          "CMP #7",
+          "BEQ SAME",
+          "LDX #0",
+          "BRK",
+          "SAME: LDX #1",
+          "BRK"
+        ],
+        "output": [
+          "X = $01 (A was equal to 7)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a5-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "Does CMP change A?",
+          "options": [
+            "No, it only sets the flags",
+            "Yes, it subtracts the value",
+            "Yes, A becomes 0 or 1",
+            "Only when they are equal"
+          ],
+          "answer": 0,
+          "explanation": "CMP works like a subtraction that throws the result away and keeps only the flags."
+        },
+        {
+          "id": "a5-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "A is 12. What do the flags show after CMP #10?",
+          "options": [
+            "C = 1, Z = 0",
+            "C = 0, Z = 0",
+            "C = 1, Z = 1",
+            "C = 0, Z = 1"
+          ],
+          "answer": 0,
+          "explanation": "12 is bigger than 10: the carry is set, and they aren't equal, so Z = 0."
+        },
+        {
+          "id": "a5-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "A is 3. What is the carry after CMP #10?",
+          "options": [
+            "0",
+            "1",
+            "3",
+            "It doesn't change"
+          ],
+          "answer": 0,
+          "explanation": "3 is smaller than 10, so the carry is cleared. BCC would jump."
+        },
+        {
+          "id": "a5-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Compare X with 8.",
+          "code": [
+            "LDX #8",
+            "___ #8",
+            "BEQ DONE",
+            "LDY #1",
+            "DONE: BRK"
+          ],
+          "options": [
+            "CPX",
+            "CMP",
+            "CPY",
+            "LDX"
+          ],
+          "answer": "CPX",
+          "explanation": "CPX compares the X register. CMP would compare A."
+        },
+        {
+          "id": "a5-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What is X at the end?",
+          "code": [
+            "LDX #0",
+            "LOOP: INX",
+            "CPX #4",
+            "BNE LOOP",
+            "BRK"
+          ],
+          "options": [
+            "$04",
+            "$05",
+            "$03",
+            "$00"
+          ],
+          "answer": 0,
+          "explanation": "X counts up 1, 2, 3, 4. At 4, CPX #4 sets Z and BNE stops jumping back."
+        },
+        {
+          "id": "a5-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "How do you jump to BIG when A is 100 or more?",
+          "options": [
+            "CMP #100, then BCS BIG",
+            "CMP #100, then BEQ BIG",
+            "CMP #100, then BCC BIG",
+            "LDA #100, then BCS BIG"
+          ],
+          "answer": 0,
+          "explanation": "After a compare, the carry is set when A is bigger than or equal to the value."
+        },
+        {
+          "id": "a5-l2-e7",
+          "type": "order_lines",
+          "prompt": "Build a loop that counts Y up to 6.",
+          "lines": [
+            "LDY #0",
+            "LOOP: INY",
+            "CPY #6",
+            "BNE LOOP",
+            "BRK"
+          ],
+          "answer": [
+            "LDY #0",
+            "LOOP: INY",
+            "CPY #6",
+            "BNE LOOP",
+            "BRK"
+          ],
+          "explanation": "Start at 0, count up, compare with 6, jump back while it isn't 6 yet."
+        }
+      ]
+    },
+    {
+      "id": "a5-l3",
+      "title": "Math in a Loop",
+      "xp": 15,
+      "intro": [
+        "The 6502 can't multiply. But 4 × 7 is just 7 + 7 + 7 + 7, and a loop can add as often as you like.",
+        "Keep the running total in A, the number of rounds in X, and add inside the loop. Don't forget CLC before every ADC, also inside the loop.",
+        "You can also add something that changes every round, like the counter itself. Store X in a zero page address and add that."
+      ],
+      "example": {
+        "code": [
+          "LDA #0",
+          "LDX #4",
+          "LOOP: CLC",
+          "ADC #7",
+          "DEX",
+          "BNE LOOP",
+          "STA $0300",
+          "BRK"
+        ],
+        "output": [
+          "$0300 = $1C (4 × 7 = 28)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a5-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "With LDX #3 instead of LDX #4, what ends up at $0300?",
+          "code": [
+            "LDA #0",
+            "LDX #3",
+            "LOOP: CLC",
+            "ADC #7",
+            "DEX",
+            "BNE LOOP",
+            "STA $0300",
+            "BRK"
+          ],
+          "options": [
+            "$15",
+            "$1C",
+            "$07",
+            "$0A"
+          ],
+          "answer": 0,
+          "explanation": "3 × 7 = 21, and 21 in hex is $15."
+        },
+        {
+          "id": "a5-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "Why is the CLC inside the loop?",
+          "options": [
+            "Every ADC adds the carry, so it has to be cleared before each one",
+            "CLC counts the rounds",
+            "Labels need a CLC",
+            "It isn't needed, it just looks nicer"
+          ],
+          "answer": 0,
+          "explanation": "If a sum ever overflows, the carry would be added into the next round."
+        },
+        {
+          "id": "a5-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What is in A at the end?",
+          "code": [
+            "LDA #0",
+            "LDX #4",
+            "LOOP: STX $30",
+            "CLC",
+            "ADC $30",
+            "DEX",
+            "BNE LOOP",
+            "BRK"
+          ],
+          "options": [
+            "$0A",
+            "$04",
+            "$10",
+            "$06"
+          ],
+          "answer": 0,
+          "explanation": "The loop adds X every round: 4 + 3 + 2 + 1 = 10, which is $0A."
+        },
+        {
+          "id": "a5-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Finish the loop that adds 3, five times.",
+          "code": [
+            "LDA #0",
+            "LDX #5",
+            "LOOP: CLC",
+            "ADC #3",
+            "___",
+            "BNE LOOP",
+            "BRK"
+          ],
+          "options": [
+            "DEX",
+            "INX",
+            "DEY",
+            "CLC"
+          ],
+          "answer": "DEX",
+          "explanation": "DEX counts the rounds down. When X reaches 0, BNE stops jumping and A is 15."
+        },
+        {
+          "id": "a5-l3-e5",
+          "type": "find_bug",
+          "prompt": "This program never stops. Which line is wrong?",
+          "code": [
+            "LDA #0",
+            "LOOP: LDX #3",
+            "CLC",
+            "ADC #2",
+            "DEX",
+            "BNE LOOP",
+            "BRK"
+          ],
+          "answer": 1,
+          "explanation": "The label is on LDX #3, so X is set back to 3 every round and never reaches 0. LDX #3 has to come before the label."
+        },
+        {
+          "id": "a5-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What does this loop calculate?",
+          "code": [
+            "LDA #0",
+            "LDX #5",
+            "LOOP: CLC",
+            "ADC #3",
+            "DEX",
+            "BNE LOOP",
+            "BRK"
+          ],
+          "options": [
+            "5 × 3 = 15",
+            "5 + 3 = 8",
+            "3 × 3 = 9",
+            "5 × 5 = 25"
+          ],
+          "answer": 0,
+          "explanation": "It adds 3 to A, five times."
+        }
+      ]
+    }
+  ]
+}

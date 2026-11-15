@@ -1,0 +1,324 @@
+{
+  "id": "f1",
+  "title": "Cards and Columns",
+  "lessons": [
+    {
+      "id": "f1-l1",
+      "title": "One Card, One Line",
+      "xp": 15,
+      "intro": [
+        "In 1957, IBM released FORTRAN for its 704 computer. The name means FORmula TRANslation, and it was the first programming language that let scientists write formulas instead of machine code.",
+        "Nobody typed on a screen back then. Every line of a program was punched into its own card, 80 columns wide. The finished deck went into the card reader, the computer translated and ran it, and the results came out on the line printer.",
+        "Your first deck has four cards: WRITE prints something, FORMAT describes what it looks like, STOP ends the run, and END marks the last card."
+      ],
+      "example": {
+        "code": [
+          "      WRITE (6,10)",
+          "   10 FORMAT (' HELLO, 1957')",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "HELLO, 1957"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f1-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does the name FORTRAN stand for?",
+          "options": [
+            "FORmula TRANslation",
+            "FORward TRANsfer",
+            "FOuR TRANsistors",
+            "FORTRess of Numbers"
+          ],
+          "answer": 0,
+          "explanation": "FORTRAN was made to turn mathematical formulas into programs."
+        },
+        {
+          "id": "f1-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "How many columns does a punch card have?",
+          "options": [
+            "80",
+            "40",
+            "64",
+            "128"
+          ],
+          "answer": 0,
+          "explanation": "The IBM card had 80 columns. That's why old terminals were 80 characters wide for decades."
+        },
+        {
+          "id": "f1-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What does one punch card hold?",
+          "options": [
+            "One line of the program",
+            "A whole program",
+            "One letter",
+            "One variable"
+          ],
+          "answer": 0,
+          "explanation": "One card, one line. A program is a deck of cards."
+        },
+        {
+          "id": "f1-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "In which order does the computer read the cards?",
+          "options": [
+            "From the top of the deck to the bottom",
+            "From the bottom up",
+            "In random order",
+            "Sorted by line length"
+          ],
+          "answer": 0,
+          "explanation": "The card reader takes them one after the other. The order of the deck is the order of the program."
+        },
+        {
+          "id": "f1-l1-e5",
+          "type": "order_lines",
+          "prompt": "Stack the cards for a program that prints HELLO.",
+          "lines": [
+            "      WRITE (6,10)",
+            "   10 FORMAT (' HELLO')",
+            "      STOP",
+            "      END"
+          ],
+          "answer": [
+            "      WRITE (6,10)",
+            "   10 FORMAT (' HELLO')",
+            "      STOP",
+            "      END"
+          ],
+          "explanation": "WRITE comes before STOP, and END is always the last card. A FORMAT card can sit anywhere before END: it's only a description that WRITE looks up by its number."
+        },
+        {
+          "id": "f1-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "A programmer drops a deck of 300 cards on the floor. What saves the day?",
+          "options": [
+            "The sequence numbers in columns 73–80, used to sort the cards again",
+            "Nothing, the program is lost",
+            "The computer sorts them by itself",
+            "Every card has a picture on the back"
+          ],
+          "answer": 0,
+          "explanation": "Columns 73–80 were often punched with 00010, 00020 … A card sorter could put a dropped deck back in order. That's where the numbers in this app's chapter list come from."
+        }
+      ]
+    },
+    {
+      "id": "f1-l2",
+      "title": "The Columns Rule",
+      "xp": 15,
+      "intro": [
+        "On a card, every column has a job. Columns 1–5 hold the statement number (the label), like 10 for a FORMAT. Column 6 marks a continuation card. The statement itself goes into columns 7–72.",
+        "A C in column 1 turns the whole card into a comment: the computer skips it, but the people reading the deck don't.",
+        "That's why FORTRAN lines start with six spaces. This app is forgiving about exact columns, but the real 704 wasn't."
+      ],
+      "example": {
+        "code": [
+          "C     AREA OF A SQUARE",
+          "      A = 4.0 * 4.0",
+          "      WRITE (6,10) A",
+          "   10 FORMAT (1X, F6.1)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "  16.0"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f1-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "In which column does a FORTRAN statement start?",
+          "options": [
+            "Column 7",
+            "Column 1",
+            "Column 6",
+            "Column 10"
+          ],
+          "answer": 0,
+          "explanation": "Columns 1–6 are reserved, the statement starts in column 7."
+        },
+        {
+          "id": "f1-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Where does a statement number like 10 go?",
+          "options": [
+            "Columns 1 to 5",
+            "Column 7",
+            "Columns 73 to 80",
+            "Anywhere"
+          ],
+          "answer": 0,
+          "explanation": "Labels sit in the first five columns, in front of the statement."
+        },
+        {
+          "id": "f1-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What does a C in column 1 do?",
+          "options": [
+            "It makes the card a comment",
+            "It continues the previous card",
+            "It clears the memory",
+            "It calls a subroutine"
+          ],
+          "answer": 0,
+          "explanation": "C = comment. The card is printed in the listing but not run."
+        },
+        {
+          "id": "f1-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Make this card a comment.",
+          "code": [
+            "___     AREA OF A CIRCLE",
+            "      R = 2.5"
+          ],
+          "options": [
+            "C",
+            "REM",
+            "//",
+            "#"
+          ],
+          "answer": "C",
+          "explanation": "In FORTRAN, comments start with C in column 1. REM is BASIC, // came much later."
+        },
+        {
+          "id": "f1-l2-e5",
+          "type": "find_bug",
+          "prompt": "On the real IBM 704, which card is punched wrong?",
+          "code": [
+            "C     GREETING",
+            "WRITE (6,10)",
+            "   10 FORMAT (' HI')",
+            "      END"
+          ],
+          "answer": 1,
+          "explanation": "The WRITE starts in column 1, where the 704 expects a C or a label. Statements start in column 7."
+        },
+        {
+          "id": "f1-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What is column 6 for?",
+          "options": [
+            "A mark that continues the card before, for long statements",
+            "The first letter of the statement",
+            "The page number",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "A long formula didn't fit on one card. Any character in column 6 says: this card continues the previous one."
+        }
+      ]
+    },
+    {
+      "id": "f1-l3",
+      "title": "STOP and END",
+      "xp": 15,
+      "intro": [
+        "Before the program ran, a compiler translated the whole deck into machine code for the 704. That's why FORTRAN needs two different endings.",
+        "STOP ends the run: when the program reaches it, it's done. END is a message to the compiler: this is the last card of the deck. It must be the very last card.",
+        "If the program reaches END without a STOP, it stops there too. Many programs still have both, to be clear."
+      ],
+      "example": {
+        "code": [
+          "      WRITE (6,10)",
+          "      WRITE (6,20)",
+          "   10 FORMAT (' FIRST')",
+          "   20 FORMAT (' SECOND')",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "FIRST",
+          "SECOND"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f1-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What is the difference between STOP and END?",
+          "options": [
+            "STOP ends the run, END marks the last card for the compiler",
+            "There is no difference",
+            "END ends the run, STOP marks the last card",
+            "STOP is for errors only"
+          ],
+          "answer": 0,
+          "explanation": "STOP is an instruction for when the program runs. END is information for the compiler about the deck."
+        },
+        {
+          "id": "f1-l3-e2",
+          "type": "find_bug",
+          "prompt": "This deck is rejected with *ERROR*. Which card is in the wrong place?",
+          "code": [
+            "      WRITE (6,10)",
+            "      END",
+            "   10 FORMAT (' DONE')",
+            "      STOP"
+          ],
+          "answer": 1,
+          "explanation": "END has to be the very last card. Here two more cards follow it."
+        },
+        {
+          "id": "f1-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "      WRITE (6,10)",
+            "      WRITE (6,20)",
+            "   10 FORMAT (' FIRST')",
+            "   20 FORMAT (' SECOND')",
+            "      END"
+          ],
+          "options": [
+            "FIRST, then SECOND",
+            "SECOND, then FIRST",
+            "Only FIRST",
+            "Nothing, the FORMATs come after the WRITEs"
+          ],
+          "answer": 0,
+          "explanation": "The WRITEs run in order and each looks up its FORMAT by number, wherever that card is."
+        },
+        {
+          "id": "f1-l3-e4",
+          "type": "order_lines",
+          "prompt": "Stack the cards to print A, then B.",
+          "lines": [
+            "      WRITE (6,10)",
+            "      WRITE (6,20)",
+            "   10 FORMAT (' A')",
+            "   20 FORMAT (' B')",
+            "      END"
+          ],
+          "answer": [
+            "      WRITE (6,10)",
+            "      WRITE (6,20)",
+            "   10 FORMAT (' A')",
+            "   20 FORMAT (' B')",
+            "      END"
+          ],
+          "explanation": "The two WRITEs decide the order of the output. The FORMATs only describe the lines."
+        },
+        {
+          "id": "f1-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What did the compiler do?",
+          "options": [
+            "Translate the whole FORTRAN deck into machine code before running it",
+            "Print the cards",
+            "Punch new cards",
+            "Sort the deck"
+          ],
+          "answer": 0,
+          "explanation": "FORTRAN was compiled: first translated completely, then run. Machine code ran much faster than BASIC's line-by-line approach."
+        }
+      ]
+    }
+  ]
+}

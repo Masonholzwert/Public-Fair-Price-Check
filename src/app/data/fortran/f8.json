@@ -1,0 +1,368 @@
+{
+  "id": "f8",
+  "title": "Reading Data Cards",
+  "lessons": [
+    {
+      "id": "f8-l1",
+      "title": "READ",
+      "xp": 15,
+      "intro": [
+        "A program that only works with numbers punched into it isn't much use. READ (5,10) I, J takes the next card from the card reader, unit 5, and reads the values the way FORMAT 10 describes.",
+        "The data cards went into the reader behind the program deck. To run the same program with new numbers, you only punched new data cards. The program stayed the same.",
+        "FORMAT (2I5) means: two integers, five columns each. The first comes from columns 1–5, the second from columns 6–10."
+      ],
+      "example": {
+        "code": [
+          "      READ (5,10) I, J",
+          "   10 FORMAT (2I5)",
+          "      K = I + J",
+          "      WRITE (6,20) K",
+          "   20 FORMAT (' SUM =', I5)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "SUM =   42"
+        ],
+        "inputs": [
+          "   12   30"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f8-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "Which unit is the card reader?",
+          "options": [
+            "5",
+            "6",
+            "1",
+            "10"
+          ],
+          "answer": 0,
+          "explanation": "Unit 5 reads, unit 6 prints. You'll see READ (5, …) and WRITE (6, …) in FORTRAN programs for decades."
+        },
+        {
+          "id": "f8-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Why keep data on separate cards instead of in the program?",
+          "options": [
+            "The same program can run again with new data",
+            "Data cards are cheaper",
+            "The computer reads them faster",
+            "Programs can't contain numbers"
+          ],
+          "answer": 0,
+          "explanation": "Punch the program once, then feed it as many data decks as you like."
+        },
+        {
+          "id": "f8-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Read one integer from the card reader.",
+          "code": [
+            "      READ (___,10) N",
+            "   10 FORMAT (I5)"
+          ],
+          "options": [
+            "5",
+            "6",
+            "N",
+            "10"
+          ],
+          "answer": "5",
+          "explanation": "READ always uses unit 5 here."
+        },
+        {
+          "id": "f8-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "A data card holds \"   12   30\". What does READ (5,10) I, J with FORMAT (2I5) store?",
+          "options": [
+            "I = 12, J = 30",
+            "I = 1230",
+            "I = 12, J = 3",
+            "I = 30, J = 12"
+          ],
+          "answer": 0,
+          "explanation": "Columns 1–5 hold \"   12\", columns 6–10 hold \"   30\"."
+        },
+        {
+          "id": "f8-l1-e5",
+          "type": "find_bug",
+          "prompt": "This job stops with *ERROR*. Which card is wrong?",
+          "code": [
+            "      READ (6,10) X",
+            "   10 FORMAT (F8.2)",
+            "      WRITE (6,20) X",
+            "   20 FORMAT (1X, F8.2)",
+            "      END"
+          ],
+          "answer": 0,
+          "explanation": "Unit 6 is the printer. You can't read from a printer: it has to be READ (5,10)."
+        },
+        {
+          "id": "f8-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Where do the data cards go?",
+          "options": [
+            "Behind the program deck",
+            "In front of the program",
+            "Inside the program, after each READ",
+            "In a separate machine"
+          ],
+          "answer": 0,
+          "explanation": "The compiler reads the program, then the running program takes the cards that come after it."
+        }
+      ]
+    },
+    {
+      "id": "f8-l2",
+      "title": "Columns Count",
+      "xp": 15,
+      "intro": [
+        "On a data card, the format decides which columns belong to which number. F6.2 reads six columns. If there's no decimal point on the card, FORTRAN puts one in itself: \"  1250\" read with F6.2 becomes 12.50. That saved punching the points.",
+        "Careful with blanks: inside a field, a blank counts as a zero. \"42   \" read with I5 isn't 42, it's 42000. Numbers had to be punched right-aligned in their columns.",
+        "Mistakes like these were classic. A shifted card could turn a measurement into nonsense without any error message."
+      ],
+      "example": {
+        "code": [
+          "      READ (5,10) X, Y",
+          "   10 FORMAT (2F6.2)",
+          "      WRITE (6,20) X, Y",
+          "   20 FORMAT (1X, 2F8.2)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "   12.50    3.00"
+        ],
+        "inputs": [
+          "  1250  0300"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f8-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "A card holds \"  1250\", read with F6.2. What value is stored?",
+          "options": [
+            "12.50",
+            "1250.00",
+            "1.25",
+            "0.125"
+          ],
+          "answer": 0,
+          "explanation": "No decimal point on the card, so the format puts it 2 places from the right."
+        },
+        {
+          "id": "f8-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "A card holds \"42   \", read with I5. What value is stored?",
+          "options": [
+            "42000",
+            "42",
+            "4200",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "The three blanks after 42 count as zeros. Numbers belong at the right end of their field."
+        },
+        {
+          "id": "f8-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "And \"  3.5\" read with F5.2?",
+          "options": [
+            "3.5",
+            "0.35",
+            "35.0",
+            "350.0"
+          ],
+          "answer": 0,
+          "explanation": "When the card has a decimal point, it wins over the format."
+        },
+        {
+          "id": "f8-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Read an integer from columns 1–3 and a real number from columns 4–9.",
+          "code": [
+            "      READ (5,10) N, X",
+            "   10 FORMAT (I3, ___)"
+          ],
+          "options": [
+            "F6.2",
+            "F9.2",
+            "I6",
+            "F3.2"
+          ],
+          "answer": "F6.2",
+          "explanation": "After I3 come six more columns: F6.2."
+        },
+        {
+          "id": "f8-l2-e5",
+          "type": "find_bug",
+          "prompt": "The card says \"   7   9\" but J comes out as 90. Which card is wrong?",
+          "code": [
+            "      READ (5,10) I, J",
+            "   10 FORMAT (I4, I5)",
+            "      WRITE (6,20) I, J",
+            "   20 FORMAT (1X, 2I4)",
+            "      END"
+          ],
+          "answer": 1,
+          "explanation": "I5 reads columns 5–9, but the 9 sits in column 8. The blank in column 9 counts as a zero, so J becomes 90. FORMAT (2I4) matches the card."
+        },
+        {
+          "id": "f8-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Why did programmers draw the card layout on paper before punching data?",
+          "options": [
+            "Every number has to sit in exactly the right columns",
+            "The keypunch had no screen",
+            "Paper was cheaper than cards",
+            "To count the cards"
+          ],
+          "answer": 0,
+          "explanation": "Coding sheets with 80 little boxes per line were on every programmer's desk."
+        }
+      ]
+    },
+    {
+      "id": "f8-l3",
+      "title": "Until the Last Card",
+      "xp": 15,
+      "intro": [
+        "Often you don't know how many data cards there will be. The trick: put a special last card with a value that can't be real data, like -1. It's called a sentinel.",
+        "The program reads in a loop. After every READ, an IF checks for the sentinel and jumps out of the loop when it comes.",
+        "Inside the loop, count the cards and add up the values, and you have everything for an average."
+      ],
+      "example": {
+        "code": [
+          "      N = 0",
+          "      ISUM = 0",
+          "   10 READ (5,20) K",
+          "   20 FORMAT (I4)",
+          "      IF (K .LT. 0) GO TO 30",
+          "      N = N + 1",
+          "      ISUM = ISUM + K",
+          "      GO TO 10",
+          "   30 WRITE (6,40) N, ISUM",
+          "   40 FORMAT (' CARDS', I4, '   SUM', I6)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "CARDS   3   SUM   247"
+        ],
+        "inputs": [
+          "  72",
+          "  85",
+          "  90",
+          "  -1"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f8-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What is a sentinel card?",
+          "options": [
+            "A last card with a special value that marks the end of the data",
+            "The first card of the program",
+            "A card with a C in column 1",
+            "A damaged card"
+          ],
+          "answer": 0,
+          "explanation": "A value like -1 or 9999 that real data never has."
+        },
+        {
+          "id": "f8-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "In the example, why is the IF right after the READ?",
+          "options": [
+            "So the sentinel itself isn't counted or added",
+            "Because IF must follow READ",
+            "To read faster",
+            "It doesn't matter where it is"
+          ],
+          "answer": 0,
+          "explanation": "Check first, then use the value. Otherwise -1 would end up in the sum."
+        },
+        {
+          "id": "f8-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What happens if the sentinel card is missing?",
+          "options": [
+            "The program tries to read past the last card and stops with an error",
+            "It loops forever",
+            "It prints zero",
+            "Nothing, it still works"
+          ],
+          "answer": 0,
+          "explanation": "The reader runs out of cards: *ERROR* END OF DATA."
+        },
+        {
+          "id": "f8-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Jump to 50 at the sentinel 9999.",
+          "code": [
+            "   10 READ (5,20) K",
+            "      IF (K .EQ. ___) GO TO 50"
+          ],
+          "options": [
+            "9999",
+            "0",
+            "K",
+            "-1"
+          ],
+          "answer": "9999",
+          "explanation": "Use the same sentinel value the data deck ends with."
+        },
+        {
+          "id": "f8-l3-e5",
+          "type": "order_lines",
+          "prompt": "Stack the cards for a loop that reads values until -1 and counts them.",
+          "lines": [
+            "      N = 0",
+            "   10 READ (5,20) K",
+            "      IF (K .LT. 0) GO TO 30",
+            "      N = N + 1",
+            "      GO TO 10",
+            "   20 FORMAT (I4)",
+            "   30 WRITE (6,40) N",
+            "   40 FORMAT (1X, I4)",
+            "      END"
+          ],
+          "answer": [
+            "      N = 0",
+            "   10 READ (5,20) K",
+            "      IF (K .LT. 0) GO TO 30",
+            "      N = N + 1",
+            "      GO TO 10",
+            "   20 FORMAT (I4)",
+            "   30 WRITE (6,40) N",
+            "   40 FORMAT (1X, I4)",
+            "      END"
+          ],
+          "explanation": "Read, check, count, jump back. The FORMATs can sit anywhere, but here every card has its place."
+        },
+        {
+          "id": "f8-l3-e6",
+          "type": "find_bug",
+          "prompt": "This counts one card too many. Which card is in the wrong place?",
+          "code": [
+            "      N = 0",
+            "   10 READ (5,20) K",
+            "      N = N + 1",
+            "      IF (K .LT. 0) GO TO 30",
+            "      GO TO 10",
+            "   20 FORMAT (I4)",
+            "   30 WRITE (6,40) N",
+            "   40 FORMAT (1X, I4)",
+            "      END"
+          ],
+          "answer": 2,
+          "explanation": "N = N + 1 runs before the sentinel check, so the -1 card gets counted too. Check first, then count."
+        }
+      ]
+    }
+  ]
+}

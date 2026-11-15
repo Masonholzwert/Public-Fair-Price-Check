@@ -1,0 +1,364 @@
+{
+  "id": "f5",
+  "title": "Logical IF",
+  "lessons": [
+    {
+      "id": "f5-l1",
+      "title": "Comparing",
+      "xp": 15,
+      "intro": [
+        "FORTRAN IV (1962) added a second IF: IF (condition) statement. If the condition is true, the one statement after it runs. If not, the computer goes on to the next card.",
+        "Comparisons are written with dots: .LT. (less than), .LE. (less or equal), .EQ. (equal), .NE. (not equal), .GT. (greater), .GE. (greater or equal).",
+        "Why the dots? The IBM keypunch had no < or > keys. Letters between dots were the way to write them."
+      ],
+      "example": {
+        "code": [
+          "      T = 38.5",
+          "      IF (T .GT. 37.5) WRITE (6,10)",
+          "   10 FORMAT (' FEVER')",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "FEVER"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f5-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does .GE. mean?",
+          "options": [
+            "Greater than or equal",
+            "Greater than",
+            "Equal",
+            "Good enough"
+          ],
+          "answer": 0,
+          "explanation": "G for greater, E for equal: .GE. is ≥."
+        },
+        {
+          "id": "f5-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Why does FORTRAN write .GT. instead of >?",
+          "options": [
+            "The keypunch had no < and > keys",
+            "> means something else in FORTRAN",
+            "IBM owned the > sign",
+            "It's faster to compile"
+          ],
+          "answer": 0,
+          "explanation": "Programs were punched on machines like the IBM 026, and its keyboard had no such signs."
+        },
+        {
+          "id": "f5-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Print ZERO when N is zero.",
+          "code": [
+            "      IF (N ___ 0) WRITE (6,10)",
+            "   10 FORMAT (' ZERO')"
+          ],
+          "options": [
+            ".EQ.",
+            "=",
+            ".NE.",
+            "=="
+          ],
+          "answer": ".EQ.",
+          "explanation": ".EQ. compares. A plain = would mean \"store\"."
+        },
+        {
+          "id": "f5-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this deck print?",
+          "code": [
+            "      K = 3",
+            "      IF (K .LT. 10) WRITE (6,20)",
+            "      IF (K .GE. 10) WRITE (6,30)",
+            "   20 FORMAT (' SMALL')",
+            "   30 FORMAT (' BIG')",
+            "      END"
+          ],
+          "options": [
+            "SMALL",
+            "BIG",
+            "SMALL and BIG",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "K is 3, so K .LT. 10 is true and the first WRITE runs. K .GE. 10 is false, so the second one is skipped."
+        },
+        {
+          "id": "f5-l1-e5",
+          "type": "find_bug",
+          "prompt": "This job stops with *ERROR*. Which card is wrong?",
+          "code": [
+            "      X = 4.0",
+            "      IF (X > 0.0) WRITE (6,10)",
+            "   10 FORMAT (' POSITIVE')",
+            "      END"
+          ],
+          "answer": 1,
+          "explanation": "FORTRAN IV doesn't know >. Write X .GT. 0.0."
+        },
+        {
+          "id": "f5-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "How many statements can follow a logical IF?",
+          "options": [
+            "Exactly one",
+            "As many as fit on the card",
+            "Up to the next END",
+            "None, it must be a jump"
+          ],
+          "answer": 0,
+          "explanation": "IF (condition) statement: one statement, often a GO TO when more needs to happen."
+        }
+      ]
+    },
+    {
+      "id": "f5-l2",
+      "title": "AND, OR, NOT",
+      "xp": 15,
+      "intro": [
+        "Conditions can be combined: .AND. is true when both sides are true, .OR. when at least one is, and .NOT. turns true into false and back.",
+        "IF (I .GE. 10 .AND. I .LE. 20) checks whether I lies between 10 and 20. Comparisons are worked out first, then .NOT., then .AND., then .OR.",
+        "MOD(A, B) gives the remainder of A divided by B. MOD(Y, 4) .EQ. 0 asks: can Y be divided by 4?"
+      ],
+      "example": {
+        "code": [
+          "      I = 15",
+          "      IF (I .GE. 10 .AND. I .LE. 20) WRITE (6,10)",
+          "   10 FORMAT (' IN RANGE')",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "IN RANGE"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f5-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "When is A .AND. B true?",
+          "options": [
+            "When both are true",
+            "When at least one is true",
+            "When both are false",
+            "Always"
+          ],
+          "answer": 0,
+          "explanation": "AND needs both sides."
+        },
+        {
+          "id": "f5-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "When is A .OR. B true?",
+          "options": [
+            "When at least one is true",
+            "Only when both are true",
+            "Only when exactly one is true",
+            "Never"
+          ],
+          "answer": 0,
+          "explanation": "OR is happy with one."
+        },
+        {
+          "id": "f5-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Print WEEKEND when D is 6 or 7.",
+          "code": [
+            "      IF (D .EQ. 6 ___ D .EQ. 7) WRITE (6,10)",
+            "   10 FORMAT (' WEEKEND')"
+          ],
+          "options": [
+            ".OR.",
+            ".AND.",
+            ".NOT.",
+            "OR"
+          ],
+          "answer": ".OR.",
+          "explanation": "A day can't be 6 and 7 at once, so it must be .OR. And without the dots, FORTRAN wouldn't recognize it."
+        },
+        {
+          "id": "f5-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this deck print?",
+          "code": [
+            "      N = 7",
+            "      IF (.NOT. MOD(N, 2) .EQ. 0) WRITE (6,10)",
+            "   10 FORMAT (' ODD')",
+            "      END"
+          ],
+          "options": [
+            "ODD",
+            "EVEN",
+            "Nothing",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "MOD(7, 2) is 1, so MOD(N, 2) .EQ. 0 is false, and .NOT. makes it true."
+        },
+        {
+          "id": "f5-l2-e5",
+          "type": "find_bug",
+          "prompt": "This job stops with *ERROR*. Which card is wrong?",
+          "code": [
+            "      A = 2.0",
+            "      B = 3.0",
+            "      IF (A .GT. 0.0 AND B .GT. 0.0) WRITE (6,10)",
+            "   10 FORMAT (' BOTH POSITIVE')",
+            "      END"
+          ],
+          "answer": 2,
+          "explanation": "AND needs its dots: .AND."
+        },
+        {
+          "id": "f5-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What is MOD(17, 5)?",
+          "options": [
+            "2",
+            "3",
+            "5",
+            "12"
+          ],
+          "answer": 0,
+          "explanation": "17 = 3 × 5 + 2. MOD gives the remainder, 2."
+        }
+      ]
+    },
+    {
+      "id": "f5-l3",
+      "title": "IF and GO TO",
+      "xp": 15,
+      "intro": [
+        "A logical IF runs just one statement. To do more, make that statement a GO TO: IF (N .GE. 90) GO TO 10 jumps to a whole block of cards.",
+        "A chain of IF … GO TO checks one condition after the other. The order matters: check 90 before 60, or a score of 95 would stop at \"60 or more\".",
+        "Every block ends with GO TO to a common card, so only one of them runs."
+      ],
+      "example": {
+        "code": [
+          "      N = 72",
+          "      IF (N .GE. 90) GO TO 10",
+          "      IF (N .GE. 60) GO TO 20",
+          "      WRITE (6,30)",
+          "      GO TO 40",
+          "   10 WRITE (6,31)",
+          "      GO TO 40",
+          "   20 WRITE (6,32)",
+          "   30 FORMAT (' FAIL')",
+          "   31 FORMAT (' TOP')",
+          "   32 FORMAT (' PASS')",
+          "   40 STOP",
+          "      END"
+        ],
+        "output": [
+          "PASS"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f5-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "In the example, what does N = 95 print?",
+          "options": [
+            "TOP",
+            "PASS",
+            "TOP and PASS",
+            "FAIL"
+          ],
+          "answer": 0,
+          "explanation": "95 .GE. 90 is true, so it jumps to 10 and prints TOP. GO TO 40 skips the rest."
+        },
+        {
+          "id": "f5-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "And N = 40?",
+          "options": [
+            "FAIL",
+            "PASS",
+            "TOP",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "Neither IF is true, so the computer reads on to the WRITE that prints FAIL."
+        },
+        {
+          "id": "f5-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "Why must IF (N .GE. 90) come before IF (N .GE. 60)?",
+          "options": [
+            "Otherwise 95 would jump to PASS, because 95 is also 60 or more",
+            "FORTRAN reads IFs from the bottom up",
+            "Bigger numbers must come first in a deck",
+            "It doesn't matter"
+          ],
+          "answer": 0,
+          "explanation": "The first true condition wins. Check the strictest one first."
+        },
+        {
+          "id": "f5-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Jump to 50 when X is negative.",
+          "code": [
+            "      IF (X .LT. 0.0) ___"
+          ],
+          "options": [
+            "GO TO 50",
+            "50",
+            "JUMP 50",
+            "THEN 50"
+          ],
+          "answer": "GO TO 50",
+          "explanation": "The statement after a logical IF can be a GO TO."
+        },
+        {
+          "id": "f5-l3-e5",
+          "type": "order_lines",
+          "prompt": "Stack the cards: print BIG when K is over 100, otherwise SMALL.",
+          "lines": [
+            "      K = 250",
+            "      IF (K .GT. 100) GO TO 10",
+            "      WRITE (6,20)",
+            "      GO TO 30",
+            "   10 WRITE (6,21)",
+            "   20 FORMAT (' SMALL')",
+            "   21 FORMAT (' BIG')",
+            "   30 STOP",
+            "      END"
+          ],
+          "answer": [
+            "      K = 250",
+            "      IF (K .GT. 100) GO TO 10",
+            "      WRITE (6,20)",
+            "      GO TO 30",
+            "   10 WRITE (6,21)",
+            "   20 FORMAT (' SMALL')",
+            "   21 FORMAT (' BIG')",
+            "   30 STOP",
+            "      END"
+          ],
+          "explanation": "The IF jumps over the SMALL block. GO TO 30 keeps SMALL from running into BIG."
+        },
+        {
+          "id": "f5-l3-e6",
+          "type": "find_bug",
+          "prompt": "With N = 75 this prints PASS and then TOP. Which card is wrong?",
+          "code": [
+            "      N = 75",
+            "      IF (N .GE. 90) GO TO 10",
+            "      WRITE (6,30)",
+            "   10 WRITE (6,31)",
+            "   30 FORMAT (' PASS')",
+            "   31 FORMAT (' TOP')",
+            "      END"
+          ],
+          "answer": 2,
+          "explanation": "After printing PASS, the computer falls through to card 10. That WRITE needs a GO TO after it, or the PASS card should jump past TOP."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,341 @@
+{
+  "id": "a2",
+  "title": "Memory",
+  "lessons": [
+    {
+      "id": "a2-l1",
+      "title": "Addresses",
+      "xp": 15,
+      "intro": [
+        "Three registers aren't much. That's why the 6502 has memory: up to 65,536 boxes of one byte each. Every box has an address from $0000 to $FFFF.",
+        "Our board has 1 KB of RAM, $0000 to $03FF. Your program is loaded at $0200, so we keep our data at $0300 and up, where it can't overwrite the code.",
+        "Here's the most important rule: with # you mean a number, without # you mean an address. LDA #$30 loads the number $30. LDA $30 loads whatever is stored at address $30."
+      ],
+      "exercises": [
+        {
+          "id": "a2-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "How many bytes fit into one memory address?",
+          "options": [
+            "1",
+            "2",
+            "8",
+            "256"
+          ],
+          "answer": 0,
+          "explanation": "Each address holds exactly one byte, a number from $00 to $FF."
+        },
+        {
+          "id": "a2-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What is the highest address the 6502 can use?",
+          "options": [
+            "$FFFF",
+            "$FF",
+            "$03FF",
+            "$9999"
+          ],
+          "answer": 0,
+          "explanation": "Addresses have 16 bits, so they go from $0000 to $FFFF (65,535)."
+        },
+        {
+          "id": "a2-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What does LDA $0300 do?",
+          "options": [
+            "Loads A with the byte stored at address $0300",
+            "Loads A with the number $0300",
+            "Stores A at $0300",
+            "Jumps to $0300"
+          ],
+          "answer": 0,
+          "explanation": "Without #, the value is an address. LDA $0300 looks into box $0300 and copies its contents into A."
+        },
+        {
+          "id": "a2-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What's the difference between LDA #$30 and LDA $30?",
+          "options": [
+            "#$30 is the number, $30 is the byte at address $30",
+            "None, they're the same",
+            "#$30 is decimal, $30 is hex",
+            "LDA $30 is a syntax error"
+          ],
+          "answer": 0,
+          "explanation": "# means \"this number\". Without #, the 6502 goes to that address and reads what's there."
+        },
+        {
+          "id": "a2-l1-e5",
+          "type": "fill_blank",
+          "prompt": "Load A with the byte stored at address $0300.",
+          "code": [
+            "LDA ___",
+            "BRK"
+          ],
+          "options": [
+            "$0300",
+            "#$0300",
+            "#$03",
+            "($0300)"
+          ],
+          "answer": "$0300",
+          "explanation": "No # here: we want the contents of address $0300, not a number."
+        },
+        {
+          "id": "a2-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Where does your program start on our board?",
+          "options": [
+            "$0200",
+            "$0000",
+            "$0300",
+            "$FFFF"
+          ],
+          "answer": 0,
+          "explanation": "Programs are loaded at $0200. That's why we use $0300 and up for data."
+        }
+      ]
+    },
+    {
+      "id": "a2-l2",
+      "title": "STA: Store",
+      "xp": 15,
+      "intro": [
+        "STA $0300 stores A into memory: address $0300 gets a copy of A. A keeps its value. STX and STY store X and Y.",
+        "You can't put a number straight into memory. You load it into a register first, then store the register: LDA #7, then STA $0300.",
+        "STA never uses #. A number isn't a place to store something, so STA #$0300 makes no sense to the 6502."
+      ],
+      "example": {
+        "code": [
+          "LDA #7",
+          "STA $0300",
+          "LDX #$2A",
+          "STX $0301",
+          "BRK"
+        ],
+        "output": [
+          "$0300 = $07   $0301 = $2A"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a2-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "After this program, what's in $0300 and in A?",
+          "code": [
+            "LDA #7",
+            "STA $0300",
+            "BRK"
+          ],
+          "options": [
+            "$0300 = 7, A = 7",
+            "$0300 = 7, A = 0",
+            "$0300 = 0, A = 7",
+            "$0300 = 0, A = 0"
+          ],
+          "answer": 0,
+          "explanation": "STA copies A into memory. The value stays in A as well."
+        },
+        {
+          "id": "a2-l2-e2",
+          "type": "fill_blank",
+          "prompt": "Store X at address $0300.",
+          "code": [
+            "LDX #$11",
+            "___ $0300",
+            "BRK"
+          ],
+          "options": [
+            "STX",
+            "STA",
+            "LDX",
+            "TXA"
+          ],
+          "answer": "STX",
+          "explanation": "STX stores the X register. STA would store A, which is still 0 here."
+        },
+        {
+          "id": "a2-l2-e3",
+          "type": "find_bug",
+          "prompt": "This program stops with an error. Which line is wrong?",
+          "code": [
+            "LDA #5",
+            "STA #$0300",
+            "BRK"
+          ],
+          "answer": 1,
+          "explanation": "STA needs an address, not a number. Remove the #: STA $0300."
+        },
+        {
+          "id": "a2-l2-e4",
+          "type": "order_lines",
+          "prompt": "Build a program that stores 9 at $0300 and 4 at $0301.",
+          "lines": [
+            "LDA #9",
+            "STA $0300",
+            "LDA #4",
+            "STA $0301",
+            "BRK"
+          ],
+          "answer": [
+            "LDA #9",
+            "STA $0300",
+            "LDA #4",
+            "STA $0301",
+            "BRK"
+          ],
+          "explanation": "Every value goes through A: load it, then store it. Each LDA has to come right before its own STA."
+        },
+        {
+          "id": "a2-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What ends up at $0300?",
+          "code": [
+            "LDA #3",
+            "STA $0300",
+            "LDA #5",
+            "STA $0300",
+            "BRK"
+          ],
+          "options": [
+            "$05",
+            "$03",
+            "$08",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "Both STA lines write to $0300. The second one overwrites the first, so $05 is left."
+        },
+        {
+          "id": "a2-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Which program puts 1 into $0300 without changing A?",
+          "options": [
+            "LDX #1 then STX $0300",
+            "LDA #1 then STA $0300",
+            "STA #1",
+            "LDA $0300"
+          ],
+          "answer": 0,
+          "explanation": "Using X leaves A alone. LDA #1 would change A."
+        }
+      ]
+    },
+    {
+      "id": "a2-l3",
+      "title": "Loading from Memory and Zero Page",
+      "xp": 15,
+      "intro": [
+        "LDA $0300 reads a byte from memory into A. Load and store together let you copy memory: LDA $0300, then STA $0301.",
+        "Addresses $0000 to $00FF are special: the zero page. You can write them with two digits, like $30. Those instructions are shorter (2 bytes instead of 3) and faster, so programmers keep their most used values there.",
+        "LDA $30 and LDA $0030 read the same box. The short version simply saves a byte."
+      ],
+      "example": {
+        "code": [
+          "LDA #$42",
+          "STA $0300",
+          "LDA $0300",
+          "STA $30",
+          "BRK"
+        ],
+        "output": [
+          "$0300 = $42   $0030 = $42"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a2-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "After this program, what's in $0301?",
+          "code": [
+            "LDA #$0C",
+            "STA $0300",
+            "LDA $0300",
+            "STA $0301",
+            "BRK"
+          ],
+          "options": [
+            "$0C",
+            "$00",
+            "$0300",
+            "$01"
+          ],
+          "answer": 0,
+          "explanation": "The first two lines store $0C at $0300. LDA $0300 reads it back, STA $0301 copies it on."
+        },
+        {
+          "id": "a2-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What is the zero page?",
+          "options": [
+            "Addresses $0000 to $00FF",
+            "Addresses that hold 0",
+            "The first line of a program",
+            "Memory that is always empty"
+          ],
+          "answer": 0,
+          "explanation": "The zero page is the first 256 bytes. Its addresses fit in one byte, which makes instructions shorter."
+        },
+        {
+          "id": "a2-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "Why do programmers like the zero page?",
+          "options": [
+            "Instructions there are shorter and faster",
+            "It holds bigger numbers",
+            "It can't be overwritten",
+            "It's the only memory you can store to"
+          ],
+          "answer": 0,
+          "explanation": "LDA $30 needs 2 bytes, LDA $0300 needs 3. On a 1 MHz chip with 1 KB of RAM, that matters."
+        },
+        {
+          "id": "a2-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Copy the byte at $30 into $31.",
+          "code": [
+            "LDA $30",
+            "___ $31",
+            "BRK"
+          ],
+          "options": [
+            "STA",
+            "LDA",
+            "STX",
+            "TAX"
+          ],
+          "answer": "STA",
+          "explanation": "LDA $30 reads it into A, STA $31 writes A to the new address."
+        },
+        {
+          "id": "a2-l3-e5",
+          "type": "find_bug",
+          "prompt": "This program should copy the byte at $0300 to $0301, but it stops with an error. Which line is wrong?",
+          "code": [
+            "LDA #$0300",
+            "STA $0301",
+            "BRK"
+          ],
+          "answer": 0,
+          "explanation": "LDA #… loads a number. To read memory, leave out the #: LDA $0300. (A number this big doesn't even fit into A.)"
+        },
+        {
+          "id": "a2-l3-e6",
+          "type": "order_lines",
+          "prompt": "Build a program that copies the byte at $10 to $20.",
+          "lines": [
+            "LDA $10",
+            "STA $20",
+            "BRK"
+          ],
+          "answer": [
+            "LDA $10",
+            "STA $20",
+            "BRK"
+          ],
+          "explanation": "First read into A, then write A to the new address."
+        }
+      ]
+    }
+  ]
+}

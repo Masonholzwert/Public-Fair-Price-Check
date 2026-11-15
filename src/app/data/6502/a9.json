@@ -1,0 +1,378 @@
+{
+  "id": "a9",
+  "title": "Numbers on Paper",
+  "lessons": [
+    {
+      "id": "a9-l1",
+      "title": "Printing a Digit",
+      "xp": 15,
+      "intro": [
+        "OUTCH prints characters, not numbers. If A holds 7 and you call OUTCH, the teletype gets character 7, which is an invisible control code.",
+        "Remember the ASCII table: '0 is $30, '1 is $31 and so on. So to print a single digit from 0 to 9, add $30 first: CLC, ADC #'0.",
+        "This only works for 0 to 9. For bigger numbers we have to split them into digits, which comes next."
+      ],
+      "example": {
+        "code": [
+          "OUTCH = $1EA0",
+          "LDA #7",
+          "CLC",
+          "ADC #'0",
+          "JSR OUTCH",
+          "BRK"
+        ],
+        "output": [
+          "7"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a9-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "A holds 4. What do you add before printing it?",
+          "options": [
+            "$30, the code of '0",
+            "$04",
+            "$41, the code of 'A",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "4 + $30 = $34, the ASCII code of the digit 4."
+        },
+        {
+          "id": "a9-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this print?",
+          "code": [
+            "OUTCH = $1EA0",
+            "LDA #9",
+            "CLC",
+            "ADC #'0",
+            "JSR OUTCH",
+            "BRK"
+          ],
+          "options": [
+            "9",
+            "39",
+            "I",
+            "Nothing visible"
+          ],
+          "answer": 0,
+          "explanation": "9 + '0 is the code of the digit 9."
+        },
+        {
+          "id": "a9-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Turn the number in A into its digit.",
+          "code": [
+            "LDA #3",
+            "CLC",
+            "ADC #___",
+            "JSR OUTCH"
+          ],
+          "options": [
+            "'0",
+            "'A",
+            "0",
+            "$03"
+          ],
+          "answer": "'0",
+          "explanation": "Adding '0 ($30) moves 0–9 to the digit characters."
+        },
+        {
+          "id": "a9-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "Why can't you just print 12 like this?",
+          "options": [
+            "12 + '0 is the code of '<', not two digits",
+            "OUTCH only prints letters",
+            "ADC can't add 12",
+            "It works fine"
+          ],
+          "answer": 0,
+          "explanation": "Each character is one digit. 12 has two digits, so it has to be split first."
+        },
+        {
+          "id": "a9-l1-e5",
+          "type": "find_bug",
+          "prompt": "This should print the digit 5, but the teletype prints nothing visible. Which line is wrong?",
+          "code": [
+            "OUTCH = $1EA0",
+            "LDA #5",
+            "JSR OUTCH",
+            "BRK"
+          ],
+          "answer": 2,
+          "explanation": "A still holds the number 5, an invisible control code. Before JSR OUTCH, add '0: CLC, ADC #'0."
+        },
+        {
+          "id": "a9-l1-e6",
+          "type": "order_lines",
+          "prompt": "Print the digit 2.",
+          "lines": [
+            "OUTCH = $1EA0",
+            "LDA #2",
+            "CLC",
+            "ADC #'0",
+            "JSR OUTCH",
+            "BRK"
+          ],
+          "answer": [
+            "OUTCH = $1EA0",
+            "LDA #2",
+            "CLC",
+            "ADC #'0",
+            "JSR OUTCH",
+            "BRK"
+          ],
+          "explanation": "Load the number, turn it into a digit, print it."
+        }
+      ]
+    },
+    {
+      "id": "a9-l2",
+      "title": "Tens and Ones",
+      "xp": 15,
+      "intro": [
+        "To print a number from 0 to 99, you need its tens and its ones. The 6502 can't divide, so we count: subtract 10 as long as the number is 10 or more, and count how often in X.",
+        "When the loop ends, X holds the tens and A the ones. 42: subtract 10 four times, X = 4, A = 2.",
+        "Then print X as a digit and A as a digit. Save A on the stack while you print X, so the ones don't get lost."
+      ],
+      "example": {
+        "code": [
+          "OUTCH = $1EA0",
+          "LDA #42",
+          "LDX #0",
+          "TENS: CMP #10",
+          "BCC ONES",
+          "SEC",
+          "SBC #10",
+          "INX",
+          "JMP TENS",
+          "ONES: PHA",
+          "TXA",
+          "CLC",
+          "ADC #'0",
+          "JSR OUTCH",
+          "PLA",
+          "CLC",
+          "ADC #'0",
+          "JSR OUTCH",
+          "BRK"
+        ],
+        "output": [
+          "42"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a9-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "After the tens loop with 73, what are X and A?",
+          "options": [
+            "X = 7, A = 3",
+            "X = 3, A = 7",
+            "X = 73, A = 0",
+            "X = 0, A = 73"
+          ],
+          "answer": 0,
+          "explanation": "73 - 10 seven times leaves 3. X counted 7 rounds."
+        },
+        {
+          "id": "a9-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Why does the loop stop at BCC ONES?",
+          "options": [
+            "CMP #10 clears the carry when A is below 10, so only the ones are left",
+            "BCC means the number is 0",
+            "BCC jumps when A is 10",
+            "It never stops"
+          ],
+          "answer": 0,
+          "explanation": "After CMP, carry clear means A < 10."
+        },
+        {
+          "id": "a9-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "Why is there a PHA before printing the tens?",
+          "options": [
+            "Printing the tens needs A, so the ones are saved on the stack",
+            "OUTCH needs it",
+            "PHA prints a space",
+            "It isn't needed"
+          ],
+          "answer": 0,
+          "explanation": "TXA overwrites A. PHA keeps the ones safe, PLA brings them back."
+        },
+        {
+          "id": "a9-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Count one more ten.",
+          "code": [
+            "TENS: CMP #10",
+            "BCC ONES",
+            "SEC",
+            "SBC #10",
+            "___",
+            "JMP TENS"
+          ],
+          "options": [
+            "INX",
+            "DEX",
+            "INY",
+            "CLC"
+          ],
+          "answer": "INX",
+          "explanation": "X counts how many tens were taken away."
+        },
+        {
+          "id": "a9-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What does the program print for 5?",
+          "options": [
+            "05",
+            "5",
+            "50",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "There are 0 tens, so it prints the digit 0 and then 5."
+        },
+        {
+          "id": "a9-l2-e6",
+          "type": "find_bug",
+          "prompt": "This prints 42 as 41. Which line is wrong?",
+          "code": [
+            "TENS: CMP #10",
+            "BCC ONES",
+            "CLC",
+            "SBC #10",
+            "INX",
+            "JMP TENS"
+          ],
+          "answer": 2,
+          "explanation": "SBC needs the carry set. With CLC it takes away 11 each time. Use SEC."
+        }
+      ]
+    },
+    {
+      "id": "a9-l3",
+      "title": "Hex Digits",
+      "xp": 15,
+      "intro": [
+        "Programmers usually print bytes in hex, like the LEDs do. A byte has two hex digits: the sixteens and the ones. $2A is 2 sixteens and 10 ones.",
+        "It's the same counting trick as tens and ones, just with 16: subtract 16 while A is 16 or more, and count in X.",
+        "Hex digits go past 9, so adding '0 isn't enough. A table is easier: HEX: .BYTE \"0123456789ABCDEF\". LDA HEX,X gives the character for any value from 0 to 15."
+      ],
+      "example": {
+        "code": [
+          "OUTCH = $1EA0",
+          "LDX #10",
+          "LDA HEX,X",
+          "JSR OUTCH",
+          "BRK",
+          "HEX: .BYTE \"0123456789ABCDEF\""
+        ],
+        "output": [
+          "A"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a9-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What is LDA HEX,X when X is 12?",
+          "options": [
+            "The character C",
+            "The digit 1",
+            "The number 12",
+            "The character 2"
+          ],
+          "answer": 0,
+          "explanation": "Entry 12 of \"0123456789ABCDEF\" is C."
+        },
+        {
+          "id": "a9-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "$3F: how many sixteens and ones?",
+          "options": [
+            "3 sixteens, 15 ones",
+            "3 sixteens, 6 ones",
+            "63 sixteens",
+            "15 sixteens, 3 ones"
+          ],
+          "answer": 0,
+          "explanation": "The first hex digit counts sixteens, the second counts ones. F is 15."
+        },
+        {
+          "id": "a9-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Count the sixteens.",
+          "code": [
+            "SIX: CMP #16",
+            "BCC ONES",
+            "SEC",
+            "SBC #___",
+            "INX",
+            "JMP SIX"
+          ],
+          "options": [
+            "16",
+            "10",
+            "15",
+            "1"
+          ],
+          "answer": "16",
+          "explanation": "Each round takes away one sixteen. ($10 would work too, it's the same number.)"
+        },
+        {
+          "id": "a9-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "Why does a hex digit need a table and not just ADC #'0?",
+          "options": [
+            "Digits A–F don't come right after '9 in ASCII",
+            "ADC can't add to 15",
+            "Tables are faster",
+            "OUTCH can't print letters"
+          ],
+          "answer": 0,
+          "explanation": "After '9 ($39) come characters like : and ;. 'A is $41. The table hides that gap."
+        },
+        {
+          "id": "a9-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What does the full program print for $2A?",
+          "options": [
+            "2A",
+            "42",
+            "A2",
+            "$2A"
+          ],
+          "answer": 0,
+          "explanation": "2 sixteens, then 10 ones. HEX entry 2 is '2', entry 10 is 'A'."
+        },
+        {
+          "id": "a9-l3-e6",
+          "type": "order_lines",
+          "prompt": "Print the hex digit for X = 15.",
+          "lines": [
+            "OUTCH = $1EA0",
+            "LDX #15",
+            "LDA HEX,X",
+            "JSR OUTCH",
+            "BRK",
+            "HEX: .BYTE \"0123456789ABCDEF\""
+          ],
+          "answer": [
+            "OUTCH = $1EA0",
+            "LDX #15",
+            "LDA HEX,X",
+            "JSR OUTCH",
+            "BRK",
+            "HEX: .BYTE \"0123456789ABCDEF\""
+          ],
+          "explanation": "Look up the character in the table, then print it. The table goes at the very end."
+        }
+      ]
+    }
+  ]
+}

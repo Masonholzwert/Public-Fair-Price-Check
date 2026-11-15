@@ -1,0 +1,363 @@
+{
+  "id": "cb1",
+  "title": "The Four Divisions",
+  "lessons": [
+    {
+      "id": "cb1-l1",
+      "title": "Hello, Mainframe",
+      "xp": 15,
+      "intro": [
+        "In 1959, a committee led by the US Department of Defense, with Grace Hopper's ideas at its heart, made a language for business: COBOL, the COmmon Business-Oriented Language. It was meant to read like English, so managers could check the programs.",
+        "For decades, COBOL ran on IBM mainframes. You typed at a 3270 terminal, sent your program off as a job, and its output came back. Banks, insurers and governments still run billions of lines of it today.",
+        "A COBOL program has up to four divisions, always in the same order. The smallest one needs only two: IDENTIFICATION (its name) and PROCEDURE (what it does). DISPLAY shows text, and STOP RUN ends the job."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. HELLO.",
+          "       PROCEDURE DIVISION.",
+          "           DISPLAY \"HELLO, MAINFRAME\".",
+          "           DISPLAY \"COBOL, 1959\".",
+          "           STOP RUN."
+        ],
+        "output": [
+          "HELLO, MAINFRAME",
+          "COBOL, 1959"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb1-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does COBOL stand for?",
+          "options": [
+            "COmmon Business-Oriented Language",
+            "COmputer Basic Operating Language",
+            "COde Built On Lists",
+            "COmpiled Binary Object Language"
+          ],
+          "answer": 0,
+          "explanation": "It was made for business: payrolls, bills and bank accounts."
+        },
+        {
+          "id": "cb1-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. MORNING.",
+            "       PROCEDURE DIVISION.",
+            "           DISPLAY \"GOOD MORNING\".",
+            "           STOP RUN."
+          ],
+          "options": [
+            "GOOD MORNING",
+            "\"GOOD MORNING\"",
+            "DISPLAY GOOD MORNING",
+            "nothing"
+          ],
+          "answer": 0,
+          "explanation": "DISPLAY shows the text between the quotes, without the quotes."
+        },
+        {
+          "id": "cb1-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Show the word READY.",
+          "code": [
+            "           ___ \"READY\"."
+          ],
+          "options": [
+            "DISPLAY",
+            "PRINT",
+            "WRITE",
+            "SHOW"
+          ],
+          "answer": "DISPLAY",
+          "explanation": "COBOL's verb for showing something is DISPLAY."
+        },
+        {
+          "id": "cb1-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does STOP RUN do?",
+          "options": [
+            "Ends the job",
+            "Pauses until a key is pressed",
+            "Restarts the program",
+            "Stops the mainframe"
+          ],
+          "answer": 0,
+          "explanation": "Every job ends with it."
+        },
+        {
+          "id": "cb1-l1-e5",
+          "type": "order_lines",
+          "prompt": "Put the lines of the smallest COBOL program in order.",
+          "lines": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. HI.",
+            "       PROCEDURE DIVISION.",
+            "           DISPLAY \"HI\".",
+            "           STOP RUN."
+          ],
+          "answer": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. HI.",
+            "       PROCEDURE DIVISION.",
+            "           DISPLAY \"HI\".",
+            "           STOP RUN."
+          ],
+          "explanation": "First the name, then the procedure with its statements."
+        },
+        {
+          "id": "cb1-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Who is most connected with COBOL's ideas?",
+          "options": [
+            "Grace Hopper",
+            "John Backus",
+            "Dennis Ritchie",
+            "Niklaus Wirth"
+          ],
+          "answer": 0,
+          "explanation": "Her FLOW-MATIC language, with English words instead of symbols, was COBOL's model."
+        }
+      ]
+    },
+    {
+      "id": "cb1-l2",
+      "title": "Columns and Areas",
+      "xp": 15,
+      "intro": [
+        "COBOL comes from the punched card, so every column has a job. Columns 1 to 6 hold a sequence number, so a dropped deck could be put back in order. Column 7 holds a * to make the line a comment.",
+        "Area A is columns 8 to 11: division headers, paragraph names and 01 levels start there. Area B is column 12 and on: that's where the statements go. Everything after column 72 is ignored.",
+        "So a division starts with 7 spaces, a statement with 11. Here, the example also has the sequence numbers the programmers punched in columns 1 to 6."
+      ],
+      "example": {
+        "code": [
+          "000100 IDENTIFICATION DIVISION.",
+          "000200 PROGRAM-ID. COLUMNS.",
+          "000300* THIS LINE IS A COMMENT: THE * IS IN COLUMN 7.",
+          "000400 PROCEDURE DIVISION.",
+          "000500     DISPLAY \"STATEMENTS GO IN AREA B\".",
+          "000600     STOP RUN."
+        ],
+        "output": [
+          "STATEMENTS GO IN AREA B"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb1-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "Which column makes a line a comment, with a *?",
+          "options": [
+            "Column 7",
+            "Column 1",
+            "Column 8",
+            "Column 72"
+          ],
+          "answer": 0,
+          "explanation": "Columns 1-6 are for the sequence number, so the * comes right after them."
+        },
+        {
+          "id": "cb1-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Where do statements like DISPLAY start?",
+          "options": [
+            "In Area B, column 12 or later",
+            "In Area A, column 8",
+            "In column 1",
+            "Anywhere"
+          ],
+          "answer": 0,
+          "explanation": "Area A (8-11) is for headers and names."
+        },
+        {
+          "id": "cb1-l2-e3",
+          "type": "find_bug",
+          "prompt": "This job doesn't compile. Which line is wrong?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. OOPS.",
+            "       PROCEDURE DIVISION.",
+            "       DISPLAY \"HELLO\".",
+            "           STOP RUN."
+          ],
+          "answer": 3,
+          "explanation": "DISPLAY starts in column 8, Area A. Statements belong in Area B: column 12."
+        },
+        {
+          "id": "cb1-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "Why did programmers punch sequence numbers into columns 1-6?",
+          "options": [
+            "To sort a dropped card deck back into order",
+            "To make the program faster",
+            "The compiler needs them to run",
+            "To count the lines for the bill"
+          ],
+          "answer": 0,
+          "explanation": "A deck of 2,000 cards on the floor was a disaster, unless they were numbered."
+        },
+        {
+          "id": "cb1-l2-e5",
+          "type": "fill_blank",
+          "prompt": "Make this line a comment.",
+          "code": [
+            "000300___ CALCULATE THE TAX"
+          ],
+          "options": [
+            "*",
+            "C",
+            "//",
+            "#"
+          ],
+          "answer": "*",
+          "explanation": "A * in column 7."
+        },
+        {
+          "id": "cb1-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What happens to text after column 72?",
+          "options": [
+            "It's ignored",
+            "It continues on the next line",
+            "It's an error",
+            "It's printed"
+          ],
+          "answer": 0,
+          "explanation": "Columns 73-80 were used for the program's name on each card."
+        }
+      ]
+    },
+    {
+      "id": "cb1-l3",
+      "title": "Periods and Sentences",
+      "xp": 15,
+      "intro": [
+        "A period ends a sentence, like in English. After the last statement of a paragraph, a period is a must. COBOL programmers say a missing period is the most expensive dot in the world.",
+        "DISPLAY can show several things in a row: texts and numbers are put together without spaces. DISPLAY \"TOTAL: \" 42 shows TOTAL: 42.",
+        "The old compilers only knew capital letters, and that's how COBOL is still written in most companies."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. SENTENCE.",
+          "       PROCEDURE DIVISION.",
+          "           DISPLAY \"ORDER \" 1 \" OF \" 3.",
+          "           DISPLAY \"PRICE: \" 19.99 \" DOLLARS\".",
+          "           DISPLAY \"THANK YOU\".",
+          "           STOP RUN."
+        ],
+        "output": [
+          "ORDER 1 OF 3",
+          "PRICE: 19.99 DOLLARS",
+          "THANK YOU"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb1-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. TOTAL.",
+            "       PROCEDURE DIVISION.",
+            "           DISPLAY \"TOTAL: \" 42.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "TOTAL: 42",
+            "TOTAL:42",
+            "TOTAL: \" 42",
+            "TOTAL:  42"
+          ],
+          "answer": 0,
+          "explanation": "The parts are put together exactly as they are: the space is inside the quotes."
+        },
+        {
+          "id": "cb1-l3-e2",
+          "type": "find_bug",
+          "prompt": "This job doesn't compile. Which line is wrong?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. DOT.",
+            "       PROCEDURE DIVISION.",
+            "           DISPLAY \"HELLO\".",
+            "           STOP RUN"
+          ],
+          "answer": 4,
+          "explanation": "The program ends without a period after STOP RUN."
+        },
+        {
+          "id": "cb1-l3-e3",
+          "type": "fill_blank",
+          "prompt": "End the job.",
+          "code": [
+            "           STOP ___."
+          ],
+          "options": [
+            "RUN",
+            "JOB",
+            "END",
+            "PROGRAM"
+          ],
+          "answer": "RUN",
+          "explanation": "STOP RUN."
+        },
+        {
+          "id": "cb1-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does a period do in the PROCEDURE DIVISION?",
+          "options": [
+            "Ends a sentence",
+            "Starts a comment",
+            "Multiplies",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "Just like in English."
+        },
+        {
+          "id": "cb1-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. JOIN.",
+            "       PROCEDURE DIVISION.",
+            "           DISPLAY \"A\" \"B\".",
+            "           STOP RUN."
+          ],
+          "options": [
+            "AB",
+            "A B",
+            "A\nB",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "Two texts in one DISPLAY are joined without a space."
+        },
+        {
+          "id": "cb1-l3-e6",
+          "type": "order_lines",
+          "prompt": "Put the statements in order so the job shows 1, 2, 3 and ends.",
+          "lines": [
+            "           DISPLAY 1.",
+            "           DISPLAY 2.",
+            "           DISPLAY 3.",
+            "           STOP RUN."
+          ],
+          "answer": [
+            "           DISPLAY 1.",
+            "           DISPLAY 2.",
+            "           DISPLAY 3.",
+            "           STOP RUN."
+          ],
+          "explanation": "Statements run from top to bottom."
+        }
+      ]
+    }
+  ]
+}

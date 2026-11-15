@@ -1,0 +1,400 @@
+{
+  "id": "p16",
+  "title": "Pointers",
+  "lessons": [
+    {
+      "id": "p16-l1",
+      "title": "^ and new",
+      "xp": 15,
+      "intro": [
+        "A pointer holds the address of a value instead of the value itself. var p: ^integer; declares a pointer to an integer.",
+        "new(p) asks for fresh memory while the program runs and makes p point to it. p^ (say \"p hat\") is the value p points to: p^ := 42;",
+        "Two pointers can point to the same memory. Then a change through one is seen through the other."
+      ],
+      "example": {
+        "code": [
+          "program Ptr;",
+          "var",
+          "  p, q: ^integer;",
+          "begin",
+          "  new(p);",
+          "  p^ := 42;",
+          "  writeln(p^);",
+          "  q := p;",
+          "  q^ := 7;",
+          "  writeln(p^);",
+          "end."
+        ],
+        "output": [
+          "42",
+          "7"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p16-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does a pointer hold?",
+          "options": [
+            "The address of a value",
+            "A copy of a value",
+            "Only integers",
+            "A file name"
+          ],
+          "answer": 0,
+          "explanation": "It points to where the value is."
+        },
+        {
+          "id": "p16-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does new(p) do?",
+          "options": [
+            "Gets fresh memory and makes p point to it",
+            "Sets p to 0",
+            "Deletes p",
+            "Copies p"
+          ],
+          "answer": 0,
+          "explanation": "Memory while the program runs, from the heap."
+        },
+        {
+          "id": "p16-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Store 10 where p points.",
+          "code": [
+            "  p___ := 10;"
+          ],
+          "options": [
+            "^",
+            "",
+            "@",
+            "*"
+          ],
+          "answer": "^",
+          "explanation": "p^ is the value p points to."
+        },
+        {
+          "id": "p16-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Same;",
+            "var",
+            "  p, q: ^integer;",
+            "begin",
+            "  new(p);",
+            "  p^ := 5;",
+            "  q := p;",
+            "  q^ := 99;",
+            "  writeln(p^);",
+            "end."
+          ],
+          "options": [
+            "99",
+            "5",
+            "0",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "q points to the same memory as p."
+        },
+        {
+          "id": "p16-l1-e5",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program P;",
+            "var",
+            "  p: ^integer;",
+            "begin",
+            "  new(p);",
+            "  p := 5;",
+            "end."
+          ],
+          "answer": 5,
+          "explanation": "p is a pointer. To store 5 where it points, write p^ := 5;"
+        },
+        {
+          "id": "p16-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "How do you say p^?",
+          "options": [
+            "\"p hat\" or \"what p points to\"",
+            "\"p power\"",
+            "\"p up\"",
+            "\"p xor\""
+          ],
+          "answer": 0,
+          "explanation": "The hat follows the pointer."
+        }
+      ]
+    },
+    {
+      "id": "p16-l2",
+      "title": "nil and dispose",
+      "xp": 15,
+      "intro": [
+        "nil is a pointer that points nowhere. Following it with p^ crashes: Runtime error 216. So check if p <> nil first.",
+        "dispose(p) gives the memory back. After that, p^ is off limits: using it is a bug (Runtime error 204: Invalid pointer operation).",
+        "Memory you never give back is a memory leak. On a PC with 640 KB, that hurt quickly."
+      ],
+      "example": {
+        "code": [
+          "program NilDemo;",
+          "var",
+          "  p: ^integer;",
+          "begin",
+          "  p := nil;",
+          "  if p = nil then",
+          "    writeln('p points nowhere');",
+          "  new(p);",
+          "  p^ := 3;",
+          "  writeln('p^ = ', p^);",
+          "  dispose(p);",
+          "  p := nil;",
+          "  writeln('Memory given back');",
+          "end."
+        ],
+        "output": [
+          "p points nowhere",
+          "p^ = 3",
+          "Memory given back"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p16-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is nil?",
+          "options": [
+            "A pointer that points nowhere",
+            "The number 0",
+            "An empty string",
+            "A deleted variable"
+          ],
+          "answer": 0,
+          "explanation": "Following nil crashes the program."
+        },
+        {
+          "id": "p16-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does dispose(p) do?",
+          "options": [
+            "Gives p's memory back",
+            "Sets p^ to 0",
+            "Makes a new pointer",
+            "Ends the program"
+          ],
+          "answer": 0,
+          "explanation": "The counterpart of new."
+        },
+        {
+          "id": "p16-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Only follow p if it points somewhere.",
+          "code": [
+            "  if p <> ___ then",
+            "    writeln(p^);"
+          ],
+          "options": [
+            "nil",
+            "0",
+            "null",
+            "''"
+          ],
+          "answer": "nil",
+          "explanation": "Pascal calls the empty pointer nil."
+        },
+        {
+          "id": "p16-l2-e4",
+          "type": "find_bug",
+          "prompt": "This program crashes. Which line is wrong?",
+          "code": [
+            "program Crash;",
+            "var",
+            "  p: ^integer;",
+            "begin",
+            "  new(p);",
+            "  p^ := 1;",
+            "  dispose(p);",
+            "  writeln(p^);",
+            "end."
+          ],
+          "answer": 7,
+          "explanation": "After dispose(p), the memory isn't yours anymore."
+        },
+        {
+          "id": "p16-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What does Runtime error 216 mean here?",
+          "options": [
+            "A nil pointer was followed",
+            "Division by zero",
+            "The disk is full",
+            "A file is missing"
+          ],
+          "answer": 0,
+          "explanation": "General protection fault: the address was nowhere."
+        },
+        {
+          "id": "p16-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What is a memory leak?",
+          "options": [
+            "Memory from new that's never given back",
+            "A pointer to nil",
+            "A broken disk",
+            "A wrong index"
+          ],
+          "answer": 0,
+          "explanation": "The program uses more and more memory."
+        }
+      ]
+    },
+    {
+      "id": "p16-l3",
+      "title": "Pointers to Records",
+      "xp": 15,
+      "intro": [
+        "Pointers really shine with records. A record can contain a pointer to its own kind. Because the record isn't declared yet, the pointer type comes first: type PNode = ^TNode; TNode = record … next: PNode; end;",
+        "p^.value is the field value of the record p points to.",
+        "These records linked by pointers are called nodes. They are the building blocks of lists, trees and more."
+      ],
+      "example": {
+        "code": [
+          "program Nodes;",
+          "type",
+          "  PNode = ^TNode;",
+          "  TNode = record",
+          "    value: integer;",
+          "    next: PNode;",
+          "  end;",
+          "var",
+          "  a, b: PNode;",
+          "begin",
+          "  new(a);",
+          "  new(b);",
+          "  a^.value := 1;",
+          "  b^.value := 2;",
+          "  a^.next := b;",
+          "  b^.next := nil;",
+          "  writeln(a^.value, ' -> ', a^.next^.value);",
+          "end."
+        ],
+        "output": [
+          "1 -> 2"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p16-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Why can PNode = ^TNode come before TNode is declared?",
+          "options": [
+            "Pascal allows pointer types to name a record declared right after",
+            "It can't",
+            "Because of new",
+            "Because TNode is global"
+          ],
+          "answer": 0,
+          "explanation": "This is the one place where Pascal lets you use a name before it's declared."
+        },
+        {
+          "id": "p16-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What is p^.value?",
+          "options": [
+            "The value field of the record p points to",
+            "The address of value",
+            "p's own value",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "Follow the pointer, then take the field."
+        },
+        {
+          "id": "p16-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Link node a to node b.",
+          "code": [
+            "  a^___next := b;"
+          ],
+          "options": [
+            ".",
+            "^",
+            "->",
+            ","
+          ],
+          "answer": ".",
+          "explanation": "a^ is the record, .next its field."
+        },
+        {
+          "id": "p16-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Link;",
+            "type",
+            "  PNode = ^TNode;",
+            "  TNode = record",
+            "    value: integer;",
+            "    next: PNode;",
+            "  end;",
+            "var",
+            "  x, y: PNode;",
+            "begin",
+            "  new(x);",
+            "  new(y);",
+            "  x^.value := 10;",
+            "  y^.value := 20;",
+            "  x^.next := y;",
+            "  writeln(x^.next^.value);",
+            "end."
+          ],
+          "options": [
+            "20",
+            "10",
+            "an error",
+            "nil"
+          ],
+          "answer": 0,
+          "explanation": "x^.next is y, and y^.value is 20."
+        },
+        {
+          "id": "p16-l3-e5",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program N;",
+            "type",
+            "  PNode = ^TNode;",
+            "  TNode = record",
+            "    value: integer;",
+            "  end;",
+            "var",
+            "  p: PNode;",
+            "begin",
+            "  new(p);",
+            "  p.value := 5;",
+            "end."
+          ],
+          "answer": 10,
+          "explanation": "p is a pointer: write p^.value := 5;"
+        },
+        {
+          "id": "p16-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What do you call records linked by pointers?",
+          "options": [
+            "Nodes",
+            "Files",
+            "Sets",
+            "Arrays"
+          ],
+          "answer": 0,
+          "explanation": "Lists, trees and graphs are made of nodes."
+        }
+      ]
+    }
+  ]
+}

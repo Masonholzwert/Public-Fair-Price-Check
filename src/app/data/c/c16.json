@@ -1,0 +1,411 @@
+{
+  "id": "c16",
+  "title": "malloc and free",
+  "lessons": [
+    {
+      "id": "c16-l1",
+      "title": "Asking for Memory",
+      "xp": 15,
+      "intro": [
+        "So far, every array had a fixed size, written into the program. But often you only learn how much memory you need while the program runs.",
+        "malloc (from stdlib.h) asks for memory while running: int *a = malloc(n * sizeof(int)); gives room for n ints. It returns a void *, an address without a type, which C turns into an int * for you.",
+        "After that, a works just like an array: a[0], a[1], … The memory stays yours until you give it back."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "#include <stdlib.h>",
+          "",
+          "int main() {",
+          "    int n = 5, i;",
+          "    int *a = malloc(n * sizeof(int));",
+          "    for (i = 0; i < n; i++)",
+          "        a[i] = i * i;",
+          "    for (i = 0; i < n; i++)",
+          "        printf(\"%d \", a[i]);",
+          "    printf(\"\\n\");",
+          "    free(a);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "0 1 4 9 16 "
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c16-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does malloc do?",
+          "options": [
+            "Gives the program memory while it runs",
+            "Makes a variable global",
+            "Copies an array",
+            "Prints memory"
+          ],
+          "answer": 0,
+          "explanation": "The name means \"memory allocate\"."
+        },
+        {
+          "id": "c16-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Which header declares malloc and free?",
+          "options": [
+            "stdlib.h",
+            "stdio.h",
+            "string.h",
+            "math.h"
+          ],
+          "answer": 0,
+          "explanation": "stdlib.h: the standard library."
+        },
+        {
+          "id": "c16-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Ask for room for 10 doubles.",
+          "code": [
+            "    double *d = malloc(10 * ___(double));"
+          ],
+          "options": [
+            "sizeof",
+            "size",
+            "len",
+            "malloc"
+          ],
+          "answer": "sizeof",
+          "explanation": "malloc counts bytes, so multiply by sizeof the type."
+        },
+        {
+          "id": "c16-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "#include <stdlib.h>",
+            "",
+            "int main() {",
+            "    int *a = malloc(3 * sizeof(int));",
+            "    int i, sum = 0;",
+            "    for (i = 0; i < 3; i++)",
+            "        a[i] = (i + 1) * 5;",
+            "    for (i = 0; i < 3; i++)",
+            "        sum += a[i];",
+            "    printf(\"%d\\n\", sum);",
+            "    free(a);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "30",
+            "10",
+            "0",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "a[0] + a[1] + a[2] = 5 + 10 + 15."
+        },
+        {
+          "id": "c16-l1-e5",
+          "type": "find_bug",
+          "prompt": "This program crashes. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "#include <stdlib.h>",
+            "",
+            "int main() {",
+            "    int i;",
+            "    int *a = malloc(4);",
+            "    for (i = 0; i < 4; i++)",
+            "        a[i] = i;",
+            "    free(a);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 5,
+          "explanation": "malloc(4) is 4 bytes: room for just one int. It should be malloc(4 * sizeof(int))."
+        },
+        {
+          "id": "c16-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "What type does malloc return?",
+          "options": [
+            "void *, an address without a type",
+            "int",
+            "int *",
+            "char *"
+          ],
+          "answer": 0,
+          "explanation": "C converts it into whatever pointer you store it in."
+        }
+      ]
+    },
+    {
+      "id": "c16-l2",
+      "title": "Giving It Back",
+      "xp": 15,
+      "intro": [
+        "Memory from malloc stays taken until you call free(p). A program that keeps asking and never frees has a memory leak, and can slowly eat all the memory of the machine.",
+        "After free(p), the memory isn't yours anymore. Using it again (use after free) or freeing it twice (double free) are classic, dangerous bugs.",
+        "Only free what malloc gave you, and free it exactly once. A common pattern: a function that returns new memory, and a caller that frees it when done."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "#include <stdlib.h>",
+          "",
+          "#include <string.h>",
+          "",
+          "char *copy_of(char *s) {",
+          "    char *c = malloc(strlen(s) + 1);",
+          "    strcpy(c, s);",
+          "    return c;",
+          "}",
+          "",
+          "int main() {",
+          "    char *name = copy_of(\"thompson\");",
+          "    name[0] = 'T';",
+          "    printf(\"%s\\n\", name);",
+          "    free(name);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "Thompson"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c16-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is a memory leak?",
+          "options": [
+            "Memory that's never given back with free",
+            "A crash",
+            "Reading past an array",
+            "A slow loop"
+          ],
+          "answer": 0,
+          "explanation": "The memory stays taken until the program ends."
+        },
+        {
+          "id": "c16-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Why does copy_of ask for strlen(s) + 1 bytes?",
+          "options": [
+            "One more for the '\\0' at the end",
+            "To be safe",
+            "strlen is always one too small",
+            "For the newline"
+          ],
+          "answer": 0,
+          "explanation": "Every C string needs room for its terminating '\\0'."
+        },
+        {
+          "id": "c16-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Give the memory back.",
+          "code": [
+            "    int *a = malloc(8 * sizeof(int));",
+            "    /* … */",
+            "    ___(a);"
+          ],
+          "options": [
+            "free",
+            "delete",
+            "malloc",
+            "return"
+          ],
+          "answer": "free",
+          "explanation": "free gives the memory back."
+        },
+        {
+          "id": "c16-l2-e4",
+          "type": "find_bug",
+          "prompt": "This program uses memory that was already given back. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "#include <stdlib.h>",
+            "",
+            "int main() {",
+            "    int *p = malloc(sizeof(int));",
+            "    *p = 42;",
+            "    free(p);",
+            "    printf(\"%d\\n\", *p);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 7,
+          "explanation": "After free(p), *p is off limits. Print first, then free."
+        },
+        {
+          "id": "c16-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What happens with free(p); free(p);?",
+          "options": [
+            "A double free: the program is aborted",
+            "Nothing, it's safe",
+            "The memory is freed twice as well",
+            "p becomes NULL"
+          ],
+          "answer": 0,
+          "explanation": "Free each block exactly once."
+        },
+        {
+          "id": "c16-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Is free(NULL) allowed?",
+          "options": [
+            "Yes, it does nothing",
+            "No, it crashes",
+            "Only in main",
+            "It frees everything"
+          ],
+          "answer": 0,
+          "explanation": "That's handy: you don't need to check before freeing."
+        }
+      ]
+    },
+    {
+      "id": "c16-l3",
+      "title": "When malloc Fails",
+      "xp": 15,
+      "intro": [
+        "Memory isn't endless, especially on a 1970s PDP-11 with a few hundred kilobytes. When malloc can't find enough, it returns NULL. Careful programs check: if (a == NULL) { … }.",
+        "calloc(n, size) is malloc's sibling: it asks for n elements of the given size, and fills them with zeros. malloc's memory instead starts with leftover garbage.",
+        "exit(1) from stdlib.h ends the program at once, with 1 meaning \"something went wrong\"."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "#include <stdlib.h>",
+          "",
+          "int main() {",
+          "    int i;",
+          "    int *count = calloc(5, sizeof(int));",
+          "    if (count == NULL) {",
+          "        printf(\"out of memory\\n\");",
+          "        exit(1);",
+          "    }",
+          "    count[2]++;",
+          "    count[2]++;",
+          "    count[4]++;",
+          "    for (i = 0; i < 5; i++)",
+          "        printf(\"%d \", count[i]);",
+          "    printf(\"\\n\");",
+          "    free(count);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "0 0 2 0 1 "
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c16-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does malloc return when there's no memory left?",
+          "options": [
+            "NULL",
+            "-1",
+            "0.0",
+            "An empty array"
+          ],
+          "answer": 0,
+          "explanation": "Always check before using the memory."
+        },
+        {
+          "id": "c16-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "How is calloc different from malloc?",
+          "options": [
+            "It fills the memory with zeros",
+            "It's faster",
+            "It never fails",
+            "It doesn't need free"
+          ],
+          "answer": 0,
+          "explanation": "malloc's memory starts with garbage; calloc's with zeros."
+        },
+        {
+          "id": "c16-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Stop if malloc failed.",
+          "code": [
+            "    int *a = malloc(n * sizeof(int));",
+            "    if (a == ___) {",
+            "        printf(\"out of memory\\n\");",
+            "        exit(1);",
+            "    }"
+          ],
+          "options": [
+            "NULL",
+            "0.0",
+            "EOF",
+            "-1"
+          ],
+          "answer": "NULL",
+          "explanation": "malloc reports failure with NULL."
+        },
+        {
+          "id": "c16-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "#include <stdlib.h>",
+            "",
+            "int main() {",
+            "    int *z = calloc(3, sizeof(int));",
+            "    z[2] = 7;",
+            "    printf(\"%d %d %d\\n\", z[0], z[1], z[2]);",
+            "    free(z);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "0 0 7",
+            "7 0 0",
+            "garbage",
+            "0 7 0"
+          ],
+          "answer": 0,
+          "explanation": "calloc starts with zeros; only z[2] is set."
+        },
+        {
+          "id": "c16-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What does exit(1) mean?",
+          "options": [
+            "End the program now, and report a problem",
+            "Leave the loop",
+            "Return 1 from the function",
+            "Restart the program"
+          ],
+          "answer": 0,
+          "explanation": "By Unix tradition, 0 means success and anything else means failure."
+        },
+        {
+          "id": "c16-l3-e6",
+          "type": "order_lines",
+          "prompt": "Put the lines in the right order.",
+          "lines": [
+            "int *a = malloc(3 * sizeof(int));",
+            "if (a == NULL)",
+            "    exit(1);",
+            "a[0] = 1;",
+            "free(a);"
+          ],
+          "answer": [
+            "int *a = malloc(3 * sizeof(int));",
+            "if (a == NULL)",
+            "    exit(1);",
+            "a[0] = 1;",
+            "free(a);"
+          ],
+          "explanation": "Ask, check, use, give back."
+        }
+      ]
+    }
+  ]
+}

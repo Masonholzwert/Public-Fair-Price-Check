@@ -1,0 +1,383 @@
+{
+  "id": "f12",
+  "title": "COMMON and DATA",
+  "lessons": [
+    {
+      "id": "f12-l1",
+      "title": "Start Values with DATA",
+      "xp": 15,
+      "intro": [
+        "DATA puts values into variables before the program even starts: DATA K / 3, 1, 4, 1 / fills the array K. The values are compiled right into the program, so no cards have to be read.",
+        "One DATA card can fill several variables: DATA X, Y / 2.5, 7.0 /. A star repeats a value: DATA A / 5*0.0 / sets five elements to zero.",
+        "DATA is for constants and starting tables: prices, conversion factors, names of months."
+      ],
+      "example": {
+        "code": [
+          "      DIMENSION P(3)",
+          "      DATA P / 2.50, 12.75, 0.99 /",
+          "      DO 10 I = 1, 3",
+          "      WRITE (6,20) I, P(I)",
+          "   10 CONTINUE",
+          "   20 FORMAT (1X, I3, F8.2)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "  1    2.50",
+          "  2   12.75",
+          "  3    0.99"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f12-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "When does DATA put its values into the variables?",
+          "options": [
+            "Before the program starts running",
+            "When the card is reached",
+            "At the end",
+            "When READ is called"
+          ],
+          "answer": 0,
+          "explanation": "DATA values are part of the compiled program."
+        },
+        {
+          "id": "f12-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does DATA A / 4*1.0 / do for DIMENSION A(4)?",
+          "options": [
+            "Sets all four elements to 1.0",
+            "Sets A(1) to 4.0",
+            "Multiplies A by 4",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "4*1.0 means \"four times the value 1.0\"."
+        },
+        {
+          "id": "f12-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Start N at 10 and X at 0.5.",
+          "code": [
+            "      DATA N, X / ___ /"
+          ],
+          "options": [
+            "10, 0.5",
+            "0.5, 10",
+            "N=10, X=0.5",
+            "10 0.5"
+          ],
+          "answer": "10, 0.5",
+          "explanation": "The values go in the same order as the names."
+        },
+        {
+          "id": "f12-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this deck print?",
+          "code": [
+            "      DIMENSION K(3)",
+            "      DATA K / 3, 1, 4 /",
+            "      WRITE (6,10) K",
+            "   10 FORMAT (1X, 3I3)",
+            "      END"
+          ],
+          "options": [
+            "3  1  4",
+            "1  4  3",
+            "0  0  0",
+            "4  1  3"
+          ],
+          "answer": 0,
+          "explanation": "The DATA values fill K(1), K(2), K(3) in order."
+        },
+        {
+          "id": "f12-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "When is READ better than DATA?",
+          "options": [
+            "When the values change from run to run",
+            "Never",
+            "When the values are constants",
+            "For small arrays"
+          ],
+          "answer": 0,
+          "explanation": "DATA is fixed in the program. Changing values belong on data cards."
+        },
+        {
+          "id": "f12-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Which is a good use for DATA?",
+          "options": [
+            "The number of days in each month",
+            "Today's measurements",
+            "The user's name",
+            "A random number"
+          ],
+          "answer": 0,
+          "explanation": "Things that never change are perfect for DATA."
+        }
+      ]
+    },
+    {
+      "id": "f12-l2",
+      "title": "Sharing with COMMON",
+      "xp": 15,
+      "intro": [
+        "Passing the same five values to every subroutine gets tedious. COMMON puts variables into a shared area of memory that every program unit can see.",
+        "COMMON RATE, TAX in the main program and COMMON R, T in a subroutine point to the same two places. They're matched by position, not by name: R is RATE, T is TAX.",
+        "That's powerful and risky: if two units list the variables in a different order, they quietly mix them up."
+      ],
+      "example": {
+        "code": [
+          "      COMMON RATE",
+          "      RATE = 0.20",
+          "      CALL GROSS(100.0)",
+          "      CALL GROSS(2.50)",
+          "      STOP",
+          "      END",
+          "      SUBROUTINE GROSS(P)",
+          "      COMMON R",
+          "      Q = P * (1.0 + R)",
+          "      WRITE (6,10) Q",
+          "   10 FORMAT (1X, F8.2)",
+          "      RETURN",
+          "      END"
+        ],
+        "output": [
+          "  120.00",
+          "    3.00"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f12-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "How are COMMON variables matched between program units?",
+          "options": [
+            "By their position in the list",
+            "By their names",
+            "Alphabetically",
+            "By type"
+          ],
+          "answer": 0,
+          "explanation": "The first name in one COMMON is the first name in the other, whatever they're called."
+        },
+        {
+          "id": "f12-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this deck print?",
+          "code": [
+            "      COMMON A, B",
+            "      A = 1.0",
+            "      B = 2.0",
+            "      CALL SHOW",
+            "      STOP",
+            "      END",
+            "      SUBROUTINE SHOW",
+            "      COMMON B, A",
+            "      WRITE (6,10) A, B",
+            "   10 FORMAT (1X, 2F5.1)",
+            "      RETURN",
+            "      END"
+          ],
+          "options": [
+            "2.0  1.0",
+            "1.0  2.0",
+            "0.0  0.0",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "In SHOW, B is the first COMMON position (the main program's A = 1.0) and A is the second (2.0)."
+        },
+        {
+          "id": "f12-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Let the subroutine see the main program's TAX.",
+          "code": [
+            "      SUBROUTINE PRICE(P)",
+            "      ___ TAX",
+            "      Q = P * (1.0 + TAX)"
+          ],
+          "options": [
+            "COMMON",
+            "DATA",
+            "DIMENSION",
+            "CALL"
+          ],
+          "answer": "COMMON",
+          "explanation": "The same COMMON in both units makes TAX shared."
+        },
+        {
+          "id": "f12-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "Why can COMMON cause hard-to-find bugs?",
+          "options": [
+            "A unit with the names in a different order mixes up the values",
+            "COMMON is slow",
+            "It deletes variables",
+            "It only works for integers"
+          ],
+          "answer": 0,
+          "explanation": "Nothing checks the names. Many teams kept one COMMON card and copied it exactly into every subprogram."
+        },
+        {
+          "id": "f12-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "When is an argument better than COMMON?",
+          "options": [
+            "When the value is only needed by one or two subroutines",
+            "Never",
+            "Always",
+            "For arrays only"
+          ],
+          "answer": 0,
+          "explanation": "Arguments make it clear what goes in and out. COMMON is for things many units share."
+        },
+        {
+          "id": "f12-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What did a typical big FORTRAN program keep in COMMON?",
+          "options": [
+            "Shared constants and tables, like physical constants or the state of a simulation",
+            "Every variable",
+            "Only the loop counters",
+            "The FORMATs"
+          ],
+          "answer": 0,
+          "explanation": "Weather and engineering programs kept their whole model in COMMON blocks."
+        }
+      ]
+    },
+    {
+      "id": "f12-l3",
+      "title": "A Bigger Program",
+      "xp": 15,
+      "intro": [
+        "Real FORTRAN programs had hundreds of cards. The way to keep them under control: a short main program that calls subprograms, each doing one clear job.",
+        "The main program reads like a table of contents: read the data, compute, print the report. Each subprogram can be tested on its own, and fixed without touching the rest.",
+        "This idea, breaking a problem into small named parts, is still the heart of programming today."
+      ],
+      "example": {
+        "code": [
+          "      DIMENSION A(4)",
+          "      DATA A / 3.0, 7.0, 5.0, 1.0 /",
+          "      CALL REPORT(A, 4)",
+          "      STOP",
+          "      END",
+          "      SUBROUTINE REPORT(X, N)",
+          "      DIMENSION X(N)",
+          "      WRITE (6,10) AVG(X, N)",
+          "   10 FORMAT (' AVERAGE', F6.2)",
+          "      RETURN",
+          "      END",
+          "      FUNCTION AVG(X, N)",
+          "      DIMENSION X(N)",
+          "      S = 0.0",
+          "      DO 10 I = 1, N",
+          "      S = S + X(I)",
+          "   10 CONTINUE",
+          "      AVG = S / FLOAT(N)",
+          "      RETURN",
+          "      END"
+        ],
+        "output": [
+          "AVERAGE  4.00"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f12-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "In a well-built program, what does the main program mostly do?",
+          "options": [
+            "Call the subprograms in the right order",
+            "All the computing",
+            "Only the printing",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "Like a table of contents: the details live in the subprograms."
+        },
+        {
+          "id": "f12-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "In the example, who calls AVG?",
+          "options": [
+            "The subroutine REPORT",
+            "The main program",
+            "WRITE in the main program",
+            "Nobody"
+          ],
+          "answer": 0,
+          "explanation": "Subprograms can call other subprograms."
+        },
+        {
+          "id": "f12-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "Why is FLOAT(N) used in AVG?",
+          "options": [
+            "N is an integer, and the average needs a real division",
+            "FLOAT makes it faster",
+            "N could be negative",
+            "It's not needed"
+          ],
+          "answer": 0,
+          "explanation": "S / FLOAT(N) keeps the decimals."
+        },
+        {
+          "id": "f12-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What is the big advantage of small subprograms?",
+          "options": [
+            "Each can be tested and fixed on its own",
+            "They use fewer cards in total",
+            "They run faster",
+            "They don't need END"
+          ],
+          "answer": 0,
+          "explanation": "A bug in AVG is found and fixed in AVG, without touching the rest."
+        },
+        {
+          "id": "f12-l3-e5",
+          "type": "order_lines",
+          "prompt": "Stack the cards for a main program that calls HELLO, plus the subroutine.",
+          "lines": [
+            "      CALL HELLO",
+            "      STOP",
+            "      END",
+            "      SUBROUTINE HELLO",
+            "      WRITE (6,10)",
+            "   10 FORMAT (' HELLO')",
+            "      RETURN",
+            "      END"
+          ],
+          "answer": [
+            "      CALL HELLO",
+            "      STOP",
+            "      END",
+            "      SUBROUTINE HELLO",
+            "      WRITE (6,10)",
+            "   10 FORMAT (' HELLO')",
+            "      RETURN",
+            "      END"
+          ],
+          "explanation": "Main program first, ending with its END, then the subroutine with its own END."
+        },
+        {
+          "id": "f12-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "How many END cards does a deck with a main program and two subprograms have?",
+          "options": [
+            "3",
+            "1",
+            "2",
+            "4"
+          ],
+          "answer": 0,
+          "explanation": "Every program unit ends with its own END card."
+        }
+      ]
+    }
+  ]
+}

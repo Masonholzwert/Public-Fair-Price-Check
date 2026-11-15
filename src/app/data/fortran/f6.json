@@ -1,0 +1,387 @@
+{
+  "id": "f6",
+  "title": "DO Loops",
+  "lessons": [
+    {
+      "id": "f6-l1",
+      "title": "DO and CONTINUE",
+      "xp": 15,
+      "intro": [
+        "Counting by hand takes three cards. The DO statement does it in one: DO 10 I = 1, 3 runs every card down to the one numbered 10, three times, with I = 1, 2 and 3.",
+        "The loop usually ends with CONTINUE, a card that does nothing but carry the number. It makes the end of the loop easy to see.",
+        "DO was in FORTRAN from the very first version in 1957, and the idea is in almost every language since: for loops."
+      ],
+      "example": {
+        "code": [
+          "      DO 10 I = 1, 3",
+          "      WRITE (6,20) I",
+          "   10 CONTINUE",
+          "   20 FORMAT (' LINE', I2)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "LINE 1",
+          "LINE 2",
+          "LINE 3"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f6-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is the 10 in DO 10 I = 1, 5?",
+          "options": [
+            "The number of the last card in the loop",
+            "How often the loop runs",
+            "The start value of I",
+            "The step"
+          ],
+          "answer": 0,
+          "explanation": "The loop runs every card from the DO down to card 10."
+        },
+        {
+          "id": "f6-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "How often does DO 10 I = 1, 5 run?",
+          "options": [
+            "5 times",
+            "4 times",
+            "6 times",
+            "10 times"
+          ],
+          "answer": 0,
+          "explanation": "I takes the values 1, 2, 3, 4 and 5."
+        },
+        {
+          "id": "f6-l1-e3",
+          "type": "fill_blank",
+          "prompt": "End the loop at the card numbered 50.",
+          "code": [
+            "      DO ___ I = 1, 10",
+            "      WRITE (6,60) I",
+            "   50 CONTINUE"
+          ],
+          "options": [
+            "50",
+            "10",
+            "60",
+            "I"
+          ],
+          "answer": "50",
+          "explanation": "The number after DO names the last card of the loop."
+        },
+        {
+          "id": "f6-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does CONTINUE do?",
+          "options": [
+            "Nothing, it marks the end of the loop",
+            "Jumps back to the DO",
+            "Ends the program",
+            "Continues the card before"
+          ],
+          "answer": 0,
+          "explanation": "CONTINUE is an empty statement. Its only job is to carry the loop's number."
+        },
+        {
+          "id": "f6-l1-e5",
+          "type": "order_lines",
+          "prompt": "Stack the cards for a loop that prints 1 to 4.",
+          "lines": [
+            "      DO 10 I = 1, 4",
+            "      WRITE (6,20) I",
+            "   10 CONTINUE",
+            "   20 FORMAT (1X, I2)",
+            "      STOP",
+            "      END"
+          ],
+          "answer": [
+            "      DO 10 I = 1, 4",
+            "      WRITE (6,20) I",
+            "   10 CONTINUE",
+            "   20 FORMAT (1X, I2)",
+            "      STOP",
+            "      END"
+          ],
+          "explanation": "DO opens the loop, CONTINUE 10 closes it, and the WRITE goes in between."
+        },
+        {
+          "id": "f6-l1-e6",
+          "type": "find_bug",
+          "prompt": "This job stops with *ERROR*. Which card is wrong?",
+          "code": [
+            "      DO 10 I = 1, 3",
+            "      WRITE (6,30) I",
+            "   20 CONTINUE",
+            "   30 FORMAT (1X, I2)",
+            "      END"
+          ],
+          "answer": 0,
+          "explanation": "The loop says it ends at card 10, but the CONTINUE is numbered 20. DO 20 would fix it."
+        }
+      ]
+    },
+    {
+      "id": "f6-l2",
+      "title": "Steps and Sums",
+      "xp": 15,
+      "intro": [
+        "A third number sets the step: DO 10 I = 2, 10, 2 counts 2, 4, 6, 8, 10. Without it, the step is 1.",
+        "Loops are perfect for sums: start with ISUM = 0 before the loop, then add one number each time round.",
+        "In FORTRAN IV the start, end and step have to be positive whole numbers. To count down, count up and compute the other way: N = 11 - I."
+      ],
+      "example": {
+        "code": [
+          "      ISUM = 0",
+          "      DO 10 I = 1, 100",
+          "      ISUM = ISUM + I",
+          "   10 CONTINUE",
+          "      WRITE (6,20) ISUM",
+          "   20 FORMAT (1X, I5)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          " 5050"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f6-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "Which values does I take in DO 10 I = 1, 9, 2?",
+          "options": [
+            "1, 3, 5, 7, 9",
+            "1, 2, 3 … 9",
+            "2, 4, 6, 8",
+            "1 and 9"
+          ],
+          "answer": 0,
+          "explanation": "Start at 1, add 2 each time, stop when the next value would be over 9."
+        },
+        {
+          "id": "f6-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Which numbers does this deck print?",
+          "code": [
+            "      DO 10 I = 3, 10, 3",
+            "      WRITE (6,20) I",
+            "   10 CONTINUE",
+            "   20 FORMAT (1X, I2)",
+            "      END"
+          ],
+          "options": [
+            "3, 6 and 9",
+            "1, 2 and 3",
+            "3, 6, 9 and 12",
+            "Only 9"
+          ],
+          "answer": 0,
+          "explanation": "I starts at 3 and goes up by 3. 12 would be over 10, so the loop stops after 9."
+        },
+        {
+          "id": "f6-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Print the even numbers from 2 to 20.",
+          "code": [
+            "      DO 10 I = 2, 20, ___",
+            "      WRITE (6,20) I",
+            "   10 CONTINUE"
+          ],
+          "options": [
+            "2",
+            "1",
+            "20",
+            "-2"
+          ],
+          "answer": "2",
+          "explanation": "A step of 2 from 2 hits every even number."
+        },
+        {
+          "id": "f6-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "How do you count down from 10 to 1 in FORTRAN IV?",
+          "options": [
+            "Count I up from 1 to 10 and use N = 11 - I",
+            "DO 10 I = 10, 1, -1",
+            "DO 10 I = 10, 1",
+            "It's impossible"
+          ],
+          "answer": 0,
+          "explanation": "Negative steps came with FORTRAN 77. Before that, you turned the count around yourself."
+        },
+        {
+          "id": "f6-l2-e5",
+          "type": "find_bug",
+          "prompt": "This prints 100 instead of 5050. Which card is in the wrong place?",
+          "code": [
+            "      DO 10 I = 1, 100",
+            "      ISUM = 0",
+            "      ISUM = ISUM + I",
+            "   10 CONTINUE",
+            "      WRITE (6,20) ISUM",
+            "   20 FORMAT (1X, I5)",
+            "      END"
+          ],
+          "answer": 1,
+          "explanation": "ISUM = 0 runs every time round, so the sum starts over. It belongs before the DO."
+        },
+        {
+          "id": "f6-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What is the sum of 2 + 4 + 6 + … + 20?",
+          "options": [
+            "110",
+            "100",
+            "210",
+            "55"
+          ],
+          "answer": 0,
+          "explanation": "Twice 1 + 2 + … + 10, which is 2 × 55 = 110. A DO with step 2 adds it in no time."
+        }
+      ]
+    },
+    {
+      "id": "f6-l3",
+      "title": "Loops in Loops",
+      "xp": 15,
+      "intro": [
+        "A loop can sit inside another loop. For every turn of the outer loop, the inner loop runs completely.",
+        "The inner loop must lie fully inside the outer one: it starts after the outer DO and ends before the outer loop's last card. Loops may never cross.",
+        "Nested loops are how FORTRAN walks through tables, grids and every pair of values. Scientists used them for everything from weather maps to bridge designs."
+      ],
+      "example": {
+        "code": [
+          "      DO 20 I = 1, 3",
+          "      DO 10 J = 1, 2",
+          "      WRITE (6,30) I, J",
+          "   10 CONTINUE",
+          "   20 CONTINUE",
+          "   30 FORMAT (1X, 2I3)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "  1  1",
+          "  1  2",
+          "  2  1",
+          "  2  2",
+          "  3  1",
+          "  3  2"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f6-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "How many lines does the example print?",
+          "options": [
+            "6",
+            "5",
+            "3",
+            "2"
+          ],
+          "answer": 0,
+          "explanation": "The outer loop runs 3 times, and each time the inner loop prints 2 lines: 3 × 2 = 6."
+        },
+        {
+          "id": "f6-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "Which variable changes fastest?",
+          "options": [
+            "J, the inner loop",
+            "I, the outer loop",
+            "Both at the same speed",
+            "Neither"
+          ],
+          "answer": 0,
+          "explanation": "The inner loop runs all the way through before the outer one moves on."
+        },
+        {
+          "id": "f6-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this deck print?",
+          "code": [
+            "      N = 0",
+            "      DO 20 I = 1, 2",
+            "      DO 10 J = 1, 2",
+            "      N = N + 1",
+            "   10 CONTINUE",
+            "   20 CONTINUE",
+            "      WRITE (6,30) N",
+            "   30 FORMAT (1X, I2)",
+            "      END"
+          ],
+          "options": [
+            "  4",
+            "  2",
+            "  6",
+            "  8"
+          ],
+          "answer": 0,
+          "explanation": "The inner card runs 2 × 2 = 4 times, so N counts up to 4."
+        },
+        {
+          "id": "f6-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Close the outer loop.",
+          "code": [
+            "      DO 20 I = 1, 5",
+            "      DO 10 J = 1, 5",
+            "      K = I * J",
+            "   10 CONTINUE",
+            "  ___ CONTINUE"
+          ],
+          "options": [
+            "20",
+            "10",
+            "30",
+            "5"
+          ],
+          "answer": "20",
+          "explanation": "The outer loop said DO 20, so its last card is 20."
+        },
+        {
+          "id": "f6-l3-e5",
+          "type": "find_bug",
+          "prompt": "Which card makes these loops cross?",
+          "code": [
+            "      DO 10 I = 1, 3",
+            "      DO 20 J = 1, 3",
+            "      K = I + J",
+            "   10 CONTINUE",
+            "   20 CONTINUE",
+            "      END"
+          ],
+          "answer": 1,
+          "explanation": "The inner loop ends at 20, after the outer loop's end at 10. Swap the numbers: the inner loop must end first."
+        },
+        {
+          "id": "f6-l3-e6",
+          "type": "order_lines",
+          "prompt": "Stack the cards to print every pair of I = 1, 2 and J = 1, 2.",
+          "lines": [
+            "      DO 20 I = 1, 2",
+            "      DO 10 J = 1, 2",
+            "      WRITE (6,30) I, J",
+            "   10 CONTINUE",
+            "   20 CONTINUE",
+            "   30 FORMAT (1X, 2I3)",
+            "      END"
+          ],
+          "answer": [
+            "      DO 20 I = 1, 2",
+            "      DO 10 J = 1, 2",
+            "      WRITE (6,30) I, J",
+            "   10 CONTINUE",
+            "   20 CONTINUE",
+            "   30 FORMAT (1X, 2I3)",
+            "      END"
+          ],
+          "explanation": "Outer DO, inner DO, the WRITE, then the inner loop's end before the outer one's."
+        }
+      ]
+    }
+  ]
+}

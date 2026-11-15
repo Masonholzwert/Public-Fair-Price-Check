@@ -1,0 +1,446 @@
+{
+  "id": "cb13",
+  "title": "Files",
+  "lessons": [
+    {
+      "id": "cb13-l1",
+      "title": "SELECT and FD",
+      "xp": 15,
+      "intro": [
+        "Real COBOL jobs read and write files. Three places describe a file: SELECT … ASSIGN TO in the ENVIRONMENT DIVISION connects the program's file name to a file on the disk; FD in the FILE SECTION describes its records.",
+        "OPEN INPUT opens it for reading, READ fills the record with the next line, CLOSE ends the work. The record's fields are cut at fixed columns: number in 1-5, name in 6-17, and so on.",
+        "The disk in this app holds three files: CUSTOMERS, SALES and TRANS. The reference shows their columns."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. ONECUST.",
+          "       ENVIRONMENT DIVISION.",
+          "       INPUT-OUTPUT SECTION.",
+          "       FILE-CONTROL.",
+          "           SELECT CUST-FILE ASSIGN TO CUSTOMERS.",
+          "       DATA DIVISION.",
+          "       FILE SECTION.",
+          "       FD CUST-FILE.",
+          "       01 CUST-REC.",
+          "          05 CUST-NO      PIC 9(5).",
+          "          05 CUST-NAME    PIC X(12).",
+          "          05 CUST-CITY    PIC X(10).",
+          "          05 CUST-BAL     PIC 9(5)V99.",
+          "       PROCEDURE DIVISION.",
+          "           OPEN INPUT CUST-FILE.",
+          "           READ CUST-FILE.",
+          "           DISPLAY \"FIRST CUSTOMER: \" CUST-NAME.",
+          "           DISPLAY \"CITY:  \" CUST-CITY.",
+          "           DISPLAY \"NUMBER: \" CUST-NO.",
+          "           CLOSE CUST-FILE.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "FIRST CUSTOMER: GRACE HOPPER",
+          "CITY:  NEW YORK  ",
+          "NUMBER: 00007"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb13-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "Where does SELECT … ASSIGN TO go?",
+          "options": [
+            "In the ENVIRONMENT DIVISION, under FILE-CONTROL",
+            "In the WORKING-STORAGE SECTION",
+            "In the PROCEDURE DIVISION",
+            "In the FD"
+          ],
+          "answer": 0,
+          "explanation": "It connects the program to the outside world."
+        },
+        {
+          "id": "cb13-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does the FD describe?",
+          "options": [
+            "The file's records and their fields",
+            "Where the file is on the disk",
+            "How fast to read",
+            "The printer"
+          ],
+          "answer": 0,
+          "explanation": "File Description."
+        },
+        {
+          "id": "cb13-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Open the file for reading.",
+          "code": [
+            "           OPEN ___ CUST-FILE."
+          ],
+          "options": [
+            "INPUT",
+            "OUTPUT",
+            "READ",
+            "FILE"
+          ],
+          "answer": "INPUT",
+          "explanation": "INPUT for reading, OUTPUT for writing."
+        },
+        {
+          "id": "cb13-l1-e4",
+          "type": "order_lines",
+          "prompt": "Put the work with a file in order.",
+          "lines": [
+            "           OPEN INPUT CUST-FILE.",
+            "           READ CUST-FILE.",
+            "           DISPLAY CUST-NAME.",
+            "           CLOSE CUST-FILE."
+          ],
+          "answer": [
+            "           OPEN INPUT CUST-FILE.",
+            "           READ CUST-FILE.",
+            "           DISPLAY CUST-NAME.",
+            "           CLOSE CUST-FILE."
+          ],
+          "explanation": "Open, read, use, close."
+        },
+        {
+          "id": "cb13-l1-e5",
+          "type": "find_bug",
+          "prompt": "This job stops with an error. Which line is wrong?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. NOOPEN.",
+            "       ENVIRONMENT DIVISION.",
+            "       INPUT-OUTPUT SECTION.",
+            "       FILE-CONTROL.",
+            "           SELECT CUST-FILE ASSIGN TO CUSTOMERS.",
+            "       DATA DIVISION.",
+            "       FILE SECTION.",
+            "       FD CUST-FILE.",
+            "       01 CUST-REC.",
+            "          05 CUST-NO      PIC 9(5).",
+            "          05 CUST-NAME    PIC X(12).",
+            "          05 CUST-CITY    PIC X(10).",
+            "          05 CUST-BAL     PIC 9(5)V99.",
+            "       PROCEDURE DIVISION.",
+            "           READ CUST-FILE.",
+            "           DISPLAY CUST-NAME.",
+            "           STOP RUN."
+          ],
+          "answer": 15,
+          "explanation": "The file was never opened. OPEN INPUT CUST-FILE must come before READ."
+        },
+        {
+          "id": "cb13-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "A record line is 00042ADA LOVELACELONDON …, and CUST-NO is the first PIC 9(5). What's in CUST-NO?",
+          "options": [
+            "00042",
+            "ADA L",
+            "42ADA",
+            "LONDON"
+          ],
+          "answer": 0,
+          "explanation": "The first 5 columns."
+        }
+      ]
+    },
+    {
+      "id": "cb13-l2",
+      "title": "READ … AT END",
+      "xp": 15,
+      "intro": [
+        "To go through a whole file, READ until there are no more records. AT END runs when the file is used up; NOT AT END runs for every record that was read.",
+        "The usual pattern: an 88 level END-OF-FILE on a flag, and PERFORM UNTIL END-OF-FILE with a READ inside.",
+        "Reading again after the end is an error, so the loop must stop as soon as AT END happens."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. ALLCUST.",
+          "       ENVIRONMENT DIVISION.",
+          "       INPUT-OUTPUT SECTION.",
+          "       FILE-CONTROL.",
+          "           SELECT CUST-FILE ASSIGN TO CUSTOMERS.",
+          "       DATA DIVISION.",
+          "       FILE SECTION.",
+          "       FD CUST-FILE.",
+          "       01 CUST-REC.",
+          "          05 CUST-NO      PIC 9(5).",
+          "          05 CUST-NAME    PIC X(12).",
+          "          05 CUST-CITY    PIC X(10).",
+          "          05 CUST-BAL     PIC 9(5)V99.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 EOF-FLAG       PIC X VALUE \"N\".",
+          "          88 END-OF-FILE VALUE \"Y\".",
+          "       01 COUNTER        PIC 99 VALUE ZERO.",
+          "       PROCEDURE DIVISION.",
+          "           OPEN INPUT CUST-FILE.",
+          "           PERFORM UNTIL END-OF-FILE",
+          "               READ CUST-FILE",
+          "                   AT END SET END-OF-FILE TO TRUE",
+          "                   NOT AT END",
+          "                       ADD 1 TO COUNTER",
+          "                       DISPLAY CUST-NO \" \" CUST-NAME",
+          "               END-READ",
+          "           END-PERFORM.",
+          "           CLOSE CUST-FILE.",
+          "           DISPLAY COUNTER \" CUSTOMERS\".",
+          "           STOP RUN."
+        ],
+        "output": [
+          "00007 GRACE HOPPER",
+          "00042 ADA LOVELACE",
+          "01959 JOHN BACKUS ",
+          "02024 LINUS T.    ",
+          "04 CUSTOMERS"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb13-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "When does AT END run?",
+          "options": [
+            "When READ finds no more records",
+            "After every READ",
+            "When the file is opened",
+            "At STOP RUN"
+          ],
+          "answer": 0,
+          "explanation": "It's how the program knows the file is finished."
+        },
+        {
+          "id": "cb13-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does NOT AT END run?",
+          "options": [
+            "The statements for each record that was read",
+            "The statements at the end",
+            "Nothing",
+            "The next READ"
+          ],
+          "answer": 0,
+          "explanation": "Every successful READ."
+        },
+        {
+          "id": "cb13-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Mark the end of the file.",
+          "code": [
+            "               AT END SET END-OF-FILE TO ___"
+          ],
+          "options": [
+            "TRUE",
+            "YES",
+            "1",
+            "END"
+          ],
+          "answer": "TRUE",
+          "explanation": "SET … TO TRUE for the 88 level."
+        },
+        {
+          "id": "cb13-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "How many records does the CUSTOMERS file have, judging by the example?",
+          "options": [
+            "4",
+            "3",
+            "5",
+            "7"
+          ],
+          "answer": 0,
+          "explanation": "The counter shows it."
+        },
+        {
+          "id": "cb13-l2-e5",
+          "type": "find_bug",
+          "prompt": "This job stops with a READ error. Which line is wrong?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. TOOMANY.",
+            "       ENVIRONMENT DIVISION.",
+            "       INPUT-OUTPUT SECTION.",
+            "       FILE-CONTROL.",
+            "           SELECT CUST-FILE ASSIGN TO CUSTOMERS.",
+            "       DATA DIVISION.",
+            "       FILE SECTION.",
+            "       FD CUST-FILE.",
+            "       01 CUST-REC.",
+            "          05 CUST-NO      PIC 9(5).",
+            "          05 CUST-NAME    PIC X(12).",
+            "          05 CUST-CITY    PIC X(10).",
+            "          05 CUST-BAL     PIC 9(5)V99.",
+            "       PROCEDURE DIVISION.",
+            "           OPEN INPUT CUST-FILE.",
+            "           PERFORM 10 TIMES",
+            "               READ CUST-FILE",
+            "                   AT END DISPLAY \"NO MORE\"",
+            "               END-READ",
+            "           END-PERFORM.",
+            "           STOP RUN."
+          ],
+          "answer": 16,
+          "explanation": "The file has only 4 records, but the loop keeps reading after the end. Loop UNTIL END-OF-FILE instead."
+        },
+        {
+          "id": "cb13-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What closes a READ with AT END clauses?",
+          "options": [
+            "END-READ",
+            "END-FILE",
+            "CLOSE",
+            "A period only"
+          ],
+          "answer": 0,
+          "explanation": "END-READ, like END-IF."
+        }
+      ]
+    },
+    {
+      "id": "cb13-l3",
+      "title": "WRITE",
+      "xp": 15,
+      "intro": [
+        "OPEN OUTPUT creates a new, empty file (an old one with that name is replaced). WRITE puts the record into it as the next line. You WRITE the record, not the file: WRITE BACKUP-REC.",
+        "WRITE … FROM copies a WORKING-STORAGE field into the record first: WRITE BACKUP-REC FROM CUST-REC.",
+        "The example copies every customer with more than 1,000 dollars into a new file RICH, then reads RICH back."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. RICHJOB.",
+          "       ENVIRONMENT DIVISION.",
+          "       INPUT-OUTPUT SECTION.",
+          "       FILE-CONTROL.",
+          "           SELECT CUST-FILE ASSIGN TO CUSTOMERS.",
+          "           SELECT RICH-FILE ASSIGN TO RICH.",
+          "       DATA DIVISION.",
+          "       FILE SECTION.",
+          "       FD CUST-FILE.",
+          "       01 CUST-REC.",
+          "          05 CUST-NO      PIC 9(5).",
+          "          05 CUST-NAME    PIC X(12).",
+          "          05 CUST-CITY    PIC X(10).",
+          "          05 CUST-BAL     PIC 9(5)V99.",
+          "       FD RICH-FILE.",
+          "       01 RICH-REC      PIC X(34).",
+          "       WORKING-STORAGE SECTION.",
+          "       01 EOF-FLAG       PIC X VALUE \"N\".",
+          "          88 END-OF-FILE VALUE \"Y\".",
+          "       PROCEDURE DIVISION.",
+          "       MAIN.",
+          "           OPEN INPUT CUST-FILE OUTPUT RICH-FILE.",
+          "           PERFORM UNTIL END-OF-FILE",
+          "               READ CUST-FILE",
+          "                   AT END SET END-OF-FILE TO TRUE",
+          "                   NOT AT END",
+          "                       IF CUST-BAL > 1000",
+          "                           WRITE RICH-REC FROM CUST-REC",
+          "                       END-IF",
+          "               END-READ",
+          "           END-PERFORM.",
+          "           CLOSE CUST-FILE RICH-FILE.",
+          "           MOVE \"N\" TO EOF-FLAG.",
+          "           OPEN INPUT RICH-FILE.",
+          "           PERFORM UNTIL END-OF-FILE",
+          "               READ RICH-FILE",
+          "                   AT END SET END-OF-FILE TO TRUE",
+          "                   NOT AT END DISPLAY \"IN RICH: \" RICH-REC",
+          "               END-READ",
+          "           END-PERFORM.",
+          "           CLOSE RICH-FILE.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "IN RICH: 00007GRACE HOPPERNEW YORK  0250000",
+          "IN RICH: 00042ADA LOVELACELONDON    0181536"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb13-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does OPEN OUTPUT do to an existing file with that name?",
+          "options": [
+            "Replaces it with a new, empty file",
+            "Adds to its end",
+            "Reads it",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "Use OPEN EXTEND to add to the end instead."
+        },
+        {
+          "id": "cb13-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "WRITE needs:",
+          "options": [
+            "The record's name, like WRITE RICH-REC",
+            "The file's name, like WRITE RICH-FILE",
+            "A DISPLAY",
+            "OPEN INPUT"
+          ],
+          "answer": 0,
+          "explanation": "A classic saying: read a file, write a record."
+        },
+        {
+          "id": "cb13-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Copy the customer record into the backup record and write it.",
+          "code": [
+            "           WRITE BACKUP-REC ___ CUST-REC."
+          ],
+          "options": [
+            "FROM",
+            "TO",
+            "INTO",
+            "USING"
+          ],
+          "answer": "FROM",
+          "explanation": "WRITE … FROM …."
+        },
+        {
+          "id": "cb13-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "How many customers end up in RICH?",
+          "options": [
+            "2",
+            "4",
+            "1",
+            "3"
+          ],
+          "answer": 0,
+          "explanation": "GRACE HOPPER (2500.00) and ADA LOVELACE (1815.36) have more than 1,000."
+        },
+        {
+          "id": "cb13-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Which OPEN adds records to the end of an existing file?",
+          "options": [
+            "OPEN EXTEND",
+            "OPEN OUTPUT",
+            "OPEN INPUT",
+            "OPEN APPEND"
+          ],
+          "answer": 0,
+          "explanation": "EXTEND keeps what's there."
+        },
+        {
+          "id": "cb13-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why CLOSE RICH-FILE before opening it again as INPUT?",
+          "options": [
+            "A file can't be opened twice; closing finishes the writing",
+            "To delete it",
+            "CLOSE is optional",
+            "To rename it"
+          ],
+          "answer": 0,
+          "explanation": "OUTPUT first, CLOSE, then INPUT."
+        }
+      ]
+    }
+  ]
+}

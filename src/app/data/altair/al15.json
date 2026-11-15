@@ -1,0 +1,452 @@
+{
+  "id": "al15",
+  "title": "The Teletype",
+  "lessons": [
+    {
+      "id": "al15-l1",
+      "title": "ASCII",
+      "xp": 15,
+      "intro": [
+        "With a serial card, the Altair could talk to a Teletype: a typewriter-like terminal that prints on paper. Characters travel as ASCII codes, one byte each: 'A' is 65 (101 octal), 'B' 66, '0' is 48, a space 32.",
+        "OUT 001 (323, 001) sends A to the Teletype, which prints the character.",
+        "Code 10 starts a new line (line feed)."
+      ],
+      "example": {
+        "code": [
+          "076   ; 000: MVI A",
+          "110   ;      72",
+          "323   ; 002: OUT 001",
+          "001   ;      port 001",
+          "076   ; 004: MVI A",
+          "111   ;      73",
+          "323   ; 006: OUT 001",
+          "001   ;      port 001",
+          "076   ; 010: MVI A",
+          "012   ;      10",
+          "323   ; 012: OUT 001",
+          "001   ;      port 001",
+          "166   ; 014: HLT"
+        ],
+        "output": [
+          "HI"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al15-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is ASCII?",
+          "options": [
+            "A code that gives every character a number",
+            "A programming language",
+            "A kind of Teletype",
+            "A processor"
+          ],
+          "answer": 0,
+          "explanation": "American Standard Code for Information Interchange."
+        },
+        {
+          "id": "al15-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What is the ASCII code of 'A'?",
+          "options": [
+            "65",
+            "1",
+            "97",
+            "41"
+          ],
+          "answer": 0,
+          "explanation": "101 in octal."
+        },
+        {
+          "id": "al15-l1-e3",
+          "type": "switches",
+          "prompt": "Set the switches to the ASCII code of 'C'.",
+          "answer": 67,
+          "explanation": "65 + 2 = 67 = 01 000 011."
+        },
+        {
+          "id": "al15-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does the Teletype print?",
+          "code": [
+            "076   ; 000: MVI A",
+            "117   ;      79",
+            "323   ; 002: OUT 001",
+            "001   ;      port 001",
+            "076   ; 004: MVI A",
+            "113   ;      75",
+            "323   ; 006: OUT 001",
+            "001   ;      port 001",
+            "166   ; 010: HLT"
+          ],
+          "options": [
+            "OK",
+            "79 75",
+            "75 79",
+            "nothing"
+          ],
+          "answer": 0,
+          "explanation": "79 is 'O', 75 is 'K'."
+        },
+        {
+          "id": "al15-l1-e5",
+          "type": "fill_blank",
+          "prompt": "Send A to the Teletype.",
+          "code": [
+            "323   ; OUT",
+            "___   ; port"
+          ],
+          "options": [
+            "001",
+            "377",
+            "000",
+            "323"
+          ],
+          "answer": "001",
+          "explanation": "Port 001 is the Teletype, port 377 the lights."
+        },
+        {
+          "id": "al15-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Which code starts a new line?",
+          "options": [
+            "10",
+            "13 only",
+            "32",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "Line feed. Real Teletypes also needed 13 (carriage return)."
+        }
+      ]
+    },
+    {
+      "id": "al15-l2",
+      "title": "Printing a Message",
+      "xp": 15,
+      "intro": [
+        "A message is a row of ASCII bytes in memory, ending with a 0. A print loop points HL at it, loads each byte, stops at the 0, and sends the rest to OUT 001.",
+        "ORA A (267) sets the zero flag when A is 0, without changing A: the perfect test for the end.",
+        "This is exactly how BASIC and every later system printed text: a loop over bytes."
+      ],
+      "example": {
+        "code": [
+          "041   ; 000: LXI H msg",
+          "017   ;      address 017 (low byte)",
+          "000   ;      (high byte)",
+          "176   ; 003: MOV A,M   ← loop",
+          "267   ; 004: ORA A",
+          "312   ; 005: JZ done",
+          "016   ;      address 016 (low byte)",
+          "000   ;      (high byte)",
+          "323   ; 010: OUT 001",
+          "001   ;      port 001",
+          "043   ; 012: INX H",
+          "303   ; 013: JMP loop",
+          "003   ;      address 003 (low byte)",
+          "000   ;      (high byte)",
+          "166   ; 016: HLT   ← done",
+          "101   ; 017: 'A'",
+          "114   ; 020: 'L'",
+          "124   ; 021: 'T'",
+          "101   ; 022: 'A'",
+          "111   ; 023: 'I'",
+          "122   ; 024: 'R'",
+          "012   ; 025: line break",
+          "000   ; 026: 0: end of the text"
+        ],
+        "output": [
+          "ALTAIR"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al15-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "How does the print loop know where the message ends?",
+          "options": [
+            "It ends with a 0 byte",
+            "It counts to 8",
+            "HLT",
+            "The Teletype tells it"
+          ],
+          "answer": 0,
+          "explanation": "A zero-terminated string, like in C."
+        },
+        {
+          "id": "al15-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does ORA A do here?",
+          "options": [
+            "Sets the zero flag if A is 0, without changing A",
+            "Clears A",
+            "Doubles A",
+            "Prints A"
+          ],
+          "answer": 0,
+          "explanation": "A OR A = A."
+        },
+        {
+          "id": "al15-l2-e3",
+          "type": "switches",
+          "prompt": "Set the switches to ORA A (2 6 7).",
+          "answer": 183,
+          "explanation": "10 110 111."
+        },
+        {
+          "id": "al15-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does the Teletype print?",
+          "code": [
+            "041   ; 000: LXI H m",
+            "017   ;      address 017 (low byte)",
+            "000   ;      (high byte)",
+            "176   ; 003: MOV A,M   ← loop",
+            "267   ; 004: ORA A",
+            "312   ; 005: JZ done",
+            "016   ;      address 016 (low byte)",
+            "000   ;      (high byte)",
+            "323   ; 010: OUT 001",
+            "001   ;      port 001",
+            "043   ; 012: INX H",
+            "303   ; 013: JMP loop",
+            "003   ;      address 003 (low byte)",
+            "000   ;      (high byte)",
+            "166   ; 016: HLT   ← done",
+            "117   ; 017: 'O'",
+            "113   ; 020: 'K'",
+            "000   ; 021: 0: end of the text"
+          ],
+          "options": [
+            "OK",
+            "OK0",
+            "79 75 0",
+            "nothing"
+          ],
+          "answer": 0,
+          "explanation": "The loop stops at the 0."
+        },
+        {
+          "id": "al15-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "Why is the message after HLT?",
+          "options": [
+            "So its bytes are never run as instructions",
+            "Messages must be at the end",
+            "OUT needs it",
+            "No reason"
+          ],
+          "answer": 0,
+          "explanation": "'A' = 101 would be read as MOV B,C!"
+        },
+        {
+          "id": "al15-l2-e6",
+          "type": "order_lines",
+          "prompt": "Put the print loop in order.",
+          "lines": [
+            "176   ; loop: MOV A,M",
+            "267   ; ORA A",
+            "312   ; JZ done",
+            "323   ; OUT",
+            "001   ; port 001",
+            "043   ; INX H",
+            "303   ; JMP loop"
+          ],
+          "answer": [
+            "176   ; loop: MOV A,M",
+            "267   ; ORA A",
+            "312   ; JZ done",
+            "323   ; OUT",
+            "001   ; port 001",
+            "043   ; INX H",
+            "303   ; JMP loop"
+          ],
+          "explanation": "Load, test for 0, print, next byte, again. (The jump addresses are left out.)"
+        }
+      ]
+    },
+    {
+      "id": "al15-l3",
+      "title": "Altair BASIC",
+      "xp": 15,
+      "intro": [
+        "In early 1975, Bill Gates and Paul Allen wrote a BASIC for the Altair without ever having seen one, using an emulator on a big computer. Allen flew to MITS with it on paper tape and loaded it for the first time on the real machine. It worked.",
+        "Its first question was MEMORY SIZE? Then it printed OK and waited for a BASIC program.",
+        "A print routine, CALLed for every message, is the start of everything that came after."
+      ],
+      "example": {
+        "code": [
+          "061   ; 000: LXI SP",
+          "000   ;      address 400 (low byte)",
+          "001   ;      (high byte)",
+          "041   ; 003: LXI H m1",
+          "034   ;      address 034 (low byte)",
+          "000   ;      (high byte)",
+          "315   ; 006: CALL print",
+          "020   ;      address 020 (low byte)",
+          "000   ;      (high byte)",
+          "041   ; 011: LXI H m2",
+          "052   ;      address 052 (low byte)",
+          "000   ;      (high byte)",
+          "315   ; 014: CALL print",
+          "020   ;      address 020 (low byte)",
+          "000   ;      (high byte)",
+          "166   ; 017: HLT",
+          "176   ; 020: MOV A,M   ← print",
+          "267   ; 021: ORA A",
+          "312   ; 022: JZ ret",
+          "033   ;      address 033 (low byte)",
+          "000   ;      (high byte)",
+          "323   ; 025: OUT 001",
+          "001   ;      port 001",
+          "043   ; 027: INX H",
+          "303   ; 030: JMP print",
+          "020   ;      address 020 (low byte)",
+          "000   ;      (high byte)",
+          "311   ; 033: RET   ← ret",
+          "115   ; 034: 'M'",
+          "105   ; 035: 'E'",
+          "115   ; 036: 'M'",
+          "117   ; 037: 'O'",
+          "122   ; 040: 'R'",
+          "131   ; 041: 'Y'",
+          "040   ; 042: ' '",
+          "123   ; 043: 'S'",
+          "111   ; 044: 'I'",
+          "132   ; 045: 'Z'",
+          "105   ; 046: 'E'",
+          "077   ; 047: '?'",
+          "012   ; 050: line break",
+          "000   ; 051: 0: end of the text",
+          "117   ; 052: 'O'",
+          "113   ; 053: 'K'",
+          "012   ; 054: line break",
+          "000   ; 055: 0: end of the text"
+        ],
+        "output": [
+          "MEMORY SIZE?",
+          "OK"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al15-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What was Altair BASIC's first question?",
+          "options": [
+            "MEMORY SIZE?",
+            "READY?",
+            "HELLO?",
+            "LOAD?"
+          ],
+          "answer": 0,
+          "explanation": "It needed to know how much RAM the Altair had."
+        },
+        {
+          "id": "al15-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "How did Gates and Allen test Altair BASIC before having an Altair?",
+          "options": [
+            "With an 8080 emulator on a bigger computer",
+            "On an Apple II",
+            "They didn't",
+            "On paper only"
+          ],
+          "answer": 0,
+          "explanation": "A bit like this app emulates the 8080."
+        },
+        {
+          "id": "al15-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "Which company did they found for it?",
+          "options": [
+            "Micro-Soft",
+            "Apple",
+            "MITS",
+            "Intel"
+          ],
+          "answer": 0,
+          "explanation": "Later spelled Microsoft."
+        },
+        {
+          "id": "al15-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "Why make print a subroutine?",
+          "options": [
+            "It's needed for every message",
+            "OUT only works in subroutines",
+            "To save the lights",
+            "It's faster"
+          ],
+          "answer": 0,
+          "explanation": "Write once, CALL often."
+        },
+        {
+          "id": "al15-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What does the Teletype print?",
+          "code": [
+            "061   ; 000: LXI SP",
+            "000   ;      address 400 (low byte)",
+            "001   ;      (high byte)",
+            "041   ; 003: LXI H a",
+            "034   ;      address 034 (low byte)",
+            "000   ;      (high byte)",
+            "315   ; 006: CALL p",
+            "020   ;      address 020 (low byte)",
+            "000   ;      (high byte)",
+            "041   ; 011: LXI H b",
+            "040   ;      address 040 (low byte)",
+            "000   ;      (high byte)",
+            "315   ; 014: CALL p",
+            "020   ;      address 020 (low byte)",
+            "000   ;      (high byte)",
+            "166   ; 017: HLT",
+            "176   ; 020: MOV A,M   ← p",
+            "267   ; 021: ORA A",
+            "312   ; 022: JZ r",
+            "033   ;      address 033 (low byte)",
+            "000   ;      (high byte)",
+            "323   ; 025: OUT 001",
+            "001   ;      port 001",
+            "043   ; 027: INX H",
+            "303   ; 030: JMP p",
+            "020   ;      address 020 (low byte)",
+            "000   ;      (high byte)",
+            "311   ; 033: RET   ← r",
+            "110   ; 034: 'H'",
+            "111   ; 035: 'I'",
+            "012   ; 036: line break",
+            "000   ; 037: 0: end of the text",
+            "117   ; 040: 'O'",
+            "113   ; 041: 'K'",
+            "012   ; 042: line break",
+            "000   ; 043: 0: end of the text"
+          ],
+          "options": [
+            "HI\nOK",
+            "HIOK",
+            "OK\nHI",
+            "nothing"
+          ],
+          "answer": 0,
+          "explanation": "Two messages, each ending with a line break."
+        },
+        {
+          "id": "al15-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "How was Altair BASIC loaded?",
+          "options": [
+            "From paper tape",
+            "From a floppy",
+            "From a cartridge",
+            "From the internet"
+          ],
+          "answer": 0,
+          "explanation": "A tape reader read the punched holes."
+        }
+      ]
+    }
+  ]
+}

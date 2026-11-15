@@ -1,0 +1,363 @@
+{
+  "id": "f10",
+  "title": "Functions",
+  "lessons": [
+    {
+      "id": "f10-l1",
+      "title": "One-Line Functions",
+      "xp": 15,
+      "intro": [
+        "When the same formula appears again and again, give it a name. F(C) = 1.8 * C + 32.0 defines a function F. After that, F(100.0) works out the formula with C = 100.0.",
+        "These statement functions fit on one card. They go at the top of the deck, after DIMENSION, before the first statement that runs.",
+        "C is only a placeholder, a dummy argument. The real value is filled in each time F is used, so F(0.0) and F(37.0) work just as well."
+      ],
+      "example": {
+        "code": [
+          "      F(C) = 1.8 * C + 32.0",
+          "      X = F(100.0)",
+          "      Y = F(0.0)",
+          "      WRITE (6,10) X, Y",
+          "   10 FORMAT (1X, 2F7.1)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "  212.0   32.0"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f10-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is C in F(C) = 1.8 * C + 32.0?",
+          "options": [
+            "A placeholder for the value F is used with",
+            "A variable that must be set first",
+            "The speed of light",
+            "The result"
+          ],
+          "answer": 0,
+          "explanation": "C is a dummy argument. F(37.0) puts 37.0 where C stands."
+        },
+        {
+          "id": "f10-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this deck print?",
+          "code": [
+            "      G(X) = X * X + 1.0",
+            "      Y = G(3.0)",
+            "      WRITE (6,10) Y",
+            "   10 FORMAT (1X, F5.1)",
+            "      END"
+          ],
+          "options": [
+            "10.0",
+            "4.0",
+            "3.0",
+            "7.0"
+          ],
+          "answer": 0,
+          "explanation": "G(3.0) = 3.0 × 3.0 + 1.0 = 10.0."
+        },
+        {
+          "id": "f10-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "Where does a statement function card go?",
+          "options": [
+            "At the top, before the first statement that runs",
+            "After END",
+            "Anywhere in the program",
+            "In a separate deck"
+          ],
+          "answer": 0,
+          "explanation": "The compiler must see the definition before the function is used."
+        },
+        {
+          "id": "f10-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Define the area of a circle with radius R.",
+          "code": [
+            "      AREA(R) = 3.14159 * ___"
+          ],
+          "options": [
+            "R ** 2",
+            "AREA ** 2",
+            "2 * R",
+            "R"
+          ],
+          "answer": "R ** 2",
+          "explanation": "π × r²."
+        },
+        {
+          "id": "f10-l1-e5",
+          "type": "find_bug",
+          "prompt": "KM should turn 10 miles into 16.09 km, but it prints 16. Which card is wrong?",
+          "code": [
+            "      KM(X) = X * 1.609",
+            "      D = KM(10.0)",
+            "      WRITE (6,10) D",
+            "   10 FORMAT (1X, F6.2)",
+            "      END"
+          ],
+          "answer": 0,
+          "explanation": "KM starts with K, so the function is INTEGER and cuts off the decimals. Call it something like AKM or DKM."
+        },
+        {
+          "id": "f10-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Can a statement function have more than one argument?",
+          "options": [
+            "Yes, like DIST(X, Y) = SQRT(X**2 + Y**2)",
+            "No, only one",
+            "Only two",
+            "Only if they're integers"
+          ],
+          "answer": 0,
+          "explanation": "List as many as you need, separated by commas."
+        }
+      ]
+    },
+    {
+      "id": "f10-l2",
+      "title": "FUNCTION Subprograms",
+      "xp": 15,
+      "intro": [
+        "Some functions need more than one line. A FUNCTION subprogram is a little program of its own, punched after the main program's END: FUNCTION CUBE(X), then the cards that work out the result, then RETURN and END.",
+        "Inside, the function's own name is a variable: whatever you store in CUBE is the value that goes back to the caller. RETURN sends it back.",
+        "The I–N rule decides the type of the result too: CUBE gives a REAL, IFACT an INTEGER."
+      ],
+      "example": {
+        "code": [
+          "      Y = CUBE(2.0)",
+          "      WRITE (6,10) Y",
+          "   10 FORMAT (1X, F6.1)",
+          "      STOP",
+          "      END",
+          "      FUNCTION CUBE(X)",
+          "      CUBE = X * X * X",
+          "      RETURN",
+          "      END"
+        ],
+        "output": [
+          "   8.0"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f10-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "Where does a FUNCTION subprogram go in the deck?",
+          "options": [
+            "After the main program's END",
+            "Before the main program",
+            "Inside the main program",
+            "On a separate data card"
+          ],
+          "answer": 0,
+          "explanation": "Each subprogram is its own little deck with its own END, placed after the main program."
+        },
+        {
+          "id": "f10-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "How does a function give back its result?",
+          "options": [
+            "By storing it in the function's own name, then RETURN",
+            "With a PRINT statement",
+            "By changing X",
+            "With GO TO"
+          ],
+          "answer": 0,
+          "explanation": "CUBE = X * X * X stores the result, RETURN hands it back."
+        },
+        {
+          "id": "f10-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What type of result does FUNCTION KOUNT(X) give?",
+          "options": [
+            "INTEGER",
+            "REAL",
+            "Both",
+            "None"
+          ],
+          "answer": 0,
+          "explanation": "The name starts with K, so the result is an integer."
+        },
+        {
+          "id": "f10-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Finish the function.",
+          "code": [
+            "      FUNCTION HALF(X)",
+            "      ___ = X / 2.0",
+            "      RETURN",
+            "      END"
+          ],
+          "options": [
+            "HALF",
+            "X",
+            "Y",
+            "RETURN"
+          ],
+          "answer": "HALF",
+          "explanation": "Store the result in the function's own name."
+        },
+        {
+          "id": "f10-l2-e5",
+          "type": "find_bug",
+          "prompt": "CUBE(2.0) comes back as 0.0. Which card is wrong?",
+          "code": [
+            "      FUNCTION CUBE(X)",
+            "      Y = X * X * X",
+            "      RETURN",
+            "      END"
+          ],
+          "answer": 1,
+          "explanation": "The result goes into Y, which nobody sees. It has to be CUBE = X * X * X."
+        },
+        {
+          "id": "f10-l2-e6",
+          "type": "order_lines",
+          "prompt": "Stack the cards: a main program that prints TWICE(4.0), and the function.",
+          "lines": [
+            "      Y = TWICE(4.0)",
+            "      WRITE (6,10) Y",
+            "   10 FORMAT (1X, F5.1)",
+            "      STOP",
+            "      END",
+            "      FUNCTION TWICE(X)",
+            "      TWICE = 2.0 * X",
+            "      RETURN",
+            "      END"
+          ],
+          "answer": [
+            "      Y = TWICE(4.0)",
+            "      WRITE (6,10) Y",
+            "   10 FORMAT (1X, F5.1)",
+            "      STOP",
+            "      END",
+            "      FUNCTION TWICE(X)",
+            "      TWICE = 2.0 * X",
+            "      RETURN",
+            "      END"
+          ],
+          "explanation": "The main program with its END comes first, then the function: header, formula, RETURN, END."
+        }
+      ]
+    },
+    {
+      "id": "f10-l3",
+      "title": "The Library",
+      "xp": 15,
+      "intro": [
+        "FORTRAN came with a library of built-in functions: SQRT, ABS, SIN, COS, EXP, ALOG (the natural logarithm), MOD and more. They were written in machine code and much faster than anything you'd punch yourself.",
+        "Before FORTRAN 77, the name told the type: ABS is for reals, IABS for integers. AMAX1 finds the largest real, MAX0 the largest integer. FLOAT turns an integer into a real, INT cuts a real down to an integer.",
+        "SIN and COS work in radians, not degrees: 180 degrees are π radians."
+      ],
+      "example": {
+        "code": [
+          "      C = SQRT(3.0 ** 2 + 4.0 ** 2)",
+          "      WRITE (6,10) C",
+          "   10 FORMAT (' HYPOTENUSE', F6.2)",
+          "      K = MAX0(3, 9, 4)",
+          "      WRITE (6,20) K",
+          "   20 FORMAT (' LARGEST', I4)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "HYPOTENUSE  5.00",
+          "LARGEST   9"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f10-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What is IABS(-7)?",
+          "options": [
+            "7",
+            "-7",
+            "0",
+            "7.0"
+          ],
+          "answer": 0,
+          "explanation": "IABS is the absolute value for integers. ABS(-7.0) would give 7.0."
+        },
+        {
+          "id": "f10-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does INT(3.9) give?",
+          "options": [
+            "3",
+            "4",
+            "3.9",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "INT cuts off the decimals, it doesn't round."
+        },
+        {
+          "id": "f10-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What does SIN(90.0) work out?",
+          "options": [
+            "The sine of 90 radians, not 90 degrees",
+            "1.0, the sine of 90 degrees",
+            "An error",
+            "90.0"
+          ],
+          "answer": 0,
+          "explanation": "Convert first: 90 degrees are 3.14159 / 2 radians."
+        },
+        {
+          "id": "f10-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Average of the integers K and L as a real number.",
+          "code": [
+            "      AVG = (___(K) + FLOAT(L)) / 2.0"
+          ],
+          "options": [
+            "FLOAT",
+            "INT",
+            "IABS",
+            "REAL4"
+          ],
+          "answer": "FLOAT",
+          "explanation": "FLOAT turns an integer into a real, so the division keeps its decimals."
+        },
+        {
+          "id": "f10-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this deck print?",
+          "code": [
+            "      K = MOD(17, 6)",
+            "      WRITE (6,10) K",
+            "   10 FORMAT (1X, I2)",
+            "      END"
+          ],
+          "options": [
+            "5",
+            "9",
+            "1",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "MOD(17, 6) is 5: 17 = 2 × 6 + 5."
+        },
+        {
+          "id": "f10-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why were library functions so valuable in 1957?",
+          "options": [
+            "Each one was carefully written in fast machine code, ready to use",
+            "They were free",
+            "They printed nicer output",
+            "They fit on one card"
+          ],
+          "answer": 0,
+          "explanation": "Writing a good SQRT in machine code took an expert days. With FORTRAN, everyone had one."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,407 @@
+{
+  "id": "cb2",
+  "title": "Working-Storage",
+  "lessons": [
+    {
+      "id": "cb2-l1",
+      "title": "Fields and PIC",
+      "xp": 15,
+      "intro": [
+        "Data lives in the DATA DIVISION, in its WORKING-STORAGE SECTION. Every field is declared with a level number (01 for now), a name and a PIC clause, its picture.",
+        "PIC X(10) is a text field of exactly 10 characters. PIC 9(5) holds 5 digits. VALUE gives the field its start value.",
+        "A field always has its full size: a 10-character name that holds ADA is ADA and 7 spaces. That's why the example shows the brackets."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. FIELDS.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 CUSTOMER    PIC X(10) VALUE \"ADA\".",
+          "       01 CITY        PIC X(6)  VALUE \"LONDON\".",
+          "       PROCEDURE DIVISION.",
+          "           DISPLAY \"[\" CUSTOMER \"]\".",
+          "           DISPLAY \"CITY: \" CITY.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "[ADA       ]",
+          "CITY: LONDON"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb2-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does PIC X(8) describe?",
+          "options": [
+            "A text field of 8 characters",
+            "A number with 8 digits",
+            "8 text fields",
+            "A field that can hold at most 8"
+          ],
+          "answer": 0,
+          "explanation": "X means any character, (8) means 8 of them. It always has 8."
+        },
+        {
+          "id": "cb2-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. PAD.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 W PIC X(5) VALUE \"HI\".",
+            "       PROCEDURE DIVISION.",
+            "           DISPLAY \"[\" W \"]\".",
+            "           STOP RUN."
+          ],
+          "options": [
+            "[HI   ]",
+            "[HI]",
+            "[   HI]",
+            "HI"
+          ],
+          "answer": 0,
+          "explanation": "The field has 5 characters: HI and 3 spaces."
+        },
+        {
+          "id": "cb2-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Declare a field for a 20-character name.",
+          "code": [
+            "       01 NAME  PIC ___ ."
+          ],
+          "options": [
+            "X(20)",
+            "9(20)",
+            "20X",
+            "TEXT(20)"
+          ],
+          "answer": "X(20)",
+          "explanation": "X for text, the size in brackets."
+        },
+        {
+          "id": "cb2-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "Where are fields declared?",
+          "options": [
+            "In the WORKING-STORAGE SECTION of the DATA DIVISION",
+            "In the PROCEDURE DIVISION",
+            "In the IDENTIFICATION DIVISION",
+            "Anywhere"
+          ],
+          "answer": 0,
+          "explanation": "Data and statements are kept apart in COBOL."
+        },
+        {
+          "id": "cb2-l1-e5",
+          "type": "find_bug",
+          "prompt": "This job doesn't compile. Which line is wrong?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. LONG.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 CODE-NAME PIC X(3) VALUE \"MAINFRAME\".",
+            "       PROCEDURE DIVISION.",
+            "           DISPLAY CODE-NAME.",
+            "           STOP RUN."
+          ],
+          "answer": 4,
+          "explanation": "MAINFRAME has 9 characters, but the field only has room for 3."
+        },
+        {
+          "id": "cb2-l1-e6",
+          "type": "order_lines",
+          "prompt": "Put the lines in order.",
+          "lines": [
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 GREETING PIC X(5) VALUE \"HELLO\".",
+            "       PROCEDURE DIVISION.",
+            "           DISPLAY GREETING."
+          ],
+          "answer": [
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 GREETING PIC X(5) VALUE \"HELLO\".",
+            "       PROCEDURE DIVISION.",
+            "           DISPLAY GREETING."
+          ],
+          "explanation": "The division, its section, the field, then the procedure that uses it."
+        }
+      ]
+    },
+    {
+      "id": "cb2-l2",
+      "title": "Numbers in PIC 9",
+      "xp": 15,
+      "intro": [
+        "PIC 9(4) holds a number with exactly 4 digits. The value 42 is stored as 0042, and that's what DISPLAY shows: COBOL never hides the leading zeros of a PIC 9 field.",
+        "That fits business forms, where an account number is always 6 digits: 004711.",
+        "A value that has more digits than the picture won't even compile. Text in quotes can't go into a PIC 9 field either."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. ACCOUNT.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 ACCOUNT-NO  PIC 9(6) VALUE 4711.",
+          "       01 BRANCH      PIC 9(3) VALUE 7.",
+          "       PROCEDURE DIVISION.",
+          "           DISPLAY \"ACCOUNT \" ACCOUNT-NO.",
+          "           DISPLAY \"BRANCH  \" BRANCH.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "ACCOUNT 004711",
+          "BRANCH  007"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb2-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. ZEROS.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 N PIC 9(4) VALUE 42.",
+            "       PROCEDURE DIVISION.",
+            "           DISPLAY N.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "0042",
+            "42",
+            "  42",
+            "4200"
+          ],
+          "answer": 0,
+          "explanation": "PIC 9(4) always has 4 digits, with zeros in front."
+        },
+        {
+          "id": "cb2-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "How many digits does PIC 999 hold?",
+          "options": [
+            "3",
+            "999",
+            "9",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "999 is the same as 9(3)."
+        },
+        {
+          "id": "cb2-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Declare a 5-digit customer number.",
+          "code": [
+            "       01 CUST-NO  PIC ___ VALUE 123."
+          ],
+          "options": [
+            "9(5)",
+            "X(5)",
+            "5(9)",
+            "N(5)"
+          ],
+          "answer": "9(5)",
+          "explanation": "9 for digits."
+        },
+        {
+          "id": "cb2-l2-e4",
+          "type": "find_bug",
+          "prompt": "This job doesn't compile. Which line is wrong?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. BIG.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 YEAR-NO PIC 99 VALUE 1959.",
+            "       PROCEDURE DIVISION.",
+            "           DISPLAY YEAR-NO.",
+            "           STOP RUN."
+          ],
+          "answer": 4,
+          "explanation": "1959 has 4 digits, but PIC 99 holds only 2. Use PIC 9(4)."
+        },
+        {
+          "id": "cb2-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "Why does COBOL show 004711 and not 4711?",
+          "options": [
+            "A PIC 9(6) field always has 6 digits",
+            "It's an error",
+            "It's in octal",
+            "COBOL can't remove zeros"
+          ],
+          "answer": 0,
+          "explanation": "Later you'll learn edited pictures that do hide them."
+        },
+        {
+          "id": "cb2-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Which value can go into PIC 9(3)?",
+          "options": [
+            "725",
+            "\"725\"",
+            "7250",
+            "-7"
+          ],
+          "answer": 0,
+          "explanation": "Three digits, no quotes, no sign."
+        }
+      ]
+    },
+    {
+      "id": "cb2-l3",
+      "title": "MOVE",
+      "xp": 15,
+      "intro": [
+        "MOVE copies a value into a field: MOVE \"KEN\" TO CUSTOMER. The old value is gone. MOVE … TO can even fill several fields at once.",
+        "Text is moved left to right: it's filled up with spaces, and if it's too long, the end is cut off.",
+        "Numbers are moved right to left, by their digits: if a number is too big, its front digits are cut off, without any warning. MOVE 1234 TO a PIC 99 field leaves 34. Banks have lost money this way."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. MOVES.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 CUSTOMER   PIC X(8).",
+          "       01 SMALL      PIC 99.",
+          "       PROCEDURE DIVISION.",
+          "           MOVE \"KEN\" TO CUSTOMER.",
+          "           DISPLAY \"[\" CUSTOMER \"]\".",
+          "           MOVE \"KERNIGHAN AND RITCHIE\" TO CUSTOMER.",
+          "           DISPLAY \"[\" CUSTOMER \"]\".",
+          "           MOVE 1234 TO SMALL.",
+          "           DISPLAY \"SMALL: \" SMALL.",
+          "           MOVE 7 TO SMALL.",
+          "           DISPLAY \"SMALL: \" SMALL.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "[KEN     ]",
+          "[KERNIGHA]",
+          "SMALL: 34",
+          "SMALL: 07"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb2-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. CUT.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 N PIC 99.",
+            "       PROCEDURE DIVISION.",
+            "           MOVE 1234 TO N.",
+            "           DISPLAY N.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "34",
+            "1234",
+            "12",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "The number is cut off at the front: only the last 2 digits fit."
+        },
+        {
+          "id": "cb2-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. TEXT.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 W PIC X(4).",
+            "       PROCEDURE DIVISION.",
+            "           MOVE \"DENNIS\" TO W.",
+            "           DISPLAY \"[\" W \"]\".",
+            "           STOP RUN."
+          ],
+          "options": [
+            "[DENN]",
+            "[NNIS]",
+            "[DENNIS]",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "Text is cut off at the end."
+        },
+        {
+          "id": "cb2-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Copy the value 100 into SCORE.",
+          "code": [
+            "           ___ 100 TO SCORE."
+          ],
+          "options": [
+            "MOVE",
+            "SET",
+            "COPY",
+            "PUT"
+          ],
+          "answer": "MOVE",
+          "explanation": "MOVE … TO …"
+        },
+        {
+          "id": "cb2-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "MOVE 5 TO A B C. does what?",
+          "options": [
+            "Puts 5 into all three fields",
+            "Only A gets 5",
+            "A gets 5, B gets 6, C gets 7",
+            "It's an error"
+          ],
+          "answer": 0,
+          "explanation": "One MOVE can fill several fields."
+        },
+        {
+          "id": "cb2-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Why is MOVE 1234 TO a PIC 99 field dangerous?",
+          "options": [
+            "The front digits are lost without any warning",
+            "It crashes the job",
+            "It rounds to 12",
+            "It takes very long"
+          ],
+          "answer": 0,
+          "explanation": "The job happily goes on with the wrong number."
+        },
+        {
+          "id": "cb2-l3-e6",
+          "type": "order_lines",
+          "prompt": "Put the lines in order so the job shows BOB.",
+          "lines": [
+            "           MOVE \"BOB\" TO NAME-OUT.",
+            "           DISPLAY NAME-OUT.",
+            "           STOP RUN."
+          ],
+          "answer": [
+            "           MOVE \"BOB\" TO NAME-OUT.",
+            "           DISPLAY NAME-OUT.",
+            "           STOP RUN."
+          ],
+          "explanation": "First move, then show."
+        }
+      ]
+    }
+  ]
+}

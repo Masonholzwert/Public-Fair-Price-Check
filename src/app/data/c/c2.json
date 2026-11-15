@@ -1,0 +1,375 @@
+{
+  "id": "c2",
+  "title": "Variables and Math",
+  "lessons": [
+    {
+      "id": "c2-l1",
+      "title": "int and double",
+      "xp": 15,
+      "intro": [
+        "A variable is a named box for a value. In C you must say what kind of value it holds, before using it. int holds whole numbers, double holds numbers with decimals.",
+        "int students = 24; creates the box and puts 24 in it. The = means \"store\", not \"is equal to\".",
+        "To print a variable, put a placeholder in the text: %d for an int, %f for a double. The values follow after the text, separated by commas."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    int students = 24;",
+          "    double price = 3.50;",
+          "    printf(\"%d students\\n\", students);",
+          "    printf(\"%f per ticket\\n\", price);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "24 students",
+          "3.500000 per ticket"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c2-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "Which type holds 2.75?",
+          "options": [
+            "double",
+            "int",
+            "char",
+            "void"
+          ],
+          "answer": 0,
+          "explanation": "double is for numbers with decimals. An int would cut off the .75."
+        },
+        {
+          "id": "c2-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does int x = 5; do?",
+          "options": [
+            "Creates an int variable x and stores 5 in it",
+            "Checks whether x is 5",
+            "Prints 5",
+            "Creates five variables"
+          ],
+          "answer": 0,
+          "explanation": "Declaration and first value in one line."
+        },
+        {
+          "id": "c2-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Print the integer age.",
+          "code": [
+            "    int age = 12;",
+            "    printf(\"___\\n\", age);"
+          ],
+          "options": [
+            "%d",
+            "%f",
+            "age",
+            "%s"
+          ],
+          "answer": "%d",
+          "explanation": "%d is the placeholder for an int."
+        },
+        {
+          "id": "c2-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int x = 5;",
+            "    x = x + 5;",
+            "    printf(\"%d\\n\", x);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "10",
+            "5",
+            "x",
+            "15"
+          ],
+          "answer": 0,
+          "explanation": "x starts at 5, then gets 5 + 5 = 10."
+        },
+        {
+          "id": "c2-l1-e5",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    total = 7;",
+            "    printf(\"%d\\n\", total);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 3,
+          "explanation": "total is used without being declared. It needs a type: int total = 7;"
+        },
+        {
+          "id": "c2-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Why must C know a variable's type?",
+          "options": [
+            "To reserve the right amount of memory and use the right math",
+            "To make the program longer",
+            "Only for printing",
+            "It doesn't"
+          ],
+          "answer": 0,
+          "explanation": "An int and a double are stored differently. C decides this when compiling."
+        }
+      ]
+    },
+    {
+      "id": "c2-l2",
+      "title": "Division and Remainder",
+      "xp": 15,
+      "intro": [
+        "C does math with + - * / and brackets, and * and / come before + and -. But watch division: when both numbers are int, the result is an int too. 7 / 2 is 3, the .5 is simply cut off.",
+        "% gives the remainder of a division: 7 % 2 is 1. Together, / and % split things fairly: 25 sweets for 4 kids is 25 / 4 = 6 each, with 25 % 4 = 1 left over.",
+        "If one of the numbers is a double, the division keeps the decimals: 7.0 / 2 is 3.5."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    int sweets = 25;",
+          "    int kids = 4;",
+          "    printf(\"%d each\\n\", sweets / kids);",
+          "    printf(\"%d left\\n\", sweets % kids);",
+          "    printf(\"%f exactly\\n\", 25.0 / 4);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "6 each",
+          "1 left",
+          "6.250000 exactly"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c2-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is 9 / 2 in C, with two ints?",
+          "options": [
+            "4",
+            "4.5",
+            "5",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "Integer division cuts off the decimals."
+        },
+        {
+          "id": "c2-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What is 9 % 2?",
+          "options": [
+            "1",
+            "4",
+            "4.5",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "9 = 4 × 2 + 1. The remainder is 1."
+        },
+        {
+          "id": "c2-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What is 9.0 / 2?",
+          "options": [
+            "4.5",
+            "4",
+            "5",
+            "4.0"
+          ],
+          "answer": 0,
+          "explanation": "One double is enough to keep the decimals."
+        },
+        {
+          "id": "c2-l2-e4",
+          "type": "fill_blank",
+          "prompt": "How many weeks are in 30 days?",
+          "code": [
+            "    int weeks = 30 ___ 7;"
+          ],
+          "options": [
+            "/",
+            "%",
+            "*",
+            "-"
+          ],
+          "answer": "/",
+          "explanation": "30 / 7 is 4 full weeks (and 30 % 7 = 2 days left)."
+        },
+        {
+          "id": "c2-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int a = 5, b = 2;",
+            "    double avg = a / b;",
+            "    printf(\"%.0f\\n\", avg);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "2",
+            "2.5",
+            "3",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "5 / 2 with two ints is 2. Storing it in a double later doesn't bring the .5 back."
+        },
+        {
+          "id": "c2-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "How do you test if n is even?",
+          "options": [
+            "n % 2 == 0",
+            "n / 2 == 0",
+            "n % 2 == 1",
+            "n == 2"
+          ],
+          "answer": 0,
+          "explanation": "Even numbers leave no remainder when divided by 2."
+        }
+      ]
+    },
+    {
+      "id": "c2-l3",
+      "title": "Characters",
+      "xp": 15,
+      "intro": [
+        "char holds a single character, written in single quotes: char grade = 'A'; Double quotes \"A\" would be a string, which is something else.",
+        "Inside, a char is just a small number, its ASCII code. 'A' is 65, 'B' is 66, 'a' is 97. That's why you can do math with letters: 'A' + 2 is 'C'.",
+        "%c prints a char as a letter, %d prints its number."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    char c = 'A';",
+          "    printf(\"%c is %d\\n\", c, c);",
+          "    c = c + 2;",
+          "    printf(\"then %c\\n\", c);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "A is 65",
+          "then C"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c2-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Which line stores the letter Q?",
+          "options": [
+            "char q = 'Q';",
+            "char q = \"Q\";",
+            "char q = Q;",
+            "int q = 'QQ';"
+          ],
+          "answer": 0,
+          "explanation": "Single quotes for one character."
+        },
+        {
+          "id": "c2-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What is the ASCII code of 'A'?",
+          "options": [
+            "65",
+            "1",
+            "97",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "Uppercase letters start at 65, lowercase at 97."
+        },
+        {
+          "id": "c2-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What does printf(\"%c\", 'a' - 32) print?",
+          "options": [
+            "A",
+            "a",
+            "65",
+            "-32"
+          ],
+          "answer": 0,
+          "explanation": "'a' is 97, minus 32 is 65, which is 'A'. That's how uppercase conversion works."
+        },
+        {
+          "id": "c2-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Print the letter stored in c.",
+          "code": [
+            "    char c = 'Z';",
+            "    printf(\"___\\n\", c);"
+          ],
+          "options": [
+            "%c",
+            "%d",
+            "%s",
+            "%f"
+          ],
+          "answer": "%c",
+          "explanation": "%c prints the character, %d would print 90."
+        },
+        {
+          "id": "c2-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    char c = 'B';",
+            "    printf(\"%c\\n\", c + 2);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "D",
+            "C",
+            "68",
+            "B"
+          ],
+          "answer": 0,
+          "explanation": "'B' + 2 is 'D'."
+        },
+        {
+          "id": "c2-l3-e6",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    char c = 'AB';",
+            "    printf(\"%c\\n\", c);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 3,
+          "explanation": "A char holds exactly one character. 'AB' is two."
+        }
+      ]
+    }
+  ]
+}

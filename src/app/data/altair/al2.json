@@ -1,0 +1,306 @@
+{
+  "id": "al2",
+  "title": "Binary Arithmetic",
+  "lessons": [
+    {
+      "id": "al2-l1",
+      "title": "Adding Bits",
+      "xp": 15,
+      "intro": [
+        "Adding in binary works like adding on paper, just with two digits: 0 + 0 = 0, 0 + 1 = 1, and 1 + 1 = 10 (that's 2): write 0, carry 1.",
+        "The 8080 can add a byte to A: 11 000 110 followed by a number (ADI, add immediate) adds the number to A.",
+        "So MVI A 5, ADI 3 leaves 8 in A."
+      ],
+      "example": {
+        "code": [
+          "00 111 110   ; MVI A",
+          "00 000 101   ; 5",
+          "11 000 110   ; ADI: add the next byte",
+          "00 000 011   ; 3",
+          "11 010 011   ; OUT",
+          "11 111 111   ; port 377",
+          "01 110 110   ; HLT"
+        ],
+        "output": [
+          "LEDS ○○○○●○○○ = 8"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al2-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is 1 + 1 in binary?",
+          "options": [
+            "10",
+            "2",
+            "11",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "Write 0, carry 1: 10 is two."
+        },
+        {
+          "id": "al2-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What is 0101 + 0011?",
+          "options": [
+            "1000",
+            "0110",
+            "1111",
+            "0100"
+          ],
+          "answer": 0,
+          "explanation": "5 + 3 = 8."
+        },
+        {
+          "id": "al2-l1-e3",
+          "type": "switches",
+          "prompt": "Set the switches to 00000110 + 00000011.",
+          "answer": 9,
+          "explanation": "6 + 3 = 9 = 8 + 1."
+        },
+        {
+          "id": "al2-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does 11 000 110 do?",
+          "options": [
+            "Adds the next byte to A (ADI)",
+            "Puts the next byte into A",
+            "Stops the processor",
+            "Shows A on the lights"
+          ],
+          "answer": 0,
+          "explanation": "ADI: ADd Immediate."
+        },
+        {
+          "id": "al2-l1-e5",
+          "type": "switches",
+          "prompt": "What do the lights show after MVI A 12, ADI 12? Set the switches to it.",
+          "answer": 24,
+          "explanation": "12 + 12 = 24 = 16 + 8."
+        },
+        {
+          "id": "al2-l1-e6",
+          "type": "fill_blank",
+          "prompt": "Finish the program so the lights show 10.",
+          "code": [
+            "00 111 110   ; MVI A",
+            "00 000 110   ; 6",
+            "11 000 110   ; ADI",
+            "___",
+            "11 010 011   ; OUT",
+            "11 111 111   ; port 377",
+            "01 110 110   ; HLT"
+          ],
+          "options": [
+            "00 000 100",
+            "00 001 010",
+            "00 010 000",
+            "00 000 110"
+          ],
+          "answer": "00 000 100",
+          "explanation": "6 + 4 = 10."
+        }
+      ]
+    },
+    {
+      "id": "al2-l2",
+      "title": "Overflow and the Carry",
+      "xp": 15,
+      "intro": [
+        "A byte only goes up to 255. 255 + 1 wraps around to 0, like an old car's odometer. The 1 that doesn't fit lands in the carry flag.",
+        "So on the Altair, 200 + 100 isn't 300: it's 300 - 256 = 44, with the carry set.",
+        "Programs that need bigger numbers use two bytes, with the carry passing from one to the other."
+      ],
+      "example": {
+        "code": [
+          "00 111 110   ; MVI A",
+          "11 001 000   ; 200",
+          "11 000 110   ; ADI",
+          "01 100 100   ; 100",
+          "11 010 011   ; OUT",
+          "11 111 111   ; port 377",
+          "01 110 110   ; HLT"
+        ],
+        "output": [
+          "LEDS ○○●○●●○○ = 44"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al2-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is 255 + 1 in one byte?",
+          "options": [
+            "0",
+            "256",
+            "255",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "It wraps around; the carry flag catches the extra 1."
+        },
+        {
+          "id": "al2-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Where does the bit that doesn't fit go?",
+          "options": [
+            "Into the carry flag",
+            "It's lost forever",
+            "Into the next memory byte",
+            "Onto the lights"
+          ],
+          "answer": 0,
+          "explanation": "The carry flag remembers it."
+        },
+        {
+          "id": "al2-l2-e3",
+          "type": "switches",
+          "prompt": "What does one byte hold after 250 + 10? Set the switches to it.",
+          "answer": 4,
+          "explanation": "260 - 256 = 4."
+        },
+        {
+          "id": "al2-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What is the biggest number a byte can hold?",
+          "options": [
+            "255",
+            "256",
+            "128",
+            "1000"
+          ],
+          "answer": 0,
+          "explanation": "11111111 = 255."
+        },
+        {
+          "id": "al2-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show for MVI A 128, ADI 128?",
+          "options": [
+            "○○○○○○○○ (0)",
+            "●○○○○○○○ (128)",
+            "●●●●●●●● (255)",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "256 wraps around to 0."
+        },
+        {
+          "id": "al2-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "How do programs handle numbers above 255?",
+          "options": [
+            "They use two or more bytes and pass the carry along",
+            "They can't",
+            "They use decimal",
+            "The Altair does it by itself"
+          ],
+          "answer": 0,
+          "explanation": "Like carrying in long addition."
+        }
+      ]
+    },
+    {
+      "id": "al2-l3",
+      "title": "Subtracting",
+      "xp": 15,
+      "intro": [
+        "11 010 110 followed by a number (SUI, subtract immediate) subtracts it from A.",
+        "What's 5 - 6 in a byte? It wraps the other way: 255. That's how the 8080 stores -1. In this two's complement system, 11111111 is -1, 11111110 is -2, and so on.",
+        "The carry flag is set when a subtraction goes below zero (a borrow)."
+      ],
+      "example": {
+        "code": [
+          "00 111 110   ; MVI A",
+          "00 010 100   ; 20",
+          "11 010 110   ; SUI: subtract the next byte",
+          "00 000 111   ; 7",
+          "11 010 011   ; OUT",
+          "11 111 111   ; port 377",
+          "01 110 110   ; HLT"
+        ],
+        "output": [
+          "LEDS ○○○○●●○● = 13"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al2-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does 11 010 110 do?",
+          "options": [
+            "Subtracts the next byte from A (SUI)",
+            "Adds the next byte",
+            "Stops",
+            "Shows A"
+          ],
+          "answer": 0,
+          "explanation": "SUI: SUbtract Immediate."
+        },
+        {
+          "id": "al2-l3-e2",
+          "type": "switches",
+          "prompt": "What does A hold after MVI A 5, SUI 6? Set the switches to it.",
+          "answer": 255,
+          "explanation": "5 - 6 wraps around to 255, which stands for -1."
+        },
+        {
+          "id": "al2-l3-e3",
+          "type": "switches",
+          "prompt": "Set the switches to 30 - 12.",
+          "answer": 18,
+          "explanation": "18 = 16 + 2."
+        },
+        {
+          "id": "al2-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "In two's complement, what does 11111110 mean?",
+          "options": [
+            "-2",
+            "254 only",
+            "-1",
+            "2"
+          ],
+          "answer": 0,
+          "explanation": "11111111 is -1, one less is -2."
+        },
+        {
+          "id": "al2-l3-e5",
+          "type": "fill_blank",
+          "prompt": "Make the lights show 1.",
+          "code": [
+            "00 111 110   ; MVI A",
+            "00 001 010   ; 10",
+            "11 010 110   ; SUI",
+            "___",
+            "11 010 011   ; OUT",
+            "11 111 111   ; port 377",
+            "01 110 110   ; HLT"
+          ],
+          "options": [
+            "00 001 001",
+            "00 000 001",
+            "00 001 010",
+            "00 001 011"
+          ],
+          "answer": "00 001 001",
+          "explanation": "10 - 9 = 1."
+        },
+        {
+          "id": "al2-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "When is the carry flag set after SUI?",
+          "options": [
+            "When the result went below zero",
+            "Always",
+            "When the result is 0",
+            "Never"
+          ],
+          "answer": 0,
+          "explanation": "It works as a borrow."
+        }
+      ]
+    }
+  ]
+}

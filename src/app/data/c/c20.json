@@ -1,0 +1,402 @@
+{
+  "id": "c20",
+  "title": "Files",
+  "lessons": [
+    {
+      "id": "c20-l1",
+      "title": "Writing a File",
+      "xp": 15,
+      "intro": [
+        "In Unix, everything is a file. fopen(\"notes.txt\", \"w\") opens a file for writing and gives you a FILE *. \"w\" starts the file empty, \"a\" appends to the end, \"r\" reads.",
+        "fprintf(f, …) works exactly like printf, but into the file. When you're done, fclose(f) makes sure everything is saved.",
+        "The lessons run on a little simulated Unix disk: files you write stay there until the program ends."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    FILE *f = fopen(\"notes.txt\", \"w\");",
+          "    int c;",
+          "    fprintf(f, \"unix %d\\n\", 1969);",
+          "    fprintf(f, \"c %d\\n\", 1972);",
+          "    fclose(f);",
+          "    f = fopen(\"notes.txt\", \"r\");",
+          "    while ((c = fgetc(f)) != EOF)",
+          "        putchar(c);",
+          "    fclose(f);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "unix 1969",
+          "c 1972"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c20-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does fopen return?",
+          "options": [
+            "A FILE * for the opened file",
+            "The file's text",
+            "The file's size",
+            "An int with the line count"
+          ],
+          "answer": 0,
+          "explanation": "All other file functions take that FILE *."
+        },
+        {
+          "id": "c20-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does the mode \"a\" do?",
+          "options": [
+            "Adds to the end of the file",
+            "Reads the file",
+            "Deletes the file",
+            "Starts the file empty"
+          ],
+          "answer": 0,
+          "explanation": "\"a\" means append."
+        },
+        {
+          "id": "c20-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Write the number into the file.",
+          "code": [
+            "    ___(f, \"%d\\n\", score);"
+          ],
+          "options": [
+            "fprintf",
+            "printf",
+            "fputs",
+            "fopen"
+          ],
+          "answer": "fprintf",
+          "explanation": "fprintf takes the FILE * first."
+        },
+        {
+          "id": "c20-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    char line[20];",
+            "    FILE *f = fopen(\"t.txt\", \"w\");",
+            "    fprintf(f, \"hi\\n\");",
+            "    fclose(f);",
+            "    f = fopen(\"t.txt\", \"a\");",
+            "    fprintf(f, \"hi\\n\");",
+            "    fclose(f);",
+            "    f = fopen(\"t.txt\", \"r\");",
+            "    while (fgets(line, 20, f) != NULL)",
+            "        printf(\"%s\", line);",
+            "    fclose(f);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "hi\nhi",
+            "hi",
+            "",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "\"a\" adds a second line to the file."
+        },
+        {
+          "id": "c20-l1-e5",
+          "type": "find_bug",
+          "prompt": "This program stops with an error. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    FILE *f = fopen(\"log.txt\", \"r\");",
+            "    fprintf(f, \"started\\n\");",
+            "    fclose(f);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 3,
+          "explanation": "Opening with \"r\" is for reading. To write, open with \"w\" or \"a\". (Here log.txt doesn't even exist, so fopen returns NULL.)"
+        },
+        {
+          "id": "c20-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Why call fclose?",
+          "options": [
+            "To finish writing and free the file",
+            "To delete the file",
+            "To read it",
+            "It's not needed at all"
+          ],
+          "answer": 0,
+          "explanation": "Real systems buffer writes: without fclose, the end of a file can get lost."
+        }
+      ]
+    },
+    {
+      "id": "c20-l2",
+      "title": "Reading Line by Line",
+      "xp": 15,
+      "intro": [
+        "fgets(line, size, f) reads one line (with its \\n) into a char array, at most size - 1 characters. At the end of the file it returns NULL, so while (fgets(…) != NULL) reads everything.",
+        "If a file doesn't exist, fopen(…, \"r\") returns NULL. Always check, or the next read crashes.",
+        "This little disk already has a file todo.txt. fscanf(f, \"%d\", &n) reads numbers from a file, like scanf does from the keyboard."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    char line[80];",
+          "    int n = 0;",
+          "    FILE *f = fopen(\"todo.txt\", \"r\");",
+          "    if (f == NULL) {",
+          "        printf(\"can't open todo.txt\\n\");",
+          "        return 1;",
+          "    }",
+          "    while (fgets(line, 80, f) != NULL) {",
+          "        n++;",
+          "        printf(\"%d: %s\", n, line);",
+          "    }",
+          "    fclose(f);",
+          "    printf(\"%d tasks\\n\", n);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "1: edit",
+          "2: compile",
+          "3: test",
+          "3 tasks"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c20-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does fgets return at the end of the file?",
+          "options": [
+            "NULL",
+            "0 characters",
+            "EOF as a string",
+            "The last line again"
+          ],
+          "answer": 0,
+          "explanation": "That ends the while loop."
+        },
+        {
+          "id": "c20-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Why does the example print with \"%s\" and no \\n?",
+          "options": [
+            "fgets keeps the \\n at the end of the line",
+            "printf adds one",
+            "The file has no newlines",
+            "It's a mistake"
+          ],
+          "answer": 0,
+          "explanation": "Each line already ends in \\n."
+        },
+        {
+          "id": "c20-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Stop if the file couldn't be opened.",
+          "code": [
+            "    FILE *f = fopen(\"data.txt\", \"r\");",
+            "    if (f == ___)",
+            "        return 1;"
+          ],
+          "options": [
+            "NULL",
+            "EOF",
+            "0.0",
+            "\"\""
+          ],
+          "answer": "NULL",
+          "explanation": "fopen returns NULL when it fails."
+        },
+        {
+          "id": "c20-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int a, b;",
+            "    FILE *f = fopen(\"n.txt\", \"w\");",
+            "    fprintf(f, \"10 20\\n\");",
+            "    fclose(f);",
+            "    f = fopen(\"n.txt\", \"r\");",
+            "    fscanf(f, \"%d %d\", &a, &b);",
+            "    fclose(f);",
+            "    printf(\"%d\\n\", a + b);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "30",
+            "10",
+            "20",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "fscanf reads the two numbers back from the file."
+        },
+        {
+          "id": "c20-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What's the size argument of fgets for?",
+          "options": [
+            "So it never writes past the end of the array",
+            "The number of lines",
+            "The file size",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "fgets stops early instead of overflowing your buffer."
+        },
+        {
+          "id": "c20-l2-e6",
+          "type": "find_bug",
+          "prompt": "This program crashes when the file doesn't exist. Which line should have a check before it?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    char line[80];",
+            "    FILE *f = fopen(\"missing.txt\", \"r\");",
+            "    fgets(line, 80, f);",
+            "    fclose(f);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 5,
+          "explanation": "Check if (f == NULL) before using f."
+        }
+      ]
+    },
+    {
+      "id": "c20-l3",
+      "title": "stdin, stdout and stderr",
+      "xp": 15,
+      "intro": [
+        "Every Unix program starts with three files already open: stdin (the keyboard), stdout (the screen) and stderr (also the screen, but for error messages).",
+        "printf(…) is really fprintf(stdout, …), and getchar() is fgetc(stdin). So fgets(line, 80, stdin) reads a line typed by the user.",
+        "Why a separate stderr? When the output goes into a file or another program, the error messages still show up on the screen."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    char name[40];",
+          "    fprintf(stdout, \"who are you? \");",
+          "    if (fgets(name, 40, stdin) == NULL) {",
+          "        fprintf(stderr, \"no input\\n\");",
+          "        return 1;",
+          "    }",
+          "    printf(\"\\nhello, %s\", name);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "who are you? ",
+          "hello, dennis"
+        ],
+        "inputs": [
+          "dennis"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c20-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What are the three files every program starts with?",
+          "options": [
+            "stdin, stdout and stderr",
+            "input, output and log",
+            "keyboard, screen and disk",
+            "a, r and w"
+          ],
+          "answer": 0,
+          "explanation": "Standard input, standard output, standard error."
+        },
+        {
+          "id": "c20-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "Where should error messages go?",
+          "options": [
+            "stderr",
+            "stdout",
+            "stdin",
+            "A file called error"
+          ],
+          "answer": 0,
+          "explanation": "That keeps them separate from the real output."
+        },
+        {
+          "id": "c20-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Read a line from the keyboard.",
+          "code": [
+            "    fgets(line, 80, ___);"
+          ],
+          "options": [
+            "stdin",
+            "stdout",
+            "stderr",
+            "keyboard"
+          ],
+          "answer": "stdin",
+          "explanation": "stdin is standard input."
+        },
+        {
+          "id": "c20-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What is printf(\"hi\") the same as?",
+          "options": [
+            "fprintf(stdout, \"hi\")",
+            "fprintf(stderr, \"hi\")",
+            "fputs(stdin, \"hi\")",
+            "fopen(\"hi\")"
+          ],
+          "answer": 0,
+          "explanation": "printf always writes to stdout."
+        },
+        {
+          "id": "c20-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What does fgetc(stdin) do?",
+          "options": [
+            "The same as getchar()",
+            "Closes the input",
+            "Reads a whole line",
+            "Prints a character"
+          ],
+          "answer": 0,
+          "explanation": "getchar is just a short name for it."
+        },
+        {
+          "id": "c20-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why might stdout end up in a file, but stderr not?",
+          "options": [
+            "With ./prog > out.txt, only stdout is sent to the file",
+            "stderr is never shown",
+            "Files can't hold errors",
+            "It's random"
+          ],
+          "answer": 0,
+          "explanation": "The shell can send each of them somewhere different."
+        }
+      ]
+    }
+  ]
+}

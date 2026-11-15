@@ -1,0 +1,215 @@
+{
+  "id": "u6",
+  "title": "Built-in Functions",
+  "lessons": [
+    {
+      "id": "u6-l1",
+      "title": "Rounding & Roots",
+      "xp": 15,
+      "intro": [
+        "BASIC comes with built-in functions. You write the name, then a value in parentheses, and the function hands back a result.",
+        "INT rounds down to a whole number: INT(4.7) is 4. ABS removes a minus sign: ABS(-5) is 5. SQR is the square root: SQR(16) is 4.",
+        "To round to the nearest whole number instead of always down, add 0.5 first: INT(X + 0.5)."
+      ],
+      "example": {
+        "code": ["10 PRINT INT(4.7)", "20 PRINT ABS(-5)", "30 PRINT SQR(16)", "40 END"],
+        "output": ["4", "5", "4"]
+      },
+      "exercises": [
+        {
+          "id": "u6-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does this print?",
+          "code": ["10 PRINT INT(9.99)", "20 END"],
+          "options": ["9", "10", "9.99", "0"],
+          "answer": 0,
+          "explanation": "INT always rounds down, no matter how close the number is to the next one."
+        },
+        {
+          "id": "u6-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this print?",
+          "code": ["10 PRINT INT(2.6 + 0.5)", "20 END"],
+          "options": ["3", "2", "2.6", "3.1"],
+          "answer": 0,
+          "explanation": "2.6 + 0.5 = 3.1, and INT(3.1) is 3. Adding 0.5 turns 'round down' into 'round to the nearest'."
+        },
+        {
+          "id": "u6-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Calculate the square root of 81.",
+          "code": ["10 PRINT ___(81)", "20 END"],
+          "options": ["SQR", "ROOT", "INT", "ABS"],
+          "answer": "SQR",
+          "explanation": "SQR is short for square root. SQR(81) is 9."
+        },
+        {
+          "id": "u6-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this print?",
+          "code": ["10 PRINT ABS(3 - 10)", "20 END"],
+          "options": ["7", "-7", "13", "3"],
+          "answer": 0,
+          "explanation": "3 - 10 is -7, and ABS removes the minus sign."
+        },
+        {
+          "id": "u6-l1-e5",
+          "type": "find_bug",
+          "prompt": "This program stops with an error. Which line causes it?",
+          "code": ["10 LET X = -9", "20 PRINT SQR(X)", "30 END"],
+          "answer": 1,
+          "explanation": "Negative numbers have no square root in BASIC. SQR(ABS(X)) would work."
+        },
+        {
+          "id": "u6-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Which condition is true when N is an even number?",
+          "options": ["N / 2 = INT(N / 2)", "INT(N) = N", "ABS(N) = N", "SQR(N) = 2"],
+          "answer": 0,
+          "explanation": "If N is even, N / 2 has no decimals, so rounding it down changes nothing."
+        }
+      ]
+    },
+    {
+      "id": "u6-l2",
+      "title": "Random Numbers",
+      "xp": 20,
+      "intro": [
+        "RND(1) gives a random number between 0 and 1, like 0.3814. Every time it's used, you get a new one.",
+        "To simulate a die: multiply by 6 to get 0 to 5.99…, cut off the decimals with INT, and add 1. So INT(6 * RND(1)) + 1 gives a whole number from 1 to 6.",
+        "Because the results are random, the same program can print something different on every run."
+      ],
+      "example": {
+        "code": ["10 FOR I = 1 TO 3", "20 PRINT INT(6 * RND(1)) + 1", "30 NEXT I", "40 END"],
+        "output": ["4", "1", "6"]
+      },
+      "exercises": [
+        {
+          "id": "u6-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "Which numbers can INT(6 * RND(1)) + 1 produce?",
+          "options": ["1 to 6", "0 to 6", "0 to 5", "1 to 7"],
+          "answer": 0,
+          "explanation": "6 * RND(1) is 0 to 5.99…, INT makes it 0 to 5, and + 1 shifts it to 1 to 6."
+        },
+        {
+          "id": "u6-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "And without the + 1? Which numbers can INT(6 * RND(1)) produce?",
+          "options": ["0 to 5", "1 to 6", "0 to 6", "1 to 5"],
+          "answer": 0,
+          "explanation": "Without + 1, the result starts at 0, so a die would show 0 to 5."
+        },
+        {
+          "id": "u6-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Simulate a coin toss that gives 1 or 2.",
+          "code": ["10 PRINT INT(___ * RND(1)) + 1", "20 END"],
+          "options": ["2", "1", "6", "10"],
+          "answer": "2",
+          "explanation": "2 * RND(1) is 0 to 1.99…, INT gives 0 or 1, and + 1 gives 1 or 2."
+        },
+        {
+          "id": "u6-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "Which line prints a random whole number from 1 to 100?",
+          "options": [
+            "PRINT INT(100 * RND(1)) + 1",
+            "PRINT INT(RND(100))",
+            "PRINT RND(1) * 100",
+            "PRINT INT(100 * RND(1))"
+          ],
+          "answer": 0,
+          "explanation": "Same pattern as the die, just with 100 instead of 6."
+        },
+        {
+          "id": "u6-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "You run a dice program twice and get different results. Why?",
+          "options": [
+            "RND produces new random numbers every time",
+            "There is a bug in the program",
+            "INT rounds differently each time",
+            "The DATA line changed"
+          ],
+          "answer": 0,
+          "explanation": "That's the whole point of RND: unpredictable numbers, just like a real die."
+        },
+        {
+          "id": "u6-l2-e6",
+          "type": "order_lines",
+          "prompt": "Build a program that rolls two dice and prints their sum.",
+          "lines": ["10 LET A = INT(6 * RND(1)) + 1", "20 LET B = INT(6 * RND(1)) + 1", "30 PRINT A + B", "40 END"],
+          "answer": ["10 LET A = INT(6 * RND(1)) + 1", "20 LET B = INT(6 * RND(1)) + 1", "30 PRINT A + B", "40 END"],
+          "explanation": "Each die gets its own random roll, then both are added up. The result is anything from 2 to 12."
+        }
+      ]
+    },
+    {
+      "id": "u6-l3",
+      "title": "Math Functions",
+      "xp": 20,
+      "intro": [
+        "BASIC was made for students of science and math, so it also knows the classic math functions: SIN, COS and TAN for angles, ATN to get an angle back from a tangent, EXP for e to the power of x, and LOG for the natural logarithm.",
+        "Angles are measured in radians, not degrees. Half a circle is π, about 3.14159. To convert degrees into radians, multiply by 3.14159 and divide by 180.",
+        "You won't need these every day, but they turn BASIC into a powerful calculator."
+      ],
+      "example": {
+        "code": ["10 PRINT SIN(0)", "20 PRINT COS(0)", "30 PRINT EXP(0)", "40 PRINT LOG(1)", "50 END"],
+        "output": ["0", "1", "1", "0"]
+      },
+      "exercises": [
+        {
+          "id": "u6-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "This calculates the long side of a right triangle. What does it print?",
+          "code": ["10 PRINT SQR(3 * 3 + 4 * 4)", "20 END"],
+          "options": ["5", "7", "25", "12"],
+          "answer": 0,
+          "explanation": "3 * 3 + 4 * 4 = 25, and the square root of 25 is 5. That's Pythagoras in one line."
+        },
+        {
+          "id": "u6-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "In which unit do SIN and COS expect angles?",
+          "options": ["Radians", "Degrees", "Percent", "Any unit"],
+          "answer": 0,
+          "explanation": "Like most programming languages, BASIC uses radians. 180 degrees is π radians."
+        },
+        {
+          "id": "u6-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What does LOG(1) give?",
+          "options": ["0", "1", "10", "An error"],
+          "answer": 0,
+          "explanation": "The logarithm of 1 is always 0, because e to the power of 0 is 1."
+        },
+        {
+          "id": "u6-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Convert 180 degrees into radians.",
+          "code": ["10 LET D = 180", "20 PRINT D * 3.14159 ___ 180", "30 END"],
+          "options": ["/", "*", "+", "-"],
+          "answer": "/",
+          "explanation": "Multiply by π and divide by 180. For 180 degrees, that gives π itself: 3.14159."
+        },
+        {
+          "id": "u6-l3-e5",
+          "type": "find_bug",
+          "prompt": "This program stops with an error. Which line causes it?",
+          "code": ["10 LET X = 0", "20 PRINT LOG(X)", "30 END"],
+          "answer": 1,
+          "explanation": "The logarithm only works for numbers above 0. LOG(0) has no result."
+        },
+        {
+          "id": "u6-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Which function gives you the angle back from a tangent value?",
+          "options": ["ATN", "TAN", "SIN", "EXP"],
+          "answer": 0,
+          "explanation": "ATN stands for arc tangent. It's the reverse of TAN."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,969 @@
+{
+  "challenges": [
+    {
+      "id": "p-birth-year",
+      "unit": "u1",
+      "difficulty": 1,
+      "title": "Birth Year",
+      "task": "Print BASIC WAS BORN IN on one line and the year 1964 on the next. Don't type 1964 directly: let the computer calculate 1900 + 64.",
+      "requirements": [
+        {
+          "pattern": "1900\\s*\\+\\s*64|64\\s*\\+\\s*1900",
+          "message": "Let the computer add 1900 + 64."
+        }
+      ],
+      "hints": [
+        "The first line is a PRINT with text in quotes.",
+        "PRINT can calculate: PRINT 1900 + 64",
+        "Don't forget END."
+      ],
+      "xp": 15,
+      "starter": "10 REM BIRTH YEAR\n",
+      "expectedOutput": "BASIC WAS BORN IN\n1964"
+    },
+    {
+      "id": "p-rectangle",
+      "unit": "u1",
+      "difficulty": 1,
+      "title": "Rectangle",
+      "task": "A rectangle is 7 long and 3 wide. Store both in variables with LET, then print AREA = and PERIMETER = on two lines.",
+      "requirements": [
+        {
+          "pattern": "LET[^\\n]*\\b7\\b",
+          "message": "Store the length 7 with LET."
+        },
+        {
+          "pattern": "LET[^\\n]*\\b3\\b",
+          "message": "Store the width 3 with LET."
+        }
+      ],
+      "hints": [
+        "LET L = 7 and LET W = 3",
+        "Area is L * W, perimeter is 2 * (L + W)",
+        "PRINT \"AREA = \"; L * W"
+      ],
+      "xp": 15,
+      "starter": "10 REM RECTANGLE\n",
+      "expectedOutput": "AREA = 21\nPERIMETER = 20"
+    },
+    {
+      "id": "p-minutes",
+      "unit": "u1",
+      "difficulty": 1,
+      "title": "Minutes in a Week",
+      "task": "Print how many minutes a week has. Let BASIC multiply days, hours and minutes.",
+      "requirements": [
+        {
+          "pattern": "\\d+\\s*\\*\\s*\\d+\\s*\\*\\s*\\d+",
+          "message": "Let the computer multiply days, hours and minutes, like 7 * 24 * 60."
+        }
+      ],
+      "hints": [
+        "A week has 7 days, a day has 24 hours, an hour has 60 minutes.",
+        "PRINT 7 * 24 * 60"
+      ],
+      "xp": 15,
+      "starter": "10 REM MINUTES IN A WEEK\n",
+      "expectedOutput": "10080"
+    },
+    {
+      "id": "p-bigger",
+      "unit": "u2",
+      "difficulty": 1,
+      "title": "The Bigger One",
+      "task": "Store 17 in A and 42 in B. Use IF…THEN to print BIGGER = followed by whichever number is bigger.",
+      "requirements": [
+        {
+          "pattern": "IF\\s+.+THEN\\s*\\d+",
+          "message": "Use IF … THEN to decide which one is bigger."
+        }
+      ],
+      "hints": [
+        "IF A > B THEN jump to a line that prints A",
+        "Otherwise print B, then jump past the other PRINT",
+        "Use STOP or GOTO so only one PRINT runs."
+      ],
+      "xp": 15,
+      "starter": "10 REM THE BIGGER ONE\n",
+      "expectedOutput": "BIGGER = 42"
+    },
+    {
+      "id": "p-twos",
+      "unit": "u2",
+      "difficulty": 2,
+      "title": "Count by Twos",
+      "task": "Print 2, 4, 6 … up to 20, one per line, using a counter and IF…THEN. At most 6 lines.",
+      "maxLines": 6,
+      "requirements": [
+        {
+          "pattern": "IF\\s+.+THEN\\s*\\d+",
+          "message": "Repeat with IF … THEN, not with ten PRINT lines."
+        }
+      ],
+      "hints": [
+        "Start at LET C = 2",
+        "PRINT C, then LET C = C + 2",
+        "Jump back while C <= 20"
+      ],
+      "xp": 25,
+      "starter": "10 REM COUNT BY TWOS\n",
+      "expectedOutput": "2\n4\n6\n8\n10\n12\n14\n16\n18\n20"
+    },
+    {
+      "id": "p-odds",
+      "unit": "u3",
+      "difficulty": 1,
+      "title": "Odd Numbers",
+      "task": "Print all odd numbers from 1 to 19, one per line, with a FOR loop. At most 4 lines.",
+      "maxLines": 4,
+      "requirements": [
+        {
+          "pattern": "STEP\\s*2",
+          "message": "Use STEP 2 to skip the even numbers."
+        }
+      ],
+      "hints": [
+        "FOR I = 1 TO 19 STEP 2",
+        "PRINT I, then NEXT I"
+      ],
+      "xp": 15,
+      "starter": "10 REM ODD NUMBERS\n",
+      "expectedOutput": "1\n3\n5\n7\n9\n11\n13\n15\n17\n19"
+    },
+    {
+      "id": "p-gauss",
+      "unit": "u3",
+      "difficulty": 2,
+      "title": "Little Gauss",
+      "task": "Legend says young Carl Friedrich Gauss added the numbers 1 to 100 in seconds. Your program can too: print the sum. At most 6 lines.",
+      "maxLines": 6,
+      "requirements": [
+        {
+          "pattern": "FOR\\s+[A-Z][0-9]?\\s*=.+TO\\s*100",
+          "message": "Use a FOR loop from 1 to 100."
+        }
+      ],
+      "hints": [
+        "Start with LET S = 0",
+        "FOR I = 1 TO 100, LET S = S + I, NEXT I",
+        "Print S after the loop."
+      ],
+      "xp": 25,
+      "starter": "10 REM LITTLE GAUSS\n",
+      "expectedOutput": "5050"
+    },
+    {
+      "id": "p-powers",
+      "unit": "u3",
+      "difficulty": 2,
+      "title": "Powers of Two",
+      "task": "Print the powers of two from 1 to 1024 (1, 2, 4, 8 …), one per line. At most 5 lines.",
+      "maxLines": 5,
+      "requirements": [
+        {
+          "pattern": "FOR\\s+",
+          "message": "Use a FOR loop."
+        }
+      ],
+      "hints": [
+        "2 ^ 0 is 1, 2 ^ 10 is 1024",
+        "FOR I = 0 TO 10, PRINT 2 ^ I, NEXT I"
+      ],
+      "xp": 25,
+      "starter": "10 REM POWERS OF TWO\n",
+      "expectedOutput": "1\n2\n4\n8\n16\n32\n64\n128\n256\n512\n1024"
+    },
+    {
+      "id": "p-fives",
+      "unit": "u3",
+      "difficulty": 1,
+      "title": "Countdown by Fives",
+      "task": "Count down from 50 to 0 in steps of five, one number per line. At most 4 lines.",
+      "maxLines": 4,
+      "requirements": [
+        {
+          "pattern": "STEP\\s*-\\s*5",
+          "message": "Count down with STEP -5."
+        }
+      ],
+      "hints": [
+        "FOR I = 50 TO 0 STEP -5"
+      ],
+      "xp": 15,
+      "starter": "10 REM COUNTDOWN BY FIVES\n",
+      "expectedOutput": "50\n45\n40\n35\n30\n25\n20\n15\n10\n5\n0"
+    },
+    {
+      "id": "p-star-square",
+      "unit": "u3",
+      "difficulty": 2,
+      "title": "Square of Stars",
+      "task": "Print a square of stars, 4 rows with 4 stars each, using two nested FOR loops.",
+      "maxLines": 8,
+      "requirements": [
+        {
+          "pattern": "FOR[\\s\\S]*FOR",
+          "message": "Use two FOR loops, one inside the other."
+        }
+      ],
+      "hints": [
+        "The inner loop prints PRINT \"*\"; four times",
+        "An empty PRINT ends each row"
+      ],
+      "xp": 25,
+      "starter": "10 REM SQUARE OF STARS\n",
+      "expectedOutput": "****\n****\n****\n****"
+    },
+    {
+      "id": "p-shopping",
+      "unit": "u4",
+      "difficulty": 1,
+      "title": "Shopping Bag",
+      "task": "Three items cost 2.5, 4 and 1.75. Put them in a DATA line, read them, and print TOTAL = with their sum.",
+      "requirements": [
+        {
+          "pattern": "DATA\\s+",
+          "message": "Store the prices in a DATA line."
+        },
+        {
+          "pattern": "READ\\s+",
+          "message": "Get the prices with READ."
+        }
+      ],
+      "hints": [
+        "READ A, B, C reads all three at once",
+        "PRINT \"TOTAL = \"; A + B + C"
+      ],
+      "xp": 15,
+      "starter": "10 REM SHOPPING BAG\n",
+      "expectedOutput": "TOTAL = 8.25"
+    },
+    {
+      "id": "p-temperature",
+      "unit": "u4",
+      "difficulty": 2,
+      "title": "Weekly Temperature",
+      "task": "The temperatures this week were 12, 15, 11, 9, 14, 16 and 14 degrees. Read them in a FOR loop and print AVERAGE = with the average.",
+      "requirements": [
+        {
+          "pattern": "FOR[\\s\\S]*READ",
+          "message": "Read the temperatures inside a FOR loop."
+        }
+      ],
+      "hints": [
+        "Add every value to a total T",
+        "Seven days: FOR I = 1 TO 7",
+        "The average is T / 7"
+      ],
+      "xp": 25,
+      "starter": "10 REM WEEKLY TEMPERATURE\n",
+      "expectedOutput": "AVERAGE = 13"
+    },
+    {
+      "id": "p-passes",
+      "unit": "u4",
+      "difficulty": 2,
+      "title": "Who Passed?",
+      "task": "Eight students scored 45, 67, 89, 32, 50, 71, 49 and 90. A score of 50 or more passes. Print PASSED = with the number of students who passed.",
+      "requirements": [
+        {
+          "pattern": "FOR[\\s\\S]*READ",
+          "message": "Read the scores in a FOR loop."
+        }
+      ],
+      "hints": [
+        "Start a counter at 0",
+        "IF X < 50 THEN skip the counting line",
+        "LET C = C + 1 for every pass"
+      ],
+      "xp": 25,
+      "starter": "10 REM WHO PASSED?\n",
+      "expectedOutput": "PASSED = 5"
+    },
+    {
+      "id": "p-reverse",
+      "unit": "u5",
+      "difficulty": 2,
+      "title": "Backwards",
+      "task": "Read the six numbers 3, 8, 1, 9, 4 and 7 into a list. Print them in reverse order, one per line.",
+      "requirements": [
+        {
+          "pattern": "READ\\s+[A-Z]\\s*\\(",
+          "message": "Read the numbers into a list, like READ A(I)."
+        },
+        {
+          "pattern": "STEP\\s*-",
+          "message": "Print backwards with a negative STEP."
+        }
+      ],
+      "hints": [
+        "FOR I = 1 TO 6, READ A(I), NEXT I",
+        "FOR I = 6 TO 1 STEP -1, PRINT A(I), NEXT I"
+      ],
+      "xp": 25,
+      "starter": "10 REM BACKWARDS\n",
+      "expectedOutput": "7\n4\n9\n1\n8\n3"
+    },
+    {
+      "id": "p-double",
+      "unit": "u5",
+      "difficulty": 2,
+      "title": "Double Everything",
+      "task": "Read 4, 9, 2, 11 and 6 into a list. Then double every element inside the list in a second loop, and print the list, one per line.",
+      "requirements": [
+        {
+          "pattern": "READ\\s+[A-Z]\\s*\\(",
+          "message": "Read the numbers into a list."
+        },
+        {
+          "pattern": "LET\\s+([A-Z])\\s*\\((.+)\\)\\s*=\\s*(\\1\\s*\\(.+\\)\\s*\\*\\s*2|2\\s*\\*\\s*\\1\\s*\\(|\\1\\s*\\(.+\\)\\s*\\+\\s*\\1\\s*\\()",
+          "message": "Double the elements inside the list, like LET A(I) = A(I) * 2."
+        }
+      ],
+      "hints": [
+        "First loop: READ A(I)",
+        "Second loop: LET A(I) = A(I) * 2",
+        "Third loop (or the same one): PRINT A(I)"
+      ],
+      "xp": 25,
+      "starter": "10 REM DOUBLE EVERYTHING\n",
+      "expectedOutput": "8\n18\n4\n22\n12"
+    },
+    {
+      "id": "p-lowest",
+      "unit": "u5",
+      "difficulty": 3,
+      "title": "Lowest and Where",
+      "task": "Read 34, 21, 58, 13, 40 and 27 into a list. Print LOWEST = with the smallest value, and POSITION = with its place in the list.",
+      "requirements": [
+        {
+          "pattern": "READ\\s+[A-Z]\\s*\\(",
+          "message": "Read the numbers into a list."
+        }
+      ],
+      "hints": [
+        "Remember the position M of the smallest so far, starting with M = 1",
+        "IF A(I) >= A(M) THEN skip, otherwise LET M = I",
+        "A(M) is the value, M is the position"
+      ],
+      "xp": 40,
+      "starter": "10 REM LOWEST AND WHERE\n",
+      "expectedOutput": "LOWEST = 13\nPOSITION = 4"
+    },
+    {
+      "id": "p-round",
+      "unit": "u6",
+      "difficulty": 2,
+      "title": "Round to Cents",
+      "task": "The prices 2.344, 7.891 and 5.678 have too many decimals. Read them and print each one rounded to two decimals, one per line.",
+      "requirements": [
+        {
+          "pattern": "INT\\s*\\(",
+          "message": "Round with INT, like INT(P * 100 + 0.5) / 100."
+        }
+      ],
+      "hints": [
+        "Multiply by 100, add 0.5, cut with INT, divide by 100",
+        "Read the three prices in a FOR loop"
+      ],
+      "xp": 25,
+      "starter": "10 REM ROUND TO CENTS\n",
+      "expectedOutput": "2.34\n7.89\n5.68"
+    },
+    {
+      "id": "p-hypotenuse",
+      "unit": "u6",
+      "difficulty": 1,
+      "title": "The Long Side",
+      "task": "A right triangle has the short sides 5 and 12. Print the length of the long side, using SQR.",
+      "requirements": [
+        {
+          "pattern": "SQR\\s*\\(",
+          "message": "Use SQR for the square root."
+        }
+      ],
+      "hints": [
+        "Pythagoras: the long side is SQR(A * A + B * B)"
+      ],
+      "xp": 15,
+      "starter": "10 REM THE LONG SIDE\n",
+      "expectedOutput": "13"
+    },
+    {
+      "id": "p-divisors",
+      "unit": "u6",
+      "difficulty": 3,
+      "title": "Divisors of 36",
+      "task": "Print every number that divides 36 evenly, from 1 to 36, one per line. Check each number with INT.",
+      "maxLines": 6,
+      "requirements": [
+        {
+          "pattern": "INT\\s*\\(",
+          "message": "Check with INT: D divides N when N / D = INT(N / D)."
+        }
+      ],
+      "hints": [
+        "FOR D = 1 TO 36",
+        "Skip the PRINT when 36 / D <> INT(36 / D)"
+      ],
+      "xp": 40,
+      "starter": "10 REM DIVISORS OF 36\n",
+      "expectedOutput": "1\n2\n3\n4\n6\n9\n12\n18\n36"
+    },
+    {
+      "id": "p-digit-sum",
+      "unit": "u6",
+      "difficulty": 3,
+      "title": "Digit Sum",
+      "task": "Add up the digits of 4096 (4 + 0 + 9 + 6) and print the result. Don't type the digits: take the number apart with INT in a loop.",
+      "requirements": [
+        {
+          "pattern": "4096",
+          "message": "Start from the number 4096."
+        },
+        {
+          "pattern": "INT\\s*\\(",
+          "message": "Take the number apart with INT."
+        }
+      ],
+      "hints": [
+        "The last digit of N is N - 10 * INT(N / 10)",
+        "Then remove it: LET N = INT(N / 10)",
+        "Repeat while N > 0"
+      ],
+      "xp": 40,
+      "starter": "10 REM DIGIT SUM\n",
+      "expectedOutput": "19"
+    },
+    {
+      "id": "p-banner",
+      "unit": "u7",
+      "difficulty": 1,
+      "title": "Banner",
+      "task": "Print a banner: a line of 8 stars, WELCOME, the star line again, TO BASIC, and the star line a third time. Write the star line only once, in a subroutine.",
+      "requirements": [
+        {
+          "pattern": "GOSUB\\s*\\d+",
+          "message": "Print the star line with a subroutine."
+        },
+        {
+          "pattern": "^\\s*\\d+\\s*RETURN\\s*$",
+          "message": "End the subroutine with RETURN."
+        }
+      ],
+      "hints": [
+        "1000 PRINT \"********\" and 1010 RETURN",
+        "Call GOSUB 1000 three times",
+        "STOP before the subroutine"
+      ],
+      "xp": 15,
+      "starter": "10 REM BANNER\n",
+      "expectedOutput": "********\nWELCOME\n********\nTO BASIC\n********"
+    },
+    {
+      "id": "p-square-sub",
+      "unit": "u7",
+      "difficulty": 2,
+      "title": "Squares by Subroutine",
+      "task": "Write a subroutine that prints the square of X. Call it three times, with X = 3, 7 and 12.",
+      "requirements": [
+        {
+          "pattern": "GOSUB[\\s\\S]*GOSUB[\\s\\S]*GOSUB",
+          "message": "Call the subroutine three times."
+        },
+        {
+          "pattern": "^\\s*\\d+\\s*RETURN\\s*$",
+          "message": "End the subroutine with RETURN."
+        }
+      ],
+      "hints": [
+        "LET X = 3, GOSUB 1000, LET X = 7, GOSUB 1000 …",
+        "The subroutine: PRINT X * X, RETURN"
+      ],
+      "xp": 25,
+      "starter": "10 REM SQUARES BY SUBROUTINE\n",
+      "expectedOutput": "9\n49\n144"
+    },
+    {
+      "id": "p-star-rows",
+      "unit": "u7",
+      "difficulty": 2,
+      "title": "Stars on Request",
+      "task": "Write a subroutine that prints a row of N stars. Use it to print rows with 1, 3 and 5 stars.",
+      "requirements": [
+        {
+          "pattern": "GOSUB\\s*\\d+",
+          "message": "Print the rows with a subroutine."
+        },
+        {
+          "pattern": "FOR\\s+",
+          "message": "Use a FOR loop inside the subroutine."
+        }
+      ],
+      "hints": [
+        "Main program: LET N = 1, GOSUB 1000, and so on",
+        "Subroutine: FOR I = 1 TO N, PRINT \"*\";, NEXT I, PRINT, RETURN"
+      ],
+      "xp": 25,
+      "starter": "10 REM STARS ON REQUEST\n",
+      "expectedOutput": "*\n***\n*****"
+    },
+    {
+      "id": "p-cubes",
+      "unit": "u8",
+      "difficulty": 1,
+      "title": "Cube Function",
+      "task": "Define a function FNC that cubes a number. Use it to print the cubes of 1 to 5, one per line.",
+      "maxLines": 6,
+      "requirements": [
+        {
+          "pattern": "DEF\\s*FN\\s*[A-Z]",
+          "message": "Define the function with DEF FN."
+        }
+      ],
+      "hints": [
+        "DEF FNC(X) = X * X * X",
+        "FOR I = 1 TO 5, PRINT FNC(I), NEXT I"
+      ],
+      "xp": 15,
+      "starter": "10 REM CUBE FUNCTION\n",
+      "expectedOutput": "1\n8\n27\n64\n125"
+    },
+    {
+      "id": "p-miles",
+      "unit": "u8",
+      "difficulty": 2,
+      "title": "Kilometers to Miles",
+      "task": "One kilometer is 0.621371 miles. Define a function that converts kilometers to miles, rounded to one decimal. Print a table from 10 to 50 km in steps of 10, with km in the first column and miles in the second.",
+      "requirements": [
+        {
+          "pattern": "DEF\\s*FN\\s*[A-Z]",
+          "message": "Put the conversion into a DEF function."
+        },
+        {
+          "pattern": "STEP\\s*10",
+          "message": "Count from 10 to 50 with STEP 10."
+        }
+      ],
+      "hints": [
+        "Round to one decimal: INT(X * 10 + 0.5) / 10",
+        "DEF FNM(K) = INT(K * 0.621371 * 10 + 0.5) / 10",
+        "PRINT K, FNM(K)"
+      ],
+      "xp": 25,
+      "starter": "10 REM KILOMETERS TO MILES\n",
+      "expectedOutput": "10             6.2\n20             12.4\n30             18.6\n40             24.9\n50             31.1"
+    },
+    {
+      "id": "p-remainder",
+      "unit": "u8",
+      "difficulty": 3,
+      "title": "What Divides 84?",
+      "task": "Define a remainder function FNR(D) = N - D * INT(N / D). Set N = 84 and print every number from 1 to 10 that divides 84 evenly.",
+      "requirements": [
+        {
+          "pattern": "DEF\\s*FN\\s*[A-Z]",
+          "message": "Use a DEF function for the remainder."
+        }
+      ],
+      "hints": [
+        "DEF FNR(D) = N - D * INT(N / D)",
+        "FOR D = 1 TO 10",
+        "IF FNR(D) <> 0 THEN skip the PRINT"
+      ],
+      "xp": 40,
+      "starter": "10 REM WHAT DIVIDES 84?\n",
+      "expectedOutput": "1\n2\n3\n4\n6\n7"
+    },
+    {
+      "id": "p-fix-sum",
+      "unit": "u9",
+      "difficulty": 1,
+      "title": "Fix the Sum",
+      "task": "This program should print SUM = 15 (the numbers 1 to 5 added up), but it has two bugs. Run it, read the error, and fix it.",
+      "starter": "10 REM ADD 1 TO 5\n20 LET S = 0\n30 FOR I = 1 TO 5\n40 LET S = I\n50 NEXT J\n60 PRINT \"SUM = \"; S\n70 END\n",
+      "requirements": [
+        {
+          "pattern": "LET\\s+S\\s*=\\s*(S\\s*\\+\\s*I|I\\s*\\+\\s*S)\\b",
+          "message": "The sum must grow: LET S = S + I."
+        }
+      ],
+      "hints": [
+        "NEXT must name the same variable as its FOR.",
+        "Line 40 overwrites S instead of adding to it."
+      ],
+      "xp": 15,
+      "expectedOutput": "SUM = 15"
+    },
+    {
+      "id": "p-fix-table",
+      "unit": "u9",
+      "difficulty": 2,
+      "title": "Fix the Table",
+      "task": "This program should print a table of cubes for 1 to 4, with the header N and CUBE printed once, and values in two columns. Find and fix the bugs.",
+      "starter": "10 REM TABLE OF CUBES\n20 FOR N = 1 TO 4\n30 PRINT \"N\", \"CUBE\"\n40 PRINT N; N * N\n50 NEXT N\n60 END\n",
+      "requirements": [
+        {
+          "pattern": "N\\s*\\*\\s*N\\s*\\*\\s*N|N\\s*\\^\\s*3|N\\s*\\^\\s*2\\s*\\*\\s*N|N\\s*\\*\\s*N\\s*\\^\\s*2",
+          "message": "A cube is N * N * N."
+        }
+      ],
+      "hints": [
+        "The header is printed in every round. Move it before the loop, for example to line 15.",
+        "Line 40 calculates the square, not the cube.",
+        "A comma puts the cube in its own column."
+      ],
+      "xp": 25,
+      "expectedOutput": "N              CUBE\n1              1\n2              8\n3              27\n4              64"
+    },
+    {
+      "id": "p-hollow",
+      "unit": "u10",
+      "difficulty": 3,
+      "title": "Hollow Square",
+      "task": "Print a hollow square, 5 stars wide and 5 rows high: full rows at the top and bottom, and in between only the first and last star, with spaces inside. Spaces count.",
+      "exact": true,
+      "requirements": [
+        {
+          "pattern": "FOR[\\s\\S]*FOR",
+          "message": "Use nested FOR loops for rows and columns."
+        }
+      ],
+      "hints": [
+        "Loop over rows R and columns C, both 1 to 5",
+        "Print a star if R or C is 1 or 5, otherwise a space",
+        "Use IF lines that jump to the star PRINT"
+      ],
+      "xp": 40,
+      "starter": "10 REM HOLLOW SQUARE\n",
+      "expectedOutput": "*****\n*   *\n*   *\n*   *\n*****"
+    },
+    {
+      "id": "p-number-triangle",
+      "unit": "u10",
+      "difficulty": 2,
+      "title": "Number Triangle",
+      "task": "Print a triangle of numbers: the first row is 1, the second 1 2, the third 1 2 3, up to the fifth row 1 2 3 4 5.",
+      "requirements": [
+        {
+          "pattern": "FOR[\\s\\S]*FOR",
+          "message": "Use two nested FOR loops."
+        }
+      ],
+      "hints": [
+        "The inner loop runs from 1 to the row number R",
+        "PRINT C; keeps the numbers on one line",
+        "An empty PRINT ends each row"
+      ],
+      "xp": 25,
+      "starter": "10 REM NUMBER TRIANGLE\n",
+      "expectedOutput": "1\n1 2\n1 2 3\n1 2 3 4\n1 2 3 4 5"
+    },
+    {
+      "id": "p-staircase",
+      "unit": "u10",
+      "difficulty": 2,
+      "title": "Staircase",
+      "task": "Print a staircase of # signs that leans to the right: 4 rows, the first with 3 spaces and 1 #, the last with no spaces and 4 #. Spaces count.",
+      "exact": true,
+      "requirements": [
+        {
+          "pattern": "FOR[\\s\\S]*FOR",
+          "message": "Use nested FOR loops."
+        }
+      ],
+      "hints": [
+        "Row R has 4 - R spaces and R signs",
+        "Spaces first: PRINT \" \";, then PRINT \"#\";"
+      ],
+      "xp": 25,
+      "starter": "10 REM STAIRCASE\n",
+      "expectedOutput": "   #\n  ##\n ###\n####"
+    },
+    {
+      "id": "p-sevens",
+      "unit": "u11",
+      "difficulty": 1,
+      "title": "How Many Sevens?",
+      "task": "Count how often 7 appears in 7, 3, 7, 1, 7, 9, 2, 7 and print SEVENS = with the count.",
+      "requirements": [
+        {
+          "pattern": "READ\\s+",
+          "message": "Read the numbers from a DATA line."
+        }
+      ],
+      "hints": [
+        "Read each number in a FOR loop",
+        "IF X <> 7 THEN skip the counting line"
+      ],
+      "xp": 15,
+      "starter": "10 REM HOW MANY SEVENS?\n",
+      "expectedOutput": "SEVENS = 4"
+    },
+    {
+      "id": "p-second",
+      "unit": "u11",
+      "difficulty": 3,
+      "title": "Second Place",
+      "task": "Read 14, 52, 33, 47, 8 and 29 into a list and print the second biggest value. Any method works, for example sorting first.",
+      "requirements": [
+        {
+          "pattern": "READ\\s+[A-Z]\\s*\\(",
+          "message": "Read the numbers into a list."
+        }
+      ],
+      "hints": [
+        "Easiest way: sort the list from biggest to smallest, then print A(2)",
+        "Bubble sort with IF A(I) >= A(I + 1) for descending order"
+      ],
+      "xp": 40,
+      "starter": "10 REM SECOND PLACE\n",
+      "expectedOutput": "47"
+    },
+    {
+      "id": "p-sort-down",
+      "unit": "u11",
+      "difficulty": 2,
+      "title": "Highest First",
+      "task": "Sort 5, 12, 3, 9 and 1 from highest to lowest and print them, one per line.",
+      "requirements": [
+        {
+          "pattern": "DATA\\s*5\\s*,\\s*12\\s*,\\s*3\\s*,\\s*9\\s*,\\s*1",
+          "message": "Keep the DATA in the original order: 5, 12, 3, 9, 1."
+        },
+        {
+          "pattern": "LET\\s+[A-Z][0-9]?\\s*=\\s*[A-Z]\\s*\\(",
+          "message": "Swap with a helper variable, like LET T = A(I)."
+        }
+      ],
+      "hints": [
+        "Bubble sort with two FOR loops",
+        "For highest first: skip the swap when A(I) >= A(I + 1)"
+      ],
+      "xp": 25,
+      "starter": "10 REM HIGHEST FIRST\n",
+      "expectedOutput": "12\n9\n5\n3\n1"
+    },
+    {
+      "id": "p-coins",
+      "unit": "u12",
+      "difficulty": 2,
+      "title": "Three Coins",
+      "task": "Toss three coins, where 1 means heads and 0 means tails. Try all combinations with nested loops and print WAYS = with how many give exactly two heads.",
+      "requirements": [
+        {
+          "pattern": "FOR[\\s\\S]*FOR[\\s\\S]*FOR",
+          "message": "Use three nested FOR loops, one per coin."
+        }
+      ],
+      "hints": [
+        "FOR A = 0 TO 1, FOR B = 0 TO 1, FOR C = 0 TO 1",
+        "Two heads means A + B + C = 2"
+      ],
+      "xp": 25,
+      "starter": "10 REM THREE COINS\n",
+      "expectedOutput": "WAYS = 3"
+    },
+    {
+      "id": "p-eight-plus",
+      "unit": "u12",
+      "difficulty": 3,
+      "title": "Eight or More",
+      "task": "How often do two dice add up to 8 or more? Try all 36 combinations and print WAYS = with the count, and PERCENT = with the chance in percent, rounded to a whole number.",
+      "requirements": [
+        {
+          "pattern": "FOR[\\s\\S]*FOR",
+          "message": "Try all combinations with two nested FOR loops."
+        }
+      ],
+      "hints": [
+        "Count the combinations where A + B >= 8",
+        "The chance in percent is W / 36 * 100",
+        "Round with INT(X + 0.5)"
+      ],
+      "xp": 40,
+      "starter": "10 REM EIGHT OR MORE\n",
+      "expectedOutput": "WAYS = 15\nPERCENT = 42"
+    },
+    {
+      "id": "p-days",
+      "unit": "u13",
+      "difficulty": 1,
+      "title": "Age in Days",
+      "task": "Ask for an age in years with INPUT and print DAYS = with roughly how many days that is (365 per year).",
+      "inputs": [
+        30
+      ],
+      "requirements": [
+        {
+          "pattern": "INPUT\\s+[A-Z]",
+          "message": "Ask for the age with INPUT."
+        }
+      ],
+      "hints": [
+        "INPUT A",
+        "PRINT \"DAYS = \"; A * 365"
+      ],
+      "xp": 15,
+      "starter": "10 REM AGE IN DAYS\n",
+      "expectedOutput": "? 30\nDAYS = 10950"
+    },
+    {
+      "id": "p-input-bigger",
+      "unit": "u13",
+      "difficulty": 1,
+      "title": "Bigger of Two",
+      "task": "Ask for two numbers with INPUT and print BIGGER = with the bigger one.",
+      "inputs": [
+        14,
+        9
+      ],
+      "requirements": [
+        {
+          "pattern": "INPUT\\s+[A-Z]",
+          "message": "Ask for the numbers with INPUT."
+        }
+      ],
+      "hints": [
+        "INPUT A, B asks for both",
+        "IF A > B THEN jump to the line that prints A"
+      ],
+      "xp": 15,
+      "starter": "10 REM BIGGER OF TWO\n",
+      "expectedOutput": "? 14\n? 9\nBIGGER = 14"
+    },
+    {
+      "id": "p-times-table",
+      "unit": "u13",
+      "difficulty": 2,
+      "title": "Times Table on Demand",
+      "task": "Ask for a number N with INPUT, then print its times table from 1 to 10: the multiplier in the first column, the result in the second.",
+      "inputs": [
+        7
+      ],
+      "requirements": [
+        {
+          "pattern": "INPUT\\s+[A-Z]",
+          "message": "Ask for the number with INPUT."
+        },
+        {
+          "pattern": "FOR\\s+",
+          "message": "Use a FOR loop for the table."
+        }
+      ],
+      "hints": [
+        "INPUT N",
+        "FOR I = 1 TO 10, PRINT I, N * I, NEXT I"
+      ],
+      "xp": 25,
+      "starter": "10 REM TIMES TABLE ON DEMAND\n",
+      "expectedOutput": "? 7\n1              7\n2              14\n3              21\n4              28\n5              35\n6              42\n7              49\n8              56\n9              63\n10             70"
+    },
+    {
+      "id": "p-input-average",
+      "unit": "u13",
+      "difficulty": 3,
+      "title": "Running Average",
+      "task": "Keep asking for numbers with INPUT until the user types 0. Then print AVERAGE = with the average of the numbers before the 0.",
+      "inputs": [
+        10,
+        20,
+        60,
+        0
+      ],
+      "requirements": [
+        {
+          "pattern": "IF\\s+[^\\n]*\\b0\\b[^\\n]*THEN",
+          "message": "Stop when the number is 0, like IF X = 0 THEN …"
+        }
+      ],
+      "hints": [
+        "Keep a total T and a count C",
+        "Check for 0 before adding",
+        "The average is T / C"
+      ],
+      "xp": 40,
+      "starter": "10 REM RUNNING AVERAGE\n",
+      "expectedOutput": "? 10\n? 20\n? 60\n? 0\nAVERAGE = 30"
+    },
+    {
+      "id": "p-password",
+      "unit": "u14",
+      "difficulty": 2,
+      "title": "Password Check",
+      "task": "Ask for a password with INPUT P$. If it isn't BASIC, print WRONG and ask again. When it's right, print WELCOME.",
+      "inputs": [
+        "HELLO",
+        "1964",
+        "BASIC"
+      ],
+      "requirements": [
+        {
+          "pattern": "INPUT\\s+[A-Z][0-9]?\\$",
+          "message": "Read the password into a text variable, like INPUT P$."
+        },
+        {
+          "pattern": "IF\\s+([A-Z][0-9]?\\$\\s*(=|<>)\\s*\\\"BASIC\\\"|\\\"BASIC\\\"\\s*(=|<>)\\s*[A-Z][0-9]?\\$)",
+          "message": "Compare it with IF P$ = \"BASIC\" THEN …"
+        }
+      ],
+      "hints": [
+        "INPUT P$",
+        "IF P$ = \"BASIC\" THEN jump to the WELCOME line",
+        "Otherwise PRINT \"WRONG\" and GOTO back to the INPUT"
+      ],
+      "xp": 25,
+      "starter": "10 REM PASSWORD CHECK\n",
+      "expectedOutput": "? HELLO\nWRONG\n? 1964\nWRONG\n? BASIC\nWELCOME"
+    },
+    {
+      "id": "p-greetings",
+      "unit": "u14",
+      "difficulty": 1,
+      "title": "Greeting Machine",
+      "task": "Store the names ADA, ALAN and GRACE in a DATA line. Read them one by one and print HELLO, followed by the name, for each.",
+      "requirements": [
+        {
+          "pattern": "READ\\s+[A-Z][0-9]?\\$",
+          "message": "Read the names into a text variable, like READ N$."
+        }
+      ],
+      "hints": [
+        "DATA \"ADA\", \"ALAN\", \"GRACE\"",
+        "FOR I = 1 TO 3, READ N$, PRINT \"HELLO, \"; N$, NEXT I"
+      ],
+      "xp": 15,
+      "starter": "10 REM GREETING MACHINE\n",
+      "expectedOutput": "HELLO, ADA\nHELLO, ALAN\nHELLO, GRACE"
+    },
+    {
+      "id": "p-mat-add",
+      "unit": "u14",
+      "difficulty": 2,
+      "title": "Adding Lists",
+      "task": "Two shops sold 3, 5, 2 and 8 items, and 4, 1, 6 and 2 items over four days. Use MAT READ to read both lists, MAT to add them, and MAT PRINT to print the daily totals.",
+      "requirements": [
+        {
+          "pattern": "MAT\\s+READ",
+          "message": "Read the lists with MAT READ."
+        },
+        {
+          "pattern": "MAT\\s+[A-Z]\\s*=\\s*[A-Z]\\s*\\+\\s*[A-Z]",
+          "message": "Add the lists with MAT C = A + B."
+        },
+        {
+          "pattern": "MAT\\s+PRINT",
+          "message": "Print the result with MAT PRINT."
+        }
+      ],
+      "hints": [
+        "DIM A(4), B(4), C(4)",
+        "MAT READ A, B reads both lists from one DATA line",
+        "MAT C = A + B, then MAT PRINT C"
+      ],
+      "xp": 25,
+      "starter": "10 REM ADDING LISTS\n",
+      "expectedOutput": "7              6              8              10"
+    }
+  ]
+}

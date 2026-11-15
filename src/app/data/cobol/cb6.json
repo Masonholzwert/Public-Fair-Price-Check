@@ -1,0 +1,421 @@
+{
+  "id": "cb6",
+  "title": "Groups and Levels",
+  "lessons": [
+    {
+      "id": "cb6-l1",
+      "title": "Group Items",
+      "xp": 15,
+      "intro": [
+        "Data comes in records: a customer has a name, a city and a number. In COBOL, an 01 without a PIC is a group, and the fields under it get higher level numbers like 05.",
+        "The group is all of its fields, one after the other. DISPLAY CUSTOMER shows them all together, exactly as they sit in memory.",
+        "MOVE SPACES TO CUSTOMER clears the whole record at once. Levels can go deeper: 10 under 05, up to 49."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. RECORD.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 CUSTOMER.",
+          "          05 CUST-NAME  PIC X(6).",
+          "          05 CUST-CITY  PIC X(8).",
+          "          05 CUST-BORN  PIC 9(4).",
+          "       PROCEDURE DIVISION.",
+          "           MOVE \"GRACE\" TO CUST-NAME.",
+          "           MOVE \"NEW YORK\" TO CUST-CITY.",
+          "           MOVE 1906 TO CUST-BORN.",
+          "           DISPLAY \"[\" CUSTOMER \"]\".",
+          "           DISPLAY \"CITY: \" CUST-CITY.",
+          "           MOVE SPACES TO CUSTOMER.",
+          "           DISPLAY \"[\" CUSTOMER \"]\".",
+          "           STOP RUN."
+        ],
+        "output": [
+          "[GRACE NEW YORK1906]",
+          "CITY: NEW YORK",
+          "[                  ]"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb6-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is an 01 level without a PIC?",
+          "options": [
+            "A group: it's made of the fields below it",
+            "An error",
+            "A text field of 1 character",
+            "A comment"
+          ],
+          "answer": 0,
+          "explanation": "Only the elementary fields at the bottom have a PIC."
+        },
+        {
+          "id": "cb6-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. GROUP.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 PERSON.",
+            "          05 NAME-PART PIC X(3).",
+            "          05 YEAR-PART PIC 9(4).",
+            "       PROCEDURE DIVISION.",
+            "           MOVE \"ADA\" TO NAME-PART.",
+            "           MOVE 1815 TO YEAR-PART.",
+            "           DISPLAY \"[\" PERSON \"]\".",
+            "           STOP RUN."
+          ],
+          "options": [
+            "[ADA1815]",
+            "[ADA 1815]",
+            "[ADA  1815]",
+            "[1815ADA]"
+          ],
+          "answer": 0,
+          "explanation": "The group is NAME-PART (3 characters) followed by YEAR-PART."
+        },
+        {
+          "id": "cb6-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Clear the whole customer record.",
+          "code": [
+            "           MOVE ___ TO CUSTOMER."
+          ],
+          "options": [
+            "SPACES",
+            "ZERO",
+            "NOTHING",
+            "NULL"
+          ],
+          "answer": "SPACES",
+          "explanation": "SPACES fills every character of the group."
+        },
+        {
+          "id": "cb6-l1-e4",
+          "type": "find_bug",
+          "prompt": "This job doesn't compile. Which line is wrong?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. GRP.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 ORDER-REC PIC X(10).",
+            "          05 ORDER-NO PIC 9(5).",
+            "       PROCEDURE DIVISION.",
+            "           STOP RUN."
+          ],
+          "answer": 4,
+          "explanation": "ORDER-REC has a PIC, so it can't have fields under it. A group has no PIC."
+        },
+        {
+          "id": "cb6-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "How long is a group with PIC X(6), PIC X(8) and PIC 9(4) under it?",
+          "options": [
+            "18 characters",
+            "6",
+            "3",
+            "It has no length"
+          ],
+          "answer": 0,
+          "explanation": "6 + 8 + 4."
+        },
+        {
+          "id": "cb6-l1-e6",
+          "type": "order_lines",
+          "prompt": "Put the record in order: a group with two fields.",
+          "lines": [
+            "       01 BOOK.",
+            "          05 TITLE    PIC X(20).",
+            "          05 PAGES    PIC 9(4)."
+          ],
+          "answer": [
+            "       01 BOOK.",
+            "          05 TITLE    PIC X(20).",
+            "          05 PAGES    PIC 9(4)."
+          ],
+          "explanation": "The 01 group first, then its 05 fields."
+        }
+      ]
+    },
+    {
+      "id": "cb6-l2",
+      "title": "Report Lines",
+      "xp": 15,
+      "intro": [
+        "A printed report line is a group too: texts, spaces and edited fields side by side. FILLER is a field without a name, for parts you never change, like labels and gaps.",
+        "Fill in the named fields, then DISPLAY the whole line. Everything lines up in columns by itself, because every field has a fixed size.",
+        "This is how COBOL programs printed millions of bills and bank statements: one line layout, filled again for every row."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. REPORT.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 REPORT-LINE.",
+          "          05 RL-ITEM    PIC X(8).",
+          "          05 FILLER     PIC X(2) VALUE SPACES.",
+          "          05 RL-QTY     PIC ZZ9.",
+          "          05 FILLER     PIC X(3) VALUE \" X \".",
+          "          05 RL-PRICE   PIC $$$9.99.",
+          "       PROCEDURE DIVISION.",
+          "           MOVE \"COFFEE\" TO RL-ITEM.",
+          "           MOVE 3 TO RL-QTY.",
+          "           MOVE 7.5 TO RL-PRICE.",
+          "           DISPLAY REPORT-LINE.",
+          "           MOVE \"CAKE\" TO RL-ITEM.",
+          "           MOVE 12 TO RL-QTY.",
+          "           MOVE 23.75 TO RL-PRICE.",
+          "           DISPLAY REPORT-LINE.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "COFFEE      3 X   $7.50",
+          "CAKE       12 X  $23.75"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb6-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is FILLER?",
+          "options": [
+            "A field without a name, for fixed parts like labels and gaps",
+            "A field that fills up automatically",
+            "A comment",
+            "The last field of a group"
+          ],
+          "answer": 0,
+          "explanation": "You can't refer to it, so it keeps its VALUE."
+        },
+        {
+          "id": "cb6-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. LINE.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 LINE-OUT.",
+            "          05 FILLER PIC X(7) VALUE \"TOTAL: \".",
+            "          05 T-OUT  PIC ZZ9.",
+            "       PROCEDURE DIVISION.",
+            "           MOVE 42 TO T-OUT.",
+            "           DISPLAY LINE-OUT.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "TOTAL:  42",
+            "TOTAL:42",
+            "TOTAL: 042",
+            "  42TOTAL:"
+          ],
+          "answer": 0,
+          "explanation": "The FILLER holds \"TOTAL: \", then the ZZ9 field shows \" 42\"."
+        },
+        {
+          "id": "cb6-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Put a fixed label into the line.",
+          "code": [
+            "          05 ___ PIC X(6) VALUE \"NAME: \"."
+          ],
+          "options": [
+            "FILLER",
+            "LABEL",
+            "TEXT",
+            "CONST"
+          ],
+          "answer": "FILLER",
+          "explanation": "FILLER is the nameless field."
+        },
+        {
+          "id": "cb6-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "Why does everything line up in columns?",
+          "options": [
+            "Every field has a fixed size",
+            "COBOL counts the spaces",
+            "DISPLAY adds tabs",
+            "It doesn't"
+          ],
+          "answer": 0,
+          "explanation": "The same layout, refilled for each row."
+        },
+        {
+          "id": "cb6-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "Can a program MOVE something into a FILLER?",
+          "options": [
+            "No, it has no name to refer to",
+            "Yes, MOVE X TO FILLER",
+            "Only numbers",
+            "Only once"
+          ],
+          "answer": 0,
+          "explanation": "That's the point: it stays as it was declared."
+        },
+        {
+          "id": "cb6-l2-e6",
+          "type": "order_lines",
+          "prompt": "Build a line: a label, then an edited amount.",
+          "lines": [
+            "       01 TOTAL-LINE.",
+            "          05 FILLER    PIC X(8) VALUE \"AMOUNT: \".",
+            "          05 TL-AMOUNT PIC $$$9.99."
+          ],
+          "answer": [
+            "       01 TOTAL-LINE.",
+            "          05 FILLER    PIC X(8) VALUE \"AMOUNT: \".",
+            "          05 TL-AMOUNT PIC $$$9.99."
+          ],
+          "explanation": "The group, then its parts from left to right."
+        }
+      ]
+    },
+    {
+      "id": "cb6-l3",
+      "title": "Group Moves",
+      "xp": 15,
+      "intro": [
+        "MOVE between groups copies the characters one by one, without looking at the fields inside. That's handy for copying a whole record.",
+        "But it's also a trap: moving text into a group that has PIC 9 fields puts letters where digits belong, and the next calculation abends with S0C7.",
+        "INITIALIZE is the safe way to clear a record: it sets every PIC 9 field to zero and every text field to spaces."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. COPY.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 OLD-REC.",
+          "          05 P-NAME PIC X(8).",
+          "          05 P-AGE  PIC 99.",
+          "       01 NEW-REC.",
+          "          05 P-NAME PIC X(8).",
+          "          05 P-AGE  PIC 99.",
+          "       PROCEDURE DIVISION.",
+          "           MOVE \"LOVELACE\" TO P-NAME OF OLD-REC.",
+          "           MOVE 36 TO P-AGE OF OLD-REC.",
+          "           MOVE OLD-REC TO NEW-REC.",
+          "           DISPLAY \"COPY:  \" P-NAME OF NEW-REC \" \" P-AGE OF NEW-REC.",
+          "           INITIALIZE NEW-REC.",
+          "           DISPLAY \"CLEAR: [\" P-NAME OF NEW-REC \"] \" P-AGE OF NEW-REC.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "COPY:  LOVELACE 36",
+          "CLEAR: [        ] 00"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb6-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does MOVE between two groups do?",
+          "options": [
+            "Copies the characters one by one, ignoring the fields inside",
+            "Converts every field",
+            "Only moves the first field",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "A group is just a row of characters."
+        },
+        {
+          "id": "cb6-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does INITIALIZE do to a record?",
+          "options": [
+            "Sets numbers to zero and text to spaces",
+            "Deletes it",
+            "Fills it with spaces",
+            "Gives it its VALUEs again"
+          ],
+          "answer": 0,
+          "explanation": "Each field gets the right kind of empty."
+        },
+        {
+          "id": "cb6-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "Two records both have a field P-AGE. How do you say which one?",
+          "options": [
+            "P-AGE OF NEW-REC",
+            "NEW-REC.P-AGE",
+            "NEW-REC(P-AGE)",
+            "P-AGE-2"
+          ],
+          "answer": 0,
+          "explanation": "OF (or IN) says which group it belongs to."
+        },
+        {
+          "id": "cb6-l3-e4",
+          "type": "find_bug",
+          "prompt": "This job abends with S0C7. Which line is the cause?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. TRAP.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 ITEM-REC.",
+            "          05 QTY PIC 99.",
+            "       PROCEDURE DIVISION.",
+            "           MOVE SPACES TO ITEM-REC.",
+            "           ADD 1 TO QTY.",
+            "           STOP RUN."
+          ],
+          "answer": 7,
+          "explanation": "MOVE SPACES to the group puts spaces into QTY. Use INITIALIZE ITEM-REC, which puts a zero there."
+        },
+        {
+          "id": "cb6-l3-e5",
+          "type": "fill_blank",
+          "prompt": "Clear the record safely.",
+          "code": [
+            "           ___ ORDER-REC."
+          ],
+          "options": [
+            "INITIALIZE",
+            "CLEAR",
+            "MOVE SPACES TO",
+            "RESET"
+          ],
+          "answer": "INITIALIZE",
+          "explanation": "INITIALIZE knows which fields are numbers."
+        },
+        {
+          "id": "cb6-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. INIT.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 REC.",
+            "          05 T PIC X(3).",
+            "          05 N PIC 99.",
+            "       PROCEDURE DIVISION.",
+            "           INITIALIZE REC.",
+            "           DISPLAY N.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "00",
+            "  ",
+            "a S0C7 abend",
+            "01"
+          ],
+          "answer": 0,
+          "explanation": "INITIALIZE put a real 0 into N."
+        }
+      ]
+    }
+  ]
+}

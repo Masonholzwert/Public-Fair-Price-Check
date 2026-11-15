@@ -1,0 +1,396 @@
+{
+  "id": "p13",
+  "title": "Enumerations and Ranges",
+  "lessons": [
+    {
+      "id": "p13-l1",
+      "title": "Your Own Values",
+      "xp": 15,
+      "intro": [
+        "Pascal lets you invent your own types. An enumeration lists all its values: type TColor = (red, yellow, green); A variable of that type can only hold one of them.",
+        "That's clearer than numbers: light := green; says what it means, and light := 7; is an error the compiler catches.",
+        "Enumeration values can be compared, used in case, and looped over. But Turbo Pascal can't writeln them directly: you need an array of names."
+      ],
+      "example": {
+        "code": [
+          "program Light;",
+          "type",
+          "  TColor = (red, yellow, green);",
+          "var",
+          "  light: TColor;",
+          "begin",
+          "  light := red;",
+          "  if light = red then",
+          "    writeln('Stop!');",
+          "  case light of",
+          "    red: writeln('red');",
+          "    yellow: writeln('yellow');",
+          "    green: writeln('green');",
+          "  end;",
+          "end."
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "p13-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is an enumeration type?",
+          "options": [
+            "A type that lists all its possible values",
+            "A list of numbers",
+            "An array",
+            "A string"
+          ],
+          "answer": 0,
+          "explanation": "type TDay = (mon, tue, wed, thu, fri, sat, sun);"
+        },
+        {
+          "id": "p13-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Why is light := green better than light := 3?",
+          "options": [
+            "It says what it means, and wrong values are caught",
+            "It's faster",
+            "It uses less memory",
+            "It isn't"
+          ],
+          "answer": 0,
+          "explanation": "Readable code, and the compiler checks it."
+        },
+        {
+          "id": "p13-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Declare an enumeration.",
+          "code": [
+            "type",
+            "  TSuit = (hearts, diamonds, clubs___ spades);"
+          ],
+          "options": [
+            ",",
+            ";",
+            "..",
+            "|"
+          ],
+          "answer": ",",
+          "explanation": "The values are separated by commas, in round brackets."
+        },
+        {
+          "id": "p13-l1-e4",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program Days;",
+            "type",
+            "  TDay = (mon, tue, wed);",
+            "var",
+            "  d: TDay;",
+            "begin",
+            "  d := tue;",
+            "  writeln(d);",
+            "end."
+          ],
+          "answer": 7,
+          "explanation": "Turbo Pascal can't write enumeration values: Error 64. Use case or an array of names."
+        },
+        {
+          "id": "p13-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program L;",
+            "type",
+            "  TColor = (red, yellow, green);",
+            "var",
+            "  light: TColor;",
+            "begin",
+            "  light := green;",
+            "  case light of",
+            "    red: writeln('stop');",
+            "    yellow: writeln('wait');",
+            "    green: writeln('go');",
+            "  end;",
+            "end."
+          ],
+          "options": [
+            "go",
+            "stop",
+            "wait",
+            "nothing"
+          ],
+          "answer": 0,
+          "explanation": "light is green."
+        },
+        {
+          "id": "p13-l1-e6",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program Col;",
+            "type",
+            "  TColor = (red, green, blue);",
+            "var",
+            "  c: TColor;",
+            "begin",
+            "  c := 2;",
+            "end."
+          ],
+          "answer": 6,
+          "explanation": "c can only hold red, green or blue, not a number: Error 26: Type mismatch."
+        }
+      ]
+    },
+    {
+      "id": "p13-l2",
+      "title": "ord, succ and pred",
+      "xp": 15,
+      "intro": [
+        "Enumeration values are counted from 0: ord(red) is 0, ord(yellow) 1, ord(green) 2.",
+        "succ(x) is the next value, pred(x) the one before. succ of the last value is an error.",
+        "A for loop can run over an enumeration: for d := mon to fri do … And arrays can use it as index: names: array[TColor] of string."
+      ],
+      "example": {
+        "code": [
+          "program Week;",
+          "type",
+          "  TDay = (mon, tue, wed, thu, fri, sat, sun);",
+          "const",
+          "  dayName: array[TDay] of string = ('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun');",
+          "var",
+          "  d: TDay;",
+          "begin",
+          "  for d := mon to sun do",
+          "    write(dayName[d], ' ');",
+          "  writeln;",
+          "  d := wed;",
+          "  writeln('After ', dayName[d], ' comes ', dayName[succ(d)], ', number ', ord(succ(d)));",
+          "end."
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "p13-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "If type TSize = (small, medium, large), what is ord(large)?",
+          "options": [
+            "2",
+            "3",
+            "1",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "Counting starts at 0."
+        },
+        {
+          "id": "p13-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What is succ(small)?",
+          "options": [
+            "medium",
+            "large",
+            "1",
+            "small"
+          ],
+          "answer": 0,
+          "explanation": "The next value in the list."
+        },
+        {
+          "id": "p13-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What happens with succ(large) when large is the last value?",
+          "options": [
+            "Runtime error 201: Range check error",
+            "It wraps to small",
+            "It gives large",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "There is no value after the last one."
+        },
+        {
+          "id": "p13-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Give every color a name to print.",
+          "code": [
+            "  names: array[___] of string = ('red', 'green', 'blue');"
+          ],
+          "options": [
+            "TColor",
+            "1..3",
+            "string",
+            "0..2"
+          ],
+          "answer": "TColor",
+          "explanation": "The enumeration itself can be the index type."
+        },
+        {
+          "id": "p13-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program W;",
+            "type",
+            "  TDay = (mon, tue, wed, thu, fri);",
+            "const",
+            "  n: array[TDay] of string = ('Mon', 'Tue', 'Wed', 'Thu', 'Fri');",
+            "var",
+            "  d: TDay;",
+            "begin",
+            "  for d := tue to thu do",
+            "    write(n[d], ' ');",
+            "  writeln;",
+            "end."
+          ],
+          "options": [
+            "Tue Wed Thu",
+            "Mon Tue Wed",
+            "1 2 3",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "The loop goes from tue to thu."
+        },
+        {
+          "id": "p13-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Can enumeration values be compared, like mon < fri?",
+          "options": [
+            "Yes, by their order in the list",
+            "No, never",
+            "Only with =",
+            "Only in case"
+          ],
+          "answer": 0,
+          "explanation": "mon comes first, so mon < fri is true."
+        }
+      ]
+    },
+    {
+      "id": "p13-l3",
+      "title": "Subranges",
+      "xp": 15,
+      "intro": [
+        "A subrange is a part of another type: var month: 1..12; or var grade: 'A'..'F'; It works like the bigger type, but only allows those values.",
+        "Storing a value outside the range stops the program with Runtime error 201: Range check error. That finds mistakes early.",
+        "Subranges are also handy as array indexes: type TMonth = 1..12; days: array[TMonth] of integer."
+      ],
+      "example": {
+        "code": [
+          "program Months;",
+          "type",
+          "  TMonth = 1..12;",
+          "const",
+          "  days: array[TMonth] of integer = (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);",
+          "var",
+          "  month: TMonth;",
+          "begin",
+          "  month := 2;",
+          "  writeln('Month ', month, ' has ', days[month], ' days');",
+          "  month := month + 10;",
+          "  writeln('Month ', month);",
+          "end."
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "p13-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What can var hour: 0..23; hold?",
+          "options": [
+            "The whole numbers from 0 to 23",
+            "Any integer",
+            "Only 0 and 23",
+            "Reals from 0 to 23"
+          ],
+          "answer": 0,
+          "explanation": "A subrange of integer."
+        },
+        {
+          "id": "p13-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What happens when hour := 24; runs?",
+          "options": [
+            "Runtime error 201: Range check error",
+            "hour becomes 0",
+            "hour becomes 23",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "24 is outside 0..23."
+        },
+        {
+          "id": "p13-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Allow only the small letters.",
+          "code": [
+            "var",
+            "  letter: 'a'___'z';"
+          ],
+          "options": [
+            "..",
+            ",",
+            "-",
+            " to "
+          ],
+          "answer": "..",
+          "explanation": "A range of chars works just like a range of numbers."
+        },
+        {
+          "id": "p13-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program S;",
+            "var",
+            "  n: 1..10;",
+            "begin",
+            "  n := 5;",
+            "  n := n * 2;",
+            "  writeln(n);",
+            "end."
+          ],
+          "options": [
+            "10",
+            "11",
+            "an error",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "10 is inside 1..10."
+        },
+        {
+          "id": "p13-l3-e5",
+          "type": "find_bug",
+          "prompt": "This program stops with a range check error. Which line is wrong?",
+          "code": [
+            "program Dice;",
+            "var",
+            "  die: 1..6;",
+            "begin",
+            "  die := 6;",
+            "  writeln(die);",
+            "  die := die + 1;",
+            "end."
+          ],
+          "answer": 6,
+          "explanation": "7 doesn't fit into 1..6."
+        },
+        {
+          "id": "p13-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why use a subrange instead of a plain integer?",
+          "options": [
+            "Wrong values are caught right away",
+            "It's faster",
+            "It uses no memory",
+            "It can hold more"
+          ],
+          "answer": 0,
+          "explanation": "A month of 13 can't sneak in unnoticed."
+        }
+      ]
+    }
+  ]
+}

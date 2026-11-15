@@ -1,0 +1,355 @@
+{
+  "id": "c1",
+  "title": "Hello, World",
+  "lessons": [
+    {
+      "id": "c1-l1",
+      "title": "The First Program",
+      "xp": 15,
+      "intro": [
+        "In 1972, Dennis Ritchie at Bell Labs created C to write the Unix operating system. It ran on a PDP-11, a computer the size of a fridge, and people used it through terminals like this one.",
+        "In 1978, Brian Kernighan and Ritchie wrote the book \"The C Programming Language\". Its first example printed two words: hello, world. Programmers have started every new language with it ever since.",
+        "Every C program starts in a function called main. Everything between its curly braces { } runs from top to bottom. printf prints text, and \\n starts a new line."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    printf(\"hello, world\\n\");",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "hello, world"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c1-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "Who created C?",
+          "options": [
+            "Dennis Ritchie at Bell Labs",
+            "IBM",
+            "Bill Gates at Microsoft",
+            "John Kemeny at Dartmouth"
+          ],
+          "answer": 0,
+          "explanation": "Ritchie built C around 1972 to rewrite Unix, together with Ken Thompson."
+        },
+        {
+          "id": "c1-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Where does a C program start running?",
+          "options": [
+            "In the function main",
+            "On the first line of the file",
+            "At #include",
+            "At the last line"
+          ],
+          "answer": 0,
+          "explanation": "The computer looks for main and runs what's inside its braces."
+        },
+        {
+          "id": "c1-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What does \\n do inside the text?",
+          "options": [
+            "Starts a new line",
+            "Prints the letter n",
+            "Ends the program",
+            "Makes a space"
+          ],
+          "answer": 0,
+          "explanation": "\\n is the newline character. Without it, the next output would continue on the same line."
+        },
+        {
+          "id": "c1-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What do the curly braces { } do?",
+          "options": [
+            "They hold the statements that belong to main",
+            "They mark comments",
+            "They print text",
+            "Nothing, they're decoration"
+          ],
+          "answer": 0,
+          "explanation": "Braces group statements into a block, here the body of main."
+        },
+        {
+          "id": "c1-l1-e5",
+          "type": "order_lines",
+          "prompt": "Put the lines in order for a program that prints hi.",
+          "lines": [
+            "#include <stdio.h>",
+            "int main() {",
+            "    printf(\"hi\\n\");",
+            "    return 0;",
+            "}"
+          ],
+          "answer": [
+            "#include <stdio.h>",
+            "int main() {",
+            "    printf(\"hi\\n\");",
+            "    return 0;",
+            "}"
+          ],
+          "explanation": "First the #include, then main with its opening brace, the statements, and the closing brace last."
+        },
+        {
+          "id": "c1-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "What was the first program in Kernighan and Ritchie's book?",
+          "options": [
+            "hello, world",
+            "Fibonacci numbers",
+            "A calculator",
+            "Tic-tac-toe"
+          ],
+          "answer": 0,
+          "explanation": "It's been the first program in nearly every programming book since."
+        }
+      ]
+    },
+    {
+      "id": "c1-l2",
+      "title": "Statements and Semicolons",
+      "xp": 15,
+      "intro": [
+        "Every statement in C ends with a semicolon ;. It tells the compiler: this instruction is complete. Forget one, and the compiler stops with an error, usually pointing at the line.",
+        "#include <stdio.h> at the top loads the standard input/output library, where printf lives. return 0; at the end tells Unix the program finished without problems.",
+        "Text in double quotes is a string. Each printf can print a little or a lot, and nothing moves to a new line unless you write \\n."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    printf(\"Unix \");",
+          "    printf(\"was written \");",
+          "    printf(\"in C.\\n\");",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "Unix was written in C."
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c1-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What ends every statement in C?",
+          "options": [
+            ";",
+            ".",
+            "A new line",
+            ":"
+          ],
+          "answer": 0,
+          "explanation": "The semicolon marks the end. A new line alone isn't enough."
+        },
+        {
+          "id": "c1-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    printf(\"A\");",
+            "    printf(\"B\");",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "AB",
+            "A\nB",
+            "A B",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "Neither printf has a \\n, so both letters land on the same line."
+        },
+        {
+          "id": "c1-l2-e3",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    printf(\"hello\\n\")",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 3,
+          "explanation": "The printf is missing its semicolon at the end."
+        },
+        {
+          "id": "c1-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What is #include <stdio.h> for?",
+          "options": [
+            "It loads the library with printf",
+            "It starts the program",
+            "It's a comment",
+            "It prints the header"
+          ],
+          "answer": 0,
+          "explanation": "stdio.h describes the standard input and output functions, like printf and scanf."
+        },
+        {
+          "id": "c1-l2-e5",
+          "type": "fill_blank",
+          "prompt": "Finish the statement.",
+          "code": [
+            "printf(\"ready\\n\")___"
+          ],
+          "options": [
+            ";",
+            ".",
+            ":",
+            ","
+          ],
+          "answer": ";",
+          "explanation": "Every statement ends with a semicolon."
+        },
+        {
+          "id": "c1-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What does return 0; at the end of main mean?",
+          "options": [
+            "The program finished without errors",
+            "Print 0",
+            "Start again from the top",
+            "Delete the program"
+          ],
+          "answer": 0,
+          "explanation": "Unix programs report 0 for success. Other numbers mean something went wrong."
+        }
+      ]
+    },
+    {
+      "id": "c1-l3",
+      "title": "Compile and Run",
+      "xp": 15,
+      "intro": [
+        "C isn't run line by line like BASIC. First the compiler translates the whole program into machine code. On Unix, you type cc hello.c, and if there are no errors, you get a program called a.out.",
+        "Then you run it by typing ./a.out. Compiling catches many mistakes before the program even starts, and the machine code runs very fast.",
+        "Comments start with /* and end with */. The compiler skips them; they're notes for people. (Modern C also allows // until the end of the line.)"
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    /* my second program */",
+          "    printf(\"compiled\\n\");",
+          "    // this line is ignored too",
+          "    printf(\"and running\\n\");",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "compiled",
+          "and running"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c1-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does cc hello.c do on Unix?",
+          "options": [
+            "Compiles the program into machine code",
+            "Runs the program",
+            "Deletes hello.c",
+            "Prints the file"
+          ],
+          "answer": 0,
+          "explanation": "cc is the C compiler. It creates a.out, the program you can run."
+        },
+        {
+          "id": "c1-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "Which file does cc create if you don't name one?",
+          "options": [
+            "a.out",
+            "hello.exe",
+            "main.c",
+            "program.bin"
+          ],
+          "answer": 0,
+          "explanation": "a.out stands for \"assembler output\", a name from the early Unix days."
+        },
+        {
+          "id": "c1-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "Why does compiling help?",
+          "options": [
+            "Many mistakes are found before the program runs, and the result is fast machine code",
+            "It makes the file shorter",
+            "It adds comments",
+            "It isn't needed"
+          ],
+          "answer": 0,
+          "explanation": "The compiler checks the whole program first. That's why C programs ran fast even on slow computers."
+        },
+        {
+          "id": "c1-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    printf(\"one\\n\");",
+            "    /* printf(\"two\\n\"); */",
+            "    printf(\"three\\n\");",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "one\nthree",
+            "one\ntwo\nthree",
+            "two",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "The middle line is inside a comment, so it never runs."
+        },
+        {
+          "id": "c1-l3-e5",
+          "type": "fill_blank",
+          "prompt": "Turn this line into a comment.",
+          "code": [
+            "    ___ just a note */"
+          ],
+          "options": [
+            "/*",
+            "//*",
+            "#",
+            "REM"
+          ],
+          "answer": "/*",
+          "explanation": "Comments start with /* and end with */."
+        },
+        {
+          "id": "c1-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Who wrote Unix, mostly in C?",
+          "options": [
+            "Ken Thompson and Dennis Ritchie",
+            "Steve Jobs and Steve Wozniak",
+            "Alan Turing",
+            "Grace Hopper"
+          ],
+          "answer": 0,
+          "explanation": "Unix was rewritten in C in 1973. That made it easy to move to other computers, and it spread everywhere."
+        }
+      ]
+    }
+  ]
+}

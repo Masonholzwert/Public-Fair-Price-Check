@@ -1,0 +1,406 @@
+{
+  "id": "c4",
+  "title": "if and else",
+  "lessons": [
+    {
+      "id": "c4-l1",
+      "title": "Making Decisions",
+      "xp": 15,
+      "intro": [
+        "if (condition) runs the next statement only when the condition is true. else gives the other path. Put several statements in braces { } to run them together.",
+        "Comparisons: == equal, != not equal, < > <= >=. In C, true is any number except 0, and a comparison gives 1 or 0.",
+        "Careful: = stores, == compares. if (x = 5) stores 5 in x, which counts as true, so the if always runs. It's one of the most famous bugs in C."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    int temp = 31;",
+          "    if (temp > 25) {",
+          "        printf(\"hot\\n\");",
+          "    } else {",
+          "        printf(\"not hot\\n\");",
+          "    }",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "hot"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c4-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "Which operator checks if two values are equal?",
+          "options": [
+            "==",
+            "=",
+            "!=",
+            "==="
+          ],
+          "answer": 0,
+          "explanation": "== compares, = stores a value."
+        },
+        {
+          "id": "c4-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int n = 7;",
+            "    if (n > 10)",
+            "        printf(\"big\\n\");",
+            "    else",
+            "        printf(\"small\\n\");",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "small",
+            "big",
+            "small big",
+            "nothing"
+          ],
+          "answer": 0,
+          "explanation": "7 is not greater than 10, so the else part runs."
+        },
+        {
+          "id": "c4-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Print zero when n is 0.",
+          "code": [
+            "    if (n ___ 0)",
+            "        printf(\"zero\\n\");"
+          ],
+          "options": [
+            "==",
+            "=",
+            "!=",
+            "=>"
+          ],
+          "answer": "==",
+          "explanation": "Comparing needs two equal signs."
+        },
+        {
+          "id": "c4-l1-e4",
+          "type": "find_bug",
+          "prompt": "This always prints \"five\", even for n = 3. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int n = 3;",
+            "    if (n = 5)",
+            "        printf(\"five\\n\");",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 4,
+          "explanation": "n = 5 stores 5 in n, which is true. It must be n == 5."
+        },
+        {
+          "id": "c4-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "In C, which value counts as false?",
+          "options": [
+            "0",
+            "1",
+            "-1",
+            "Any negative number"
+          ],
+          "answer": 0,
+          "explanation": "Only 0 is false. Everything else, even -1, is true."
+        },
+        {
+          "id": "c4-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Why use braces { } after if?",
+          "options": [
+            "To run more than one statement when the condition is true",
+            "Braces are always required",
+            "To make the condition true",
+            "They print the result"
+          ],
+          "answer": 0,
+          "explanation": "Without braces, only the very next statement belongs to the if."
+        }
+      ]
+    },
+    {
+      "id": "c4-l2",
+      "title": "else if, && and ||",
+      "xp": 15,
+      "intro": [
+        "A chain of else if checks one condition after the other, and runs the first one that's true. The final else catches everything that's left.",
+        "&& means and: both must be true. || means or: one is enough. ! means not: it turns true into false.",
+        "C stops early: in a && b, if a is false, b isn't even looked at. Programmers use this a lot, like if (n != 0 && 10 / n > 2)."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    int score = 83;",
+          "    if (score >= 90)",
+          "        printf(\"A\\n\");",
+          "    else if (score >= 80)",
+          "        printf(\"B\\n\");",
+          "    else if (score >= 70)",
+          "        printf(\"C\\n\");",
+          "    else",
+          "        printf(\"F\\n\");",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "B"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c4-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "In the example, what does a score of 95 print?",
+          "options": [
+            "A",
+            "A and B",
+            "B",
+            "F"
+          ],
+          "answer": 0,
+          "explanation": "The first true condition wins, and the rest of the chain is skipped."
+        },
+        {
+          "id": "c4-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "When is a && b true?",
+          "options": [
+            "When both are true",
+            "When at least one is true",
+            "When both are false",
+            "Always"
+          ],
+          "answer": 0,
+          "explanation": "&& needs both sides."
+        },
+        {
+          "id": "c4-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Print weekend for day 6 or 7.",
+          "code": [
+            "    if (day == 6 ___ day == 7)",
+            "        printf(\"weekend\\n\");"
+          ],
+          "options": [
+            "||",
+            "&&",
+            "!",
+            "or"
+          ],
+          "answer": "||",
+          "explanation": "A day can't be 6 and 7 at once, so it must be ||."
+        },
+        {
+          "id": "c4-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int age = 15;",
+            "    if (age >= 13 && age < 20)",
+            "        printf(\"teen\\n\");",
+            "    else if (age < 13)",
+            "        printf(\"child\\n\");",
+            "    else",
+            "        printf(\"adult\\n\");",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "teen",
+            "child",
+            "adult",
+            "nothing"
+          ],
+          "answer": 0,
+          "explanation": "15 is at least 13 and below 20."
+        },
+        {
+          "id": "c4-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What is !(5 > 3)?",
+          "options": [
+            "0 (false)",
+            "1 (true)",
+            "5",
+            "-3"
+          ],
+          "answer": 0,
+          "explanation": "5 > 3 is true, and ! turns it into false."
+        },
+        {
+          "id": "c4-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Why does the order of an else-if chain matter?",
+          "options": [
+            "The first true condition wins, so the strictest test must come first",
+            "C reads it from the bottom",
+            "Only the last else counts",
+            "It doesn't matter"
+          ],
+          "answer": 0,
+          "explanation": "Testing >= 70 before >= 90 would give a 95 a C."
+        }
+      ]
+    },
+    {
+      "id": "c4-l3",
+      "title": "switch",
+      "xp": 15,
+      "intro": [
+        "When one value can be many different things, switch is tidier than a long else-if chain. switch (x) jumps to the matching case.",
+        "Each case usually ends with break;. Without it, C keeps running into the next case. That's called fall-through, sometimes useful, often a bug.",
+        "default: catches every value that has no case of its own."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    int day = 3;",
+          "    switch (day) {",
+          "    case 1:",
+          "        printf(\"Monday\\n\");",
+          "        break;",
+          "    case 2:",
+          "        printf(\"Tuesday\\n\");",
+          "        break;",
+          "    case 3:",
+          "        printf(\"Wednesday\\n\");",
+          "        break;",
+          "    default:",
+          "        printf(\"later\\n\");",
+          "    }",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "Wednesday"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c4-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does break do inside a switch?",
+          "options": [
+            "Leaves the switch",
+            "Stops the program",
+            "Jumps to default",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "Without break, the next case would run as well."
+        },
+        {
+          "id": "c4-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int n = 2;",
+            "    switch (n) {",
+            "    case 1:",
+            "        printf(\"one\\n\");",
+            "        break;",
+            "    case 2:",
+            "        printf(\"two\\n\");",
+            "    case 3:",
+            "        printf(\"three\\n\");",
+            "        break;",
+            "    }",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "two\nthree",
+            "two",
+            "three",
+            "nothing"
+          ],
+          "answer": 0,
+          "explanation": "case 2 has no break, so it falls through into case 3."
+        },
+        {
+          "id": "c4-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Catch every other value.",
+          "code": [
+            "    switch (key) {",
+            "    case 'y':",
+            "        printf(\"yes\\n\");",
+            "        break;",
+            "    ___:",
+            "        printf(\"no\\n\");",
+            "    }"
+          ],
+          "options": [
+            "default",
+            "else",
+            "case",
+            "other"
+          ],
+          "answer": "default",
+          "explanation": "default runs when no case matches."
+        },
+        {
+          "id": "c4-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "Which values can a case label have?",
+          "options": [
+            "Constant whole numbers or characters, like 3 or 'q'",
+            "Any expression, like x + 1",
+            "Strings like \"yes\"",
+            "Ranges like 1..5"
+          ],
+          "answer": 0,
+          "explanation": "case needs a constant that's known when compiling."
+        },
+        {
+          "id": "c4-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "When is switch nicer than if/else if?",
+          "options": [
+            "When one variable is compared with many fixed values",
+            "For ranges like > 90",
+            "For decimals",
+            "Never"
+          ],
+          "answer": 0,
+          "explanation": "Menus and single-key commands are classic switch jobs."
+        },
+        {
+          "id": "c4-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What is fall-through?",
+          "options": [
+            "Running into the next case because break is missing",
+            "A crash",
+            "Skipping all cases",
+            "The default case"
+          ],
+          "answer": 0,
+          "explanation": "C took it from older languages. Many later languages require a break or don't fall through at all."
+        }
+      ]
+    }
+  ]
+}

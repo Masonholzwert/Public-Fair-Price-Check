@@ -1,0 +1,427 @@
+{
+  "id": "cb14",
+  "title": "Reports",
+  "lessons": [
+    {
+      "id": "cb14-l1",
+      "title": "The Printer",
+      "xp": 15,
+      "intro": [
+        "Most COBOL output went to the line printer: a file ASSIGNed TO PRINTER. Each WRITE prints one line, here in the output box.",
+        "WRITE … AFTER ADVANCING 2 LINES leaves an empty line first; AFTER ADVANCING PAGE starts a new page (here: an empty line). That's how reports got their spacing.",
+        "Report lines are built in WORKING-STORAGE and written with WRITE PRINT-LINE FROM HEADING-1."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. PRINTER.",
+          "       ENVIRONMENT DIVISION.",
+          "       INPUT-OUTPUT SECTION.",
+          "       FILE-CONTROL.",
+          "           SELECT REPORT-FILE ASSIGN TO PRINTER.",
+          "       DATA DIVISION.",
+          "       FILE SECTION.",
+          "       FD REPORT-FILE.",
+          "       01 PRINT-LINE     PIC X(40).",
+          "       WORKING-STORAGE SECTION.",
+          "       01 HEADING-1      PIC X(30) VALUE \"CUSTOMER LIST\".",
+          "       01 HEADING-2      PIC X(30) VALUE \"NO.   NAME\".",
+          "       PROCEDURE DIVISION.",
+          "           OPEN OUTPUT REPORT-FILE.",
+          "           WRITE PRINT-LINE FROM HEADING-1.",
+          "           WRITE PRINT-LINE FROM HEADING-2 AFTER ADVANCING 2 LINES.",
+          "           WRITE PRINT-LINE FROM \"-----------------\".",
+          "           CLOSE REPORT-FILE.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "CUSTOMER LIST",
+          "",
+          "NO.   NAME",
+          "-----------------"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb14-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does ASSIGN TO PRINTER do?",
+          "options": [
+            "Every WRITE prints a line on the printer",
+            "Saves the file on disk",
+            "Reads from the printer",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "Here, the printed lines show up in the output."
+        },
+        {
+          "id": "cb14-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does AFTER ADVANCING 2 LINES do?",
+          "options": [
+            "Moves the paper 2 lines, leaving one empty line, then prints",
+            "Prints 2 copies",
+            "Prints 2 lines of text",
+            "Skips 2 records"
+          ],
+          "answer": 0,
+          "explanation": "Spacing for headings and totals."
+        },
+        {
+          "id": "cb14-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Print a heading.",
+          "code": [
+            "           WRITE PRINT-LINE ___ HEADING-1."
+          ],
+          "options": [
+            "FROM",
+            "TO",
+            "WITH",
+            "AS"
+          ],
+          "answer": "FROM",
+          "explanation": "WRITE … FROM …."
+        },
+        {
+          "id": "cb14-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does AFTER ADVANCING PAGE do on a real printer?",
+          "options": [
+            "Starts a new page",
+            "Prints the page number",
+            "Prints every page",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "Here it's shown as an empty line."
+        },
+        {
+          "id": "cb14-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Why build report lines in WORKING-STORAGE?",
+          "options": [
+            "They have VALUEs and edited fields; the print record is just the line to write",
+            "Records can't be printed",
+            "WORKING-STORAGE prints faster",
+            "It's required"
+          ],
+          "answer": 0,
+          "explanation": "Many layouts, one print record."
+        },
+        {
+          "id": "cb14-l1-e6",
+          "type": "order_lines",
+          "prompt": "Put the steps in order.",
+          "lines": [
+            "           OPEN OUTPUT REPORT-FILE.",
+            "           WRITE PRINT-LINE FROM HEADING-1.",
+            "           CLOSE REPORT-FILE."
+          ],
+          "answer": [
+            "           OPEN OUTPUT REPORT-FILE.",
+            "           WRITE PRINT-LINE FROM HEADING-1.",
+            "           CLOSE REPORT-FILE."
+          ],
+          "explanation": "Open, write, close."
+        }
+      ]
+    },
+    {
+      "id": "cb14-l2",
+      "title": "Detail Lines",
+      "xp": 15,
+      "intro": [
+        "A report has headings at the top and a detail line for each record. The detail line is a group with edited fields: name, city and the balance as money.",
+        "For each record READ, MOVE the input fields into the detail line, then WRITE it. The columns line up by themselves.",
+        "This read-move-write loop is the heart of thousands of real COBOL programs."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. CUSTLIST.",
+          "       ENVIRONMENT DIVISION.",
+          "       INPUT-OUTPUT SECTION.",
+          "       FILE-CONTROL.",
+          "           SELECT CUST-FILE ASSIGN TO CUSTOMERS.",
+          "           SELECT REPORT-FILE ASSIGN TO PRINTER.",
+          "       DATA DIVISION.",
+          "       FILE SECTION.",
+          "       FD CUST-FILE.",
+          "       01 CUST-REC.",
+          "          05 CUST-NO      PIC 9(5).",
+          "          05 CUST-NAME    PIC X(12).",
+          "          05 CUST-CITY    PIC X(10).",
+          "          05 CUST-BAL     PIC 9(5)V99.",
+          "       FD REPORT-FILE.",
+          "       01 PRINT-LINE     PIC X(40).",
+          "       WORKING-STORAGE SECTION.",
+          "       01 EOF-FLAG       PIC X VALUE \"N\".",
+          "          88 END-OF-FILE VALUE \"Y\".",
+          "       01 DETAIL-LINE.",
+          "          05 D-NAME       PIC X(13).",
+          "          05 D-CITY       PIC X(11).",
+          "          05 D-BAL        PIC $$$,$$9.99.",
+          "       PROCEDURE DIVISION.",
+          "       MAIN.",
+          "           OPEN INPUT CUST-FILE OUTPUT REPORT-FILE.",
+          "           WRITE PRINT-LINE FROM \"NAME         CITY          BALANCE\".",
+          "           PERFORM UNTIL END-OF-FILE",
+          "               READ CUST-FILE",
+          "                   AT END SET END-OF-FILE TO TRUE",
+          "                   NOT AT END PERFORM PRINT-DETAIL",
+          "               END-READ",
+          "           END-PERFORM.",
+          "           CLOSE CUST-FILE REPORT-FILE.",
+          "           STOP RUN.",
+          "       PRINT-DETAIL.",
+          "           MOVE CUST-NAME TO D-NAME.",
+          "           MOVE CUST-CITY TO D-CITY.",
+          "           MOVE CUST-BAL  TO D-BAL.",
+          "           WRITE PRINT-LINE FROM DETAIL-LINE."
+        ],
+        "output": [
+          "NAME         CITY          BALANCE",
+          "GRACE HOPPER NEW YORK    $2,500.00",
+          "ADA LOVELACE LONDON      $1,815.36",
+          "JOHN BACKUS  PHILADELPH    $120.00",
+          "LINUS T.     HELSINKI        $9.99"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb14-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What's a detail line?",
+          "options": [
+            "The line printed for each record",
+            "The first line of a report",
+            "The total at the end",
+            "A line with details about the program"
+          ],
+          "answer": 0,
+          "explanation": "One per record."
+        },
+        {
+          "id": "cb14-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does the report show for LINUS T.?",
+          "options": [
+            "$9.99",
+            "$999",
+            "$0.99",
+            "$99.90"
+          ],
+          "answer": 0,
+          "explanation": "His record holds 0000999: 9.99 dollars."
+        },
+        {
+          "id": "cb14-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Print the detail line.",
+          "code": [
+            "           WRITE PRINT-LINE FROM ___."
+          ],
+          "options": [
+            "DETAIL-LINE",
+            "CUST-REC",
+            "PRINT-LINE",
+            "REPORT-FILE"
+          ],
+          "answer": "DETAIL-LINE",
+          "explanation": "The line built in WORKING-STORAGE."
+        },
+        {
+          "id": "cb14-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "Why do the balances line up on the right?",
+          "options": [
+            "Every D-BAL has the same picture and width",
+            "The printer aligns them",
+            "WRITE adds spaces",
+            "Luck"
+          ],
+          "answer": 0,
+          "explanation": "Fixed fields, fixed columns."
+        },
+        {
+          "id": "cb14-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "In which paragraph is each detail line built?",
+          "options": [
+            "PRINT-DETAIL, performed for every record",
+            "MAIN, once",
+            "At STOP RUN",
+            "In the FD"
+          ],
+          "answer": 0,
+          "explanation": "NOT AT END PERFORM PRINT-DETAIL."
+        },
+        {
+          "id": "cb14-l2-e6",
+          "type": "order_lines",
+          "prompt": "Put the steps for one record in order.",
+          "lines": [
+            "           MOVE CUST-NAME TO D-NAME.",
+            "           MOVE CUST-BAL TO D-BAL.",
+            "           WRITE PRINT-LINE FROM DETAIL-LINE."
+          ],
+          "answer": [
+            "           MOVE CUST-NAME TO D-NAME.",
+            "           MOVE CUST-BAL TO D-BAL.",
+            "           WRITE PRINT-LINE FROM DETAIL-LINE."
+          ],
+          "explanation": "Fill the line, then write it."
+        }
+      ]
+    },
+    {
+      "id": "cb14-l3",
+      "title": "Totals",
+      "xp": 15,
+      "intro": [
+        "At the end of a report come the totals: count the records and add up the amounts while reading, then print a total line after the loop.",
+        "Totals need VALUE ZERO, or the first ADD abends with S0C7.",
+        "An average is one COMPUTE at the end: TOTAL / COUNT, ROUNDED."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. TOTALS.",
+          "       ENVIRONMENT DIVISION.",
+          "       INPUT-OUTPUT SECTION.",
+          "       FILE-CONTROL.",
+          "           SELECT CUST-FILE ASSIGN TO CUSTOMERS.",
+          "           SELECT REPORT-FILE ASSIGN TO PRINTER.",
+          "       DATA DIVISION.",
+          "       FILE SECTION.",
+          "       FD CUST-FILE.",
+          "       01 CUST-REC.",
+          "          05 CUST-NO      PIC 9(5).",
+          "          05 CUST-NAME    PIC X(12).",
+          "          05 CUST-CITY    PIC X(10).",
+          "          05 CUST-BAL     PIC 9(5)V99.",
+          "       FD REPORT-FILE.",
+          "       01 PRINT-LINE     PIC X(40).",
+          "       WORKING-STORAGE SECTION.",
+          "       01 EOF-FLAG       PIC X VALUE \"N\".",
+          "          88 END-OF-FILE VALUE \"Y\".",
+          "       01 CUST-COUNT     PIC 99 VALUE ZERO.",
+          "       01 BAL-TOTAL      PIC 9(6)V99 VALUE ZERO.",
+          "       01 BAL-AVERAGE    PIC 9(6)V99.",
+          "       01 TOTAL-LINE.",
+          "          05 T-LABEL      PIC X(10).",
+          "          05 T-AMOUNT     PIC $$$,$$9.99.",
+          "       PROCEDURE DIVISION.",
+          "       MAIN.",
+          "           OPEN INPUT CUST-FILE OUTPUT REPORT-FILE.",
+          "           PERFORM UNTIL END-OF-FILE",
+          "               READ CUST-FILE",
+          "                   AT END SET END-OF-FILE TO TRUE",
+          "                   NOT AT END",
+          "                       ADD 1 TO CUST-COUNT",
+          "                       ADD CUST-BAL TO BAL-TOTAL",
+          "               END-READ",
+          "           END-PERFORM.",
+          "           COMPUTE BAL-AVERAGE ROUNDED = BAL-TOTAL / CUST-COUNT.",
+          "           MOVE \"TOTAL\" TO T-LABEL.",
+          "           MOVE BAL-TOTAL TO T-AMOUNT.",
+          "           WRITE PRINT-LINE FROM TOTAL-LINE.",
+          "           MOVE \"AVERAGE\" TO T-LABEL.",
+          "           MOVE BAL-AVERAGE TO T-AMOUNT.",
+          "           WRITE PRINT-LINE FROM TOTAL-LINE.",
+          "           CLOSE CUST-FILE REPORT-FILE.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "TOTAL      $4,445.35",
+          "AVERAGE    $1,111.34"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb14-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "When is the total line printed?",
+          "options": [
+            "After the loop, once all records are read",
+            "With every record",
+            "Before the first READ",
+            "At OPEN"
+          ],
+          "answer": 0,
+          "explanation": "Only then is the total complete."
+        },
+        {
+          "id": "cb14-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "Why must BAL-TOTAL have VALUE ZERO?",
+          "options": [
+            "Otherwise it holds spaces and the first ADD abends with S0C7",
+            "To print it",
+            "Totals need no VALUE",
+            "To make it bigger"
+          ],
+          "answer": 0,
+          "explanation": "The classic."
+        },
+        {
+          "id": "cb14-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Count each record.",
+          "code": [
+            "                       ADD 1 TO ___"
+          ],
+          "options": [
+            "CUST-COUNT",
+            "CUST-REC",
+            "EOF-FLAG",
+            "1"
+          ],
+          "answer": "CUST-COUNT",
+          "explanation": "The counter."
+        },
+        {
+          "id": "cb14-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What's the total of all 4 balances (2500.00 + 1815.36 + 120.00 + 9.99)?",
+          "options": [
+            "4445.35",
+            "4435.35",
+            "4445.36",
+            "4545.35"
+          ],
+          "answer": 0,
+          "explanation": "Add them up: 4445.35."
+        },
+        {
+          "id": "cb14-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Why is the average COMPUTEd after the loop?",
+          "options": [
+            "The total and the count are only final then",
+            "COMPUTE can't be in a loop",
+            "It's faster",
+            "To save paper"
+          ],
+          "answer": 0,
+          "explanation": "Compute from the finished numbers."
+        },
+        {
+          "id": "cb14-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What would happen if the file were empty?",
+          "options": [
+            "CUST-COUNT is 0, and the average divides by zero: S0CB",
+            "The average is 0",
+            "Nothing",
+            "S0C7"
+          ],
+          "answer": 0,
+          "explanation": "Careful programs check IF CUST-COUNT > 0 first."
+        }
+      ]
+    }
+  ]
+}

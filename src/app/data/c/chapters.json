@@ -1,0 +1,382 @@
+{
+  "chapters": [
+    {
+      "id": "cc1",
+      "title": "Hello, Unix",
+      "subtitle": "Your first C programs on a PDP-11.",
+      "units": [
+        {
+          "id": "c1",
+          "title": "Hello, World",
+          "learn": [
+            "Write main() and printf",
+            "End statements with ;",
+            "Compile and run with cc"
+          ],
+          "goal": "Print hello, world like it's 1978."
+        },
+        {
+          "id": "c2",
+          "title": "Variables and Math",
+          "learn": [
+            "int, double and char",
+            "Integer division and %",
+            "Letters are numbers"
+          ],
+          "goal": "Split a bill fairly."
+        },
+        {
+          "id": "c3",
+          "title": "printf in Detail",
+          "learn": [
+            "Decimals with %.2f",
+            "Width and alignment",
+            "Escape sequences"
+          ],
+          "goal": "Print a neat receipt."
+        }
+      ],
+      "project": {
+        "id": "cc1-project",
+        "title": "The Pizza Order",
+        "xp": 100
+      }
+    },
+    {
+      "id": "cc2",
+      "title": "Decisions and Loops",
+      "subtitle": "if, while and for.",
+      "units": [
+        {
+          "id": "c4",
+          "title": "if and else",
+          "learn": [
+            "Compare with == and <",
+            "Chains with &&, || and else if",
+            "Choose with switch"
+          ],
+          "goal": "Find leap years."
+        },
+        {
+          "id": "c5",
+          "title": "while Loops",
+          "learn": [
+            "Repeat with while",
+            "Count and add up",
+            "Read input with scanf"
+          ],
+          "goal": "Add up the digits of a number."
+        },
+        {
+          "id": "c6",
+          "title": "for Loops",
+          "learn": [
+            "The for loop",
+            "Loops inside loops",
+            "break and continue"
+          ],
+          "goal": "Print the Fahrenheit table from K&R."
+        }
+      ],
+      "project": {
+        "id": "cc2-project",
+        "title": "Guess the Number",
+        "xp": 100
+      }
+    },
+    {
+      "id": "cc3",
+      "title": "Functions",
+      "subtitle": "Small pieces that do one job.",
+      "units": [
+        {
+          "id": "c7",
+          "title": "Writing Functions",
+          "learn": [
+            "Define and call a function",
+            "void functions",
+            "Prototypes: declare before use"
+          ],
+          "goal": "Build your own power function."
+        },
+        {
+          "id": "c8",
+          "title": "Parameters and Scope",
+          "learn": [
+            "Pass values in",
+            "Local and global variables",
+            "Copies, not originals"
+          ],
+          "goal": "Convert units with functions."
+        },
+        {
+          "id": "c9",
+          "title": "Recursion",
+          "learn": [
+            "A function that calls itself",
+            "The base case",
+            "Factorials and Fibonacci"
+          ],
+          "goal": "Solve the Towers of Hanoi."
+        }
+      ],
+      "project": {
+        "id": "cc3-project",
+        "title": "The Number Toolkit",
+        "xp": 100
+      }
+    },
+    {
+      "id": "cc4",
+      "title": "Arrays and Strings",
+      "subtitle": "Lists of values and text.",
+      "units": [
+        {
+          "id": "c10",
+          "title": "Arrays",
+          "learn": [
+            "Declare and fill arrays",
+            "Loop over arrays",
+            "Biggest, smallest, average"
+          ],
+          "goal": "Analyze a week of data."
+        },
+        {
+          "id": "c11",
+          "title": "Strings",
+          "learn": [
+            "Strings are char arrays with '\\0'",
+            "Walk through a string",
+            "strlen, strcpy, strcat, strcmp"
+          ],
+          "goal": "Shout a message in capitals."
+        },
+        {
+          "id": "c12",
+          "title": "Tables and Sorting",
+          "learn": [
+            "2D arrays",
+            "Bubble sort",
+            "Linear and binary search"
+          ],
+          "goal": "Sort the high scores."
+        }
+      ],
+      "project": {
+        "id": "cc4-project",
+        "title": "Word Statistics",
+        "xp": 100
+      }
+    },
+    {
+      "id": "cc5",
+      "title": "Pointers and Structs",
+      "subtitle": "The heart of C.",
+      "units": [
+        {
+          "id": "c13",
+          "title": "Addresses and Pointers",
+          "learn": [
+            "& and *",
+            "Change variables from functions",
+            "swap() and NULL"
+          ],
+          "goal": "Find the minimum and maximum at once."
+        },
+        {
+          "id": "c14",
+          "title": "Pointers and Arrays",
+          "learn": [
+            "Arrays are addresses",
+            "Pointer arithmetic",
+            "Strings as char *"
+          ],
+          "goal": "Copy a string by hand."
+        },
+        {
+          "id": "c15",
+          "title": "Structs",
+          "learn": [
+            "Group values in a struct",
+            "Arrays of structs",
+            "Pointers to structs and ->"
+          ],
+          "goal": "Keep a stockroom inventory."
+        }
+      ],
+      "project": {
+        "id": "cc5-project",
+        "title": "The Phone Book",
+        "xp": 100
+      }
+    },
+    {
+      "id": "cc6",
+      "title": "Memory",
+      "subtitle": "malloc, free and linked lists.",
+      "units": [
+        {
+          "id": "c16",
+          "title": "malloc and free",
+          "learn": [
+            "Ask for memory with malloc",
+            "Give it back with free",
+            "NULL, calloc and exit"
+          ],
+          "goal": "Build an array of any size."
+        },
+        {
+          "id": "c17",
+          "title": "Linked Lists",
+          "learn": [
+            "Nodes that point to each other",
+            "Walk through a list",
+            "Insert and remove"
+          ],
+          "goal": "Keep a to-do list."
+        },
+        {
+          "id": "c18",
+          "title": "Stacks and Queues",
+          "learn": [
+            "Push and pop",
+            "First in, first out",
+            "Stacks built from lists"
+          ],
+          "goal": "Check brackets like a compiler."
+        }
+      ],
+      "project": {
+        "id": "cc6-project",
+        "title": "The Undo Button",
+        "xp": 100
+      }
+    },
+    {
+      "id": "cc7",
+      "title": "Bits and Unix",
+      "subtitle": "Close to the machine, the Unix way.",
+      "units": [
+        {
+          "id": "c19",
+          "title": "Bits and Bytes",
+          "learn": [
+            "Binary, hex and octal",
+            "& | ^ and shifts",
+            "Flags in one number"
+          ],
+          "goal": "Pack eight switches into a byte."
+        },
+        {
+          "id": "c20",
+          "title": "Files",
+          "learn": [
+            "fopen, fprintf, fclose",
+            "Read a file line by line",
+            "stdin, stdout and stderr"
+          ],
+          "goal": "Save and load a high score."
+        },
+        {
+          "id": "c21",
+          "title": "Unix Tools",
+          "learn": [
+            "argc and argv",
+            "Filters: one job, done well",
+            "Pipes: the Unix idea"
+          ],
+          "goal": "Write your own wc."
+        }
+      ],
+      "project": {
+        "id": "cc7-project",
+        "title": "A Tiny grep",
+        "xp": 100
+      }
+    },
+    {
+      "id": "cc8",
+      "title": "Real-World C",
+      "subtitle": "The tools of big C programs.",
+      "units": [
+        {
+          "id": "c22",
+          "title": "Your Own Types",
+          "learn": [
+            "typedef",
+            "enum",
+            "union"
+          ],
+          "goal": "Describe shapes with your own types."
+        },
+        {
+          "id": "c23",
+          "title": "Macros and Headers",
+          "learn": [
+            "Macros with arguments",
+            "#ifdef and #if 0",
+            "Header files"
+          ],
+          "goal": "Write safe macros."
+        },
+        {
+          "id": "c24",
+          "title": "Function Pointers",
+          "learn": [
+            "Pointers to functions",
+            "qsort",
+            "Tables of functions"
+          ],
+          "goal": "Sort by any rule."
+        }
+      ],
+      "project": {
+        "id": "cc8-project",
+        "title": "The Desk Calculator",
+        "xp": 100
+      }
+    },
+    {
+      "id": "cc9",
+      "title": "Data Structures",
+      "subtitle": "Trees, hash tables and text: the classics.",
+      "units": [
+        {
+          "id": "c25",
+          "title": "Binary Trees",
+          "learn": [
+            "A tree of nodes",
+            "Searching a tree",
+            "Freeing a tree"
+          ],
+          "goal": "Ask a tree questions."
+        },
+        {
+          "id": "c26",
+          "title": "Hash Tables",
+          "learn": [
+            "Hash functions",
+            "Buckets and chains",
+            "Counting words"
+          ],
+          "goal": "A phone directory."
+        },
+        {
+          "id": "c27",
+          "title": "Text in Memory",
+          "learn": [
+            "sprintf",
+            "sscanf",
+            "Reading records"
+          ],
+          "goal": "Turn sales lines into a report."
+        }
+      ],
+      "project": {
+        "id": "cc9-project",
+        "title": "Word Frequency",
+        "xp": 100
+      }
+    }
+  ]
+}

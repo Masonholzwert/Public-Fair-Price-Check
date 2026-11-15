@@ -1,0 +1,357 @@
+{
+  "id": "f15",
+  "title": "Area Under a Curve",
+  "lessons": [
+    {
+      "id": "f15-l1",
+      "title": "Rectangles",
+      "xp": 15,
+      "intro": [
+        "The area under a curve answers many questions: distance from a speed graph, energy from power, probability from a bell curve. For most curves there's no simple formula, so we add it up.",
+        "Cut the area into N thin strips of width H. Each strip is roughly a rectangle: height F(X) at its left edge, times H. Add them all, and you have the area.",
+        "For F(X) = X² from 0 to 1, the exact area is 1/3. With 10 rectangles we get 0.285: close, but not great."
+      ],
+      "example": {
+        "code": [
+          "      F(X) = X ** 2",
+          "      N = 10",
+          "      H = 1.0 / FLOAT(N)",
+          "      SUM = 0.0",
+          "      DO 10 I = 1, N",
+          "      X = FLOAT(I - 1) * H",
+          "      SUM = SUM + F(X) * H",
+          "   10 CONTINUE",
+          "      WRITE (6,20) SUM",
+          "   20 FORMAT (' AREA', F8.4)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "AREA  0.2850"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f15-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is the area of one rectangle strip?",
+          "options": [
+            "F(X) × H",
+            "F(X) + H",
+            "H × H",
+            "X × H"
+          ],
+          "answer": 0,
+          "explanation": "Height times width."
+        },
+        {
+          "id": "f15-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "How wide is each strip from 0 to 1 with N = 10?",
+          "options": [
+            "0.1",
+            "10",
+            "1",
+            "0.01"
+          ],
+          "answer": 0,
+          "explanation": "H = 1 / N."
+        },
+        {
+          "id": "f15-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "Why is 0.285 smaller than the exact 1/3?",
+          "options": [
+            "X² goes up, so the left edge is always the lowest point of each strip",
+            "The computer rounded down",
+            "N must be even",
+            "It isn't smaller"
+          ],
+          "answer": 0,
+          "explanation": "Every rectangle sits a bit below the curve."
+        },
+        {
+          "id": "f15-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Make the strips 100 times thinner than with N = 10.",
+          "code": [
+            "      N = ___",
+            "      H = 1.0 / FLOAT(N)"
+          ],
+          "options": [
+            "1000",
+            "100",
+            "10",
+            "0.001"
+          ],
+          "answer": "1000",
+          "explanation": "N = 1000 gives H = 0.001."
+        },
+        {
+          "id": "f15-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What does more strips do?",
+          "options": [
+            "Brings the sum closer to the exact area",
+            "Makes it less accurate",
+            "Changes nothing",
+            "Makes it negative"
+          ],
+          "answer": 0,
+          "explanation": "Thinner strips hug the curve more closely."
+        },
+        {
+          "id": "f15-l1-e6",
+          "type": "find_bug",
+          "prompt": "The area comes out 10 times too big. Which card is wrong?",
+          "code": [
+            "      N = 10",
+            "      H = 1.0 / FLOAT(N)",
+            "      SUM = 0.0",
+            "      DO 10 I = 1, N",
+            "      X = FLOAT(I - 1) * H",
+            "      SUM = SUM + X ** 2",
+            "   10 CONTINUE"
+          ],
+          "answer": 5,
+          "explanation": "Each strip's area is height × width. It needs * H: SUM = SUM + X ** 2 * H."
+        }
+      ]
+    },
+    {
+      "id": "f15-l2",
+      "title": "Trapezoids",
+      "xp": 15,
+      "intro": [
+        "A better shape for each strip: a trapezoid, with the curve's height at both edges. Its area is H × (F(left) + F(right)) / 2.",
+        "Added up, every inner point counts once and the two end points count half: H × (F(A)/2 + F(X1) + … + F(B)/2). That's the trapezoid rule.",
+        "For X² from 0 to 1, 10 trapezoids give 0.335. The error dropped from 0.048 to 0.002 with the same 10 strips."
+      ],
+      "example": {
+        "code": [
+          "      F(X) = X ** 2",
+          "      N = 10",
+          "      H = 1.0 / FLOAT(N)",
+          "      SUM = (F(0.0) + F(1.0)) / 2.0",
+          "      M = N - 1",
+          "      DO 10 I = 1, M",
+          "      SUM = SUM + F(FLOAT(I) * H)",
+          "   10 CONTINUE",
+          "      SUM = SUM * H",
+          "      WRITE (6,20) SUM",
+          "   20 FORMAT (' AREA', F8.4)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "AREA  0.3350"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f15-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is the area of one trapezoid strip?",
+          "options": [
+            "H × (F(left) + F(right)) / 2",
+            "H × F(left)",
+            "F(left) × F(right)",
+            "H / 2"
+          ],
+          "answer": 0,
+          "explanation": "Width times the average of the two heights."
+        },
+        {
+          "id": "f15-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "In the trapezoid rule, how much do the two end points count?",
+          "options": [
+            "Half each",
+            "Double",
+            "Not at all",
+            "The same as inner points"
+          ],
+          "answer": 0,
+          "explanation": "Each end point belongs to only one trapezoid; inner points belong to two."
+        },
+        {
+          "id": "f15-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "Why is the trapezoid rule more accurate than rectangles?",
+          "options": [
+            "The slanted top follows the curve much better",
+            "It uses more strips",
+            "It rounds better",
+            "It isn't"
+          ],
+          "answer": 0,
+          "explanation": "A straight line between two points of a smooth curve is very close to the curve."
+        },
+        {
+          "id": "f15-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Start the sum with half of both end points.",
+          "code": [
+            "      SUM = (F(A) + F(B)) / ___"
+          ],
+          "options": [
+            "2.0",
+            "H",
+            "N",
+            "4.0"
+          ],
+          "answer": "2.0",
+          "explanation": "Half of each end point."
+        },
+        {
+          "id": "f15-l2-e5",
+          "type": "find_bug",
+          "prompt": "The area is too big. Which card is wrong?",
+          "code": [
+            "      H = 1.0 / FLOAT(N)",
+            "      SUM = F(0.0) + F(1.0)",
+            "      M = N - 1",
+            "      DO 10 I = 1, M",
+            "      SUM = SUM + F(FLOAT(I) * H)",
+            "   10 CONTINUE",
+            "      SUM = SUM * H"
+          ],
+          "answer": 1,
+          "explanation": "The end points must count half: SUM = (F(0.0) + F(1.0)) / 2.0."
+        },
+        {
+          "id": "f15-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "For F(X) = X², which is closer to 1/3 with 10 strips?",
+          "options": [
+            "Trapezoids: 0.335",
+            "Rectangles: 0.285",
+            "Both the same",
+            "Neither is close"
+          ],
+          "answer": 0,
+          "explanation": "The trapezoid error is about 25 times smaller here."
+        }
+      ]
+    },
+    {
+      "id": "f15-l3",
+      "title": "Measuring the Error",
+      "xp": 15,
+      "intro": [
+        "How good is good enough? Compare the result with the exact answer, for more and more strips.",
+        "For the trapezoid rule, doubling N makes the error about four times smaller. Knowing that, a scientist can pick N for the accuracy they need, and not waste computer time.",
+        "On the IBM 704, an hour cost hundreds of dollars. Choosing N wisely was real money."
+      ],
+      "example": {
+        "code": [
+          "      F(X) = X ** 2",
+          "      N = 10",
+          "      DO 20 K = 1, 3",
+          "      H = 1.0 / FLOAT(N)",
+          "      SUM = (F(0.0) + F(1.0)) / 2.0",
+          "      M = N - 1",
+          "      DO 10 I = 1, M",
+          "      SUM = SUM + F(FLOAT(I) * H)",
+          "   10 CONTINUE",
+          "      SUM = SUM * H",
+          "      ERR = SUM - 1.0 / 3.0",
+          "      WRITE (6,30) N, SUM, ERR",
+          "      N = N * 2",
+          "   20 CONTINUE",
+          "   30 FORMAT (1X, I4, F10.6, E12.3)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "  10  0.335000   0.167E-02",
+          "  20  0.333750   0.417E-03",
+          "  40  0.333438   0.104E-03"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f15-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "With the trapezoid rule, what happens to the error when N doubles?",
+          "options": [
+            "It gets about 4 times smaller",
+            "It halves",
+            "It doubles",
+            "It stays the same"
+          ],
+          "answer": 0,
+          "explanation": "The error shrinks with the square of the strip width."
+        },
+        {
+          "id": "f15-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "The error with N = 10 is 0.0017. About what is it with N = 20?",
+          "options": [
+            "0.0004",
+            "0.0008",
+            "0.0017",
+            "0.0034"
+          ],
+          "answer": 0,
+          "explanation": "A quarter of 0.0017."
+        },
+        {
+          "id": "f15-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "Why does the outer loop do N = N * 2?",
+          "options": [
+            "To try 10, 20 and 40 strips",
+            "To double the area",
+            "To skip every second strip",
+            "To count the loops"
+          ],
+          "answer": 0,
+          "explanation": "Each round uses twice as many strips as the last."
+        },
+        {
+          "id": "f15-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Compute the error against the exact 1/3.",
+          "code": [
+            "      ERR = SUM - 1.0 / ___"
+          ],
+          "options": [
+            "3.0",
+            "2.0",
+            "N",
+            "SUM"
+          ],
+          "answer": "3.0",
+          "explanation": "The exact area of X² from 0 to 1 is 1/3."
+        },
+        {
+          "id": "f15-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Why did picking N carefully matter on the IBM 704?",
+          "options": [
+            "Computer time cost hundreds of dollars an hour",
+            "N must be a prime",
+            "Bigger N used more cards",
+            "It didn't matter"
+          ],
+          "answer": 0,
+          "explanation": "Ten times more strips meant ten times the bill."
+        },
+        {
+          "id": "f15-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "When the exact answer is unknown, how can you still judge accuracy?",
+          "options": [
+            "Compare results for N and 2N: when they barely change, it's accurate",
+            "You can't",
+            "Use N = 1",
+            "Ask the operator"
+          ],
+          "answer": 0,
+          "explanation": "If doubling N changes only the last digit, the earlier digits can be trusted."
+        }
+      ]
+    }
+  ]
+}

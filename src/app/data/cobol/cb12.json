@@ -1,0 +1,433 @@
+{
+  "id": "cb12",
+  "title": "Tables",
+  "lessons": [
+    {
+      "id": "cb12-l1",
+      "title": "OCCURS",
+      "xp": 15,
+      "intro": [
+        "A table is a field that OCCURS several times: 05 MONTH-SALES PIC 9(5) OCCURS 6 TIMES. Each one is reached with a subscript in brackets: MONTH-SALES(1) to MONTH-SALES(6).",
+        "OCCURS can't be used on an 01 level, so the table lives inside a group. A loop with VARYING walks through all the elements.",
+        "A subscript outside the table, like MONTH-SALES(7), stops the job with IGZ0006S: subscript out of range."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. TABLE.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 SALES-TABLE.",
+          "          05 MONTH-SALES PIC 9(5) OCCURS 6 TIMES.",
+          "       01 M         PIC 9.",
+          "       01 TOTAL     PIC 9(6) VALUE ZERO.",
+          "       PROCEDURE DIVISION.",
+          "           MOVE 1200 TO MONTH-SALES(1).",
+          "           MOVE 950  TO MONTH-SALES(2).",
+          "           MOVE 1810 TO MONTH-SALES(3).",
+          "           MOVE 700  TO MONTH-SALES(4).",
+          "           MOVE 1305 TO MONTH-SALES(5).",
+          "           MOVE 2045 TO MONTH-SALES(6).",
+          "           PERFORM VARYING M FROM 1 BY 1 UNTIL M > 6",
+          "               ADD MONTH-SALES(M) TO TOTAL",
+          "           END-PERFORM.",
+          "           DISPLAY \"HALF YEAR: \" TOTAL.",
+          "           DISPLAY \"MARCH:     \" MONTH-SALES(3).",
+          "           STOP RUN."
+        ],
+        "output": [
+          "HALF YEAR: 008010",
+          "MARCH:     01810"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb12-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "05 SCORE PIC 99 OCCURS 10 TIMES. Which subscripts are valid?",
+          "options": [
+            "1 to 10",
+            "0 to 9",
+            "0 to 10",
+            "Any number"
+          ],
+          "answer": 0,
+          "explanation": "COBOL counts from 1."
+        },
+        {
+          "id": "cb12-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. T.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 TBL.",
+            "          05 T PIC 99 OCCURS 3 TIMES.",
+            "       PROCEDURE DIVISION.",
+            "           MOVE 10 TO T(1).",
+            "           MOVE 20 TO T(2).",
+            "           ADD T(1) TO T(2).",
+            "           DISPLAY T(2).",
+            "           STOP RUN."
+          ],
+          "options": [
+            "30",
+            "10",
+            "20",
+            "60"
+          ],
+          "answer": 0,
+          "explanation": "T(2) holds 20 and T(1) holds 10."
+        },
+        {
+          "id": "cb12-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Declare a table of 12 months.",
+          "code": [
+            "       01 YEAR-TABLE.",
+            "          05 MONTH-TOTAL PIC 9(5) ___ 12 TIMES."
+          ],
+          "options": [
+            "OCCURS",
+            "TIMES",
+            "ARRAY",
+            "REPEAT"
+          ],
+          "answer": "OCCURS",
+          "explanation": "OCCURS n TIMES."
+        },
+        {
+          "id": "cb12-l1-e4",
+          "type": "find_bug",
+          "prompt": "This job stops with IGZ0006S. Which line is wrong?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. OUT.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 TBL.",
+            "          05 T PIC 9 OCCURS 3 TIMES.",
+            "       01 I PIC 9.",
+            "       PROCEDURE DIVISION.",
+            "           PERFORM VARYING I FROM 1 BY 1 UNTIL I > 4",
+            "               MOVE 0 TO T(I)",
+            "           END-PERFORM.",
+            "           STOP RUN."
+          ],
+          "answer": 8,
+          "explanation": "The loop goes up to 4, but T only has 3 elements. Use UNTIL I > 3."
+        },
+        {
+          "id": "cb12-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Why can't OCCURS be on an 01 level?",
+          "options": [
+            "A table must live inside a group",
+            "01 is too big",
+            "It can",
+            "OCCURS needs level 77"
+          ],
+          "answer": 0,
+          "explanation": "Put the table under an 01 group."
+        },
+        {
+          "id": "cb12-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "What is IGZ0006S?",
+          "options": [
+            "A subscript outside the table",
+            "Division by zero",
+            "A missing period",
+            "Bad data in a number"
+          ],
+          "answer": 0,
+          "explanation": "The runtime checks the subscripts."
+        }
+      ]
+    },
+    {
+      "id": "cb12-l2",
+      "title": "Searching a Table",
+      "xp": 15,
+      "intro": [
+        "Tables of fixed data, like month names or prices, are often filled with a trick: a group of FILLERs with VALUEs, and a second group that REDEFINES the same memory as a table.",
+        "INDEXED BY gives the table an index, a counter made for it. SET MX TO 1 starts at the first element, and SEARCH goes through the table until a WHEN is true. AT END runs if nothing matched.",
+        "SEARCH saves writing the loop yourself, and it reads like a sentence."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. LOOKUP.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 PRICE-DATA.",
+          "          05 FILLER PIC X(9) VALUE \"COFFEE250\".",
+          "          05 FILLER PIC X(9) VALUE \"TEA   180\".",
+          "          05 FILLER PIC X(9) VALUE \"CAKE  320\".",
+          "       01 PRICE-TABLE REDEFINES PRICE-DATA.",
+          "          05 ITEM OCCURS 3 TIMES INDEXED BY PX.",
+          "             10 ITEM-NAME  PIC X(6).",
+          "             10 ITEM-PRICE PIC 9V99.",
+          "       01 WANTED      PIC X(6).",
+          "       PROCEDURE DIVISION.",
+          "           ACCEPT WANTED.",
+          "           SET PX TO 1.",
+          "           SEARCH ITEM",
+          "               AT END DISPLAY WANTED \"IS NOT ON THE MENU\"",
+          "               WHEN ITEM-NAME(PX) = WANTED",
+          "                   DISPLAY WANTED \"COSTS \" ITEM-PRICE(PX)",
+          "           END-SEARCH.",
+          "           ACCEPT WANTED.",
+          "           SET PX TO 1.",
+          "           SEARCH ITEM",
+          "               AT END DISPLAY WANTED \"IS NOT ON THE MENU\"",
+          "               WHEN ITEM-NAME(PX) = WANTED",
+          "                   DISPLAY WANTED \"COSTS \" ITEM-PRICE(PX)",
+          "           END-SEARCH.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "TEA   COSTS 180",
+          "PIE   IS NOT ON THE MENU"
+        ],
+        "inputs": [
+          "TEA",
+          "PIE"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb12-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does REDEFINES do?",
+          "options": [
+            "Gives the same memory a second description",
+            "Copies a field",
+            "Deletes the old field",
+            "Renames a field"
+          ],
+          "answer": 0,
+          "explanation": "The FILLERs and the table are two views of the same bytes."
+        },
+        {
+          "id": "cb12-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does SEARCH do when no WHEN is true for any element?",
+          "options": [
+            "Runs AT END",
+            "Abends",
+            "Runs the last WHEN",
+            "Nothing at all"
+          ],
+          "answer": 0,
+          "explanation": "AT END is the \"not found\" case."
+        },
+        {
+          "id": "cb12-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Start the search at the first element.",
+          "code": [
+            "           ___ PX TO 1."
+          ],
+          "options": [
+            "SET",
+            "MOVE",
+            "ADD",
+            "INITIALIZE"
+          ],
+          "answer": "SET",
+          "explanation": "Indexes are set with SET."
+        },
+        {
+          "id": "cb12-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does INDEXED BY PX create?",
+          "options": [
+            "An index PX for walking through the table",
+            "A sorted copy",
+            "A key field",
+            "A second table"
+          ],
+          "answer": 0,
+          "explanation": "SEARCH moves PX forward by itself."
+        },
+        {
+          "id": "cb12-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "Why fill a table with FILLER VALUEs and REDEFINES?",
+          "options": [
+            "OCCURS items can't each get their own VALUE easily, so the values are written as a list first",
+            "It's faster",
+            "REDEFINES sorts them",
+            "There's no other way to use OCCURS"
+          ],
+          "answer": 0,
+          "explanation": "A classic COBOL trick for fixed tables."
+        },
+        {
+          "id": "cb12-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "In the example, why is SET PX TO 1 written before the second SEARCH again?",
+          "options": [
+            "SEARCH starts where the index is, and the first search moved it",
+            "SEARCH needs it twice",
+            "To reset the table",
+            "It isn't needed"
+          ],
+          "answer": 0,
+          "explanation": "Forget it, and the second search starts in the middle."
+        }
+      ]
+    },
+    {
+      "id": "cb12-l3",
+      "title": "Text: STRING and INSPECT",
+      "xp": 15,
+      "intro": [
+        "COBOL fields have fixed sizes, so joining text needs STRING: STRING FIRST-NAME DELIMITED BY SPACE \" \" LAST-NAME DELIMITED BY SIZE INTO FULL-NAME. DELIMITED BY SPACE stops at the first space; BY SIZE takes the whole field.",
+        "INSPECT looks at the characters of a field: INSPECT TEXT TALLYING COUNTER FOR ALL \"E\" counts the E's, and INSPECT TEXT REPLACING ALL \"-\" BY \"/\" swaps characters.",
+        "Note: TALLYING adds to the counter, so set it to zero first."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. TEXT.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 FIRST-NAME  PIC X(10) VALUE \"GRACE\".",
+          "       01 LAST-NAME   PIC X(10) VALUE \"HOPPER\".",
+          "       01 FULL-NAME   PIC X(21) VALUE SPACES.",
+          "       01 DATE-TEXT   PIC X(10) VALUE \"1906-12-09\".",
+          "       01 COUNTER     PIC 99 VALUE ZERO.",
+          "       PROCEDURE DIVISION.",
+          "           STRING FIRST-NAME DELIMITED BY SPACE \" \" DELIMITED BY SIZE",
+          "               LAST-NAME DELIMITED BY SPACE INTO FULL-NAME",
+          "           END-STRING.",
+          "           DISPLAY \"[\" FULL-NAME \"]\".",
+          "           INSPECT FULL-NAME TALLYING COUNTER FOR ALL \"R\".",
+          "           DISPLAY \"R COUNT: \" COUNTER.",
+          "           INSPECT DATE-TEXT REPLACING ALL \"-\" BY \"/\".",
+          "           DISPLAY \"BORN: \" DATE-TEXT.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "[GRACE HOPPER         ]",
+          "R COUNT: 02",
+          "BORN: 1906/12/09"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb12-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does DELIMITED BY SPACE do in STRING?",
+          "options": [
+            "Takes the field only up to its first space",
+            "Adds a space",
+            "Removes all spaces",
+            "Takes the whole field"
+          ],
+          "answer": 0,
+          "explanation": "So the trailing spaces of a name aren't copied."
+        },
+        {
+          "id": "cb12-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. CNT.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 W PIC X(6) VALUE \"BANANA\".",
+            "       01 N PIC 99 VALUE ZERO.",
+            "       PROCEDURE DIVISION.",
+            "           INSPECT W TALLYING N FOR ALL \"A\".",
+            "           DISPLAY N.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "03",
+            "02",
+            "01",
+            "00"
+          ],
+          "answer": 0,
+          "explanation": "BANANA has three A's."
+        },
+        {
+          "id": "cb12-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Swap every comma for a semicolon.",
+          "code": [
+            "           INSPECT CSV-LINE ___ ALL \",\" BY \";\"."
+          ],
+          "options": [
+            "REPLACING",
+            "TALLYING",
+            "CHANGING",
+            "STRING"
+          ],
+          "answer": "REPLACING",
+          "explanation": "INSPECT … REPLACING ALL … BY …."
+        },
+        {
+          "id": "cb12-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "Why set the counter to zero before INSPECT TALLYING?",
+          "options": [
+            "TALLYING adds to what's already there",
+            "INSPECT needs an empty field",
+            "It doesn't matter",
+            "To avoid S0C4"
+          ],
+          "answer": 0,
+          "explanation": "It counts up from the old value."
+        },
+        {
+          "id": "cb12-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. STR.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 X PIC X(4) VALUE \"AB\".",
+            "       01 Y PIC X(4) VALUE \"CD\".",
+            "       01 Z PIC X(5) VALUE SPACES.",
+            "       PROCEDURE DIVISION.",
+            "           STRING X DELIMITED BY SPACE \"-\" DELIMITED BY SIZE",
+            "               Y DELIMITED BY SPACE INTO Z",
+            "           END-STRING.",
+            "           DISPLAY \"[\" Z \"]\".",
+            "           STOP RUN."
+          ],
+          "options": [
+            "[AB-CD]",
+            "[AB CD]",
+            "[ABCD]",
+            "[AB-]"
+          ],
+          "answer": 0,
+          "explanation": "Both fields are taken up to their first space, with the hyphen between them."
+        },
+        {
+          "id": "cb12-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why does COBOL need STRING instead of just + for text?",
+          "options": [
+            "Fields have fixed sizes, so joining needs rules for where each part ends",
+            "COBOL can't add",
+            "+ is only for strings in BASIC",
+            "It doesn't"
+          ],
+          "answer": 0,
+          "explanation": "DELIMITED BY sets those rules."
+        }
+      ]
+    }
+  ]
+}

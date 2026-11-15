@@ -1,0 +1,453 @@
+{
+  "id": "p14",
+  "title": "Records",
+  "lessons": [
+    {
+      "id": "p14-l1",
+      "title": "record … end",
+      "xp": 15,
+      "intro": [
+        "A record groups values that belong together, each with its own name and type: type TGame = record title: string; year: integer; price: real; end;",
+        "The parts are called fields, and you reach them with a dot: g.title := 'Tetris';",
+        "One record can be copied to another of the same type with :=, all fields at once."
+      ],
+      "example": {
+        "code": [
+          "program Game;",
+          "type",
+          "  TGame = record",
+          "    title: string;",
+          "    year: integer;",
+          "    price: real;",
+          "  end;",
+          "var",
+          "  g, backup: TGame;",
+          "begin",
+          "  g.title := 'Tetris';",
+          "  g.year := 1984;",
+          "  g.price := 29.95;",
+          "  backup := g;",
+          "  backup.year := 1989;",
+          "  writeln(g.title, ' (', g.year, '): $', g.price:0:2);",
+          "  writeln(backup.title, ' (', backup.year, ')');",
+          "end."
+        ],
+        "output": [
+          "Tetris (1984): $29.95",
+          "Tetris (1989)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p14-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is a record?",
+          "options": [
+            "A group of named values of different types",
+            "A list of values of one type",
+            "A file",
+            "A number"
+          ],
+          "answer": 0,
+          "explanation": "Like a card in a card index."
+        },
+        {
+          "id": "p14-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "How do you reach the field year of g?",
+          "options": [
+            "g.year",
+            "g[year]",
+            "year(g)",
+            "g->year"
+          ],
+          "answer": 0,
+          "explanation": "A dot between the record and the field."
+        },
+        {
+          "id": "p14-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Finish the record type.",
+          "code": [
+            "type",
+            "  TPoint = record",
+            "    x, y: integer;",
+            "  ___;"
+          ],
+          "options": [
+            "end",
+            "end.",
+            "}",
+            "record end"
+          ],
+          "answer": "end",
+          "explanation": "A record ends with end;"
+        },
+        {
+          "id": "p14-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program P;",
+            "type",
+            "  TPoint = record",
+            "    x, y: integer;",
+            "  end;",
+            "var",
+            "  a, b: TPoint;",
+            "begin",
+            "  a.x := 3;",
+            "  a.y := 3;",
+            "  b := a;",
+            "  b.x := 5;",
+            "  writeln(b.x, ' ', b.y);",
+            "end."
+          ],
+          "options": [
+            "5 3",
+            "3 5",
+            "0 0",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "b is a copy of a with x changed."
+        },
+        {
+          "id": "p14-l1-e5",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program Card;",
+            "type",
+            "  TCard = record",
+            "    name: string;",
+            "    age: integer;",
+            "  end;",
+            "var",
+            "  c: TCard;",
+            "begin",
+            "  c.name := 'Ada';",
+            "  c.phone := 1234;",
+            "end."
+          ],
+          "answer": 10,
+          "explanation": "TCard has no field called phone."
+        },
+        {
+          "id": "p14-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Can two records be compared with =?",
+          "options": [
+            "No, compare them field by field",
+            "Yes, always",
+            "Only if they have one field",
+            "Only strings"
+          ],
+          "answer": 0,
+          "explanation": "Pascal only allows := for whole records."
+        }
+      ]
+    },
+    {
+      "id": "p14-l2",
+      "title": "Arrays of Records",
+      "xp": 15,
+      "intro": [
+        "An array of records is a little database: shop: array[1..3] of TGame; shop[2].title is the title of the second game.",
+        "Records can contain arrays, and other records, too.",
+        "Before databases on PCs, programs like this were how shops kept their stock."
+      ],
+      "example": {
+        "code": [
+          "program Shop;",
+          "type",
+          "  TGame = record",
+          "    title: string;",
+          "    price: real;",
+          "  end;",
+          "var",
+          "  shop: array[1..3] of TGame;",
+          "  i: integer;",
+          "  total: real;",
+          "begin",
+          "  shop[1].title := 'Elite';",
+          "  shop[1].price := 14.99;",
+          "  shop[2].title := 'Tetris';",
+          "  shop[2].price := 9.95;",
+          "  shop[3].title := 'Lemmings';",
+          "  shop[3].price := 24.50;",
+          "  total := 0;",
+          "  for i := 1 to 3 do",
+          "  begin",
+          "    writeln(shop[i].title:10, shop[i].price:8:2);",
+          "    total := total + shop[i].price;",
+          "  end;",
+          "  writeln('Total':10, total:8:2);",
+          "end."
+        ],
+        "output": [
+          "     Elite   14.99",
+          "    Tetris    9.95",
+          "  Lemmings   24.50",
+          "     Total   49.44"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p14-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is shop[2].price?",
+          "options": [
+            "The price of the second game",
+            "The second price of every game",
+            "Two prices",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "First the array index, then the field."
+        },
+        {
+          "id": "p14-l2-e2",
+          "type": "fill_blank",
+          "prompt": "Print the title of every game.",
+          "code": [
+            "  for i := 1 to 3 do",
+            "    writeln(shop[i]___title);"
+          ],
+          "options": [
+            ".",
+            "^",
+            "[",
+            ","
+          ],
+          "answer": ".",
+          "explanation": "A dot for the field."
+        },
+        {
+          "id": "p14-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program A;",
+            "type",
+            "  TItem = record",
+            "    n: integer;",
+            "  end;",
+            "var",
+            "  a: array[1..2] of TItem;",
+            "begin",
+            "  a[1].n := 5;",
+            "  a[2].n := 8;",
+            "  writeln(a[2].n);",
+            "end."
+          ],
+          "options": [
+            "8",
+            "5",
+            "3",
+            "13"
+          ],
+          "answer": 0,
+          "explanation": "The second record has n = 8."
+        },
+        {
+          "id": "p14-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "Can a record contain an array?",
+          "options": [
+            "Yes, like scores: array[1..5] of integer",
+            "No",
+            "Only of strings",
+            "Only one"
+          ],
+          "answer": 0,
+          "explanation": "Fields can have any type."
+        },
+        {
+          "id": "p14-l2-e5",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program Db;",
+            "type",
+            "  TPerson = record",
+            "    name: string;",
+            "  end;",
+            "var",
+            "  p: array[1..2] of TPerson;",
+            "begin",
+            "  p.name[1] := 'Ada';",
+            "end."
+          ],
+          "answer": 8,
+          "explanation": "First the index, then the field: p[1].name := 'Ada';"
+        },
+        {
+          "id": "p14-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What did shops use arrays of records for in the 80s?",
+          "options": [
+            "Keeping their stock and prices",
+            "Drawing",
+            "Music",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "Card indexes moved into the computer."
+        }
+      ]
+    },
+    {
+      "id": "p14-l3",
+      "title": "with",
+      "xp": 15,
+      "intro": [
+        "with r do … lets you write the fields without the record name in front: with g do begin title := 'Elite'; year := 1984; end;",
+        "That's shorter and easier to read when you work with one record for a while.",
+        "Records are passed to routines like arrays: by value (a copy) or with var."
+      ],
+      "example": {
+        "code": [
+          "program Games;",
+          "type",
+          "  TGame = record",
+          "    title, author: string;",
+          "    year: integer;",
+          "  end;",
+          "var",
+          "  game: TGame;",
+          "",
+          "procedure Show(var g: TGame);",
+          "begin",
+          "  with g do",
+          "    writeln(title, ' by ', author, ', ', year);",
+          "end;",
+          "",
+          "begin",
+          "  with game do",
+          "  begin",
+          "    title := 'Elite';",
+          "    author := 'Braben and Bell';",
+          "    year := 1984;",
+          "  end;",
+          "  Show(game);",
+          "end."
+        ],
+        "output": [
+          "Elite by Braben and Bell, 1984"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p14-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does with r do do?",
+          "options": [
+            "Lets you write r's fields without r. in front",
+            "Copies r",
+            "Deletes r",
+            "Loops over r"
+          ],
+          "answer": 0,
+          "explanation": "Inside, title means r.title."
+        },
+        {
+          "id": "p14-l3-e2",
+          "type": "fill_blank",
+          "prompt": "Fill the fields without writing p. every time.",
+          "code": [
+            "  ___ p do",
+            "  begin",
+            "    x := 3;",
+            "    y := 4;",
+            "  end;"
+          ],
+          "options": [
+            "with",
+            "for",
+            "using",
+            "in"
+          ],
+          "answer": "with",
+          "explanation": "with p do …"
+        },
+        {
+          "id": "p14-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program W;",
+            "type",
+            "  TPoint = record",
+            "    x, y: integer;",
+            "  end;",
+            "var",
+            "  p: TPoint;",
+            "begin",
+            "  with p do",
+            "  begin",
+            "    x := 3;",
+            "    y := 4;",
+            "  end;",
+            "  writeln(p.x + p.y);",
+            "end."
+          ],
+          "options": [
+            "7",
+            "3",
+            "4",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "Inside with, x and y are p.x and p.y."
+        },
+        {
+          "id": "p14-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "How do you let a procedure change a record?",
+          "options": [
+            "Pass it as a var parameter",
+            "Use with",
+            "Make it global",
+            "You can't"
+          ],
+          "answer": 0,
+          "explanation": "Like any other variable."
+        },
+        {
+          "id": "p14-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Why pass big records with var, even when not changing them?",
+          "options": [
+            "So they aren't copied",
+            "Because it's required",
+            "To make them global",
+            "To use with"
+          ],
+          "answer": 0,
+          "explanation": "Copying a big record takes time and memory."
+        },
+        {
+          "id": "p14-l3-e6",
+          "type": "order_lines",
+          "prompt": "Put the lines in order: set both fields of p with with.",
+          "lines": [
+            "with p do",
+            "begin",
+            "  x := 1;",
+            "  y := 2;",
+            "end;"
+          ],
+          "answer": [
+            "with p do",
+            "begin",
+            "  x := 1;",
+            "  y := 2;",
+            "end;"
+          ],
+          "explanation": "with p do, then a begin … end block."
+        }
+      ]
+    }
+  ]
+}

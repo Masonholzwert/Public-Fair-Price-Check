@@ -1,0 +1,1064 @@
+{
+ "challenges": [
+  {
+   "id": "pas-three-lines",
+   "unit": "p1",
+   "difficulty": 1,
+   "title": "Three Lines",
+   "task": "Print Niklaus Wirth, ETH Zurich and 1970 on three lines.",
+   "xp": 15,
+   "starter": "program ThreeLines;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "Niklaus Wirth\nETH Zurich\n1970",
+   "requirements": [
+    {
+     "pattern": "writeln",
+     "message": "Print with writeln."
+    }
+   ],
+   "hints": [
+    "One writeln per line.",
+    "writeln('Niklaus Wirth');"
+   ]
+  },
+  {
+   "id": "pas-dashes",
+   "unit": "p1",
+   "difficulty": 1,
+   "title": "One Line, Many Writes",
+   "task": "Print 1-2-3-4 on one line, using a separate write for every number and every dash, and finish with writeln.",
+   "xp": 15,
+   "starter": "program OneLineManyWrites;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "1-2-3-4",
+   "requirements": [
+    {
+     "pattern": "write\\s*\\([\\s\\S]*write\\s*\\(",
+     "message": "Use several writes."
+    }
+   ],
+   "hints": [
+    "write(1); write('-'); …",
+    "End the line with writeln;"
+   ]
+  },
+  {
+   "id": "pas-time",
+   "unit": "p2",
+   "difficulty": 1,
+   "title": "Seconds to Time",
+   "task": "A floppy copy took 4000 seconds. Store that in an integer and print it as hours, minutes and seconds with div and mod: 1 h 6 min 40 s",
+   "xp": 15,
+   "starter": "program SecondsToTime;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "1 h 6 min 40 s",
+   "requirements": [
+    {
+     "pattern": "\\bdiv\\b",
+     "message": "Use div."
+    },
+    {
+     "pattern": "\\bmod\\b",
+     "message": "Use mod."
+    }
+   ],
+   "hints": [
+    "Hours: s div 3600.",
+    "Minutes: (s mod 3600) div 60, seconds: s mod 60."
+   ]
+  },
+  {
+   "id": "pas-big-numbers",
+   "unit": "p2",
+   "difficulty": 2,
+   "title": "Too Big for integer",
+   "task": "A screen of 320 × 200 pixels has 64000 pixels. That doesn't fit into an integer. Store 320 and 200 in longint variables and print Pixels: 64000.",
+   "xp": 25,
+   "starter": "program TooBigForInteger;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "Pixels: 64000",
+   "requirements": [
+    {
+     "pattern": "longint",
+     "message": "Use longint."
+    }
+   ],
+   "hints": [
+    "var w, h: longint;",
+    "With integer, 320 * 200 overflows and turns negative."
+   ]
+  },
+  {
+   "id": "pas-rectangle",
+   "unit": "p3",
+   "difficulty": 1,
+   "title": "Rectangle",
+   "task": "Ask Width and height? and read two numbers with one readln. Print the area and the perimeter:\nWidth and height? 7 3\nArea: 21\nPerimeter: 20\nThe app types 7 3.",
+   "xp": 15,
+   "starter": "program Rectangle;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "Width and height? 7 3\nArea: 21\nPerimeter: 20",
+   "requirements": [
+    {
+     "pattern": "readln\\s*\\(\\s*\\w+\\s*,\\s*\\w+\\s*\\)",
+     "message": "Read both numbers with one readln."
+    }
+   ],
+   "hints": [
+    "readln(w, h);",
+    "The perimeter is 2 * (w + h)."
+   ],
+   "inputs": [
+    "7 3"
+   ]
+  },
+  {
+   "id": "pas-fahrenheit",
+   "unit": "p3",
+   "difficulty": 2,
+   "title": "Celsius to Fahrenheit",
+   "task": "Ask Celsius? and read a real. Print the temperature in Fahrenheit (C × 9 / 5 + 32) with 1 decimal:\nCelsius? 21.5\n70.7 F\nThe app types 21.5.",
+   "xp": 25,
+   "starter": "program CelsiusToFahrenheit;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "Celsius? 21.5\n70.7 F",
+   "requirements": [
+    {
+     "pattern": "real",
+     "message": "Use a real variable."
+    },
+    {
+     "pattern": ":\\s*0\\s*:\\s*1",
+     "message": "Print with :0:1."
+    }
+   ],
+   "hints": [
+    "var c: real;",
+    "writeln(c * 9 / 5 + 32:0:1, ' F');"
+   ],
+   "inputs": [
+    "21.5"
+   ]
+  },
+  {
+   "id": "pas-leap",
+   "unit": "p4",
+   "difficulty": 2,
+   "title": "Leap Year",
+   "task": "Ask Year? and read a year. A year is a leap year if it can be divided by 4, but not by 100, unless also by 400. Print the answer like this:\nYear? 1900\n1900 is not a leap year\nThe app types 1900.",
+   "xp": 25,
+   "starter": "program LeapYear;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "Year? 1900\n1900 is not a leap year",
+   "requirements": [
+    {
+     "pattern": "\\bmod\\b",
+     "message": "Test with mod."
+    },
+    {
+     "pattern": "\\band\\b|\\bor\\b",
+     "message": "Combine the tests with and / or."
+    }
+   ],
+   "hints": [
+    "leap := ((y mod 4 = 0) and (y mod 100 <> 0)) or (y mod 400 = 0);",
+    "if leap then … else …"
+   ],
+   "inputs": [
+    "1900"
+   ]
+  },
+  {
+   "id": "pas-largest",
+   "unit": "p4",
+   "difficulty": 1,
+   "title": "The Largest",
+   "task": "Ask Three numbers? and read three integers. Print the largest:\nThree numbers? 14 92 37\nLargest: 92\nThe app types 14 92 37.",
+   "xp": 15,
+   "starter": "program TheLargest;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "Three numbers? 14 92 37\nLargest: 92",
+   "requirements": [
+    {
+     "pattern": "\\bif\\b",
+     "message": "Decide with if."
+    }
+   ],
+   "hints": [
+    "m := a; if b > m then m := b; if c > m then m := c;"
+   ],
+   "inputs": [
+    "14 92 37"
+   ]
+  },
+  {
+   "id": "pas-squares",
+   "unit": "p5",
+   "difficulty": 1,
+   "title": "Squares",
+   "task": "With a for loop, print the squares from 1 to 10 on one line, separated by spaces:\n1 4 9 16 25 36 49 64 81 100",
+   "xp": 15,
+   "starter": "program Squares;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "1 4 9 16 25 36 49 64 81 100",
+   "requirements": [
+    {
+     "pattern": "\\bfor\\b",
+     "message": "Use a for loop."
+    }
+   ],
+   "hints": [
+    "for i := 1 to 10 do write(i * i, ' ');",
+    "writeln at the end."
+   ]
+  },
+  {
+   "id": "pas-stairs",
+   "unit": "p5",
+   "difficulty": 2,
+   "title": "Number Stairs",
+   "task": "With two nested for loops, print:\n1\n1 2\n1 2 3\n1 2 3 4\n1 2 3 4 5",
+   "xp": 25,
+   "starter": "program NumberStairs;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "1\n1 2\n1 2 3\n1 2 3 4\n1 2 3 4 5",
+   "requirements": [
+    {
+     "pattern": "for[\\s\\S]*for",
+     "message": "Use two nested for loops."
+    }
+   ],
+   "hints": [
+    "The outer loop counts the rows from 1 to 5.",
+    "The inner loop prints 1 up to the row number."
+   ]
+  },
+  {
+   "id": "pas-digit-sum",
+   "unit": "p6",
+   "difficulty": 1,
+   "title": "Digit Sum",
+   "task": "Ask Number? and read a number. Add up its digits with a while loop (n mod 10 is the last digit, n div 10 removes it):\nNumber? 1983\nDigit sum: 21\nThe app types 1983.",
+   "xp": 15,
+   "starter": "program DigitSum;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "Number? 1983\nDigit sum: 21",
+   "requirements": [
+    {
+     "pattern": "\\bwhile\\b",
+     "message": "Use a while loop."
+    }
+   ],
+   "hints": [
+    "while n > 0 do begin sum := sum + n mod 10; n := n div 10 end;"
+   ],
+   "inputs": [
+    "1983"
+   ]
+  },
+  {
+   "id": "pas-menu",
+   "unit": "p6",
+   "difficulty": 2,
+   "title": "The Main Menu",
+   "task": "Ask Choice (N/L/S/Q)? and read one char. Use case to print New file, Loading..., Saving... or Bye!, and Unknown choice for anything else. Repeat until the choice is Q:\nChoice (N/L/S/Q)? L\nLoading...\nChoice (N/L/S/Q)? X\nUnknown choice\nChoice (N/L/S/Q)? Q\nBye!\nThe app types L, X and Q.",
+   "xp": 25,
+   "starter": "program TheMainMenu;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "Choice (N/L/S/Q)? L\nLoading...\nChoice (N/L/S/Q)? X\nUnknown choice\nChoice (N/L/S/Q)? Q\nBye!",
+   "requirements": [
+    {
+     "pattern": "\\bcase\\b",
+     "message": "Pick the action with case."
+    },
+    {
+     "pattern": "\\brepeat\\b",
+     "message": "Repeat with repeat … until."
+    }
+   ],
+   "hints": [
+    "var c: char; repeat … until c = 'Q';",
+    "case c of 'N': …; 'L': …; 'S': …; 'Q': … else writeln('Unknown choice') end;"
+   ],
+   "inputs": [
+    "L",
+    "X",
+    "Q"
+   ]
+  },
+  {
+   "id": "pas-line-proc",
+   "unit": "p7",
+   "difficulty": 1,
+   "title": "A Line of Anything",
+   "task": "Write procedure Line(n: integer; c: char) that prints c n times and ends the line. Use it to print:\n==========\n*****\n==========",
+   "xp": 15,
+   "starter": "program ALineOfAnything;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "==========\n*****\n==========",
+   "requirements": [
+    {
+     "pattern": "procedure\\s+Line\\s*\\(",
+     "message": "Write procedure Line(n: integer; c: char)."
+    }
+   ],
+   "hints": [
+    "Inside: a for loop with write(c), then writeln.",
+    "Line(10, '='); Line(5, '*'); Line(10, '=');"
+   ]
+  },
+  {
+   "id": "pas-frame",
+   "unit": "p7",
+   "difficulty": 2,
+   "title": "Framed Text",
+   "task": "Write procedure Frame(s: string) that prints s inside a frame of * that fits exactly. Frame('TURBO PASCAL') gives:\n****************\n* TURBO PASCAL *\n****************",
+   "xp": 25,
+   "starter": "program FramedText;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "****************\n* TURBO PASCAL *\n****************",
+   "requirements": [
+    {
+     "pattern": "procedure\\s+Frame\\s*\\(",
+     "message": "Write procedure Frame(s: string)."
+    },
+    {
+     "pattern": "length\\s*\\(",
+     "message": "Use length(s) for the width."
+    }
+   ],
+   "hints": [
+    "The frame is length(s) + 4 stars wide.",
+    "The middle line is '* ' + s + ' *'."
+   ],
+   "exact": true
+  },
+  {
+   "id": "pas-gcd",
+   "unit": "p8",
+   "difficulty": 2,
+   "title": "Greatest Common Divisor",
+   "task": "Write function Gcd(a, b: integer): integer with Euclid's algorithm (while b <> 0: r := a mod b; a := b; b := r). Print Gcd(1071, 462) and Gcd(84, 36):\n21\n12",
+   "xp": 25,
+   "starter": "program GreatestCommonDivisor;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "21\n12",
+   "requirements": [
+    {
+     "pattern": "function\\s+Gcd\\s*\\(",
+     "message": "Write function Gcd(a, b: integer): integer."
+    }
+   ],
+   "hints": [
+    "Value parameters are copies, so you can change a and b inside.",
+    "At the end: Gcd := a;"
+   ]
+  },
+  {
+   "id": "pas-minmax",
+   "unit": "p8",
+   "difficulty": 2,
+   "title": "Min and Max at Once",
+   "task": "Write procedure MinMax(a, b, c: integer; var lo, hi: integer) that finds the smallest and the biggest of three numbers. Use it for 17, 4 and 23 and print Min 4, max 23.",
+   "xp": 25,
+   "starter": "program MinAndMaxAtOnce;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "Min 4, max 23",
+   "requirements": [
+    {
+     "pattern": "procedure\\s+MinMax\\s*\\([^)]*var",
+     "message": "MinMax needs var parameters for the results."
+    }
+   ],
+   "hints": [
+    "lo := a; if b < lo then lo := b; if c < lo then lo := c;",
+    "The same for hi with >."
+   ]
+  },
+  {
+   "id": "pas-fib",
+   "unit": "p9",
+   "difficulty": 2,
+   "title": "Fibonacci",
+   "task": "Write a recursive function Fib(n: integer): integer: Fib(1) and Fib(2) are 1, every other value is the sum of the two before it. Print Fib(1) to Fib(12) on one line:\n1 1 2 3 5 8 13 21 34 55 89 144",
+   "xp": 25,
+   "starter": "program Fibonacci;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "1 1 2 3 5 8 13 21 34 55 89 144",
+   "requirements": [
+    {
+     "pattern": "function\\s+Fib\\s*\\(",
+     "message": "Write function Fib(n: integer): integer."
+    },
+    {
+     "pattern": "Fib\\s*:=[^;]*Fib\\s*\\(",
+     "message": "Fib must call itself."
+    }
+   ],
+   "hints": [
+    "if n <= 2 then Fib := 1 else Fib := Fib(n - 1) + Fib(n - 2);"
+   ]
+  },
+  {
+   "id": "pas-binary",
+   "unit": "p9",
+   "difficulty": 3,
+   "title": "Binary, Recursively",
+   "task": "Write a recursive procedure PrintBinary(n: integer) that prints n in binary: first the binary of n div 2 (if n > 1), then n mod 2. Print 13, 64 and 255:\n1101\n1000000\n11111111",
+   "xp": 40,
+   "starter": "program BinaryRecursively;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "1101\n1000000\n11111111",
+   "requirements": [
+    {
+     "pattern": "procedure\\s+PrintBinary\\s*\\(",
+     "message": "Write procedure PrintBinary(n: integer)."
+    },
+    {
+     "pattern": "PrintBinary\\s*\\(\\s*n\\s+div\\s+2\\s*\\)",
+     "message": "Call PrintBinary(n div 2) inside it."
+    }
+   ],
+   "hints": [
+    "if n > 1 then PrintBinary(n div 2);",
+    "write(n mod 2);"
+   ]
+  },
+  {
+   "id": "pas-reverse-array",
+   "unit": "p10",
+   "difficulty": 1,
+   "title": "Backwards",
+   "task": "Store 3 1 4 1 5 9 2 6 in an array[1..8] of integer and print it backwards:\n6 2 9 5 1 4 1 3",
+   "xp": 15,
+   "starter": "program Backwards;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "6 2 9 5 1 4 1 3",
+   "requirements": [
+    {
+     "pattern": "array\\s*\\[",
+     "message": "Use an array."
+    }
+   ],
+   "hints": [
+    "A typed constant fills it: const a: array[1..8] of integer = (3, 1, 4, 1, 5, 9, 2, 6);",
+    "for i := 8 downto 1 do write(a[i], ' ');"
+   ]
+  },
+  {
+   "id": "pas-above-average",
+   "unit": "p10",
+   "difficulty": 2,
+   "title": "Above Average",
+   "task": "Temperatures: 12 17 9 21 15 18. Store them in an array, print the average with 1 decimal, then the ones above it:\nAverage: 15.3\n17 21 18",
+   "xp": 25,
+   "starter": "program AboveAverage;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "Average: 15.3\n17 21 18",
+   "requirements": [
+    {
+     "pattern": "array\\s*\\[",
+     "message": "Use an array."
+    }
+   ],
+   "hints": [
+    "Add them up, then avg := sum / 6;",
+    "A second loop prints the ones bigger than avg."
+   ]
+  },
+  {
+   "id": "pas-palindrome",
+   "unit": "p11",
+   "difficulty": 2,
+   "title": "Palindromes",
+   "task": "Write function IsPalindrome(s: string): boolean that checks if s reads the same backwards. Print the answer for racecar, pascal and level:\nracecar TRUE\npascal FALSE\nlevel TRUE",
+   "xp": 25,
+   "starter": "program Palindromes;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "racecar TRUE\npascal FALSE\nlevel TRUE",
+   "requirements": [
+    {
+     "pattern": "function\\s+IsPalindrome\\s*\\(",
+     "message": "Write function IsPalindrome(s: string): boolean."
+    }
+   ],
+   "hints": [
+    "Compare s[i] with s[length(s) + 1 - i].",
+    "Start with IsPalindrome := true and set it to false when two characters differ."
+   ]
+  },
+  {
+   "id": "pas-words",
+   "unit": "p11",
+   "difficulty": 2,
+   "title": "Split into Words",
+   "task": "Ask Sentence? and read a line. Print every word on its own line, using pos(' ', …), copy and delete:\nSentence? Pascal was made for teaching\nPascal\nwas\nmade\nfor\nteaching\nThe app types Pascal was made for teaching.",
+   "xp": 25,
+   "starter": "program SplitIntoWords;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "Sentence? Pascal was made for teaching\nPascal\nwas\nmade\nfor\nteaching",
+   "requirements": [
+    {
+     "pattern": "pos\\s*\\(",
+     "message": "Find the spaces with pos."
+    },
+    {
+     "pattern": "copy\\s*\\(",
+     "message": "Cut the word out with copy."
+    },
+    {
+     "pattern": "delete\\s*\\(",
+     "message": "Remove the word with delete."
+    }
+   ],
+   "hints": [
+    "while pos(' ', s) > 0 do begin p := pos(' ', s); writeln(copy(s, 1, p - 1)); delete(s, 1, p) end;",
+    "After the loop, s holds the last word."
+   ],
+   "inputs": [
+    "Pascal was made for teaching"
+   ]
+  },
+  {
+   "id": "pas-sort-names",
+   "unit": "p12",
+   "difficulty": 2,
+   "title": "Sort the Names",
+   "task": "Sort the names Wirth, Kahn, Hejlsberg, Borland and Jensen alphabetically with bubble sort (strings compare with < and >) and print them on one line:\nBorland Hejlsberg Jensen Kahn Wirth",
+   "xp": 25,
+   "starter": "program SortTheNames;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "Borland Hejlsberg Jensen Kahn Wirth",
+   "requirements": [
+    {
+     "pattern": "for[\\s\\S]*for",
+     "message": "Sort with two nested loops."
+    }
+   ],
+   "hints": [
+    "Strings in an array[1..5] of string.",
+    "Swap with a string variable t when a[j] > a[j + 1]."
+   ]
+  },
+  {
+   "id": "pas-count-steps",
+   "unit": "p12",
+   "difficulty": 3,
+   "title": "Count the Steps",
+   "task": "The sorted array holds the even numbers 2, 4, … 64 (32 numbers). Write a binary search function Steps(x: integer): integer that returns how many middle elements it looked at before finding x (or giving up). Print the steps for 2, 40 and 33:\n2: 5 steps\n40: 3 steps\n33: 5 steps",
+   "xp": 40,
+   "starter": "program CountTheSteps;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "2: 5 steps\n40: 3 steps\n33: 5 steps",
+   "requirements": [
+    {
+     "pattern": "function\\s+Steps\\s*\\(",
+     "message": "Write function Steps(x: integer): integer."
+    },
+    {
+     "pattern": "div\\s*2",
+     "message": "Find the middle with (lo + hi) div 2."
+    }
+   ],
+   "hints": [
+    "Fill the array: for i := 1 to 32 do a[i] := 2 * i;",
+    "Count one step every time you look at a[mid].",
+    "lo := 1; hi := 32; while lo <= hi do … exit when found."
+   ]
+  },
+  {
+   "id": "pas-next-day",
+   "unit": "p13",
+   "difficulty": 2,
+   "title": "Tomorrow",
+   "task": "Declare TDay = (mon, tue, wed, thu, fri, sat, sun) and an array of names. Write function Tomorrow(d: TDay): TDay that goes back to mon after sun. Starting at fri, print 4 days:\nFri Sat Sun Mon",
+   "xp": 25,
+   "starter": "program Tomorrow;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "Fri Sat Sun Mon",
+   "requirements": [
+    {
+     "pattern": "function\\s+Tomorrow\\s*\\(",
+     "message": "Write function Tomorrow(d: TDay): TDay."
+    },
+    {
+     "pattern": "succ\\s*\\(",
+     "message": "Use succ."
+    }
+   ],
+   "hints": [
+    "if d = sun then Tomorrow := mon else Tomorrow := succ(d);",
+    "const n: array[TDay] of string = ('Mon', 'Tue', …);"
+   ]
+  },
+  {
+   "id": "pas-seasons",
+   "unit": "p13",
+   "difficulty": 1,
+   "title": "Seasons",
+   "task": "Declare type TMonth = 1..12. Write a procedure that prints the season for a month with case and ranges (12, 1..2 winter, 3..5 spring, 6..8 summer, 9..11 autumn). Print it for 1, 4, 7 and 10:\nwinter\nspring\nsummer\nautumn",
+   "xp": 15,
+   "starter": "program Seasons;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "winter\nspring\nsummer\nautumn",
+   "requirements": [
+    {
+     "pattern": "1\\s*\\.\\.\\s*12",
+     "message": "Declare TMonth = 1..12."
+    },
+    {
+     "pattern": "\\bcase\\b",
+     "message": "Use case with ranges."
+    }
+   ],
+   "hints": [
+    "procedure Season(m: TMonth);",
+    "case m of 12, 1..2: writeln('winter'); 3..5: …"
+   ]
+  },
+  {
+   "id": "pas-best-student",
+   "unit": "p14",
+   "difficulty": 2,
+   "title": "The Best Student",
+   "task": "Declare a record TStudent with name: string and grade: integer, and an array of 4 students: Ada 92, Ken 78, Grace 97, Linus 85. Find and print the best one:\nBest: Grace with 97",
+   "xp": 25,
+   "starter": "program TheBestStudent;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "Best: Grace with 97",
+   "requirements": [
+    {
+     "pattern": "record",
+     "message": "Use a record type."
+    },
+    {
+     "pattern": "\\]\\s*\\.\\s*grade",
+     "message": "Read the grades with s[i].grade."
+    }
+   ],
+   "hints": [
+    "s[1].name := 'Ada'; s[1].grade := 92; …",
+    "Remember the index of the best grade."
+   ]
+  },
+  {
+   "id": "pas-distance",
+   "unit": "p14",
+   "difficulty": 2,
+   "title": "Distance",
+   "task": "Declare TPoint = record x, y: real; end; and function Dist(a, b: TPoint): real that returns the distance sqrt(dx² + dy²). Print the distance from (1, 2) to (4, 6) with 2 decimals:\n5.00",
+   "xp": 25,
+   "starter": "program Distance;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "5.00",
+   "requirements": [
+    {
+     "pattern": "record",
+     "message": "Use a TPoint record."
+    },
+    {
+     "pattern": "function\\s+Dist\\s*\\(",
+     "message": "Write function Dist(a, b: TPoint): real."
+    },
+    {
+     "pattern": "sqrt",
+     "message": "Use sqrt."
+    }
+   ],
+   "hints": [
+    "Dist := sqrt(sqr(b.x - a.x) + sqr(b.y - a.y));",
+    "p.x := 1; p.y := 2; q.x := 4; q.y := 6;"
+   ]
+  },
+  {
+   "id": "pas-distinct",
+   "unit": "p15",
+   "difficulty": 2,
+   "title": "Different Letters",
+   "task": "Ask Word? and read a word. Count how many different letters it has, with a set of char (ignore case with upcase):\nWord? Mississippi\n4 different letters\nThe app types Mississippi.",
+   "xp": 25,
+   "starter": "program DifferentLetters;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "Word? Mississippi\n4 different letters",
+   "requirements": [
+    {
+     "pattern": "set\\s+of\\s+char",
+     "message": "Use a set of char."
+    },
+    {
+     "pattern": "\\bin\\b",
+     "message": "Test with in."
+    }
+   ],
+   "hints": [
+    "seen := []; for each letter: c := upcase(s[i]); if not (c in seen) then begin include(seen, c); inc(n) end;"
+   ],
+   "inputs": [
+    "Mississippi"
+   ]
+  },
+  {
+   "id": "pas-grade-input",
+   "unit": "p15",
+   "difficulty": 1,
+   "title": "Valid Grade",
+   "task": "Ask Grade (A-F)? and read one char. Repeat until it is in ['A'..'F'] (after upcase). Then print Grade X saved:\nGrade (A-F)? 7\nGrade (A-F)? z\nGrade (A-F)? b\nGrade B saved\nThe app types 7, z and b.",
+   "xp": 15,
+   "starter": "program ValidGrade;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "Grade (A-F)? 7\nGrade (A-F)? z\nGrade (A-F)? b\nGrade B saved",
+   "requirements": [
+    {
+     "pattern": "\\bin\\s*\\[",
+     "message": "Check with in [ … ]."
+    },
+    {
+     "pattern": "upcase",
+     "message": "Use upcase."
+    }
+   ],
+   "hints": [
+    "repeat write(…); readln(g); g := upcase(g); until g in ['A'..'F'];"
+   ],
+   "inputs": [
+    "7",
+    "z",
+    "b"
+   ]
+  },
+  {
+   "id": "pas-ptr-swap",
+   "unit": "p16",
+   "difficulty": 2,
+   "title": "Swap the Pointers",
+   "task": "Create two integers with new: p^ = 1983 and q^ = 1970. Instead of swapping the values, swap the pointers themselves (with a third pointer). Print p^ and q^ before and after, then dispose both:\n1983 1970\n1970 1983",
+   "xp": 25,
+   "starter": "program SwapThePointers;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "1983 1970\n1970 1983",
+   "requirements": [
+    {
+     "pattern": "new\\s*\\(",
+     "message": "Create the values with new."
+    },
+    {
+     "pattern": "dispose\\s*\\(",
+     "message": "Free them with dispose."
+    },
+    {
+     "pattern": "\\^\\s*integer",
+     "message": "Use ^integer pointers."
+    }
+   ],
+   "hints": [
+    "var p, q, t: ^integer;",
+    "t := p; p := q; q := t; — the values never move, only the pointers."
+   ]
+  },
+  {
+   "id": "pas-node-chain",
+   "unit": "p16",
+   "difficulty": 1,
+   "title": "A Chain of Two",
+   "task": "Declare PNode = ^TNode and TNode with value: integer and next: PNode. Create two nodes with 10 and 20, link the first to the second, and print the sum by following first^.next:\n30",
+   "xp": 15,
+   "starter": "program AChainOfTwo;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "30",
+   "requirements": [
+    {
+     "pattern": "\\^\\s*TNode",
+     "message": "Declare PNode = ^TNode."
+    },
+    {
+     "pattern": "\\^\\s*\\.\\s*next\\s*\\^",
+     "message": "Follow the link with first^.next^.value."
+    }
+   ],
+   "hints": [
+    "new(a); new(b); a^.value := 10; b^.value := 20; a^.next := b;",
+    "writeln(a^.value + a^.next^.value);"
+   ]
+  },
+  {
+   "id": "pas-list-sum",
+   "unit": "p17",
+   "difficulty": 1,
+   "title": "Sum of a List",
+   "task": "Build a linked list with the values 1 to 5 (add at the front), then walk it to print the values and their sum:\n5 4 3 2 1\nSum: 15",
+   "xp": 15,
+   "starter": "program SumOfAList;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "5 4 3 2 1\nSum: 15",
+   "requirements": [
+    {
+     "pattern": "new\\s*\\(",
+     "message": "Make the nodes with new."
+    },
+    {
+     "pattern": "\\^\\s*\\.\\s*next",
+     "message": "Walk with p^.next."
+    }
+   ],
+   "hints": [
+    "for i := 1 to 5 do begin new(n); n^.value := i; n^.next := head; head := n end;",
+    "p := head; while p <> nil do …"
+   ]
+  },
+  {
+   "id": "pas-reverse-list",
+   "unit": "p17",
+   "difficulty": 3,
+   "title": "Turn the List Around",
+   "task": "Build the list 1 2 3 4 5 in that order (add at the end). Write procedure Reverse(var head: PNode) that turns it around by changing only the next pointers. Print it before and after:\n1 2 3 4 5\n5 4 3 2 1",
+   "xp": 40,
+   "starter": "program TurnTheListAround;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "1 2 3 4 5\n5 4 3 2 1",
+   "requirements": [
+    {
+     "pattern": "procedure\\s+Reverse\\s*\\(\\s*var",
+     "message": "Write procedure Reverse(var head: PNode)."
+    }
+   ],
+   "hints": [
+    "prev := nil; while head <> nil do begin next := head^.next; head^.next := prev; prev := head; head := next end; head := prev;",
+    "To add at the end, keep a tail pointer."
+   ]
+  },
+  {
+   "id": "pas-best-in-file",
+   "unit": "p18",
+   "difficulty": 2,
+   "title": "Best in the File",
+   "task": "SCORES.TXT has lines like ADA 92. Read it with reset and while not eof, split each line at the space, and print the player with the best score:\nBest: NIKLAUS 99",
+   "xp": 25,
+   "starter": "program BestInTheFile;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "Best: NIKLAUS 99",
+   "requirements": [
+    {
+     "pattern": "reset\\s*\\(",
+     "message": "Open the file with reset."
+    },
+    {
+     "pattern": "eof\\s*\\(",
+     "message": "Read until eof."
+    }
+   ],
+   "hints": [
+    "p := pos(' ', line); name := copy(line, 1, p - 1); val(copy(line, p + 1, 5), score, code);",
+    "Remember the best score and its name."
+   ]
+  },
+  {
+   "id": "pas-copy-file",
+   "unit": "p18",
+   "difficulty": 2,
+   "title": "Copy a File",
+   "task": "Copy README.TXT line by line into BACKUP.TXT (two file variables: one with reset, one with rewrite). Then read BACKUP.TXT and print its lines with line numbers:\n1: TURBO PASCAL 3.0\n2: COPYRIGHT (C) 1983 BORLAND INC.",
+   "xp": 25,
+   "starter": "program CopyAFile;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "1: TURBO PASCAL 3.0\n2: COPYRIGHT (C) 1983 BORLAND INC.",
+   "requirements": [
+    {
+     "pattern": "rewrite\\s*\\(",
+     "message": "Create the copy with rewrite."
+    },
+    {
+     "pattern": "reset\\s*\\(",
+     "message": "Read with reset."
+    },
+    {
+     "pattern": "eof\\s*\\(",
+     "message": "Read until eof."
+    }
+   ],
+   "hints": [
+    "var src, dst: text;",
+    "while not eof(src) do begin readln(src, line); writeln(dst, line) end; then close both.",
+    "Read BACKUP.TXT again with reset and count the lines."
+   ]
+  },
+  {
+   "id": "pas-unit-greet",
+   "unit": "p19",
+   "difficulty": 1,
+   "title": "A Greeting Unit",
+   "task": "Write unit Greet with one procedure in its interface: Hello(name: string), which prints Hello, and the name with an exclamation mark. Then a program that uses Greet and says hello to Ada and Niklaus:\nHello, Ada!\nHello, Niklaus!",
+   "xp": 15,
+   "starter": "unit Greet;\n\ninterface\n\n\nimplementation\n\n\nend.\n\nprogram Hi;\nuses Greet;\nbegin\n  \nend.\n",
+   "expectedOutput": "Hello, Ada!\nHello, Niklaus!",
+   "requirements": [
+    {
+     "pattern": "unit\\s+Greet",
+     "message": "Write unit Greet."
+    },
+    {
+     "pattern": "uses\\s+Greet",
+     "message": "The program must use Greet."
+    },
+    {
+     "pattern": "implementation",
+     "message": "The unit needs an implementation part."
+    }
+   ],
+   "hints": [
+    "unit Greet; interface procedure Hello(name: string); implementation procedure Hello(name: string); begin writeln('Hello, ', name, '!') end; end.",
+    "program Hi; uses Greet; begin Hello('Ada'); Hello('Niklaus') end."
+   ]
+  },
+  {
+   "id": "pas-unit-stack",
+   "unit": "p19",
+   "difficulty": 2,
+   "title": "A Stack Unit",
+   "task": "Write unit Stack with Push(x: integer), function Pop: integer and function IsEmpty: boolean in the interface. Keep the array and the top counter private in the implementation. The program pushes 1, 2 and 3 and pops until the stack is empty:\n3 2 1",
+   "xp": 25,
+   "starter": "unit Stack;\n\ninterface\n\n\nimplementation\n\n\nend.\n\nprogram UseStack;\nuses Stack;\nbegin\n  \nend.\n",
+   "expectedOutput": "3 2 1",
+   "requirements": [
+    {
+     "pattern": "unit\\s+Stack",
+     "message": "Write unit Stack."
+    },
+    {
+     "pattern": "uses\\s+Stack",
+     "message": "The program must use Stack."
+    },
+    {
+     "pattern": "function\\s+IsEmpty",
+     "message": "Write function IsEmpty: boolean."
+    }
+   ],
+   "hints": [
+    "implementation var items: array[1..10] of integer; top: integer;",
+    "Push: top := top + 1; items[top] := x;  Pop: Pop := items[top]; top := top - 1;",
+    "In the program: while not IsEmpty do write(Pop, ' ');"
+   ]
+  },
+  {
+   "id": "pas-file-squares",
+   "unit": "p20",
+   "difficulty": 1,
+   "title": "A File of Squares",
+   "task": "Write the squares of 1 to 5 into SQUARES.DAT, a file of integer. Then reset it, read every number back and print their sum:\n55",
+   "xp": 15,
+   "starter": "program Squares;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "55",
+   "requirements": [
+    {
+     "pattern": "file\\s+of\\s+integer",
+     "message": "Use a file of integer."
+    },
+    {
+     "pattern": "rewrite\\s*\\(",
+     "message": "Create it with rewrite."
+    },
+    {
+     "pattern": "reset\\s*\\(",
+     "message": "Read it back with reset."
+    }
+   ],
+   "hints": [
+    "for i := 1 to 5 do begin n := i * i; write(f, n) end;",
+    "reset(f); while not eof(f) do begin read(f, n); sum := sum + n end;"
+   ]
+  },
+  {
+   "id": "pas-file-last",
+   "unit": "p20",
+   "difficulty": 2,
+   "title": "The Last Record",
+   "task": "Declare TPerson = record name: string[10]; born: integer; end; and save Ada 1815, Grace 1906 and Niklaus 1934 in PEOPLE.DAT, a file of TPerson. Reset it, jump straight to the last record with seek and filesize, and print:\n3 people, last: Niklaus 1934",
+   "xp": 25,
+   "starter": "program People;\ntype\n  TPerson = record\n    name: string[10];\n    born: integer;\n  end;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "3 people, last: Niklaus 1934",
+   "requirements": [
+    {
+     "pattern": "file\\s+of\\s+TPerson",
+     "message": "Use a file of TPerson."
+    },
+    {
+     "pattern": "seek\\s*\\(",
+     "message": "Jump with seek."
+    },
+    {
+     "pattern": "filesize\\s*\\(",
+     "message": "Use filesize."
+    }
+   ],
+   "hints": [
+    "The last record is number filesize(f) - 1.",
+    "seek(f, filesize(f) - 1); read(f, p);"
+   ]
+  },
+  {
+   "id": "pas-tree-max",
+   "unit": "p21",
+   "difficulty": 1,
+   "title": "The Biggest Key",
+   "task": "Insert 7, 3, 9 and 1 into a binary search tree. The biggest key is always at the far right: follow the right pointers until there are no more, and print:\nmax 9",
+   "xp": 15,
+   "starter": "program Biggest;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "max 9",
+   "requirements": [
+    {
+     "pattern": "new\\s*\\(",
+     "message": "Make the nodes with new."
+    },
+    {
+     "pattern": "\\^\\s*\\.\\s*right",
+     "message": "Follow the right pointers."
+    }
+   ],
+   "hints": [
+    "t := root; while t^.right <> nil do t := t^.right;",
+    "writeln('max ', t^.key);"
+   ]
+  },
+  {
+   "id": "pas-tree-leaves",
+   "unit": "p21",
+   "difficulty": 2,
+   "title": "Count the Leaves",
+   "task": "A leaf is a node without children. Insert 50, 30, 70, 20 and 40 into a binary search tree and write a recursive function Leaves(t: PTree): integer. Print:\n3 leaves",
+   "xp": 25,
+   "starter": "program LeafCount;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "3 leaves",
+   "requirements": [
+    {
+     "pattern": "function\\s+Leaves",
+     "message": "Write function Leaves(t: PTree): integer."
+    },
+    {
+     "pattern": "nil",
+     "message": "Check for nil."
+    }
+   ],
+   "hints": [
+    "if t = nil then Leaves := 0",
+    "else if (t^.left = nil) and (t^.right = nil) then Leaves := 1",
+    "else Leaves := Leaves(t^.left) + Leaves(t^.right);"
+   ]
+  },
+  {
+   "id": "pas-diagonal",
+   "unit": "p22",
+   "difficulty": 1,
+   "title": "The Diagonal",
+   "task": "Use crt: clear the screen and draw a diagonal of 5 stars with gotoxy, each star one column and one row further than the last:\n*\n *\n  *\n   *\n    *",
+   "xp": 15,
+   "starter": "program Diagonal;\nuses crt;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "*\n *\n  *\n   *\n    *",
+   "requirements": [
+    {
+     "pattern": "uses\\s+crt",
+     "message": "Use the crt unit."
+    },
+    {
+     "pattern": "gotoxy\\s*\\(",
+     "message": "Place the stars with gotoxy."
+    }
+   ],
+   "hints": [
+    "for i := 1 to 5 do begin gotoxy(i, i); write('*') end;"
+   ],
+   "exact": true
+  },
+  {
+   "id": "pas-columns",
+   "unit": "p22",
+   "difficulty": 2,
+   "title": "Columns on the Screen",
+   "task": "Use gotoxy to print a table: NAME at column 1 and SCORE at column 10 in row 1, then Ada 92, Ken 78 and Niklaus 99 in rows 2 to 4, names at column 1 and scores at column 10. Keep the names and scores in two arrays.",
+   "xp": 25,
+   "starter": "program Columns;\nuses crt;\n\nbegin\n  \nend.\n",
+   "expectedOutput": "NAME     SCORE\nAda      92\nKen      78\nNiklaus  99",
+   "requirements": [
+    {
+     "pattern": "uses\\s+crt",
+     "message": "Use the crt unit."
+    },
+    {
+     "pattern": "gotoxy\\s*\\(\\s*10",
+     "message": "Put the scores at column 10 with gotoxy."
+    },
+    {
+     "pattern": "array",
+     "message": "Keep the data in arrays."
+    }
+   ],
+   "hints": [
+    "const names: array[1..3] of string = ('Ada', 'Ken', 'Niklaus');",
+    "for i := 1 to 3 do begin gotoxy(1, i + 1); write(names[i]); gotoxy(10, i + 1); write(scores[i]) end;"
+   ],
+   "exact": true
+  }
+ ]
+}

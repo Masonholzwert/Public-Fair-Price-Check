@@ -1,0 +1,387 @@
+{
+  "id": "a3",
+  "title": "Math with the Carry",
+  "lessons": [
+    {
+      "id": "a3-l1",
+      "title": "Adding with ADC",
+      "xp": 15,
+      "intro": [
+        "ADC means ADd with Carry. ADC #3 adds 3 to A. ADC $0300 adds the byte stored at $0300.",
+        "The carry is a one-bit flag the 6502 uses to remember an overflow from the last addition. ADC always adds it too, so before a new sum, clear it with CLC (CLear Carry).",
+        "The usual pattern: CLC, then ADC. Forget the CLC and you might get one too many."
+      ],
+      "example": {
+        "code": [
+          "LDA #5",
+          "CLC",
+          "ADC #3",
+          "STA $0300",
+          "BRK"
+        ],
+        "output": [
+          "A = $08   $0300 = $08"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a3-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is in A after this program?",
+          "code": [
+            "LDA #5",
+            "CLC",
+            "ADC #3",
+            "BRK"
+          ],
+          "options": [
+            "8",
+            "5",
+            "3",
+            "53"
+          ],
+          "answer": 0,
+          "explanation": "A starts at 5, CLC clears the carry, ADC #3 adds 3: 8."
+        },
+        {
+          "id": "a3-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Why do you write CLC before ADC?",
+          "options": [
+            "ADC also adds the carry, so it has to be 0",
+            "ADC only works after CLC",
+            "CLC loads A",
+            "It clears the screen"
+          ],
+          "answer": 0,
+          "explanation": "ADC = add with carry. If the carry is still 1 from earlier, you'd get one more than you wanted."
+        },
+        {
+          "id": "a3-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Clear the carry before adding.",
+          "code": [
+            "LDA #10",
+            "___",
+            "ADC #20",
+            "BRK"
+          ],
+          "options": [
+            "CLC",
+            "SEC",
+            "CLD",
+            "BRK"
+          ],
+          "answer": "CLC",
+          "explanation": "CLC = CLear Carry. SEC would set it, and you'd get 31."
+        },
+        {
+          "id": "a3-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "The carry is 1 here. What is in A?",
+          "code": [
+            "SEC",
+            "LDA #5",
+            "ADC #3",
+            "BRK"
+          ],
+          "options": [
+            "9",
+            "8",
+            "5",
+            "4"
+          ],
+          "answer": 0,
+          "explanation": "SEC sets the carry to 1, and ADC adds it: 5 + 3 + 1 = 9."
+        },
+        {
+          "id": "a3-l1-e5",
+          "type": "order_lines",
+          "prompt": "Add the bytes at $0300 and $0301 and store the sum at $0302.",
+          "lines": [
+            "LDA $0300",
+            "CLC",
+            "ADC $0301",
+            "STA $0302",
+            "BRK"
+          ],
+          "answer": [
+            "LDA $0300",
+            "CLC",
+            "ADC $0301",
+            "STA $0302",
+            "BRK"
+          ],
+          "explanation": "Load the first number, clear the carry, add the second one, store the result."
+        },
+        {
+          "id": "a3-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Which line adds the byte stored at $30 to A?",
+          "options": [
+            "ADC $30",
+            "ADC #$30",
+            "ADD $30",
+            "LDA $30"
+          ],
+          "answer": 0,
+          "explanation": "Without # it's an address. And there's no ADD on the 6502, only ADC."
+        }
+      ]
+    },
+    {
+      "id": "a3-l2",
+      "title": "Subtracting with SBC",
+      "xp": 15,
+      "intro": [
+        "SBC means SuBtract with Carry. Here the carry works the other way round: it has to be 1 before you subtract. So you set it first with SEC (SEt Carry).",
+        "The pattern for subtraction is SEC, then SBC, just like CLC, then ADC for addition.",
+        "If the result drops below 0, it wraps around: 5 minus 7 gives $FE. The 6502 then clears the carry, which tells you that you had to borrow."
+      ],
+      "example": {
+        "code": [
+          "LDA #20",
+          "SEC",
+          "SBC #8",
+          "STA $0300",
+          "BRK"
+        ],
+        "output": [
+          "A = $0C   $0300 = $0C"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a3-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is in A after this program?",
+          "code": [
+            "LDA #20",
+            "SEC",
+            "SBC #8",
+            "BRK"
+          ],
+          "options": [
+            "12",
+            "28",
+            "8",
+            "11"
+          ],
+          "answer": 0,
+          "explanation": "SEC sets the carry, then SBC #8 takes 8 away from 20: 12 ($0C)."
+        },
+        {
+          "id": "a3-l2-e2",
+          "type": "fill_blank",
+          "prompt": "Get the carry ready for a subtraction.",
+          "code": [
+            "LDA #9",
+            "___",
+            "SBC #4",
+            "BRK"
+          ],
+          "options": [
+            "SEC",
+            "CLC",
+            "SED",
+            "INX"
+          ],
+          "answer": "SEC",
+          "explanation": "SBC needs the carry set. With CLC you'd get 4 instead of 5."
+        },
+        {
+          "id": "a3-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "Here the carry was cleared instead of set. What is in A?",
+          "code": [
+            "LDA #9",
+            "CLC",
+            "SBC #4",
+            "BRK"
+          ],
+          "options": [
+            "4",
+            "5",
+            "6",
+            "$FF"
+          ],
+          "answer": 0,
+          "explanation": "With the carry at 0, SBC takes away one more: 9 - 4 - 1 = 4."
+        },
+        {
+          "id": "a3-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What is 5 - 7 on the 6502?",
+          "options": [
+            "$FE",
+            "-2",
+            "$02",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "There are no negative numbers in a byte: it wraps around. 0 - 1 is $FF, 0 - 2 is $FE."
+        },
+        {
+          "id": "a3-l2-e5",
+          "type": "find_bug",
+          "prompt": "This should store 10 - 3 = 7 at $0300, but stores 6. Which line is wrong?",
+          "code": [
+            "LDA #10",
+            "CLC",
+            "SBC #3",
+            "STA $0300",
+            "BRK"
+          ],
+          "answer": 1,
+          "explanation": "Before SBC, the carry has to be set with SEC. CLC makes SBC take away one more."
+        },
+        {
+          "id": "a3-l2-e6",
+          "type": "order_lines",
+          "prompt": "Subtract the byte at $0301 from the byte at $0300, store at $0302.",
+          "lines": [
+            "LDA $0300",
+            "SEC",
+            "SBC $0301",
+            "STA $0302",
+            "BRK"
+          ],
+          "answer": [
+            "LDA $0300",
+            "SEC",
+            "SBC $0301",
+            "STA $0302",
+            "BRK"
+          ],
+          "explanation": "Load, set the carry, subtract, store. The same pattern as addition, with SEC and SBC."
+        }
+      ]
+    },
+    {
+      "id": "a3-l3",
+      "title": "Carry, INC and DEC",
+      "xp": 15,
+      "intro": [
+        "What happens when a sum doesn't fit into a byte? $C8 + $64 is $12C. A keeps the last two digits, $2C, and the 1 goes into the carry. That's what the carry is for.",
+        "Memory can count by itself, too: INC $0300 adds 1 to the byte at $0300, DEC $0300 takes 1 away. A, X and Y don't change.",
+        "INC and DEC wrap around like INX: $FF + 1 = $00. They don't touch the carry."
+      ],
+      "example": {
+        "code": [
+          "LDA #$C8",
+          "CLC",
+          "ADC #$64",
+          "INC $0300",
+          "BRK"
+        ],
+        "output": [
+          "A = $2C   CARRY = 1   $0300 = $01"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a3-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What do A and the carry hold after this program?",
+          "code": [
+            "LDA #$C8",
+            "CLC",
+            "ADC #$64",
+            "BRK"
+          ],
+          "options": [
+            "A = $2C, carry = 1",
+            "A = $12C, carry = 0",
+            "A = $FF, carry = 1",
+            "A = $2C, carry = 0"
+          ],
+          "answer": 0,
+          "explanation": "$C8 + $64 = $12C. A keeps $2C, the extra 1 goes into the carry."
+        },
+        {
+          "id": "a3-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "When does ADC set the carry?",
+          "options": [
+            "When the sum is bigger than 255",
+            "When the sum is 0",
+            "Always",
+            "When you add a hex number"
+          ],
+          "answer": 0,
+          "explanation": "The carry catches whatever doesn't fit into the byte."
+        },
+        {
+          "id": "a3-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Add 1 to the byte at $0300, without using A.",
+          "code": [
+            "___ $0300",
+            "BRK"
+          ],
+          "options": [
+            "INC",
+            "INX",
+            "ADC",
+            "LDA"
+          ],
+          "answer": "INC",
+          "explanation": "INC works directly on memory. INX would count in X."
+        },
+        {
+          "id": "a3-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What is at $0300 after this program?",
+          "code": [
+            "INC $0300",
+            "INC $0300",
+            "INC $0300",
+            "DEC $0300",
+            "BRK"
+          ],
+          "options": [
+            "$02",
+            "$03",
+            "$01",
+            "$00"
+          ],
+          "answer": 0,
+          "explanation": "Three INCs count $00 up to $03, then DEC takes one away: $02."
+        },
+        {
+          "id": "a3-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "The byte at $30 is $FF. What is it after INC $30?",
+          "options": [
+            "$00",
+            "$100",
+            "$FF",
+            "$FE"
+          ],
+          "answer": 0,
+          "explanation": "Like INX, INC wraps around: $FF + 1 = $00."
+        },
+        {
+          "id": "a3-l3-e6",
+          "type": "order_lines",
+          "prompt": "Count the byte at $0300 up by 2, then store 1 at $0301.",
+          "lines": [
+            "INC $0300",
+            "INC $0300",
+            "LDA #1",
+            "STA $0301",
+            "BRK"
+          ],
+          "answer": [
+            "INC $0300",
+            "INC $0300",
+            "LDA #1",
+            "STA $0301",
+            "BRK"
+          ],
+          "explanation": "The INC lines and the LDA/STA pair are independent, so they can be mixed, as long as LDA comes before STA."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,417 @@
+{
+  "id": "u10",
+  "title": "Patterns & Tables",
+  "lessons": [
+    {
+      "id": "u10-l1",
+      "title": "Drawing with Loops",
+      "xp": 15,
+      "intro": [
+        "Long before screens had graphics, programmers drew pictures with characters on the teletype. Two nested loops are all you need.",
+        "The outer loop counts the rows, the inner loop prints the characters of one row. PRINT \"*\"; keeps everything on the same line, and an empty PRINT ends the row.",
+        "Change the numbers in the loops and the shape changes: wider, taller, or a triangle when the inner loop depends on the row."
+      ],
+      "example": {
+        "code": [
+          "10 FOR R = 1 TO 3",
+          "20 FOR C = 1 TO 6",
+          "30 PRINT \"#\";",
+          "40 NEXT C",
+          "50 PRINT",
+          "60 NEXT R",
+          "70 END"
+        ],
+        "output": [
+          "######",
+          "######",
+          "######"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "u10-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "How many # signs does the example print in total?",
+          "code": [
+            "10 FOR R = 1 TO 3",
+            "20 FOR C = 1 TO 6",
+            "30 PRINT \"#\";",
+            "40 NEXT C",
+            "50 PRINT",
+            "60 NEXT R",
+            "70 END"
+          ],
+          "options": [
+            "18",
+            "9",
+            "6",
+            "36"
+          ],
+          "answer": 0,
+          "explanation": "3 rows with 6 signs each: 3 × 6 = 18."
+        },
+        {
+          "id": "u10-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What shape does this program draw?",
+          "code": [
+            "10 FOR R = 4 TO 1 STEP -1",
+            "20 FOR S = 1 TO R",
+            "30 PRINT \"*\";",
+            "40 NEXT S",
+            "50 PRINT",
+            "60 NEXT R",
+            "70 END"
+          ],
+          "options": [
+            "A triangle that gets shorter: ****, ***, **, *",
+            "A triangle that gets longer: *, **, ***, ****",
+            "A square of 4 × 4 stars",
+            "One long line of 10 stars"
+          ],
+          "answer": 0,
+          "explanation": "The outer loop counts down, and each row prints R stars. So the rows get shorter."
+        },
+        {
+          "id": "u10-l1-e3",
+          "type": "fill_blank",
+          "prompt": "End the row so the next one starts on a new line.",
+          "code": [
+            "30 PRINT \"*\";",
+            "40 NEXT C",
+            "50 ___",
+            "60 NEXT R"
+          ],
+          "options": [
+            "PRINT",
+            "NEXT",
+            "END",
+            "RETURN"
+          ],
+          "answer": "PRINT",
+          "explanation": "An empty PRINT finishes the current line."
+        },
+        {
+          "id": "u10-l1-e4",
+          "type": "find_bug",
+          "prompt": "This should print 3 rows of 4 stars, but every star lands on its own line. Which line is wrong?",
+          "code": [
+            "10 FOR R = 1 TO 3",
+            "20 FOR C = 1 TO 4",
+            "30 PRINT \"*\"",
+            "40 NEXT C",
+            "50 PRINT",
+            "60 NEXT R",
+            "70 END"
+          ],
+          "answer": 2,
+          "explanation": "Without the semicolon at the end of line 30, every PRINT starts a new line. It should be PRINT \"*\";"
+        },
+        {
+          "id": "u10-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "10 FOR I = 1 TO 5",
+            "20 PRINT \"-\";",
+            "30 NEXT I",
+            "40 PRINT",
+            "50 END"
+          ],
+          "options": [
+            "-----",
+            "-",
+            "- - - - -",
+            "Five lines with one - each"
+          ],
+          "answer": 0,
+          "explanation": "The semicolon glues all five dashes together on one line."
+        },
+        {
+          "id": "u10-l1-e6",
+          "type": "order_lines",
+          "prompt": "Build a program that prints 2 rows of 5 stars.",
+          "lines": [
+            "10 FOR R = 1 TO 2",
+            "20 FOR C = 1 TO 5",
+            "30 PRINT \"*\";",
+            "40 NEXT C",
+            "50 PRINT",
+            "60 NEXT R",
+            "70 END"
+          ],
+          "answer": [
+            "10 FOR R = 1 TO 2",
+            "20 FOR C = 1 TO 5",
+            "30 PRINT \"*\";",
+            "40 NEXT C",
+            "50 PRINT",
+            "60 NEXT R",
+            "70 END"
+          ],
+          "explanation": "The inner loop prints one row, the empty PRINT ends it, and the outer loop repeats that twice."
+        }
+      ]
+    },
+    {
+      "id": "u10-l2",
+      "title": "Spaces and Pyramids",
+      "xp": 20,
+      "intro": [
+        "To move stars to the right, print spaces first: PRINT \" \"; works just like PRINT \"*\";",
+        "For a pyramid, each row needs fewer spaces and more stars. The trick is to find the rule: in a pyramid of height 3, row R has 3 - R spaces and 2 * R - 1 stars.",
+        "When a loop like FOR S = 1 TO 0 has nothing to do, it simply runs zero times. That's how the last row gets no spaces."
+      ],
+      "example": {
+        "code": [
+          "10 FOR R = 1 TO 3",
+          "20 FOR S = 1 TO 3 - R",
+          "30 PRINT \" \";",
+          "40 NEXT S",
+          "50 FOR C = 1 TO 2 * R - 1",
+          "60 PRINT \"*\";",
+          "70 NEXT C",
+          "80 PRINT",
+          "90 NEXT R",
+          "100 END"
+        ],
+        "output": [
+          "  *",
+          " ***",
+          "*****"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "u10-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "A pyramid row R has 2 * R - 1 stars. How many stars are in row 4?",
+          "options": [
+            "7",
+            "8",
+            "4",
+            "9"
+          ],
+          "answer": 0,
+          "explanation": "2 × 4 - 1 = 7. The rows have 1, 3, 5, 7, … stars."
+        },
+        {
+          "id": "u10-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "In the example, why does row 3 print no spaces?",
+          "code": [
+            "20 FOR S = 1 TO 3 - R",
+            "30 PRINT \" \";",
+            "40 NEXT S"
+          ],
+          "options": [
+            "For R = 3 the loop is FOR S = 1 TO 0, which runs zero times",
+            "Spaces are never printed in the last row",
+            "The loop stops with an error",
+            "STEP is missing"
+          ],
+          "answer": 0,
+          "explanation": "When the start is already past the end, BASIC skips the loop completely."
+        },
+        {
+          "id": "u10-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Each row needs one space less than the row before it.",
+          "code": [
+            "20 FOR S = 1 TO 3 ___ R"
+          ],
+          "options": [
+            "-",
+            "+",
+            "*",
+            "/"
+          ],
+          "answer": "-",
+          "explanation": "3 - R gives 2 spaces in row 1, 1 in row 2 and 0 in row 3."
+        },
+        {
+          "id": "u10-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program draw?",
+          "code": [
+            "10 FOR R = 1 TO 3",
+            "20 FOR S = 1 TO R - 1",
+            "30 PRINT \" \";",
+            "40 NEXT S",
+            "50 PRINT \"*\"",
+            "60 NEXT R",
+            "70 END"
+          ],
+          "options": [
+            "A diagonal line of stars going down to the right",
+            "A pyramid",
+            "Three stars in one row",
+            "A square"
+          ],
+          "answer": 0,
+          "explanation": "Each row has one more space before its single star, so the stars form a diagonal."
+        },
+        {
+          "id": "u10-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What's the best first step for a tricky pattern?",
+          "options": [
+            "Write down how many spaces and characters each row needs and find the rule",
+            "Type PRINT lines until it looks right",
+            "Start with the last row",
+            "Use as many GOTOs as possible"
+          ],
+          "answer": 0,
+          "explanation": "Once you have a small table like row 1: 2 spaces, 1 star, the formula for the loops follows."
+        },
+        {
+          "id": "u10-l2-e6",
+          "type": "order_lines",
+          "prompt": "Build the diagonal: each row starts one space further right.",
+          "lines": [
+            "10 FOR R = 1 TO 3",
+            "20 FOR S = 1 TO R - 1",
+            "30 PRINT \" \";",
+            "40 NEXT S",
+            "50 PRINT \"*\"",
+            "60 NEXT R",
+            "70 END"
+          ],
+          "answer": [
+            "10 FOR R = 1 TO 3",
+            "20 FOR S = 1 TO R - 1",
+            "30 PRINT \" \";",
+            "40 NEXT S",
+            "50 PRINT \"*\"",
+            "60 NEXT R",
+            "70 END"
+          ],
+          "explanation": "First the spaces, then one star. PRINT \"*\" without a semicolon ends the row by itself."
+        }
+      ]
+    },
+    {
+      "id": "u10-l3",
+      "title": "Neat Tables",
+      "xp": 20,
+      "intro": [
+        "A comma in PRINT jumps to the next print zone. Each zone is 15 characters wide, so values line up in columns, like a spreadsheet on paper.",
+        "Print the header line once before the loop, then one row per loop round.",
+        "For money, round to cents with INT(P * 100 + 0.5) / 100, so prices don't show long rows of decimals."
+      ],
+      "example": {
+        "code": [
+          "10 PRINT \"N\", \"N*N\", \"N*N*N\"",
+          "20 FOR N = 1 TO 3",
+          "30 PRINT N, N * N, N * N * N",
+          "40 NEXT N",
+          "50 END"
+        ],
+        "output": [
+          "N              N*N            N*N*N",
+          "1              1              1",
+          "2              4              8",
+          "3              9              27"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "u10-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "How wide is one print zone?",
+          "options": [
+            "15 characters",
+            "10 characters",
+            "8 characters",
+            "It depends on the number"
+          ],
+          "answer": 0,
+          "explanation": "Each comma moves to the next 15-character zone, so a 75-character teletype line fits 5 columns."
+        },
+        {
+          "id": "u10-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What's the difference between PRINT A, B and PRINT A; B?",
+          "options": [
+            "The comma puts B in the next column, the semicolon prints it right after A",
+            "There is no difference",
+            "The semicolon starts a new line",
+            "The comma adds A and B"
+          ],
+          "answer": 0,
+          "explanation": "Commas make columns, semicolons keep things close together."
+        },
+        {
+          "id": "u10-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Round the price P to cents.",
+          "code": [
+            "30 PRINT N, INT(P * 100 + 0.5) / ___"
+          ],
+          "options": [
+            "100",
+            "10",
+            "0.5",
+            "2"
+          ],
+          "answer": "100",
+          "explanation": "Multiply by 100, round, and divide by 100 again: 3.14159 becomes 3.14."
+        },
+        {
+          "id": "u10-l3-e4",
+          "type": "find_bug",
+          "prompt": "The header appears above every row instead of once. Which line is in the wrong place?",
+          "code": [
+            "10 FOR N = 1 TO 3",
+            "20 PRINT \"N\", \"SQUARE\"",
+            "30 PRINT N, N * N",
+            "40 NEXT N",
+            "50 END"
+          ],
+          "answer": 1,
+          "explanation": "The header is inside the loop, so it's printed in every round. It belongs before FOR."
+        },
+        {
+          "id": "u10-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Which values are in the row for N = 2?",
+          "code": [
+            "10 PRINT \"N\", \"N*N\", \"N*N*N\"",
+            "20 FOR N = 1 TO 3",
+            "30 PRINT N, N * N, N * N * N",
+            "40 NEXT N",
+            "50 END"
+          ],
+          "options": [
+            "2, 4 and 8 in three columns",
+            "1, 1 and 1",
+            "2, 4 and 6",
+            "The header again"
+          ],
+          "answer": 0,
+          "explanation": "For N = 2, the three columns show 2, 2 * 2 = 4 and 2 * 2 * 2 = 8."
+        },
+        {
+          "id": "u10-l3-e6",
+          "type": "order_lines",
+          "prompt": "Build a table with a header and the doubles of 1 to 3.",
+          "lines": [
+            "10 PRINT \"N\", \"DOUBLE\"",
+            "20 FOR N = 1 TO 3",
+            "30 PRINT N, N * 2",
+            "40 NEXT N",
+            "50 END"
+          ],
+          "answer": [
+            "10 PRINT \"N\", \"DOUBLE\"",
+            "20 FOR N = 1 TO 3",
+            "30 PRINT N, N * 2",
+            "40 NEXT N",
+            "50 END"
+          ],
+          "explanation": "Header once, then one row per round."
+        }
+      ]
+    }
+  ]
+}

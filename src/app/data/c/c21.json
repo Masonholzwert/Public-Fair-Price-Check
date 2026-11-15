@@ -1,0 +1,385 @@
+{
+  "id": "c21",
+  "title": "Unix Tools",
+  "lessons": [
+    {
+      "id": "c21-l1",
+      "title": "argc and argv",
+      "xp": 15,
+      "intro": [
+        "A Unix program is started with a command line, like ./greet ken dennis. main can receive it: int main(int argc, char *argv[]). argc counts the words, and argv[0], argv[1], … are the words themselves.",
+        "argv[0] is the program's own name, so argc is always at least 1. atoi(argv[1]) turns a word like \"42\" into a number.",
+        "In this app, a comment like /* $ ./greet ken dennis */ at the top says how the program is started."
+      ],
+      "example": {
+        "code": [
+          "/* $ ./greet ken dennis */",
+          "#include <stdio.h>",
+          "",
+          "int main(int argc, char *argv[]) {",
+          "    int i;",
+          "    printf(\"%d words\\n\", argc);",
+          "    for (i = 1; i < argc; i++)",
+          "        printf(\"hello, %s\\n\", argv[i]);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "3 words",
+          "hello, ken",
+          "hello, dennis"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c21-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "For ./copy a.txt b.txt, what is argc?",
+          "options": [
+            "3",
+            "2",
+            "1",
+            "4"
+          ],
+          "answer": 0,
+          "explanation": "The program's name counts too."
+        },
+        {
+          "id": "c21-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What is argv[0]?",
+          "options": [
+            "The program's own name",
+            "The first argument after the name",
+            "The number of arguments",
+            "NULL"
+          ],
+          "answer": 0,
+          "explanation": "That's how a program can print its own name in error messages."
+        },
+        {
+          "id": "c21-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "/* $ ./add 2 3 4 */",
+            "#include <stdio.h>",
+            "#include <stdlib.h>",
+            "",
+            "int main(int argc, char *argv[]) {",
+            "    int i, sum = 0;",
+            "    for (i = 1; i < argc; i++)",
+            "        sum += atoi(argv[i]);",
+            "    printf(\"%d\\n\", sum);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "9",
+            "2",
+            "234",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "atoi turns each word into a number: 2 + 3 + 4."
+        },
+        {
+          "id": "c21-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Turn the first argument into a number.",
+          "code": [
+            "    int n = ___(argv[1]);"
+          ],
+          "options": [
+            "atoi",
+            "printf",
+            "strlen",
+            "scanf"
+          ],
+          "answer": "atoi",
+          "explanation": "atoi: ASCII to integer."
+        },
+        {
+          "id": "c21-l1-e5",
+          "type": "find_bug",
+          "prompt": "This program crashes when it's started without arguments. Which line needs a check before it?",
+          "code": [
+            "/* $ ./hello */",
+            "#include <stdio.h>",
+            "",
+            "int main(int argc, char *argv[]) {",
+            "    printf(\"hello, %s\\n\", argv[1]);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 4,
+          "explanation": "With no arguments, argc is 1 and argv[1] is NULL. Check if (argc < 2) first and print how to use the program."
+        },
+        {
+          "id": "c21-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "What type is argv?",
+          "options": [
+            "An array of strings (char *argv[])",
+            "A single string",
+            "An int",
+            "A FILE *"
+          ],
+          "answer": 0,
+          "explanation": "One char * per word of the command line."
+        }
+      ]
+    },
+    {
+      "id": "c21-l2",
+      "title": "One Job, Done Well",
+      "xp": 15,
+      "intro": [
+        "The Unix philosophy, in Doug McIlroy's words: write programs that do one thing and do it well, and that work together.",
+        "Many Unix tools are filters: they read stdin, change something, and write to stdout. They don't care where the text comes from or where it goes.",
+        "Here's a tiny filter that turns everything into capitals, with toupper from ctype.h."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "#include <ctype.h>",
+          "",
+          "int main() {",
+          "    int c;",
+          "    while ((c = getchar()) != EOF)",
+          "        putchar(toupper(c));",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "HELLO, UNIX",
+          "ONE THING WELL"
+        ],
+        "inputs": [
+          "hello, unix",
+          "one thing well"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c21-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is a filter in Unix?",
+          "options": [
+            "A program that reads stdin and writes changed text to stdout",
+            "A program that deletes files",
+            "A sound effect",
+            "A kind of compiler"
+          ],
+          "answer": 0,
+          "explanation": "sort, grep, tr and wc are all filters."
+        },
+        {
+          "id": "c21-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What's the Unix philosophy?",
+          "options": [
+            "Small programs that do one thing well and work together",
+            "One big program that does everything",
+            "Programs should never print anything",
+            "Always use graphics"
+          ],
+          "answer": 0,
+          "explanation": "Combine small tools instead of writing a giant one."
+        },
+        {
+          "id": "c21-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Copy stdin to stdout, character by character.",
+          "code": [
+            "    while ((c = getchar()) != ___)",
+            "        putchar(c);"
+          ],
+          "options": [
+            "EOF",
+            "NULL",
+            "'\\0'",
+            "0"
+          ],
+          "answer": "EOF",
+          "explanation": "getchar returns EOF at the end of the input."
+        },
+        {
+          "id": "c21-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "Why is c an int and not a char in these loops?",
+          "options": [
+            "EOF (-1) must be different from every real character",
+            "ints are faster",
+            "putchar needs an int",
+            "No reason"
+          ],
+          "answer": 0,
+          "explanation": "An int can hold all 256 characters plus EOF."
+        },
+        {
+          "id": "c21-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What does toupper('a') return?",
+          "options": [
+            "'A'",
+            "'a'",
+            "65.0",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "Characters that aren't lowercase letters stay as they are."
+        },
+        {
+          "id": "c21-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What does this filter do?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int c;",
+            "    while ((c = getchar()) != EOF)",
+            "        if (c != ' ')",
+            "            putchar(c);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "Prints the input without spaces",
+            "Prints only spaces",
+            "Counts the spaces",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "Every character except ' ' is passed through."
+        }
+      ]
+    },
+    {
+      "id": "c21-l3",
+      "title": "Pipes",
+      "xp": 15,
+      "intro": [
+        "In 1973, Ken Thompson added pipes to Unix in one night: the | sign sends one program's stdout into the next one's stdin. who | wc -l counts the users logged in.",
+        "Because filters only use stdin and stdout, any of them can be plugged together, like pipes in a building. Your program can be part of a pipeline without knowing it.",
+        "A small grep: print only the lines that contain a word, using strstr from string.h, which finds a string inside another."
+      ],
+      "example": {
+        "code": [
+          "/* $ cat words.txt | ./grep un */",
+          "#include <stdio.h>",
+          "#include <string.h>",
+          "",
+          "int main(int argc, char *argv[]) {",
+          "    char line[100];",
+          "    if (argc < 2) {",
+          "        fprintf(stderr, \"usage: %s word\\n\", argv[0]);",
+          "        return 1;",
+          "    }",
+          "    while (fgets(line, 100, stdin) != NULL)",
+          "        if (strstr(line, argv[1]) != NULL)",
+          "            printf(\"%s\", line);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "unix",
+          "run",
+          "fun"
+        ],
+        "inputs": [
+          "unix",
+          "multics",
+          "run",
+          "bell",
+          "fun"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c21-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does the | sign do in the Unix shell?",
+          "options": [
+            "Sends one program's output into the next one's input",
+            "Runs two programs at random",
+            "Stops a program",
+            "Saves to a file"
+          ],
+          "answer": 0,
+          "explanation": "That's a pipe."
+        },
+        {
+          "id": "c21-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "Why can any filter be used in a pipeline?",
+          "options": [
+            "They only read stdin and write stdout",
+            "They are all written in C",
+            "They are very small",
+            "Pipes convert them"
+          ],
+          "answer": 0,
+          "explanation": "The shell connects stdin and stdout; the program doesn't need to know."
+        },
+        {
+          "id": "c21-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What does strstr(line, \"un\") return when line doesn't contain \"un\"?",
+          "options": [
+            "NULL",
+            "0 characters",
+            "The line",
+            "-1"
+          ],
+          "answer": 0,
+          "explanation": "Otherwise it returns a pointer to where the match starts."
+        },
+        {
+          "id": "c21-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Print the line only if it contains the word.",
+          "code": [
+            "    if (___(line, word) != NULL)",
+            "        printf(\"%s\", line);"
+          ],
+          "options": [
+            "strstr",
+            "strcmp",
+            "strlen",
+            "strcpy"
+          ],
+          "answer": "strstr",
+          "explanation": "strstr searches; strcmp only compares whole strings."
+        },
+        {
+          "id": "c21-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Who added pipes to Unix?",
+          "options": [
+            "Ken Thompson, after Doug McIlroy pushed for them",
+            "Bill Gates",
+            "Grace Hopper",
+            "John Backus"
+          ],
+          "answer": 0,
+          "explanation": "McIlroy had wanted to connect programs \"like garden hoses\" for years."
+        },
+        {
+          "id": "c21-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "In the example, where does the usage message go?",
+          "options": [
+            "stderr, so it isn't mixed into the pipeline's output",
+            "stdout",
+            "A file",
+            "Nowhere"
+          ],
+          "answer": 0,
+          "explanation": "Errors should stay visible even in a pipeline."
+        }
+      ]
+    }
+  ]
+}

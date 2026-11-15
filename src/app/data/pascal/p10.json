@@ -1,0 +1,420 @@
+{
+  "id": "p10",
+  "title": "Arrays",
+  "lessons": [
+    {
+      "id": "p10-l1",
+      "title": "array[1..n] of",
+      "xp": 15,
+      "intro": [
+        "An array holds many values of the same type under one name: var score: array[1..5] of integer; Each element has an index: score[1] … score[5].",
+        "In Pascal, you choose the range yourself. It doesn't have to start at 0 or 1: array[1983..1990] of integer works too.",
+        "Turbo Pascal checks the index: score[6] in an array[1..5] stops the program with Runtime error 201: Range check error."
+      ],
+      "example": {
+        "code": [
+          "program Scores;",
+          "var",
+          "  score: array[1..3] of integer;",
+          "  sales: array[1983..1990] of integer;",
+          "begin",
+          "  score[1] := 72;",
+          "  score[2] := 95;",
+          "  score[3] := 88;",
+          "  writeln('First: ', score[1]);",
+          "  writeln('Sum: ', score[1] + score[2] + score[3]);",
+          "  sales[1984] := 2;",
+          "  sales[1985] := 7;",
+          "  writeln('Sold in 1985: ', sales[1985]);",
+          "end."
+        ],
+        "output": [
+          "First: 72",
+          "Sum: 255",
+          "Sold in 1985: 7"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p10-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "How many elements does array[1..10] of integer have?",
+          "options": [
+            "10",
+            "9",
+            "11",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "Indexes 1 to 10."
+        },
+        {
+          "id": "p10-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does Turbo Pascal do with score[6] in an array[1..5]?",
+          "options": [
+            "Runtime error 201: Range check error",
+            "It returns 0",
+            "It uses score[5]",
+            "It makes the array bigger"
+          ],
+          "answer": 0,
+          "explanation": "The index is checked."
+        },
+        {
+          "id": "p10-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Declare an array for 7 temperatures.",
+          "code": [
+            "var",
+            "  temp: array[1___7] of real;"
+          ],
+          "options": [
+            "..",
+            ",",
+            "-",
+            " to "
+          ],
+          "answer": "..",
+          "explanation": "A range is written with two dots."
+        },
+        {
+          "id": "p10-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program A;",
+            "var",
+            "  a: array[1..3] of integer;",
+            "begin",
+            "  a[1] := 5;",
+            "  a[2] := 10;",
+            "  a[3] := 20;",
+            "  writeln(a[2] + a[3]);",
+            "end."
+          ],
+          "options": [
+            "30",
+            "10",
+            "20",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "a[2] + a[3] = 10 + 20."
+        },
+        {
+          "id": "p10-l1-e5",
+          "type": "find_bug",
+          "prompt": "This program stops with a range check error. Which line is wrong?",
+          "code": [
+            "program Days;",
+            "var",
+            "  rain: array[1..7] of integer;",
+            "begin",
+            "  rain[1] := 3;",
+            "  rain[7] := 0;",
+            "  rain[8] := 5;",
+            "end."
+          ],
+          "answer": 6,
+          "explanation": "The array only goes from 1 to 7."
+        },
+        {
+          "id": "p10-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Can a Pascal array start at 1983?",
+          "options": [
+            "Yes, array[1983..1990] of … is fine",
+            "No, arrays always start at 0",
+            "No, arrays always start at 1",
+            "Only for real numbers"
+          ],
+          "answer": 0,
+          "explanation": "You pick the index range that fits the data."
+        }
+      ]
+    },
+    {
+      "id": "p10-l2",
+      "title": "Loops over Arrays",
+      "xp": 15,
+      "intro": [
+        "A for loop goes through every element: for i := 1 to 5 do sum := sum + a[i]; That's where arrays shine.",
+        "To pass an array to a procedure, give the array type a name first: type TList = array[1..5] of integer; Then procedure Show(a: TList);",
+        "Use var for big arrays, even if you don't change them: then nothing has to be copied."
+      ],
+      "example": {
+        "code": [
+          "program Loop;",
+          "type",
+          "  TList = array[1..5] of integer;",
+          "var",
+          "  list: TList;",
+          "  i, sum: integer;",
+          "",
+          "procedure Show(var a: TList);",
+          "var",
+          "  i: integer;",
+          "begin",
+          "  for i := 1 to 5 do",
+          "    write(a[i]:4);",
+          "  writeln;",
+          "end;",
+          "",
+          "begin",
+          "  for i := 1 to 5 do",
+          "    list[i] := i * i;",
+          "  Show(list);",
+          "  sum := 0;",
+          "  for i := 1 to 5 do",
+          "    sum := sum + list[i];",
+          "  writeln('Sum: ', sum);",
+          "end."
+        ],
+        "output": [
+          "   1   4   9  16  25",
+          "Sum: 55"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p10-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "How do you go through all elements of array[1..8]?",
+          "options": [
+            "for i := 1 to 8 do …",
+            "for i := 0 to 8 do …",
+            "while a do …",
+            "for each a do …"
+          ],
+          "answer": 0,
+          "explanation": "From the first index to the last one."
+        },
+        {
+          "id": "p10-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Why give an array type a name with type?",
+          "options": [
+            "So it can be used for parameters",
+            "It makes the array faster",
+            "Pascal needs it for every array",
+            "To make it global"
+          ],
+          "answer": 0,
+          "explanation": "procedure Show(a: array[1..5] of integer) is not allowed; the type needs a name."
+        },
+        {
+          "id": "p10-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Declare a named array type.",
+          "code": [
+            "type",
+            "  TDays ___ array[1..7] of integer;"
+          ],
+          "options": [
+            "=",
+            ":",
+            ":=",
+            "is"
+          ],
+          "answer": "=",
+          "explanation": "Types are defined with =, like constants."
+        },
+        {
+          "id": "p10-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program D;",
+            "var",
+            "  a: array[1..3] of integer;",
+            "  i: integer;",
+            "begin",
+            "  for i := 1 to 3 do",
+            "    a[i] := i * 2;",
+            "  for i := 1 to 3 do",
+            "    write(a[i], ' ');",
+            "  writeln;",
+            "end."
+          ],
+          "options": [
+            "2 4 6",
+            "1 2 3",
+            "2 4 6 8",
+            "6"
+          ],
+          "answer": 0,
+          "explanation": "Each element is i * 2."
+        },
+        {
+          "id": "p10-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "Why pass a big array as var?",
+          "options": [
+            "So it isn't copied",
+            "Because it must change",
+            "It's required",
+            "To make it smaller"
+          ],
+          "answer": 0,
+          "explanation": "A value parameter copies the whole array."
+        },
+        {
+          "id": "p10-l2-e6",
+          "type": "order_lines",
+          "prompt": "Put the lines in order: add up all elements.",
+          "lines": [
+            "sum := 0;",
+            "for i := 1 to 10 do",
+            "  sum := sum + a[i];",
+            "writeln(sum);"
+          ],
+          "answer": [
+            "sum := 0;",
+            "for i := 1 to 10 do",
+            "  sum := sum + a[i];",
+            "writeln(sum);"
+          ],
+          "explanation": "Start at 0, add each element, print at the end."
+        }
+      ]
+    },
+    {
+      "id": "p10-l3",
+      "title": "Two Dimensions",
+      "xp": 15,
+      "intro": [
+        "An array can have two indexes, like a table: var board: array[1..3, 1..3] of char; board[2, 3] is row 2, column 3.",
+        "Two nested loops go through every cell.",
+        "The index can also be a char: count: array['a'..'z'] of integer; gives one counter per letter."
+      ],
+      "example": {
+        "code": [
+          "program Board;",
+          "var",
+          "  board: array[1..3, 1..3] of char;",
+          "  r, c: integer;",
+          "begin",
+          "  for r := 1 to 3 do",
+          "    for c := 1 to 3 do",
+          "      board[r, c] := '.';",
+          "  board[1, 1] := 'X';",
+          "  board[2, 2] := 'O';",
+          "  board[3, 1] := 'X';",
+          "  for r := 1 to 3 do",
+          "  begin",
+          "    for c := 1 to 3 do",
+          "      write(board[r, c], ' ');",
+          "    writeln;",
+          "  end;",
+          "end."
+        ],
+        "output": [
+          "X . . ",
+          ". O . ",
+          "X . . "
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p10-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "How many cells does array[1..4, 1..5] of integer have?",
+          "options": [
+            "20",
+            "9",
+            "45",
+            "5"
+          ],
+          "answer": 0,
+          "explanation": "4 rows × 5 columns."
+        },
+        {
+          "id": "p10-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does grid[2, 3] mean?",
+          "options": [
+            "Row 2, column 3",
+            "Row 3, column 2",
+            "Element 2 to 3",
+            "The 23rd element"
+          ],
+          "answer": 0,
+          "explanation": "First index, then second index."
+        },
+        {
+          "id": "p10-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Count the letter c.",
+          "code": [
+            "  count[c] := count[c] ___ 1;"
+          ],
+          "options": [
+            "+",
+            ":=",
+            ",",
+            "*"
+          ],
+          "answer": "+",
+          "explanation": "count is an array indexed by char, one counter per letter."
+        },
+        {
+          "id": "p10-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program T;",
+            "var",
+            "  t: array[1..3, 1..3] of integer;",
+            "  r, c: integer;",
+            "begin",
+            "  for r := 1 to 3 do",
+            "    for c := 1 to 3 do",
+            "      t[r, c] := r * c;",
+            "  writeln(t[2, 3]);",
+            "end."
+          ],
+          "options": [
+            "6",
+            "5",
+            "9",
+            "3"
+          ],
+          "answer": 0,
+          "explanation": "t[2, 3] is 2 × 3."
+        },
+        {
+          "id": "p10-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What does array['a'..'z'] of integer give you?",
+          "options": [
+            "26 counters, one for each small letter",
+            "A string",
+            "One counter",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "The index type can be a range of characters."
+        },
+        {
+          "id": "p10-l3-e6",
+          "type": "find_bug",
+          "prompt": "This program stops with a range check error. Which line is wrong?",
+          "code": [
+            "program Grid;",
+            "var",
+            "  g: array[1..3, 1..2] of integer;",
+            "  r, c: integer;",
+            "begin",
+            "  for r := 1 to 3 do",
+            "    for c := 1 to 3 do",
+            "      g[r, c] := 0;",
+            "end."
+          ],
+          "answer": 6,
+          "explanation": "The second index only goes from 1 to 2."
+        }
+      ]
+    }
+  ]
+}

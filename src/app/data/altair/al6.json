@@ -1,0 +1,365 @@
+{
+  "id": "al6",
+  "title": "Memory",
+  "lessons": [
+    {
+      "id": "al6-l1",
+      "title": "Addresses",
+      "xp": 15,
+      "intro": [
+        "Memory is a row of 256 bytes, numbered from 000 to 377 (octal). The number is the byte's address. Your program starts at address 000.",
+        "LDA (072) loads a byte from memory into A. It needs the address in the next two bytes: the low byte first, then the high byte (always 000 on our small Altair).",
+        "Data can sit right after HLT: count the bytes of the program to find its address."
+      ],
+      "example": {
+        "code": [
+          "072   ; 000: LDA",
+          "006   ;      address 006 (low byte)",
+          "000   ;      (high byte)",
+          "323   ; 003: OUT 377",
+          "377   ;      port 377",
+          "166   ; 005: HLT",
+          "143   ; 006: the data"
+        ],
+        "output": [
+          "LEDS ○●●○○○●● = 99"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al6-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "At which address does the program start?",
+          "options": [
+            "000",
+            "001",
+            "377",
+            "100"
+          ],
+          "answer": 0,
+          "explanation": "The first byte you deposit goes to address 0."
+        },
+        {
+          "id": "al6-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "How many bytes does LDA take in the program?",
+          "options": [
+            "3: the opcode and a two-byte address",
+            "1",
+            "2",
+            "4"
+          ],
+          "answer": 0,
+          "explanation": "072, the low byte, the high byte."
+        },
+        {
+          "id": "al6-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "In the example, why is the data at address 006?",
+          "options": [
+            "The program before it takes 6 bytes (000 to 005)",
+            "LDA always uses 006",
+            "It's random",
+            "HLT is at 006"
+          ],
+          "answer": 0,
+          "explanation": "LDA (3 bytes) + OUT (2) + HLT (1) = 6."
+        },
+        {
+          "id": "al6-l1-e4",
+          "type": "switches",
+          "prompt": "Set the switches to LDA (0 7 2).",
+          "answer": 58,
+          "explanation": "00 111 010."
+        },
+        {
+          "id": "al6-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "072   ; 000: LDA",
+            "006   ;      address 006 (low byte)",
+            "000   ;      (high byte)",
+            "323   ; 003: OUT 377",
+            "377   ;      port 377",
+            "166   ; 005: HLT",
+            "031   ; 006: data: 25"
+          ],
+          "options": [
+            "25",
+            "6",
+            "0",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "LDA 006 loads the byte at address 006, which is 25."
+        },
+        {
+          "id": "al6-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Which byte of the address comes first?",
+          "options": [
+            "The low byte",
+            "The high byte",
+            "It doesn't matter",
+            "Only one byte is used"
+          ],
+          "answer": 0,
+          "explanation": "The 8080 is little-endian: low byte first."
+        }
+      ]
+    },
+    {
+      "id": "al6-l2",
+      "title": "STA and LDA",
+      "xp": 15,
+      "intro": [
+        "STA (062) stores A at an address. LDA brings it back. With them, a program can remember results in memory.",
+        "Free memory after your program is the place for results. In these lessons, address 200 (octal) is used as a scratch byte.",
+        "A program can even change its own bytes in memory. Early programmers did that, but it makes programs very hard to read."
+      ],
+      "example": {
+        "code": [
+          "076   ; 000: MVI A",
+          "115   ;      77",
+          "062   ; 002: STA",
+          "200   ;      address 200 (low byte)",
+          "000   ;      (high byte)",
+          "076   ; 005: MVI A",
+          "000   ;      0",
+          "072   ; 007: LDA",
+          "200   ;      address 200 (low byte)",
+          "000   ;      (high byte)",
+          "323   ; 012: OUT 377",
+          "377   ;      port 377",
+          "166   ; 014: HLT"
+        ],
+        "output": [
+          "LEDS ○●○○●●○● = 77"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al6-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does STA 200 do?",
+          "options": [
+            "Stores A at address 200",
+            "Loads address 200 into A",
+            "Shows address 200",
+            "Jumps to 200"
+          ],
+          "answer": 0,
+          "explanation": "STore A."
+        },
+        {
+          "id": "al6-l2-e2",
+          "type": "switches",
+          "prompt": "Set the switches to STA (0 6 2).",
+          "answer": 50,
+          "explanation": "00 110 010."
+        },
+        {
+          "id": "al6-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "076   ; 000: MVI A",
+            "007   ;      7",
+            "062   ; 002: STA",
+            "200   ;      address 200 (low byte)",
+            "000   ;      (high byte)",
+            "076   ; 005: MVI A",
+            "000   ;      0",
+            "072   ; 007: LDA",
+            "200   ;      address 200 (low byte)",
+            "000   ;      (high byte)",
+            "323   ; 012: OUT 377",
+            "377   ;      port 377",
+            "166   ; 014: HLT"
+          ],
+          "options": [
+            "7",
+            "0",
+            "200",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "7 is stored, A is cleared, then 7 is loaded back."
+        },
+        {
+          "id": "al6-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Store A at address 201.",
+          "code": [
+            "062   ; STA",
+            "___   ; low byte",
+            "000   ; high byte"
+          ],
+          "options": [
+            "201",
+            "000",
+            "102",
+            "062"
+          ],
+          "answer": "201",
+          "explanation": "The low byte is the address itself, 201."
+        },
+        {
+          "id": "al6-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What happens with STA 400 on a 256-byte Altair?",
+          "options": [
+            "An error: there is no memory at that address",
+            "It works",
+            "It stores at 0",
+            "It shows the lights"
+          ],
+          "answer": 0,
+          "explanation": "The highest address is 377."
+        },
+        {
+          "id": "al6-l2-e6",
+          "type": "find_bug",
+          "prompt": "This program shows 0 instead of 5. Which line is wrong?",
+          "code": [
+            "076   ; 000: MVI A",
+            "005   ;      5",
+            "062   ; 002: STA",
+            "200   ;      address 200",
+            "000   ;      (high byte)",
+            "072   ; 005: LDA",
+            "201   ;      address 201",
+            "000   ;      (high byte)",
+            "323   ; 010: OUT",
+            "377   ;      port 377",
+            "166   ; 012: HLT"
+          ],
+          "answer": 6,
+          "explanation": "The 5 was stored at 200, but LDA loads from 201."
+        }
+      ]
+    },
+    {
+      "id": "al6-l3",
+      "title": "HL and M",
+      "xp": 15,
+      "intro": [
+        "Registers H and L together hold a whole address: LXI H (041) puts one into them, low byte first. Then M means \"the memory byte at address HL\".",
+        "MOV A,M (176) reads that byte, MOV M,A (167) writes it, ADD M (206) adds it. INX H (043) moves HL on to the next byte.",
+        "That's how programs walk through tables of data, one byte after the other."
+      ],
+      "example": {
+        "code": [
+          "041   ; 000: LXI H data",
+          "013   ;      address 013 (low byte)",
+          "000   ;      (high byte)",
+          "176   ; 003: MOV A,M",
+          "043   ; 004: INX H",
+          "206   ; 005: ADD M",
+          "043   ; 006: INX H",
+          "206   ; 007: ADD M",
+          "323   ; 010: OUT 377",
+          "377   ;      port 377",
+          "166   ; 012: HLT",
+          "012   ; 013: data: 10",
+          "024   ; 014: data: 20",
+          "014   ; 015: data: 12"
+        ],
+        "output": [
+          "LEDS ○○●○●○●○ = 42"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al6-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What is M?",
+          "options": [
+            "The memory byte at the address in HL",
+            "A register like B",
+            "The lights",
+            "The highest address"
+          ],
+          "answer": 0,
+          "explanation": "M is register number 6, but it's really memory."
+        },
+        {
+          "id": "al6-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does INX H do?",
+          "options": [
+            "Moves HL to the next address",
+            "Adds 1 to A",
+            "Loads H",
+            "Stores M"
+          ],
+          "answer": 0,
+          "explanation": "INcrement the pair HL."
+        },
+        {
+          "id": "al6-l3-e3",
+          "type": "switches",
+          "prompt": "Set the switches to MOV A,M (1 7 6).",
+          "answer": 126,
+          "explanation": "01 111 110."
+        },
+        {
+          "id": "al6-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "041   ; 000: LXI H d",
+            "011   ;      address 011 (low byte)",
+            "000   ;      (high byte)",
+            "176   ; 003: MOV A,M",
+            "043   ; 004: INX H",
+            "206   ; 005: ADD M",
+            "323   ; 006: OUT 377",
+            "377   ;      port 377",
+            "166   ; 010: HLT",
+            "012   ; 011: data: 10",
+            "024   ; 012: data: 20"
+          ],
+          "options": [
+            "30",
+            "10",
+            "20",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "A = 10 (first byte), then ADD the next: 10 + 20."
+        },
+        {
+          "id": "al6-l3-e5",
+          "type": "fill_blank",
+          "prompt": "Add the byte at HL to A.",
+          "code": [
+            "___   ; ADD M"
+          ],
+          "options": [
+            "206",
+            "176",
+            "167",
+            "207"
+          ],
+          "answer": "206",
+          "explanation": "ADD M = 2 0 6."
+        },
+        {
+          "id": "al6-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why is LXI H 3 bytes long?",
+          "options": [
+            "The opcode plus a 2-byte address",
+            "H and L and A",
+            "It's always 3",
+            "It isn't"
+          ],
+          "answer": 0,
+          "explanation": "An address needs two bytes."
+        }
+      ]
+    }
+  ]
+}

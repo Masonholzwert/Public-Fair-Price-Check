@@ -1,0 +1,390 @@
+{
+  "id": "a7",
+  "title": "Subroutines",
+  "lessons": [
+    {
+      "id": "a7-l1",
+      "title": "JSR and RTS",
+      "xp": 15,
+      "intro": [
+        "Some code is needed again and again. Write it once as a subroutine: a label, some instructions, and RTS at the end.",
+        "JSR SUB (Jump to SubRoutine) jumps to SUB and remembers where it came from. RTS (ReTurn from Subroutine) jumps back to the line right after the JSR.",
+        "Subroutines go after the BRK of the main program, just like tables. Otherwise the CPU would run into them by accident."
+      ],
+      "example": {
+        "code": [
+          "LDX #0",
+          "JSR ADD2",
+          "JSR ADD2",
+          "BRK",
+          "ADD2: INX",
+          "INX",
+          "RTS"
+        ],
+        "output": [
+          "X = $04 (ADD2 ran twice)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a7-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is X at the end?",
+          "code": [
+            "LDX #0",
+            "JSR ADD2",
+            "JSR ADD2",
+            "JSR ADD2",
+            "BRK",
+            "ADD2: INX",
+            "INX",
+            "RTS"
+          ],
+          "options": [
+            "$06",
+            "$02",
+            "$03",
+            "$04"
+          ],
+          "answer": 0,
+          "explanation": "Each JSR runs ADD2 once, and ADD2 adds 2. Three calls: 2 + 2 + 2 = 6."
+        },
+        {
+          "id": "a7-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Where does RTS jump to?",
+          "options": [
+            "To the line right after the JSR that called the subroutine",
+            "To the start of the program",
+            "To the BRK",
+            "To the label of the subroutine"
+          ],
+          "answer": 0,
+          "explanation": "JSR remembers its own place, and RTS goes back right after it."
+        },
+        {
+          "id": "a7-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Call the subroutine BEEP.",
+          "code": [
+            "___ BEEP",
+            "BRK",
+            "BEEP: INY",
+            "RTS"
+          ],
+          "options": [
+            "JSR",
+            "JMP",
+            "BEQ",
+            "RTS"
+          ],
+          "answer": "JSR",
+          "explanation": "JSR comes back afterwards. JMP BEEP would end up at RTS with nowhere to return to."
+        },
+        {
+          "id": "a7-l1-e4",
+          "type": "find_bug",
+          "prompt": "This program should leave Y = 1, but the subroutine runs twice and Y ends up 2. Which line is missing something before it?",
+          "code": [
+            "JSR ADDY",
+            "ADDY: INY",
+            "RTS"
+          ],
+          "answer": 1,
+          "explanation": "After JSR ADDY returns, the program runs straight into ADDY again. A BRK before the subroutine stops that."
+        },
+        {
+          "id": "a7-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What is the difference between JMP and JSR?",
+          "options": [
+            "JSR remembers where to come back to, JMP doesn't",
+            "JMP is faster but can't jump as far",
+            "JSR only works with labels",
+            "There is no difference"
+          ],
+          "answer": 0,
+          "explanation": "Use JMP to go somewhere, JSR to visit somewhere and come back."
+        },
+        {
+          "id": "a7-l1-e6",
+          "type": "order_lines",
+          "prompt": "Build a program that calls TWICE once and then stops. TWICE adds 1 to X two times.",
+          "lines": [
+            "JSR TWICE",
+            "BRK",
+            "TWICE: INX",
+            "INX",
+            "RTS"
+          ],
+          "answer": [
+            "JSR TWICE",
+            "BRK",
+            "TWICE: INX",
+            "INX",
+            "RTS"
+          ],
+          "explanation": "Main program first, ending with BRK. The subroutine comes after it and ends with RTS."
+        }
+      ]
+    },
+    {
+      "id": "a7-l2",
+      "title": "The Stack",
+      "xp": 15,
+      "intro": [
+        "Where does JSR keep the return address? On the stack: the memory page $0100 to $01FF. The stack works like a pile of plates: what you put on last comes off first.",
+        "You can use the stack too. PHA (PusH A) puts a copy of A on top, PLA (PuLl A) takes the top byte back into A.",
+        "That's handy for saving A before you change it, and getting it back later. Just make sure every PHA has its PLA, especially inside a subroutine, or RTS will find the wrong return address."
+      ],
+      "example": {
+        "code": [
+          "LDA #5",
+          "PHA",
+          "LDA #9",
+          "PLA",
+          "BRK"
+        ],
+        "output": [
+          "A = $05 (PLA brought the saved 5 back)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a7-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is A at the end?",
+          "code": [
+            "LDA #3",
+            "PHA",
+            "LDA #7",
+            "PLA",
+            "BRK"
+          ],
+          "options": [
+            "$03",
+            "$07",
+            "$00",
+            "$0A"
+          ],
+          "answer": 0,
+          "explanation": "3 is pushed, A becomes 7, PLA brings the 3 back."
+        },
+        {
+          "id": "a7-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Two values were pushed: first 1, then 2. What does the first PLA return?",
+          "options": [
+            "2",
+            "1",
+            "3",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "The stack is last in, first out. 2 went on last, so it comes off first."
+        },
+        {
+          "id": "a7-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "Which memory does the stack use?",
+          "options": [
+            "$0100 to $01FF",
+            "$0000 to $00FF",
+            "$0200 to $02FF",
+            "$FF00 to $FFFF"
+          ],
+          "answer": 0,
+          "explanation": "Page 1, from $0100 to $01FF, is reserved for the stack."
+        },
+        {
+          "id": "a7-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Save A on the stack before changing it.",
+          "code": [
+            "LDA #$42",
+            "___",
+            "LDA #0",
+            "PLA",
+            "BRK"
+          ],
+          "options": [
+            "PHA",
+            "PLA",
+            "STA",
+            "TAX"
+          ],
+          "answer": "PHA",
+          "explanation": "PHA pushes A. The PLA later brings $42 back."
+        },
+        {
+          "id": "a7-l2-e5",
+          "type": "find_bug",
+          "prompt": "This subroutine messes up the stack, and RTS jumps to the wrong place. Which line is missing its partner?",
+          "code": [
+            "JSR SUB",
+            "BRK",
+            "SUB: PHA",
+            "LDA #0",
+            "RTS"
+          ],
+          "answer": 2,
+          "explanation": "SUB pushes A but never pulls it. RTS then takes A's byte as part of the return address. Add a PLA before RTS."
+        },
+        {
+          "id": "a7-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What does JSR put on the stack?",
+          "options": [
+            "The address to return to",
+            "The value of A",
+            "The name of the subroutine",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "JSR pushes the return address (2 bytes). RTS pulls it back off."
+        }
+      ]
+    },
+    {
+      "id": "a7-l3",
+      "title": "Passing Values",
+      "xp": 15,
+      "intro": [
+        "Subroutines get their input in registers, usually A, and give the result back the same way. A subroutine DOUBLE could take a number in A and return twice that number in A.",
+        "If a subroutine needs a scratch byte, it uses a zero page address like $30. Pick one per job, so subroutines don't overwrite each other's values.",
+        "If the caller still needs a register, save it with PHA before the JSR and get it back with PLA after."
+      ],
+      "example": {
+        "code": [
+          "LDA #3",
+          "JSR DOUBLE",
+          "JSR DOUBLE",
+          "STA $0300",
+          "BRK",
+          "DOUBLE: STA $30",
+          "CLC",
+          "ADC $30",
+          "RTS"
+        ],
+        "output": [
+          "$0300 = $0C (3 doubled twice is 12)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a7-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What ends up at $0300?",
+          "code": [
+            "LDA #5",
+            "JSR DOUBLE",
+            "STA $0300",
+            "BRK",
+            "DOUBLE: STA $30",
+            "CLC",
+            "ADC $30",
+            "RTS"
+          ],
+          "options": [
+            "$0A",
+            "$05",
+            "$14",
+            "$0C"
+          ],
+          "answer": 0,
+          "explanation": "DOUBLE runs once: 5 doubled is 10, $0A."
+        },
+        {
+          "id": "a7-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "How does DOUBLE get its number?",
+          "options": [
+            "In the A register",
+            "In X",
+            "From the stack",
+            "From $0300"
+          ],
+          "answer": 0,
+          "explanation": "The caller loads A, then calls DOUBLE. DOUBLE works on A and returns the result in A."
+        },
+        {
+          "id": "a7-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Finish the subroutine that adds 10 to A.",
+          "code": [
+            "LDA #5",
+            "JSR ADD10",
+            "BRK",
+            "ADD10: CLC",
+            "ADC #10",
+            "___"
+          ],
+          "options": [
+            "RTS",
+            "BRK",
+            "JSR",
+            "PLA"
+          ],
+          "answer": "RTS",
+          "explanation": "Every subroutine ends with RTS to go back to the caller."
+        },
+        {
+          "id": "a7-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "Why does DOUBLE use $30 and not $0300?",
+          "options": [
+            "Zero page addresses are shorter and faster, good for scratch values",
+            "$0300 doesn't exist",
+            "Subroutines can only use the zero page",
+            "It doesn't matter at all"
+          ],
+          "answer": 0,
+          "explanation": "Scratch bytes are used a lot, so the zero page is the natural place for them."
+        },
+        {
+          "id": "a7-l3-e5",
+          "type": "find_bug",
+          "prompt": "After this program, $0300 should be $0E (7 doubled), but it's wrong. Which line is wrong?",
+          "code": [
+            "LDA #7",
+            "JSR DOUBLE",
+            "BRK",
+            "STA $0300",
+            "DOUBLE: STA $30",
+            "CLC",
+            "ADC $30",
+            "RTS"
+          ],
+          "answer": 2,
+          "explanation": "BRK stops the program before STA $0300. The BRK has to come after the STA."
+        },
+        {
+          "id": "a7-l3-e6",
+          "type": "order_lines",
+          "prompt": "Double 4 and store the result at $0300.",
+          "lines": [
+            "LDA #4",
+            "JSR DOUBLE",
+            "STA $0300",
+            "BRK",
+            "DOUBLE: STA $30",
+            "CLC",
+            "ADC $30",
+            "RTS"
+          ],
+          "answer": [
+            "LDA #4",
+            "JSR DOUBLE",
+            "STA $0300",
+            "BRK",
+            "DOUBLE: STA $30",
+            "CLC",
+            "ADC $30",
+            "RTS"
+          ],
+          "explanation": "Load the input, call, store the result, stop. The subroutine follows the BRK."
+        }
+      ]
+    }
+  ]
+}

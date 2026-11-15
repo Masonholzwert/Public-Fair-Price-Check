@@ -1,0 +1,406 @@
+{
+  "id": "p11",
+  "title": "Strings",
+  "lessons": [
+    {
+      "id": "p11-l1",
+      "title": "s[i] and length",
+      "xp": 15,
+      "intro": [
+        "A string is a row of characters: s[1] is the first one, s[length(s)] the last one. Each s[i] is a char.",
+        "A for loop from 1 to length(s) visits every character.",
+        "string[20] is a shorter string type: it holds at most 20 characters, and longer text is cut off."
+      ],
+      "example": {
+        "code": [
+          "program Letters;",
+          "var",
+          "  s: string;",
+          "  code: string[5];",
+          "  i: integer;",
+          "begin",
+          "  s := 'Pascal';",
+          "  writeln('First: ', s[1], ', last: ', s[length(s)]);",
+          "  for i := length(s) downto 1 do",
+          "    write(s[i]);",
+          "  writeln;",
+          "  code := 'Turbo Pascal 3.0';",
+          "  writeln(code);",
+          "end."
+        ],
+        "output": [
+          "First: P, last: l",
+          "lacsaP",
+          "Turbo"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p11-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is s[1] if s = 'Wirth'?",
+          "options": [
+            "W",
+            "i",
+            "Wirth",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "Strings start at index 1."
+        },
+        {
+          "id": "p11-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "How do you get the last character of s?",
+          "options": [
+            "s[length(s)]",
+            "s[0]",
+            "s[-1]",
+            "last(s)"
+          ],
+          "answer": 0,
+          "explanation": "length(s) is the index of the last character."
+        },
+        {
+          "id": "p11-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program R;",
+            "var",
+            "  s: string;",
+            "  i: integer;",
+            "begin",
+            "  s := 'Hello';",
+            "  for i := length(s) downto 1 do",
+            "    write(s[i]);",
+            "  writeln;",
+            "end."
+          ],
+          "options": [
+            "olleH",
+            "Hello",
+            "o",
+            "H"
+          ],
+          "answer": 0,
+          "explanation": "The loop goes backwards through the string."
+        },
+        {
+          "id": "p11-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Go through every character.",
+          "code": [
+            "  for i := 1 to ___(s) do",
+            "    write(s[i], ' ');"
+          ],
+          "options": [
+            "length",
+            "size",
+            "high",
+            "count"
+          ],
+          "answer": "length",
+          "explanation": "length(s) gives the number of characters."
+        },
+        {
+          "id": "p11-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What does a string[3] variable hold after s := 'Pascal'?",
+          "options": [
+            "Pas",
+            "Pascal",
+            "cal",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "It can hold only 3 characters; the rest is cut off."
+        },
+        {
+          "id": "p11-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Cnt;",
+            "var",
+            "  s: string;",
+            "  i, n: integer;",
+            "begin",
+            "  s := 'Alabama';",
+            "  n := 0;",
+            "  for i := 1 to length(s) do",
+            "    if s[i] = 'a' then",
+            "      n := n + 1;",
+            "  writeln(n);",
+            "end."
+          ],
+          "options": [
+            "3",
+            "2",
+            "4",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "'Alabama' has three small a's. The capital A doesn't count, because 'A' and 'a' are different characters."
+        }
+      ]
+    },
+    {
+      "id": "p11-l2",
+      "title": "copy, pos and delete",
+      "xp": 15,
+      "intro": [
+        "copy(s, start, count) gives a piece of s. pos(part, s) finds where part starts in s (0 if it's not there).",
+        "delete(s, start, count) removes characters, insert(part, s, at) puts text in. Both change the variable s itself.",
+        "Together they can cut text into words or replace parts of it."
+      ],
+      "example": {
+        "code": [
+          "program Cut;",
+          "var",
+          "  s, first, last: string;",
+          "  p: integer;",
+          "begin",
+          "  s := 'Niklaus Wirth';",
+          "  p := pos(' ', s);",
+          "  first := copy(s, 1, p - 1);",
+          "  last := copy(s, p + 1, length(s) - p);",
+          "  writeln(last, ', ', first);",
+          "  delete(s, 1, p);",
+          "  insert('Prof. ', s, 1);",
+          "  writeln(s);",
+          "end."
+        ],
+        "output": [
+          "Wirth, Niklaus",
+          "Prof. Wirth"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p11-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does copy('Pascal', 2, 3) give?",
+          "options": [
+            "asc",
+            "Pas",
+            "sca",
+            "as"
+          ],
+          "answer": 0,
+          "explanation": "3 characters, starting at the 2nd."
+        },
+        {
+          "id": "p11-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does pos('cal', 'Pascal') give?",
+          "options": [
+            "4",
+            "3",
+            "0",
+            "TRUE"
+          ],
+          "answer": 0,
+          "explanation": "'cal' starts at the 4th character."
+        },
+        {
+          "id": "p11-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What does pos('x', 'Pascal') give?",
+          "options": [
+            "0",
+            "-1",
+            "6",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "0 means: not found."
+        },
+        {
+          "id": "p11-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Remove the first 3 characters of s.",
+          "code": [
+            "  ___(s, 1, 3);"
+          ],
+          "options": [
+            "delete",
+            "copy",
+            "remove",
+            "cut"
+          ],
+          "answer": "delete",
+          "explanation": "delete changes s itself."
+        },
+        {
+          "id": "p11-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program I;",
+            "var",
+            "  s: string;",
+            "begin",
+            "  s := 'Pascal';",
+            "  insert('Turbo ', s, 1);",
+            "  writeln(s);",
+            "end."
+          ],
+          "options": [
+            "Turbo Pascal",
+            "Pascal",
+            "TurboPascal",
+            "Turbo"
+          ],
+          "answer": 0,
+          "explanation": "insert puts 'Turbo ' in at position 1."
+        },
+        {
+          "id": "p11-l2-e6",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program Cut;",
+            "var",
+            "  s: string;",
+            "begin",
+            "  s := 'Hello, world';",
+            "  s := delete(s, 1, 7);",
+            "  writeln(s);",
+            "end."
+          ],
+          "answer": 5,
+          "explanation": "delete is a procedure that changes s itself: write delete(s, 1, 7); on its own."
+        }
+      ]
+    },
+    {
+      "id": "p11-l3",
+      "title": "upcase, ord and chr",
+      "xp": 15,
+      "intro": [
+        "upcase(c) turns one char into a capital letter. For a whole string, go through it with a loop.",
+        "ord(c) gives a character's code (ord('A') = 65), chr(n) the character for a code (chr(66) = 'B'). In ASCII, the letters come in order, so chr(ord(c) + 1) is the next letter.",
+        "That's all you need for simple secret codes."
+      ],
+      "example": {
+        "code": [
+          "program Codes;",
+          "var",
+          "  s: string;",
+          "  i: integer;",
+          "begin",
+          "  s := 'turbo pascal';",
+          "  for i := 1 to length(s) do",
+          "    s[i] := upcase(s[i]);",
+          "  writeln(s);",
+          "  writeln(ord('A'), ' ', chr(66), ' ', chr(ord('a') + 25));",
+          "end."
+        ],
+        "output": [
+          "TURBO PASCAL",
+          "65 B z"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p11-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What is ord('A')?",
+          "options": [
+            "65",
+            "1",
+            "97",
+            "'A'"
+          ],
+          "answer": 0,
+          "explanation": "The ASCII code of a capital A."
+        },
+        {
+          "id": "p11-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What is chr(ord('C') + 1)?",
+          "options": [
+            "D",
+            "C",
+            "68",
+            "B"
+          ],
+          "answer": 0,
+          "explanation": "The next character after C."
+        },
+        {
+          "id": "p11-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Turn the character into a capital letter.",
+          "code": [
+            "    s[i] := ___(s[i]);"
+          ],
+          "options": [
+            "upcase",
+            "upper",
+            "chr",
+            "toupper"
+          ],
+          "answer": "upcase",
+          "explanation": "upcase works on one char."
+        },
+        {
+          "id": "p11-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Hal;",
+            "var",
+            "  s: string;",
+            "  i: integer;",
+            "begin",
+            "  s := 'HAL';",
+            "  for i := 1 to length(s) do",
+            "    s[i] := chr(ord(s[i]) + 1);",
+            "  writeln(s);",
+            "end."
+          ],
+          "options": [
+            "IBM",
+            "HAL",
+            "hal",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "Every letter of HAL moves one step forward: H→I, A→B, L→M."
+        },
+        {
+          "id": "p11-l3-e5",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program Up;",
+            "var",
+            "  s: string;",
+            "begin",
+            "  s := 'pascal';",
+            "  s := upcase(s);",
+            "  writeln(s);",
+            "end."
+          ],
+          "answer": 5,
+          "explanation": "upcase only works on one char. Use a loop: s[i] := upcase(s[i])."
+        },
+        {
+          "id": "p11-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why does chr(ord(c) + 1) give the next letter?",
+          "options": [
+            "The letters have codes in alphabetical order",
+            "chr always counts up",
+            "Pascal sorts the letters",
+            "It doesn't"
+          ],
+          "answer": 0,
+          "explanation": "A is 65, B 66, C 67 …"
+        }
+      ]
+    }
+  ]
+}

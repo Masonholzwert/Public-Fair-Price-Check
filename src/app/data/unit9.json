@@ -1,0 +1,294 @@
+{
+  "id": "u9",
+  "title": "Debugging & Style",
+  "lessons": [
+    {
+      "id": "u9-l1",
+      "title": "Reading Error Messages",
+      "xp": 15,
+      "intro": [
+        "Every programmer writes bugs. What matters is finding them quickly, and the error message is your first clue.",
+        "BASIC error messages start with a question mark, say what went wrong, and name the line: ?DIVISION BY ZERO IN 30 means line 30 tried to divide by zero.",
+        "The line in the message is where the program noticed the problem. The real mistake can be earlier, where a variable got a wrong value."
+      ],
+      "example": {
+        "code": ["10 LET A = 5", "20 LET B = 0", "30 PRINT A / B", "40 END"],
+        "output": ["?DIVISION BY ZERO IN 30"]
+      },
+      "exercises": [
+        {
+          "id": "u9-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does ?UNDEFINED VARIABLE Z IN 40 mean?",
+          "options": [
+            "Line 40 uses Z before it got a value",
+            "Line 40 is missing",
+            "Z is a forbidden name",
+            "The program has no END"
+          ],
+          "answer": 0,
+          "explanation": "Z was never given a value with LET or READ before line 40 used it."
+        },
+        {
+          "id": "u9-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Which error message does this program produce?",
+          "code": ["10 FOR I = 1 TO 3", "20 PRINT I", "30 NEXT J", "40 END"],
+          "options": ["?NEXT WITHOUT FOR IN 30", "?UNDEFINED VARIABLE J IN 30", "?NO END INSTRUCTION", "?SYNTAX ERROR IN 10"],
+          "answer": 0,
+          "explanation": "NEXT J doesn't match any open FOR loop. The loop was started with I."
+        },
+        {
+          "id": "u9-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What does ?OUT OF DATA mean?",
+          "options": [
+            "READ wants more values than the DATA lines have",
+            "The computer's memory is full",
+            "A DATA line contains text",
+            "The list is too small"
+          ],
+          "answer": 0,
+          "explanation": "Count the values your READ statements need and compare them with the DATA lines."
+        },
+        {
+          "id": "u9-l1-e4",
+          "type": "find_bug",
+          "prompt": "This program stops with ?UNDEFINED LINE 50 IN 20. Which line has to change?",
+          "code": ["10 LET A = 1", "20 IF A = 1 THEN 50", "30 PRINT \"NO\"", "40 END"],
+          "answer": 1,
+          "explanation": "Line 20 wants to jump to line 50, which doesn't exist. It should jump to a line that does, like 40."
+        },
+        {
+          "id": "u9-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What usually causes ?PROGRAM RAN TOO LONG?",
+          "options": [
+            "An endless loop that never reaches its end",
+            "Too many DATA values",
+            "Line numbers above 1000",
+            "Too many REM lines"
+          ],
+          "answer": 0,
+          "explanation": "Most often a counter is never changed, or a GOTO always jumps back, so the program never finishes."
+        },
+        {
+          "id": "u9-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "This stops with ?DIVISION BY ZERO IN 30. Why is the real mistake probably somewhere else?",
+          "code": ["10 LET A = 5", "20 LET B = A - 5", "30 PRINT A / B", "40 END"],
+          "options": [
+            "Line 30 only uses B, the zero was created earlier in line 20",
+            "Error messages always name the wrong line",
+            "Line 40 should come first",
+            "Dividing is never allowed in PRINT"
+          ],
+          "answer": 0,
+          "explanation": "The error shows where things went wrong, not where they started. Follow the variable back to where it got its value."
+        }
+      ]
+    },
+    {
+      "id": "u9-l2",
+      "title": "Tracing a Program",
+      "xp": 20,
+      "intro": [
+        "Tracing means playing computer: you go through the program line by line on paper and write down how each variable changes.",
+        "If the program is too long for that, add temporary PRINT lines that show the variables while it runs, for example 35 PRINT I; S. Remove them once the bug is found.",
+        "A very common bug is being off by one: a loop that runs one time too many or too few."
+      ],
+      "example": {
+        "code": [
+          "10 LET A = 1",
+          "20 LET B = 1",
+          "30 FOR I = 1 TO 4",
+          "40 LET C = A + B",
+          "50 LET A = B",
+          "60 LET B = C",
+          "70 NEXT I",
+          "80 PRINT B",
+          "90 END"
+        ],
+        "output": ["8"]
+      },
+      "exercises": [
+        {
+          "id": "u9-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "Trace the example. What is B after the first round of the loop?",
+          "code": ["10 LET A = 1", "20 LET B = 1", "30 FOR I = 1 TO 4", "40 LET C = A + B", "50 LET A = B", "60 LET B = C", "70 NEXT I"],
+          "options": ["2", "1", "3", "8"],
+          "answer": 0,
+          "explanation": "C = 1 + 1 = 2, A becomes 1, and B becomes 2. The program counts through the Fibonacci numbers: 2, 3, 5, 8."
+        },
+        {
+          "id": "u9-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Trace this program. What does it print?",
+          "code": ["10 LET X = 2", "20 FOR I = 1 TO 3", "30 LET X = X * X", "40 NEXT I", "50 PRINT X", "60 END"],
+          "options": ["256", "8", "16", "64"],
+          "answer": 0,
+          "explanation": "X goes from 2 to 4, then 16, then 256. Writing each step down makes this easy to follow."
+        },
+        {
+          "id": "u9-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "How many times does this loop run?",
+          "code": ["10 LET C = 0", "20 FOR I = 0 TO 10", "30 LET C = C + 1", "40 NEXT I", "50 PRINT C", "60 END"],
+          "options": ["11", "10", "9", "1"],
+          "answer": 0,
+          "explanation": "From 0 to 10 are 11 numbers. Starting at 0 instead of 1 is a classic off-by-one mistake."
+        },
+        {
+          "id": "u9-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Add a temporary line that shows I and S in every round.",
+          "code": ["30 LET S = S + I", "35 ___ I; S", "40 NEXT I"],
+          "options": ["PRINT", "REM", "READ", "LET"],
+          "answer": "PRINT",
+          "explanation": "A debug PRINT shows what's really happening inside the loop. Delete it once the bug is fixed."
+        },
+        {
+          "id": "u9-l2-e5",
+          "type": "find_bug",
+          "prompt": "This should print the average of four scores, 5, but prints something else. Which line is wrong?",
+          "code": [
+            "10 LET S = 0",
+            "20 FOR I = 1 TO 4",
+            "30 READ X",
+            "40 LET S = S + X",
+            "50 NEXT I",
+            "60 PRINT S / 3",
+            "70 DATA 2, 4, 6, 8",
+            "80 END"
+          ],
+          "answer": 5,
+          "explanation": "The total of four values must be divided by 4, not 3. Tracing shows S is 20, and 20 / 3 isn't 5."
+        },
+        {
+          "id": "u9-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What's the smartest way to find a bug in a long program?",
+          "options": [
+            "Check the variables at a few points and narrow down where they go wrong",
+            "Rewrite the whole program from scratch",
+            "Add more GOTO lines",
+            "Change random lines until it works"
+          ],
+          "answer": 0,
+          "explanation": "If a value is right at line 50 but wrong at line 100, the bug is somewhere in between. Keep halving the search."
+        }
+      ]
+    },
+    {
+      "id": "u9-l3",
+      "title": "Writing Clean Programs",
+      "xp": 20,
+      "intro": [
+        "A program is read far more often than it's written. Clean programs have fewer bugs and are easier to change.",
+        "Good habits: start with a REM line saying what the program does. Since variable names are only one letter, explain them in a REM line too. Number lines in steps of 10.",
+        "Store values that appear several times, like a tax rate, once in a variable. Then a change only needs one line."
+      ],
+      "example": {
+        "code": [
+          "10 REM *** AREA CALCULATOR ***",
+          "20 REM W = WIDTH, H = HEIGHT",
+          "30 LET W = 6",
+          "40 LET H = 4",
+          "50 PRINT \"AREA = \"; W * H",
+          "60 END"
+        ],
+        "output": ["AREA = 24"]
+      },
+      "exercises": [
+        {
+          "id": "u9-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Why number lines in steps of 10?",
+          "options": [
+            "There's room to insert new lines later, like 15",
+            "BASIC runs faster that way",
+            "It's required by the computer",
+            "It saves memory"
+          ],
+          "answer": 0,
+          "explanation": "With steps of 10, you can add up to nine new lines between two old ones without renumbering anything."
+        },
+        {
+          "id": "u9-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "Variable names are only one letter. How do you keep a program understandable?",
+          "options": [
+            "Explain what each variable means in a REM line",
+            "Use the same letter for everything",
+            "Avoid variables",
+            "Use only A, B and C"
+          ],
+          "answer": 0,
+          "explanation": "A line like REM P = PRICE, T = TAX RATE tells every reader what's going on."
+        },
+        {
+          "id": "u9-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "The tax rate 0.19 appears in five different lines. What's the cleaner way?",
+          "options": [
+            "Store it once, like LET T = 0.19, and use T everywhere",
+            "Leave it, it works",
+            "Put it in a REM line",
+            "Round it to 0.2"
+          ],
+          "answer": 0,
+          "explanation": "If the rate ever changes, you only need to edit one line instead of hunting down five."
+        },
+        {
+          "id": "u9-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "Where do subroutines belong in a clean program?",
+          "options": [
+            "After the main program and a STOP, at round line numbers",
+            "Mixed in between the main program",
+            "Before the first line",
+            "After END"
+          ],
+          "answer": 0,
+          "explanation": "Main program first, then STOP, then the subroutines at 1000, 2000 and so on, each with a REM heading."
+        },
+        {
+          "id": "u9-l3-e5",
+          "type": "find_bug",
+          "prompt": "This program works, but one line will confuse the next reader. Which one?",
+          "code": [
+            "10 REM *** PRICE WITH TAX ***",
+            "20 REM P = PRICE, T = TAX RATE",
+            "30 LET P = 50",
+            "40 LET T = 0.19",
+            "50 PRINT P + P * 0.19",
+            "60 END"
+          ],
+          "answer": 4,
+          "explanation": "Line 50 types 0.19 again instead of using T. If someone changes the rate in line 40, the result won't change."
+        },
+        {
+          "id": "u9-l3-e6",
+          "type": "order_lines",
+          "prompt": "Build a clean program that prints the price with tax: TOTAL = 59.5.",
+          "lines": [
+            "10 REM *** PRICE WITH TAX ***",
+            "20 LET T = 0.19",
+            "30 LET P = 50",
+            "40 PRINT \"TOTAL = \"; P + P * T",
+            "50 END"
+          ],
+          "answer": [
+            "10 REM *** PRICE WITH TAX ***",
+            "20 LET T = 0.19",
+            "30 LET P = 50",
+            "40 PRINT \"TOTAL = \"; P + P * T",
+            "50 END"
+          ],
+          "explanation": "A heading, the values stored once, and one clear calculation."
+        }
+      ]
+    }
+  ]
+}

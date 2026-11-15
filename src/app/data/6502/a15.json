@@ -1,0 +1,319 @@
+{
+  "id": "a15",
+  "title": "A Game",
+  "lessons": [
+    {
+      "id": "a15-l1",
+      "title": "Reading Keys",
+      "xp": 15,
+      "intro": [
+        "A game needs a player. The KIM-1 ROM has GETCH at $1E5A: it waits for a key on the teletype and returns its character in A.",
+        "Typed digits arrive as characters: '0 to '9. Subtract '0 (SEC, SBC #'0) to turn the character into the number 0 to 9, the opposite of printing a digit.",
+        "In the quests, the keys are typed for you. Each test types different ones, so your program has to really read them. (Our board doesn't echo keys back on the paper.)"
+      ],
+      "example": {
+        "code": [
+          "GETCH = $1E5A",
+          "JSR GETCH",
+          "SEC",
+          "SBC #'0",
+          "STA $0300",
+          "BRK"
+        ],
+        "output": [
+          "When the player types 7: $0300 = $07"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a15-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does JSR GETCH return?",
+          "options": [
+            "The character of the typed key, in A",
+            "The number of keys pressed",
+            "Always a number from 0 to 9",
+            "Nothing, it only waits"
+          ],
+          "answer": 0,
+          "explanation": "GETCH waits for a key and puts its character into A."
+        },
+        {
+          "id": "a15-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "The player types 4. What is A after SEC and SBC #'0?",
+          "options": [
+            "4",
+            "$34",
+            "'4",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "'4 is $34. Taking away '0 ($30) leaves 4."
+        },
+        {
+          "id": "a15-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Wait for a key.",
+          "code": [
+            "GETCH = $1E5A",
+            "JSR ___",
+            "CMP #'Y"
+          ],
+          "options": [
+            "GETCH",
+            "OUTCH",
+            "BRK",
+            "$1EA0"
+          ],
+          "answer": "GETCH",
+          "explanation": "GETCH reads a key. OUTCH ($1EA0) prints one."
+        },
+        {
+          "id": "a15-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "How do you check if the player typed Y?",
+          "options": [
+            "CMP #'Y, then BEQ",
+            "LDA #'Y",
+            "CMP #Y, then BEQ",
+            "AND #'Y"
+          ],
+          "answer": 0,
+          "explanation": "Compare the character with 'Y. Without the quote, Y would be a register name, which is an error."
+        },
+        {
+          "id": "a15-l1-e5",
+          "type": "find_bug",
+          "prompt": "This should store the typed digit as a number, but stores $35 for 5. Which line is missing something before it?",
+          "code": [
+            "GETCH = $1E5A",
+            "JSR GETCH",
+            "STA $0300",
+            "BRK"
+          ],
+          "answer": 2,
+          "explanation": "The character still has to be turned into a number: SEC, SBC #'0."
+        },
+        {
+          "id": "a15-l1-e6",
+          "type": "order_lines",
+          "prompt": "Read a key and print it back.",
+          "lines": [
+            "GETCH = $1E5A",
+            "OUTCH = $1EA0",
+            "JSR GETCH",
+            "JSR OUTCH",
+            "BRK"
+          ],
+          "answer": [
+            "GETCH = $1E5A",
+            "OUTCH = $1EA0",
+            "JSR GETCH",
+            "JSR OUTCH",
+            "BRK"
+          ],
+          "explanation": "Read it into A, then print what's in A."
+        }
+      ]
+    },
+    {
+      "id": "a15-l2",
+      "title": "Random Numbers",
+      "xp": 15,
+      "intro": [
+        "Games need surprises, but a CPU always does exactly the same thing. Programs fake randomness with a formula that jumps around so wildly it looks random.",
+        "A classic 6502 trick: shift the number right with LSR. If a 1 fell out (BCC skips if not), flip some bits with EOR #$B8. Starting from any number except 0, this visits all 255 other values before it repeats.",
+        "The starting number is called the seed. Real games took the seed from how long the player took to press a key, which is different every time."
+      ],
+      "example": {
+        "code": [
+          "LDA $40",
+          "LSR A",
+          "BCC NOEOR",
+          "EOR #$B8",
+          "NOEOR: STA $40",
+          "BRK"
+        ],
+        "output": [
+          "With the seed $40 = $01: $40 = $B8, then $5C, $2E, $17, $B3 …"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a15-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "Why can't the seed be 0?",
+          "options": [
+            "0 shifted is still 0 and nothing falls out, so it stays 0 forever",
+            "0 isn't a valid byte",
+            "EOR doesn't work with 0",
+            "It can be"
+          ],
+          "answer": 0,
+          "explanation": "From 0, LSR gives 0 and no 1 falls into the carry. The sequence gets stuck."
+        },
+        {
+          "id": "a15-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Is this number really random?",
+          "options": [
+            "No, it follows a fixed formula, but it looks random",
+            "Yes, the CPU chooses it",
+            "Only on the real KIM-1",
+            "Yes, because of EOR"
+          ],
+          "answer": 0,
+          "explanation": "Computers can't be truly random. Programmers call this pseudo-random."
+        },
+        {
+          "id": "a15-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What does BCC NOEOR do?",
+          "options": [
+            "Skips the EOR when a 0 fell out",
+            "Stops when the number is 0",
+            "Repeats the shift",
+            "Clears the carry"
+          ],
+          "answer": 0,
+          "explanation": "Only when bit 0 was 1 does EOR #$B8 flip bits."
+        },
+        {
+          "id": "a15-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Flip the bits when a 1 fell out.",
+          "code": [
+            "LDA $40",
+            "LSR A",
+            "BCC NOEOR",
+            "___ #$B8",
+            "NOEOR: STA $40"
+          ],
+          "options": [
+            "EOR",
+            "AND",
+            "ORA",
+            "ADC"
+          ],
+          "answer": "EOR",
+          "explanation": "EOR flips bits. That's what scrambles the sequence."
+        },
+        {
+          "id": "a15-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "How did real games get a different seed every time?",
+          "options": [
+            "They counted how long the player waited before pressing a key",
+            "The KIM-1 had a random chip",
+            "From the date",
+            "They always used the same one"
+          ],
+          "answer": 0,
+          "explanation": "Humans are never exactly on time. That counter was the surprise."
+        }
+      ]
+    },
+    {
+      "id": "a15-l3",
+      "title": "The Game Loop",
+      "xp": 15,
+      "intro": [
+        "Almost every game, from 1976 to today, has the same shape: set up, then loop forever: read the input, update the game, show what happened, check if it's over.",
+        "In 6502 terms: a few LDA/STA lines for the start values, a label GAME:, then JSR GETCH, some math and compares, JSR OUTCH or PRINT, and JMP GAME or BEQ to the end.",
+        "Keep the game's state in the zero page: the score in $30, the lives in $31, the secret number in $32. Short addresses, fast code."
+      ],
+      "example": {
+        "code": [
+          "GETCH = $1E5A",
+          "OUTCH = $1EA0",
+          "LDA #3",
+          "STA $31",
+          "GAME: JSR GETCH",
+          "CMP #'X",
+          "BEQ OVER",
+          "DEC $31",
+          "BNE GAME",
+          "OVER: LDA #'!",
+          "JSR OUTCH",
+          "BRK"
+        ],
+        "output": [
+          "Types !, after 3 keys or as soon as X is typed"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a15-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Which order does a game loop follow?",
+          "options": [
+            "Read input, update, show, check if it's over",
+            "Show, stop, read",
+            "Update once, then stop",
+            "Read all keys first, then play"
+          ],
+          "answer": 0,
+          "explanation": "Every round does the same four things."
+        },
+        {
+          "id": "a15-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "In the example, how does the game end?",
+          "options": [
+            "After 3 keys, or when X is typed",
+            "Only when X is typed",
+            "Never",
+            "After one key"
+          ],
+          "answer": 0,
+          "explanation": "DEC $31 counts the lives down, BEQ OVER catches the X."
+        },
+        {
+          "id": "a15-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Go back for the next round while lives are left.",
+          "code": [
+            "DEC $31",
+            "___ GAME"
+          ],
+          "options": [
+            "BNE",
+            "BEQ",
+            "BCS",
+            "JSR"
+          ],
+          "answer": "BNE",
+          "explanation": "DEC sets Z when the lives reach 0. Until then, BNE jumps back."
+        },
+        {
+          "id": "a15-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "Why is the game state in the zero page?",
+          "options": [
+            "It's used all the time, and zero page instructions are shorter and faster",
+            "Only the zero page can be changed",
+            "The stack is there",
+            "GETCH needs it"
+          ],
+          "answer": 0,
+          "explanation": "Every round reads and writes these values."
+        },
+        {
+          "id": "a15-l3-e5",
+          "type": "find_bug",
+          "prompt": "This game never stops, even after 3 rounds. Which line is wrong?",
+          "code": [
+            "LDA #3",
+            "STA $31",
+            "GAME: JSR GETCH",
+            "DEC $31",
+            "JMP GAME"
+          ],
+          "answer": 4,
+          "explanation": "JMP always jumps. BNE GAME stops jumping when the lives reach 0."
+        }
+      ]
+    }
+  ]
+}

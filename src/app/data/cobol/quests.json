@@ -1,0 +1,585 @@
+{
+  "cb1": {
+    "title": "The Job Banner",
+    "xp": 40,
+    "story": "Every job printout started with a banner, so the operators knew whose paper it was.",
+    "task": "Write a job called BANNER that shows these three lines:\n**************\nPAYROLL RUN 1\n**************",
+    "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. BANNER.\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+    "expectedOutput": "**************\nPAYROLL RUN 1\n**************",
+    "requirements": [
+      {
+        "pattern": "PROGRAM-ID\\.\\s*BANNER",
+        "message": "Call the program BANNER."
+      },
+      {
+        "pattern": "DISPLAY",
+        "message": "Show the lines with DISPLAY."
+      },
+      {
+        "pattern": "STOP\\s+RUN\\.",
+        "message": "End with STOP RUN."
+      }
+    ],
+    "hints": [
+      "Start with IDENTIFICATION DIVISION. and PROGRAM-ID. BANNER. in column 8.",
+      "Each DISPLAY starts in column 12: DISPLAY \"**************\"."
+    ]
+  },
+  "cb2": {
+    "title": "The Name Tag",
+    "xp": 40,
+    "story": "A conference in 1962 prints name tags on the mainframe. Use fields, and MOVE.",
+    "task": "Declare NAME-TAG as PIC X(12) and BADGE-NO as PIC 9(4). MOVE \"HOPPER\" into NAME-TAG and 42 into BADGE-NO. Show:\nNAME: HOPPER\nBADGE: 0042",
+    "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. TAG.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+    "expectedOutput": "NAME: HOPPER\nBADGE: 0042",
+    "requirements": [
+      {
+        "pattern": "PIC\\s+X\\(12\\)",
+        "message": "NAME-TAG is PIC X(12)."
+      },
+      {
+        "pattern": "PIC\\s+9\\(4\\)",
+        "message": "BADGE-NO is PIC 9(4)."
+      },
+      {
+        "pattern": "MOVE",
+        "message": "Fill the fields with MOVE."
+      }
+    ],
+    "hints": [
+      "In the WORKING-STORAGE SECTION: 01 NAME-TAG PIC X(12). and 01 BADGE-NO PIC 9(4).",
+      "MOVE \"HOPPER\" TO NAME-TAG. MOVE 42 TO BADGE-NO.",
+      "DISPLAY \"NAME: \" NAME-TAG."
+    ]
+  },
+  "cb3": {
+    "title": "The Order Counter",
+    "xp": 40,
+    "story": "A mail-order company reads its orders from cards. Count the boxes.",
+    "task": "Read three SYSIN cards with ACCEPT, each a number of boxes, into a PIC 9(3) field. ADD each one to a total that starts at zero, and show:\nBOXES TODAY: 042",
+    "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. ORDERS.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+    "expectedOutput": "BOXES TODAY: 042",
+    "requirements": [
+      {
+        "pattern": "ACCEPT",
+        "message": "Read the cards with ACCEPT."
+      },
+      {
+        "pattern": "ADD",
+        "message": "Add them up with ADD."
+      },
+      {
+        "pattern": "VALUE\\s+ZERO",
+        "message": "Give the total VALUE ZERO."
+      }
+    ],
+    "hints": [
+      "01 BOXES PIC 9(3). and 01 TOTAL PIC 9(3) VALUE ZERO.",
+      "ACCEPT BOXES. ADD BOXES TO TOTAL. three times.",
+      "DISPLAY \"BOXES TODAY: \" TOTAL."
+    ],
+    "inputs": [
+      "12",
+      "25",
+      "5"
+    ]
+  },
+  "cbc1-project": {
+    "title": "The Bank Greeting",
+    "xp": 100,
+    "story": "1971: the bank's mainframe greets every customer at the counter terminal. Build the job that does it.",
+    "task": "Read the customer's name (PIC X(10)) and account number (PIC 9(6)) from two SYSIN cards. VISITS starts at 41: ADD 1 to it. Then show:\nDEAR WOZNIAK\nACCOUNT 004711\nTHIS IS VISIT 042\nTHANK YOU FOR BANKING WITH US.",
+    "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. GREET.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+    "expectedOutput": "DEAR WOZNIAK\nACCOUNT 004711\nTHIS IS VISIT 042\nTHANK YOU FOR BANKING WITH US.",
+    "requirements": [
+      {
+        "pattern": "ACCEPT",
+        "message": "Read the cards with ACCEPT."
+      },
+      {
+        "pattern": "PIC\\s+9\\(6\\)",
+        "message": "The account number is PIC 9(6)."
+      },
+      {
+        "pattern": "ADD\\s+1\\s+TO",
+        "message": "Count the visit with ADD 1 TO."
+      },
+      {
+        "pattern": "VALUE\\s+41",
+        "message": "VISITS starts with VALUE 41."
+      }
+    ],
+    "hints": [
+      "01 CUSTOMER PIC X(10). 01 ACCOUNT-NO PIC 9(6). 01 VISITS PIC 9(3) VALUE 41.",
+      "ACCEPT CUSTOMER. ACCEPT ACCOUNT-NO. ADD 1 TO VISITS.",
+      "DISPLAY \"DEAR \" CUSTOMER. and DISPLAY \"ACCOUNT \" ACCOUNT-NO. The PIC 9(6) adds the zeros by itself."
+    ],
+    "inputs": [
+      "WOZNIAK",
+      "4711"
+    ]
+  },
+  "cb4": {
+    "title": "The Account Balance",
+    "xp": 40,
+    "story": "A savings account in 1965. Every cent counts, and so does every minus.",
+    "task": "Declare BALANCE as PIC S9(5)V99 with VALUE 120.50. ADD a deposit of 35.25, then ADD a withdrawal of -200.00. DISPLAY the balance after each step:\n0015575\n0004425-",
+    "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. BALANCE.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+    "expectedOutput": "0015575\n0004425-",
+    "requirements": [
+      {
+        "pattern": "PIC\\s+S9\\(5\\)V99",
+        "message": "BALANCE is PIC S9(5)V99."
+      },
+      {
+        "pattern": "ADD",
+        "message": "Change the balance with ADD."
+      }
+    ],
+    "hints": [
+      "01 BALANCE PIC S9(5)V99 VALUE 120.50.",
+      "ADD 35.25 TO BALANCE. DISPLAY BALANCE.",
+      "ADD -200.00 TO BALANCE. The S keeps the minus."
+    ]
+  },
+  "cb5": {
+    "title": "The Cheque",
+    "xp": 40,
+    "story": "A payroll cheque from 1970: the amount must be safe from forgers.",
+    "task": "MOVE 1234.5 into a field with PIC $**,**9.99 and DISPLAY \"PAY \" and the field. Then MOVE -42.75 into a field with PIC $$$,$$9.99CR and DISPLAY \"REFUND \" and it:\nPAY $*1,234.50\nREFUND     $42.75CR",
+    "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. CHEQUE.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+    "expectedOutput": "PAY $*1,234.50\nREFUND     $42.75CR",
+    "requirements": [
+      {
+        "pattern": "\\*\\*",
+        "message": "Protect the cheque with *."
+      },
+      {
+        "pattern": "CR",
+        "message": "Show the refund with CR."
+      },
+      {
+        "pattern": "MOVE",
+        "message": "Fill the fields with MOVE."
+      }
+    ],
+    "hints": [
+      "01 CHEQUE-OUT PIC $**,**9.99.",
+      "01 REFUND-OUT PIC $$$,$$9.99CR.",
+      "MOVE 1234.5 TO CHEQUE-OUT. DISPLAY \"PAY \" CHEQUE-OUT."
+    ],
+    "exact": true
+  },
+  "cb6": {
+    "title": "The Customer Record",
+    "xp": 40,
+    "story": "The bank keeps its customers in records. Build one, and print it as a report line.",
+    "task": "Make a group CUSTOMER with CUST-NAME PIC X(8), CUST-NO PIC 9(5) and CUST-BAL PIC 9(5)V99. Fill it with ADA, 42 and 1815.36. Then make a report line group: the name, a FILLER of 2 spaces, the number, a FILLER \" BALANCE \", and the balance in PIC $$$,$$9.99. MOVE the fields into the line and DISPLAY it:\nADA       00042 BALANCE  $1,815.36",
+    "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. CUSTREC.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+    "expectedOutput": "ADA       00042 BALANCE  $1,815.36",
+    "requirements": [
+      {
+        "pattern": "01\\s+CUSTOMER\\s*\\.",
+        "message": "Make the group 01 CUSTOMER."
+      },
+      {
+        "pattern": "FILLER",
+        "message": "Use FILLER for the fixed parts."
+      },
+      {
+        "pattern": "\\$\\$\\$",
+        "message": "Print the balance with a floating $."
+      }
+    ],
+    "hints": [
+      "01 CUSTOMER. 05 CUST-NAME PIC X(8). 05 CUST-NO PIC 9(5). 05 CUST-BAL PIC 9(5)V99.",
+      "01 CUST-LINE. 05 CL-NAME PIC X(8). 05 FILLER PIC X(2) VALUE SPACES. 05 CL-NO PIC 9(5). 05 FILLER PIC X(9) VALUE \" BALANCE \". 05 CL-BAL PIC $$$,$$9.99.",
+      "MOVE CUST-NAME TO CL-NAME, and so on, then DISPLAY CUST-LINE."
+    ],
+    "exact": true
+  },
+  "cbc2-project": {
+    "title": "The Payslip",
+    "xp": 100,
+    "story": "1968: payday at the factory. The mainframe prints a payslip for every worker.",
+    "task": "Read the worker's name (PIC X(10)), the salary and the bonus (both PIC 9(5)V99) from three SYSIN cards. ADD the bonus to a total that starts with the salary. Print the payslip with report lines, the amounts in PIC $$$,$$9.99:\nPAYSLIP FOR GRACE\nSALARY   $2,150.75\nBONUS      $125.50\nTOTAL    $2,276.25",
+    "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. PAYSLIP.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+    "expectedOutput": "PAYSLIP FOR GRACE\nSALARY   $2,150.75\nBONUS      $125.50\nTOTAL    $2,276.25",
+    "requirements": [
+      {
+        "pattern": "ACCEPT",
+        "message": "Read the cards with ACCEPT."
+      },
+      {
+        "pattern": "FILLER",
+        "message": "Build report lines with FILLER."
+      },
+      {
+        "pattern": "\\$\\$\\$",
+        "message": "Print the amounts with a floating $."
+      }
+    ],
+    "hints": [
+      "01 PAY-LINE. 05 PL-LABEL PIC X(7). 05 PL-AMOUNT PIC $$$,$$9.99.",
+      "MOVE \"SALARY\" TO PL-LABEL. MOVE SALARY TO PL-AMOUNT. DISPLAY PAY-LINE.",
+      "MOVE SALARY TO TOTAL. ADD BONUS TO TOTAL."
+    ],
+    "inputs": [
+      "GRACE",
+      "2150.75",
+      "125.50"
+    ]
+  },
+  "cb7": {
+    "title": "Split the Bill",
+    "xp": 40,
+    "story": "Five friends at a restaurant in 1975. The bill is 87.40, plus a tip.",
+    "task": "MULTIPLY the bill 87.40 by 1.15 (a 15 % tip) GIVING the total, ROUNDED to cents. DIVIDE the total by 5 GIVING each person's share, ROUNDED. Show both in PIC $$$9.99:\nTOTAL $100.51\nEACH   $20.10",
+    "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. SPLIT.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+    "expectedOutput": "TOTAL $100.51\nEACH   $20.10",
+    "requirements": [
+      {
+        "pattern": "MULTIPLY",
+        "message": "Add the tip with MULTIPLY."
+      },
+      {
+        "pattern": "DIVIDE",
+        "message": "Split it with DIVIDE."
+      },
+      {
+        "pattern": "ROUNDED",
+        "message": "Round to cents with ROUNDED."
+      }
+    ],
+    "hints": [
+      "MULTIPLY BILL BY 1.15 GIVING TOTAL ROUNDED.",
+      "DIVIDE TOTAL BY 5 GIVING EACH ROUNDED.",
+      "MOVE TOTAL TO OUT. DISPLAY \"TOTAL \" OUT."
+    ]
+  },
+  "cb8": {
+    "title": "Compound Interest",
+    "xp": 40,
+    "story": "Grandma puts 2,500 dollars into a savings account in 1970, at 6 % a year.",
+    "task": "With COMPUTE, work out the balance after 10 years with interest on interest: BALANCE * 1.06 ** 10, ROUNDED to cents. Show it, and the interest earned, in PIC $$$,$$9.99:\nAFTER 10 YEARS  $4,477.12\nINTEREST        $1,977.12",
+    "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. INTEREST.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+    "expectedOutput": "AFTER 10 YEARS  $4,477.12\nINTEREST        $1,977.12",
+    "requirements": [
+      {
+        "pattern": "COMPUTE",
+        "message": "Use COMPUTE."
+      },
+      {
+        "pattern": "\\*\\*\\s*10",
+        "message": "Raise to the power of 10 with **."
+      },
+      {
+        "pattern": "ROUNDED",
+        "message": "Round once, with ROUNDED."
+      }
+    ],
+    "hints": [
+      "01 START-BAL PIC 9(5)V99 VALUE 2500. 01 BALANCE PIC 9(5)V99.",
+      "COMPUTE BALANCE ROUNDED = START-BAL * 1.06 ** 10.",
+      "COMPUTE EARNED = BALANCE - START-BAL."
+    ]
+  },
+  "cb9": {
+    "title": "The Shipping Desk",
+    "xp": 40,
+    "story": "A mail-order company in 1980 charges shipping by weight. Read the parcels from cards.",
+    "task": "Read three weights in kg (PIC 99V9) with ACCEPT. For each, use EVALUATE: below 2 kg costs 4.90, 2 to 9.9 kg costs 7.90, 10 kg and more costs 14.90. Show each weight and price, with the weight in PIC Z9.9 and the price in PIC $$9.99:\n 1.5 KG  $4.90\n 7.0 KG  $7.90\n12.0 KG $14.90",
+    "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. SHIPPING.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+    "expectedOutput": " 1.5 KG  $4.90\n 7.0 KG  $7.90\n12.0 KG $14.90",
+    "requirements": [
+      {
+        "pattern": "EVALUATE",
+        "message": "Choose the price with EVALUATE."
+      },
+      {
+        "pattern": "ACCEPT",
+        "message": "Read the weights with ACCEPT."
+      },
+      {
+        "pattern": "WHEN\\s+OTHER",
+        "message": "Use WHEN OTHER for the heavy parcels."
+      }
+    ],
+    "hints": [
+      "EVALUATE TRUE WHEN WEIGHT < 2 MOVE 4.90 TO PRICE WHEN WEIGHT < 10 MOVE 7.90 TO PRICE WHEN OTHER MOVE 14.90 TO PRICE END-EVALUATE.",
+      "MOVE WEIGHT TO W-OUT. MOVE PRICE TO P-OUT. DISPLAY W-OUT \" KG \" P-OUT."
+    ],
+    "inputs": [
+      "1.5",
+      "7",
+      "12"
+    ],
+    "exact": true
+  },
+  "cbc3-project": {
+    "title": "The Invoice",
+    "xp": 100,
+    "story": "1984: the office supply company prints its invoices on the mainframe.",
+    "task": "Read 3 items, each as two cards: the quantity (PIC 999) and the unit price (PIC 9(4)V99). Print a line for each: quantity in PIC ZZ9, \" X \", price and line total in PIC $$,$$9.99. Then: subtotal; a discount of 10 % if the subtotal is 500 or more (else 0); 19 % tax on what's left, ROUNDED; and the total due:\n 10 X     $4.50   $45.00\n  2 X   $199.00  $398.00\n  5 X    $12.80   $64.00\nSUBTOTAL   $507.00\nDISCOUNT    $50.70\nTAX         $86.70\nTOTAL DUE  $543.00",
+    "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. INVOICE.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+    "expectedOutput": " 10 X     $4.50   $45.00\n  2 X   $199.00  $398.00\n  5 X    $12.80   $64.00\nSUBTOTAL   $507.00\nDISCOUNT    $50.70\nTAX         $86.70\nTOTAL DUE  $543.00",
+    "requirements": [
+      {
+        "pattern": "ACCEPT",
+        "message": "Read the items with ACCEPT."
+      },
+      {
+        "pattern": "IF|EVALUATE",
+        "message": "Decide the discount with IF or EVALUATE."
+      },
+      {
+        "pattern": "ROUNDED",
+        "message": "Round the tax with ROUNDED."
+      },
+      {
+        "pattern": "COMPUTE|MULTIPLY",
+        "message": "Calculate with COMPUTE or MULTIPLY."
+      }
+    ],
+    "hints": [
+      "For each item: ACCEPT QTY. ACCEPT PRICE. MULTIPLY QTY BY PRICE GIVING LINE-TOTAL. ADD LINE-TOTAL TO SUBTOTAL. Then MOVE into the line fields and DISPLAY.",
+      "IF SUBTOTAL >= 500 COMPUTE DISCOUNT ROUNDED = SUBTOTAL * 0.10 ELSE MOVE 0 TO DISCOUNT END-IF.",
+      "COMPUTE TAX ROUNDED = (SUBTOTAL - DISCOUNT) * 0.19. COMPUTE TOTAL-DUE = SUBTOTAL - DISCOUNT + TAX."
+    ],
+    "inputs": [
+      "10",
+      "4.50",
+      "2",
+      "199.00",
+      "5",
+      "12.80"
+    ],
+    "exact": true
+  },
+  "cb10": {
+    "title": "The Countdown",
+    "xp": 40,
+    "story": "Mission control, 1969, wants a countdown printed by the mainframe.",
+    "task": "Write the paragraphs MAIN, SHOW-NUMBER and LIFT-OFF. MAIN performs SHOW-NUMBER UNTIL the counter (starting at 5) is 0, then performs LIFT-OFF and stops. SHOW-NUMBER displays the counter as T-MINUS 5 and so on, then subtracts 1. LIFT-OFF shows LIFT OFF!",
+    "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. COUNTDN.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+    "expectedOutput": "T-MINUS 5\nT-MINUS 4\nT-MINUS 3\nT-MINUS 2\nT-MINUS 1\nLIFT OFF!",
+    "requirements": [
+      {
+        "pattern": "PERFORM\\s+SHOW-NUMBER\\s+UNTIL",
+        "message": "Repeat with PERFORM SHOW-NUMBER UNTIL …."
+      },
+      {
+        "pattern": "^\\s{7}LIFT-OFF\\s*\\.",
+        "message": "Write the paragraph LIFT-OFF."
+      },
+      {
+        "pattern": "STOP\\s+RUN",
+        "message": "End the main paragraph with STOP RUN."
+      }
+    ],
+    "hints": [
+      "01 COUNTER PIC 9 VALUE 5.",
+      "MAIN: PERFORM SHOW-NUMBER UNTIL COUNTER = 0. PERFORM LIFT-OFF. STOP RUN.",
+      "SHOW-NUMBER: DISPLAY \"T-MINUS \" COUNTER. SUBTRACT 1 FROM COUNTER."
+    ]
+  },
+  "cb11": {
+    "title": "The Times Table",
+    "xp": 40,
+    "story": "A school in 1972 prints times tables for its pupils on the university's mainframe.",
+    "task": "Print the times table for 7, from 1 to 5, with PERFORM VARYING. Each line looks like 1 X 7 = 7, with the result in PIC ZZ9:\n1 X 7 =   7\n2 X 7 =  14\n3 X 7 =  21\n4 X 7 =  28\n5 X 7 =  35",
+    "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. TIMES7.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+    "expectedOutput": "1 X 7 =   7\n2 X 7 =  14\n3 X 7 =  21\n4 X 7 =  28\n5 X 7 =  35",
+    "requirements": [
+      {
+        "pattern": "VARYING",
+        "message": "Count with PERFORM VARYING."
+      },
+      {
+        "pattern": "COMPUTE|MULTIPLY",
+        "message": "Calculate the product."
+      }
+    ],
+    "hints": [
+      "01 I PIC 9. 01 PRODUCT PIC ZZ9.",
+      "PERFORM VARYING I FROM 1 BY 1 UNTIL I > 5 … END-PERFORM.",
+      "COMPUTE PRODUCT = I * 7. DISPLAY I \" X 7 = \" PRODUCT."
+    ],
+    "exact": true
+  },
+  "cb12": {
+    "title": "The Day Finder",
+    "xp": 40,
+    "story": "The bank's statements print the weekday. Look it up in a table.",
+    "task": "Build a table of the 7 day names (MONDAY to SUNDAY, PIC X(9) each) with FILLER VALUEs and REDEFINES. Read two day numbers from SYSIN cards and DISPLAY each day's name with DAY-NAME(N):\nDAY 3 IS WEDNESDAY\nDAY 7 IS SUNDAY",
+    "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. DAYS.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+    "expectedOutput": "DAY 3 IS WEDNESDAY\nDAY 7 IS SUNDAY",
+    "requirements": [
+      {
+        "pattern": "REDEFINES",
+        "message": "Lay the table over the FILLERs with REDEFINES."
+      },
+      {
+        "pattern": "OCCURS\\s+7",
+        "message": "The table OCCURS 7 TIMES."
+      },
+      {
+        "pattern": "ACCEPT",
+        "message": "Read the day numbers with ACCEPT."
+      }
+    ],
+    "hints": [
+      "01 DAY-DATA. 05 FILLER PIC X(9) VALUE \"MONDAY\". … (7 times)",
+      "01 DAY-TABLE REDEFINES DAY-DATA. 05 DAY-NAME PIC X(9) OCCURS 7 TIMES.",
+      "ACCEPT N. DISPLAY \"DAY \" N \" IS \" DAY-NAME(N)."
+    ],
+    "inputs": [
+      "3",
+      "7"
+    ]
+  },
+  "cbc4-project": {
+    "title": "The Sales Report",
+    "xp": 100,
+    "story": "1978: the sales manager wants the half-year in one printout.",
+    "task": "Put the six monthly sales 1200, 950, 1810, 700, 1305 and 2045 into a table (FILLER VALUEs + REDEFINES), and the month names JAN to JUN into another. In a PERFORM VARYING loop, print each month and its amount (PIC ZZ,ZZ9), add up the total and find the best month. Then print the total, the best month, and the average (ROUNDED, PIC ZZ,ZZ9):\nJAN  1,200\nFEB    950\nMAR  1,810\nAPR    700\nMAY  1,305\nJUN  2,045\nTOTAL  8,010\nBEST MONTH JUN\nAVERAGE  1,335",
+    "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. SALESRPT.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+    "expectedOutput": "JAN  1,200\nFEB    950\nMAR  1,810\nAPR    700\nMAY  1,305\nJUN  2,045\nTOTAL  8,010\nBEST MONTH JUN\nAVERAGE  1,335",
+    "requirements": [
+      {
+        "pattern": "REDEFINES",
+        "message": "Build the tables with REDEFINES."
+      },
+      {
+        "pattern": "OCCURS",
+        "message": "Use OCCURS tables."
+      },
+      {
+        "pattern": "VARYING",
+        "message": "Go through them with PERFORM VARYING."
+      },
+      {
+        "pattern": "ROUNDED",
+        "message": "Round the average."
+      }
+    ],
+    "hints": [
+      "01 SALES-DATA. 05 FILLER PIC 9(4) VALUE 1200. … then 01 SALES-TABLE REDEFINES SALES-DATA. 05 MONTH-SALES PIC 9(4) OCCURS 6 TIMES.",
+      "Keep BEST-AMOUNT and BEST-M: IF MONTH-SALES(M) > BEST-AMOUNT, remember both.",
+      "COMPUTE AVERAGE ROUNDED = TOTAL / 6."
+    ]
+  },
+  "cb13": {
+    "title": "The City Filter",
+    "xp": 40,
+    "story": "The London branch wants a file of its own customers.",
+    "task": "Read CUSTOMERS, and WRITE every customer whose city is LONDON into a new file LONDONERS (OPEN OUTPUT). Close both, then read LONDONERS back and DISPLAY each record's name, and how many there were:\nADA LOVELACE\n1 IN LONDON",
+    "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. LONDON.\n       ENVIRONMENT DIVISION.\n       INPUT-OUTPUT SECTION.\n       FILE-CONTROL.\n           SELECT CUST-FILE ASSIGN TO CUSTOMERS.\n           SELECT LONDON-FILE ASSIGN TO LONDONERS.\n       DATA DIVISION.\n       FILE SECTION.\n       FD CUST-FILE.\n       01 CUST-REC.\n          05 CUST-NO      PIC 9(5).\n          05 CUST-NAME    PIC X(12).\n          05 CUST-CITY    PIC X(10).\n          05 CUST-BAL     PIC 9(5)V99.\n       FD LONDON-FILE.\n       01 LONDON-REC.\n          05 L-NO         PIC 9(5).\n          05 L-NAME       PIC X(12).\n          05 FILLER       PIC X(17).\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+    "expectedOutput": "ADA LOVELACE\n1 IN LONDON",
+    "requirements": [
+      {
+        "pattern": "OPEN\\s+INPUT",
+        "message": "Read CUSTOMERS with OPEN INPUT."
+      },
+      {
+        "pattern": "\\bOUTPUT\\b",
+        "message": "Create the new file with OPEN OUTPUT."
+      },
+      {
+        "pattern": "WRITE",
+        "message": "Write the records with WRITE."
+      },
+      {
+        "pattern": "AT\\s+END",
+        "message": "Stop reading AT END."
+      }
+    ],
+    "hints": [
+      "SELECT CUST-FILE ASSIGN TO CUSTOMERS. SELECT LONDON-FILE ASSIGN TO LONDONERS.",
+      "IF CUST-CITY = \"LONDON\" WRITE LONDON-REC FROM CUST-REC END-IF",
+      "Set the end flag back to \"N\" before reading the new file."
+    ]
+  },
+  "cb14": {
+    "title": "The Balance Report",
+    "xp": 40,
+    "story": "The bank's auditors want a printout of every account, with a total at the bottom.",
+    "task": "Print to a PRINTER file: a heading BALANCE REPORT, then one detail line per customer (number, a space, name in X(12), then the balance in PIC $$$,$$9.99), and after an empty line (AFTER ADVANCING 2 LINES) the total:\nBALANCE REPORT\n00007 GRACE HOPPER $2,500.00\n00042 ADA LOVELACE $1,815.36\n01959 JOHN BACKUS    $120.00\n02024 LINUS T.         $9.99\n\nTOTAL              $4,445.35",
+    "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. BALRPT.\n       ENVIRONMENT DIVISION.\n       INPUT-OUTPUT SECTION.\n       FILE-CONTROL.\n           SELECT CUST-FILE ASSIGN TO CUSTOMERS.\n           SELECT REPORT-FILE ASSIGN TO PRINTER.\n       DATA DIVISION.\n       FILE SECTION.\n       FD CUST-FILE.\n       01 CUST-REC.\n          05 CUST-NO      PIC 9(5).\n          05 CUST-NAME    PIC X(12).\n          05 CUST-CITY    PIC X(10).\n          05 CUST-BAL     PIC 9(5)V99.\n       FD REPORT-FILE.\n       01 PRINT-LINE      PIC X(40).\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+    "expectedOutput": "BALANCE REPORT\n00007 GRACE HOPPER $2,500.00\n00042 ADA LOVELACE $1,815.36\n01959 JOHN BACKUS    $120.00\n02024 LINUS T.         $9.99\n\nTOTAL              $4,445.35",
+    "requirements": [
+      {
+        "pattern": "ASSIGN\\s+TO\\s+PRINTER",
+        "message": "Print with a file ASSIGNed TO PRINTER."
+      },
+      {
+        "pattern": "ADVANCING",
+        "message": "Leave a line before the total with AFTER ADVANCING."
+      },
+      {
+        "pattern": "VALUE\\s+ZERO",
+        "message": "The total needs VALUE ZERO."
+      }
+    ],
+    "hints": [
+      "01 DETAIL-LINE. 05 D-NO PIC 9(5). 05 FILLER PIC X VALUE SPACE. 05 D-NAME PIC X(12). 05 D-BAL PIC $$$,$$9.99.",
+      "01 TOTAL-LINE. 05 FILLER PIC X(18) VALUE \"TOTAL\". 05 T-BAL PIC $$$,$$9.99.",
+      "WRITE PRINT-LINE FROM TOTAL-LINE AFTER ADVANCING 2 LINES."
+    ],
+    "exact": true
+  },
+  "cb15": {
+    "title": "Sales per Region",
+    "xp": 40,
+    "story": "The sales manager wants one line per region: how many sales, and how much.",
+    "task": "Read SALES (sorted by region) with a control break. For each region, print its name, the number of sales and its total (count in PIC 9, total in PIC $$$,$$9.99), and at the end the grand total:\nNORTH 3    $419.25\nSOUTH 2    $195.25\nWEST  1    $300.00\nALL   6    $914.50",
+    "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. BYREGION.\n       ENVIRONMENT DIVISION.\n       INPUT-OUTPUT SECTION.\n       FILE-CONTROL.\n           SELECT SALES-FILE ASSIGN TO SALES.\n       DATA DIVISION.\n       FILE SECTION.\n       FD SALES-FILE.\n       01 SALES-REC.\n          05 S-REGION     PIC X(6).\n          05 S-NAME       PIC X(10).\n          05 S-AMOUNT     PIC 9(5)V99.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+    "expectedOutput": "NORTH 3    $419.25\nSOUTH 2    $195.25\nWEST  1    $300.00\nALL   6    $914.50",
+    "requirements": [
+      {
+        "pattern": "PREV",
+        "message": "Keep the previous region to notice the break."
+      },
+      {
+        "pattern": "AT\\s+END",
+        "message": "Read the file until AT END."
+      }
+    ],
+    "hints": [
+      "01 RESULT-LINE. 05 R-REGION PIC X(6). 05 R-COUNT PIC 9. 05 R-TOTAL PIC $$$,$$9.99.",
+      "At a break: MOVE PREV-REGION TO R-REGION, the count and the total, DISPLAY RESULT-LINE, add them to the grand counters, reset to zero.",
+      "After the loop: one more break for the last region, then MOVE \"ALL\" TO R-REGION and the grand values."
+    ]
+  },
+  "cbc5-project": {
+    "title": "The Bank Statement",
+    "xp": 100,
+    "story": "1982: once a month, the bank prints a statement for every account. Build the job that does it, the way it really was done.",
+    "task": "Read TRANS (account, D or W, amount; sorted by account) with a control break by account. For each account, print a line with the account number, deposits, withdrawals and the net change (net in PIC -$$,$$9.99, the others in PIC $$,$$9.99). At the end, print the number of transactions and the bank's net change:\n00007   $100.00    $25.50    $74.50\n00042   $500.00   $129.99   $370.01\n01959    $10.00     $0.00    $10.00\nTRANSACTIONS 6\nBANK NET    $454.51",
+    "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. STATEMNT.\n       ENVIRONMENT DIVISION.\n       INPUT-OUTPUT SECTION.\n       FILE-CONTROL.\n           SELECT TRANS-FILE ASSIGN TO TRANS.\n       DATA DIVISION.\n       FILE SECTION.\n       FD TRANS-FILE.\n       01 TRANS-REC.\n          05 T-ACCOUNT    PIC 9(5).\n          05 T-TYPE       PIC X.\n          05 T-AMOUNT     PIC 9(5)V99.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+    "expectedOutput": "00007   $100.00    $25.50    $74.50\n00042   $500.00   $129.99   $370.01\n01959    $10.00     $0.00    $10.00\nTRANSACTIONS 6\nBANK NET    $454.51",
+    "requirements": [
+      {
+        "pattern": "AT\\s+END",
+        "message": "Read TRANS until AT END."
+      },
+      {
+        "pattern": "PREV",
+        "message": "Notice the account changes with a previous key."
+      },
+      {
+        "pattern": "EVALUATE|IF",
+        "message": "Tell deposits from withdrawals."
+      },
+      {
+        "pattern": "S9",
+        "message": "The net change needs a signed field (S)."
+      }
+    ],
+    "hints": [
+      "01 STMT-LINE. 05 SL-ACCT PIC 9(5). 05 SL-DEP PIC $$,$$9.99. 05 SL-WDR PIC $$,$$9.99. 05 SL-NET PIC -$$,$$9.99. (Mind the spaces.)",
+      "For each record: IF T-TYPE = \"D\" ADD T-AMOUNT TO DEPOSITS ELSE ADD T-AMOUNT TO WITHDRAWALS END-IF.",
+      "At a break: COMPUTE NET = DEPOSITS - WITHDRAWALS, print the line, ADD NET TO BANK-NET, reset the account totals."
+    ]
+  }
+}

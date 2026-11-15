@@ -1,0 +1,408 @@
+{
+  "id": "a6",
+  "title": "Tables",
+  "lessons": [
+    {
+      "id": "a6-l1",
+      "title": "Indexed Addressing",
+      "xp": 15,
+      "intro": [
+        "LDA $0300,X reads from the address $0300 plus X. With X = 2, it reads $0302. STA $0300,X writes there, and ,Y works the same way.",
+        "This is how the 6502 walks through memory: put the index in X, change X in a loop, and one instruction reaches a different byte every round.",
+        "X is the offset, the start address stays fixed. The highest you can reach is the start address + $FF."
+      ],
+      "example": {
+        "code": [
+          "LDX #0",
+          "LOOP: TXA",
+          "STA $0300,X",
+          "INX",
+          "CPX #4",
+          "BNE LOOP",
+          "BRK"
+        ],
+        "output": [
+          "$0300 = $00   $0301 = $01   $0302 = $02   $0303 = $03"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a6-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "X is 3. Where does STA $0300,X write?",
+          "options": [
+            "$0303",
+            "$0300",
+            "$0003",
+            "$0330"
+          ],
+          "answer": 0,
+          "explanation": "$0300 plus X: $0300 + 3 = $0303."
+        },
+        {
+          "id": "a6-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "X is $10. Where does LDA $0300,X read from?",
+          "options": [
+            "$0310",
+            "$0301",
+            "$0316",
+            "$1300"
+          ],
+          "answer": 0,
+          "explanation": "$0300 + $10 = $0310. Remember, $10 is 16."
+        },
+        {
+          "id": "a6-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Store A at $0300 plus Y.",
+          "code": [
+            "LDY #2",
+            "LDA #$55",
+            "STA $0300,___",
+            "BRK"
+          ],
+          "options": [
+            "Y",
+            "X",
+            "A",
+            "#2"
+          ],
+          "answer": "Y",
+          "explanation": "STA works with ,X and with ,Y."
+        },
+        {
+          "id": "a6-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "Which addresses get $AA?",
+          "code": [
+            "LDA #$AA",
+            "LDX #3",
+            "LOOP: STA $0300,X",
+            "DEX",
+            "BNE LOOP",
+            "BRK"
+          ],
+          "options": [
+            "$0301, $0302 and $0303",
+            "$0300 to $0303",
+            "$0300 to $0302",
+            "Only $0303"
+          ],
+          "answer": 0,
+          "explanation": "X goes 3, 2, 1. When DEX makes it 0, BNE stops before STA runs with X = 0, so $0300 is never written."
+        },
+        {
+          "id": "a6-l1-e5",
+          "type": "find_bug",
+          "prompt": "This should copy $0300–$0303 to $0310–$0313, but it copies the first value four times. Which line is wrong?",
+          "code": [
+            "LDX #0",
+            "LOOP: LDA $0300",
+            "STA $0310,X",
+            "INX",
+            "CPX #4",
+            "BNE LOOP",
+            "BRK"
+          ],
+          "answer": 1,
+          "explanation": "LDA $0300 always reads the same byte. It needs the index too: LDA $0300,X."
+        },
+        {
+          "id": "a6-l1-e6",
+          "type": "order_lines",
+          "prompt": "Build a program that clears $0300 to $0304 (5 bytes) to 0.",
+          "lines": [
+            "LDA #0",
+            "LDX #0",
+            "LOOP: STA $0300,X",
+            "INX",
+            "CPX #5",
+            "BNE LOOP",
+            "BRK"
+          ],
+          "answer": [
+            "LDA #0",
+            "LDX #0",
+            "LOOP: STA $0300,X",
+            "INX",
+            "CPX #5",
+            "BNE LOOP",
+            "BRK"
+          ],
+          "explanation": "Load 0 once, then store it at $0300 + X while X counts from 0 to 4."
+        }
+      ]
+    },
+    {
+      "id": "a6-l2",
+      "title": ".BYTE Tables",
+      "xp": 15,
+      "intro": [
+        ".BYTE 5, 10, 15 puts those three bytes directly into your program. Give the line a label, and you have a named table: PRICES: .BYTE 10, 20, 30.",
+        "LDA PRICES reads the first entry. LDA PRICES,X reads entry number X, counting from 0.",
+        "Put your tables after the BRK. The CPU can't tell data from code, so if it runs into a table, it tries to execute the numbers as instructions."
+      ],
+      "example": {
+        "code": [
+          "LDX #2",
+          "LDA PRICES,X",
+          "STA $0300",
+          "BRK",
+          "PRICES: .BYTE 10, 20, 30"
+        ],
+        "output": [
+          "$0300 = $1E (entry 2 is 30)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a6-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "With LDX #0, what ends up at $0300?",
+          "code": [
+            "LDX #0",
+            "LDA PRICES,X",
+            "STA $0300",
+            "BRK",
+            "PRICES: .BYTE 10, 20, 30"
+          ],
+          "options": [
+            "$0A",
+            "$1E",
+            "$14",
+            "$00"
+          ],
+          "answer": 0,
+          "explanation": "Entry 0 is the first one: 10, which is $0A."
+        },
+        {
+          "id": "a6-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Why does the table go after the BRK?",
+          "options": [
+            "Otherwise the CPU would try to run the numbers as instructions",
+            ".BYTE only works at the end",
+            "Labels have to be at the end",
+            "It saves memory"
+          ],
+          "answer": 0,
+          "explanation": "Memory is just bytes. If the CPU reaches the table, it treats it like code."
+        },
+        {
+          "id": "a6-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Put the numbers 1, 2 and 3 into the program.",
+          "code": [
+            "LDA NUMS",
+            "BRK",
+            "NUMS: ___ 1, 2, 3"
+          ],
+          "options": [
+            ".BYTE",
+            "LDA",
+            "STA",
+            "DATA"
+          ],
+          "answer": ".BYTE",
+          "explanation": ".BYTE writes bytes straight into the program."
+        },
+        {
+          "id": "a6-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "X is 1. What does LDA TABLE,X load?",
+          "code": [
+            "TABLE: .BYTE 4, 8, 15"
+          ],
+          "options": [
+            "8",
+            "4",
+            "15",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "Entry 0 is 4, entry 1 is 8."
+        },
+        {
+          "id": "a6-l2-e5",
+          "type": "find_bug",
+          "prompt": "This program stops right away and never stores anything. Which line is in the wrong place?",
+          "code": [
+            "TABLE: .BYTE 0, 0",
+            "LDA TABLE",
+            "STA $0300",
+            "BRK"
+          ],
+          "answer": 0,
+          "explanation": "The program starts at the first byte. Here that's the table, and $00 is BRK, so it stops at once. Move the table after BRK."
+        },
+        {
+          "id": "a6-l2-e6",
+          "type": "order_lines",
+          "prompt": "Build a program that stores entry 1 of NUMS at $0300.",
+          "lines": [
+            "LDX #1",
+            "LDA NUMS,X",
+            "STA $0300",
+            "BRK",
+            "NUMS: .BYTE 7, 9"
+          ],
+          "answer": [
+            "LDX #1",
+            "LDA NUMS,X",
+            "STA $0300",
+            "BRK",
+            "NUMS: .BYTE 7, 9"
+          ],
+          "explanation": "Code first, the table at the very end. $0300 gets 9."
+        }
+      ]
+    },
+    {
+      "id": "a6-l3",
+      "title": "Walking a Table",
+      "xp": 15,
+      "intro": [
+        "Put .BYTE tables and loops together and you can work through lists of any length. X counts from 0 to the number of entries, and CPX tells the loop when to stop.",
+        "To add up a table, start with A = 0 and ADC TABLE,X every round. To find the biggest entry, keep the biggest so far in A and CMP each entry: BCS skips the ones that aren't bigger.",
+        "Make sure the CPX matches the table: a table with 4 entries has the indexes 0 to 3, so the loop stops at CPX #4."
+      ],
+      "example": {
+        "code": [
+          "LDA #0",
+          "LDX #0",
+          "LOOP: CLC",
+          "ADC NUMS,X",
+          "INX",
+          "CPX #4",
+          "BNE LOOP",
+          "STA $0300",
+          "BRK",
+          "NUMS: .BYTE 1, 2, 3, 4"
+        ],
+        "output": [
+          "$0300 = $0A (1 + 2 + 3 + 4)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a6-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "With NUMS: .BYTE 5, 5, 5, 5, what ends up at $0300?",
+          "options": [
+            "$14",
+            "$05",
+            "$20",
+            "$0A"
+          ],
+          "answer": 0,
+          "explanation": "5 + 5 + 5 + 5 = 20, which is $14 in hex."
+        },
+        {
+          "id": "a6-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "The table has 4 entries. Why does the loop end with CPX #4 and not CPX #3?",
+          "options": [
+            "X goes 0, 1, 2, 3, and the loop has to stop after entry 3",
+            "Because 4 is even",
+            "CPX always needs one more",
+            "It's a mistake, it should be #3"
+          ],
+          "answer": 0,
+          "explanation": "After entry 3, INX makes X 4. That's when the loop has to stop."
+        },
+        {
+          "id": "a6-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "In the biggest-entry program, what does BCS KEEP do?",
+          "code": [
+            "LDA NUMS",
+            "LDX #1",
+            "LOOP: CMP NUMS,X",
+            "BCS KEEP",
+            "LDA NUMS,X",
+            "KEEP: INX",
+            "CPX #4",
+            "BNE LOOP",
+            "BRK"
+          ],
+          "options": [
+            "Skips loading the entry when A is already bigger or equal",
+            "Stops the program",
+            "Adds the entry to A",
+            "Jumps when the entry is bigger"
+          ],
+          "answer": 0,
+          "explanation": "CMP NUMS,X sets the carry when A >= the entry. Then there's nothing to change, so it skips ahead."
+        },
+        {
+          "id": "a6-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Move on to the next entry.",
+          "code": [
+            "LDX #0",
+            "LOOP: LDA NUMS,X",
+            "STA $0300,X",
+            "___",
+            "CPX #3",
+            "BNE LOOP",
+            "BRK",
+            "NUMS: .BYTE 4, 5, 6"
+          ],
+          "options": [
+            "INX",
+            "DEX",
+            "INY",
+            "LDX #1"
+          ],
+          "answer": "INX",
+          "explanation": "INX moves the index to the next entry."
+        },
+        {
+          "id": "a6-l3-e5",
+          "type": "find_bug",
+          "prompt": "This should add up 1 + 2 + 3 + 4 = 10, but the result is 9. Which line is wrong?",
+          "code": [
+            "LDA #0",
+            "LDX #1",
+            "LOOP: CLC",
+            "ADC NUMS,X",
+            "INX",
+            "CPX #4",
+            "BNE LOOP",
+            "BRK",
+            "NUMS: .BYTE 1, 2, 3, 4"
+          ],
+          "answer": 1,
+          "explanation": "Tables start at entry 0. LDX #1 skips the first number. Start with LDX #0."
+        },
+        {
+          "id": "a6-l3-e6",
+          "type": "order_lines",
+          "prompt": "Copy the table NUMS to $0300–$0302.",
+          "lines": [
+            "LDX #0",
+            "LOOP: LDA NUMS,X",
+            "STA $0300,X",
+            "INX",
+            "CPX #3",
+            "BNE LOOP",
+            "BRK",
+            "NUMS: .BYTE 4, 5, 6"
+          ],
+          "answer": [
+            "LDX #0",
+            "LOOP: LDA NUMS,X",
+            "STA $0300,X",
+            "INX",
+            "CPX #3",
+            "BNE LOOP",
+            "BRK",
+            "NUMS: .BYTE 4, 5, 6"
+          ],
+          "explanation": "Read entry X, store it at $0300 + X, next entry, until all 3 are copied."
+        }
+      ]
+    }
+  ]
+}

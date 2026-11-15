@@ -1,0 +1,391 @@
+{
+  "id": "al14",
+  "title": "PUSH and POP",
+  "lessons": [
+    {
+      "id": "al14-l1",
+      "title": "Saving Registers",
+      "xp": 15,
+      "intro": [
+        "PUSH puts a register pair onto the stack, POP takes it back. PUSH B (305) saves B and C, POP B (301) restores them.",
+        "A subroutine that pushes the registers it uses at the start and pops them before RET leaves the caller's registers untouched.",
+        "Pops come in the opposite order of the pushes: last in, first out."
+      ],
+      "example": {
+        "code": [
+          "006   ; 000: MVI B",
+          "005   ;      5",
+          "305   ; 002: PUSH B",
+          "006   ; 003: MVI B",
+          "143   ;      99",
+          "301   ; 005: POP B",
+          "170   ; 006: MOV A,B",
+          "323   ; 007: OUT 377",
+          "377   ;      port 377",
+          "166   ; 011: HLT"
+        ],
+        "output": [
+          "LEDS ○○○○○●○● = 5"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al14-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does PUSH B save?",
+          "options": [
+            "B and C",
+            "Only B",
+            "A and B",
+            "The program"
+          ],
+          "answer": 0,
+          "explanation": "The pair BC."
+        },
+        {
+          "id": "al14-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does POP B do?",
+          "options": [
+            "Takes two bytes off the stack into B and C",
+            "Clears B",
+            "Saves B",
+            "Jumps to B"
+          ],
+          "answer": 0,
+          "explanation": "The opposite of PUSH."
+        },
+        {
+          "id": "al14-l1-e3",
+          "type": "switches",
+          "prompt": "Set the switches to PUSH B (3 0 5).",
+          "answer": 197,
+          "explanation": "11 000 101."
+        },
+        {
+          "id": "al14-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "006   ; 000: MVI B",
+            "007   ;      7",
+            "305   ; 002: PUSH B",
+            "006   ; 003: MVI B",
+            "001   ;      1",
+            "301   ; 005: POP B",
+            "170   ; 006: MOV A,B",
+            "323   ; 007: OUT 377",
+            "377   ;      port 377",
+            "166   ; 011: HLT"
+          ],
+          "options": [
+            "7",
+            "1",
+            "0",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "7 is pushed, B is changed, then POP brings back 7."
+        },
+        {
+          "id": "al14-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "You PUSH B, then PUSH D. In which order do you POP?",
+          "options": [
+            "POP D, then POP B",
+            "POP B, then POP D",
+            "Any order",
+            "Only one POP"
+          ],
+          "answer": 0,
+          "explanation": "Last in, first out."
+        },
+        {
+          "id": "al14-l1-e6",
+          "type": "fill_blank",
+          "prompt": "Restore B and C.",
+          "code": [
+            "___   ; POP B"
+          ],
+          "options": [
+            "301",
+            "305",
+            "341",
+            "311"
+          ],
+          "answer": "301",
+          "explanation": "POP B = 3 0 1."
+        }
+      ]
+    },
+    {
+      "id": "al14-l2",
+      "title": "Register Pairs",
+      "xp": 15,
+      "intro": [
+        "The 8080 groups its registers into pairs: BC, DE and HL. PSW is A together with the flags. PUSH and POP always move a whole pair.",
+        "PUSH PSW (365) saves A and the flags, POP PSW (361) brings them back.",
+        "The pair codes: B 0, D 2, H 4, PSW 6, in the middle octal digit: PUSH is 3 r 5, POP is 3 r 1."
+      ],
+      "example": {
+        "code": [
+          "076   ; 000: MVI A",
+          "011   ;      9",
+          "365   ; 002: PUSH PSW",
+          "076   ; 003: MVI A",
+          "000   ;      0",
+          "361   ; 005: POP PSW",
+          "323   ; 006: OUT 377",
+          "377   ;      port 377",
+          "166   ; 010: HLT"
+        ],
+        "output": [
+          "LEDS ○○○○●○○● = 9"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al14-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does PSW contain?",
+          "options": [
+            "A and the flags",
+            "B and C",
+            "The stack pointer",
+            "The program counter"
+          ],
+          "answer": 0,
+          "explanation": "Program Status Word."
+        },
+        {
+          "id": "al14-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What is the octal code of PUSH D?",
+          "options": [
+            "325",
+            "305",
+            "321",
+            "345"
+          ],
+          "answer": 0,
+          "explanation": "3, 2 (D), 5."
+        },
+        {
+          "id": "al14-l2-e3",
+          "type": "switches",
+          "prompt": "Set the switches to POP PSW (3 6 1).",
+          "answer": 241,
+          "explanation": "11 110 001."
+        },
+        {
+          "id": "al14-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "Which registers form the pairs?",
+          "options": [
+            "BC, DE, HL",
+            "AB, CD, EH",
+            "AL, BH, CD",
+            "There are no pairs"
+          ],
+          "answer": 0,
+          "explanation": "Plus PSW for A and the flags."
+        },
+        {
+          "id": "al14-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "076   ; 000: MVI A",
+            "011   ;      9",
+            "365   ; 002: PUSH PSW",
+            "076   ; 003: MVI A",
+            "000   ;      0",
+            "361   ; 005: POP PSW",
+            "323   ; 006: OUT 377",
+            "377   ;      port 377",
+            "166   ; 010: HLT"
+          ],
+          "options": [
+            "9",
+            "0",
+            "an error",
+            "18"
+          ],
+          "answer": 0,
+          "explanation": "A is saved with PUSH PSW, cleared, then restored."
+        },
+        {
+          "id": "al14-l2-e6",
+          "type": "fill_blank",
+          "prompt": "Save H and L.",
+          "code": [
+            "___   ; PUSH H"
+          ],
+          "options": [
+            "345",
+            "305",
+            "341",
+            "365"
+          ],
+          "answer": "345",
+          "explanation": "PUSH H = 3 4 5."
+        }
+      ]
+    },
+    {
+      "id": "al14-l3",
+      "title": "A Routine That Cleans Up",
+      "xp": 15,
+      "intro": [
+        "A polite subroutine: PUSH every pair it uses at the start, POP them in reverse order before RET. The caller never notices that the registers were borrowed.",
+        "But careful: every PUSH needs exactly one POP before RET. Otherwise RET pops the wrong bytes and jumps somewhere random. That crashed many Altair programs.",
+        "Results can still come back in A, if A isn't pushed."
+      ],
+      "example": {
+        "code": [
+          "006   ; 000: MVI B",
+          "062   ;      50",
+          "076   ; 002: MVI A",
+          "004   ;      4",
+          "315   ; 004: CALL times8",
+          "015   ;      address 015 (low byte)",
+          "000   ;      (high byte)",
+          "323   ; 007: OUT 377",
+          "377   ;      port 377",
+          "170   ; 011: MOV A,B",
+          "323   ; 012: OUT 377",
+          "377   ;      port 377",
+          "166   ; 014: HLT",
+          "305   ; 015: PUSH B   ← times8",
+          "006   ; 016: MVI B",
+          "003   ;      3",
+          "207   ; 020: ADD A   ← loop",
+          "005   ; 021: DCR B",
+          "302   ; 022: JNZ loop",
+          "020   ;      address 020 (low byte)",
+          "000   ;      (high byte)",
+          "301   ; 025: POP B",
+          "311   ; 026: RET"
+        ],
+        "output": [
+          "LEDS ○○●○○○○○ = 32",
+          "LEDS ○○●●○○●○ = 50"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al14-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Why does times8 push B?",
+          "options": [
+            "It uses B as a counter but the caller needs B afterwards",
+            "RET needs it",
+            "To make it faster",
+            "It doesn't need to"
+          ],
+          "answer": 0,
+          "explanation": "B still holds 50 after the call."
+        },
+        {
+          "id": "al14-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What happens if a routine pushes but forgets to pop before RET?",
+          "options": [
+            "RET takes the wrong address off the stack and jumps somewhere random",
+            "Nothing",
+            "The push is undone automatically",
+            "HLT"
+          ],
+          "answer": 0,
+          "explanation": "The return address is under the pushed bytes."
+        },
+        {
+          "id": "al14-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show second?",
+          "code": [
+            "006   ; 000: MVI B",
+            "062   ;      50",
+            "076   ; 002: MVI A",
+            "004   ;      4",
+            "315   ; 004: CALL times8",
+            "015   ;      address 015 (low byte)",
+            "000   ;      (high byte)",
+            "323   ; 007: OUT 377",
+            "377   ;      port 377",
+            "170   ; 011: MOV A,B",
+            "323   ; 012: OUT 377",
+            "377   ;      port 377",
+            "166   ; 014: HLT",
+            "305   ; 015: PUSH B   ← times8",
+            "006   ; 016: MVI B",
+            "003   ;      3",
+            "207   ; 020: ADD A   ← loop",
+            "005   ; 021: DCR B",
+            "302   ; 022: JNZ loop",
+            "020   ;      address 020 (low byte)",
+            "000   ;      (high byte)",
+            "301   ; 025: POP B",
+            "311   ; 026: RET"
+          ],
+          "options": [
+            "50",
+            "3",
+            "0",
+            "32"
+          ],
+          "answer": 0,
+          "explanation": "B was saved and restored, so it's still 50."
+        },
+        {
+          "id": "al14-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "Can the result come back in A?",
+          "options": [
+            "Yes, if the routine doesn't push and pop A",
+            "No, never",
+            "Only with HLT",
+            "Only in memory"
+          ],
+          "answer": 0,
+          "explanation": "A popped PSW would overwrite the result."
+        },
+        {
+          "id": "al14-l3-e5",
+          "type": "order_lines",
+          "prompt": "Put the polite routine in order.",
+          "lines": [
+            "325   ; PUSH D",
+            "026   ; MVI D",
+            "005   ; 5",
+            "202   ; ADD D",
+            "321   ; POP D",
+            "311   ; RET"
+          ],
+          "answer": [
+            "325   ; PUSH D",
+            "026   ; MVI D",
+            "005   ; 5",
+            "202   ; ADD D",
+            "321   ; POP D",
+            "311   ; RET"
+          ],
+          "explanation": "Save, work, restore, return."
+        },
+        {
+          "id": "al14-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What's the rule for PUSH and POP inside a routine?",
+          "options": [
+            "Every PUSH needs exactly one POP before RET",
+            "Only POP",
+            "PUSH after RET",
+            "No rule"
+          ],
+          "answer": 0,
+          "explanation": "Keep the stack balanced."
+        }
+      ]
+    }
+  ]
+}

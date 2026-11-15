@@ -1,0 +1,458 @@
+{
+  "id": "c24",
+  "title": "Function Pointers",
+  "lessons": [
+    {
+      "id": "c24-l1",
+      "title": "Pointers to Functions",
+      "xp": 15,
+      "intro": [
+        "A function sits somewhere in memory too, so it has an address. int (*f)(int); declares f as a pointer to a function that takes an int and returns an int. The brackets around *f matter: without them, it would be a function that returns an int *.",
+        "A function's name without () is its address: f = twice;. Call through the pointer like a normal function: f(5), or the old style (*f)(5).",
+        "The point: you can hand a function to another function. The example prints a table for any function you give it."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int twice(int x) { return 2 * x; }",
+          "int square(int x) { return x * x; }",
+          "",
+          "void table(char *name, int (*f)(int)) {",
+          "    int i;",
+          "    printf(\"%-7s\", name);",
+          "    for (i = 1; i <= 5; i++)",
+          "        printf(\"%4d\", f(i));",
+          "    printf(\"\\n\");",
+          "}",
+          "",
+          "int main() {",
+          "    table(\"twice\", twice);",
+          "    table(\"square\", square);",
+          "    return 0;",
+          "}"
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "c24-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is int (*f)(int)?",
+          "options": [
+            "A pointer to a function that takes an int and returns an int",
+            "A function that returns a pointer",
+            "An array of ints",
+            "A cast"
+          ],
+          "answer": 0,
+          "explanation": "Read it from the name outwards: f is a pointer (*), to a function taking (int), returning int."
+        },
+        {
+          "id": "c24-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int add(int a, int b) { return a + b; }",
+            "int sub(int a, int b) { return a - b; }",
+            "",
+            "int main() {",
+            "    int (*op)(int, int) = sub;",
+            "    printf(\"%d\\n\", op(10, 4));",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "6",
+            "14",
+            "10",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "op points to sub, so op(10, 4) is sub(10, 4)."
+        },
+        {
+          "id": "c24-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Let op point to add.",
+          "code": [
+            "    int (*op)(int, int);",
+            "    op = ___;",
+            "    printf(\"%d\\n\", op(2, 3));"
+          ],
+          "options": [
+            "add",
+            "add()",
+            "add(2, 3)",
+            "*add"
+          ],
+          "answer": "add",
+          "explanation": "The name without brackets is the function's address. With brackets, you'd call it."
+        },
+        {
+          "id": "c24-l1-e4",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int add(int a, int b) { return a + b; }",
+            "",
+            "int main() {",
+            "    int *op(int, int) = add;",
+            "    printf(\"%d\\n\", op(2, 3));",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 5,
+          "explanation": "Without brackets, int *op(int, int) declares a function returning int *. It must be int (*op)(int, int)."
+        },
+        {
+          "id": "c24-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Why hand a function to another function?",
+          "options": [
+            "So the same code can do different jobs, like sorting by different rules",
+            "To make it faster",
+            "Functions can't be called otherwise",
+            "To save memory"
+          ],
+          "answer": 0,
+          "explanation": "table() doesn't need to know what f calculates. The next lesson uses this for sorting."
+        },
+        {
+          "id": "c24-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int square(int x) { return x * x; }",
+            "",
+            "int apply(int (*f)(int), int x) {",
+            "    return f(f(x));",
+            "}",
+            "",
+            "int main() {",
+            "    printf(\"%d\\n\", apply(square, 3));",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "81",
+            "9",
+            "18",
+            "27"
+          ],
+          "answer": 0,
+          "explanation": "apply calls f twice: square(square(3)) = square(9) = 81."
+        }
+      ]
+    },
+    {
+      "id": "c24-l2",
+      "title": "qsort",
+      "xp": 15,
+      "intro": [
+        "stdlib.h has a sort that works for any array: qsort(array, count, size of one element, compare). It doesn't know what's in your array, so you give it a compare function.",
+        "The compare function gets two const void * pointers to two elements. It returns a negative number if the first should come first, 0 if they're equal, and a positive number if the second should come first. Inside, you turn the void pointers into the real type.",
+        "To sort the other way round, swap the two. To sort structs, compare one field, like the score or the name with strcmp."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "#include <stdlib.h>",
+          "#include <string.h>",
+          "",
+          "struct player { char name[8]; int score; };",
+          "",
+          "int by_score(const void *a, const void *b) {",
+          "    const struct player *x = a;",
+          "    const struct player *y = b;",
+          "    return y->score - x->score; /* highest first */",
+          "}",
+          "",
+          "int by_name(const void *a, const void *b) {",
+          "    const struct player *x = a;",
+          "    const struct player *y = b;",
+          "    return strcmp(x->name, y->name);",
+          "}",
+          "",
+          "void show(struct player *p, int n) {",
+          "    int i;",
+          "    for (i = 0; i < n; i++)",
+          "        printf(\"%-5s %d\\n\", p[i].name, p[i].score);",
+          "    printf(\"--\\n\");",
+          "}",
+          "",
+          "int main() {",
+          "    struct player p[4] = {{\"ken\", 70}, {\"dmr\", 95}, {\"bwk\", 80}, {\"doug\", 60}};",
+          "    qsort(p, 4, sizeof p[0], by_score);",
+          "    show(p, 4);",
+          "    qsort(p, 4, sizeof p[0], by_name);",
+          "    show(p, 4);",
+          "    return 0;",
+          "}"
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "c24-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What must a compare function for qsort return when a should come before b?",
+          "options": [
+            "A negative number",
+            "0",
+            "A positive number",
+            "1, for true"
+          ],
+          "answer": 0,
+          "explanation": "Negative: a first. Zero: equal. Positive: b first."
+        },
+        {
+          "id": "c24-l2-e2",
+          "type": "fill_blank",
+          "prompt": "Sort ints from small to big.",
+          "code": [
+            "int cmp(const void *a, const void *b) {",
+            "    return *(const int *)a ___ *(const int *)b;",
+            "}"
+          ],
+          "options": [
+            "-",
+            "+",
+            "<",
+            "=="
+          ],
+          "answer": "-",
+          "explanation": "a - b is negative when a is smaller, so a comes first. (< would only give 0 or 1.)"
+        },
+        {
+          "id": "c24-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "#include <stdlib.h>",
+            "",
+            "int down(const void *a, const void *b) {",
+            "    return *(const int *)b - *(const int *)a;",
+            "}",
+            "",
+            "int main() {",
+            "    int v[3] = {3, 1, 2};",
+            "    qsort(v, 3, sizeof(int), down);",
+            "    printf(\"%d %d %d\\n\", v[0], v[1], v[2]);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "3 2 1",
+            "1 2 3",
+            "3 1 2",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "The compare function returns b - a, so bigger numbers come first."
+        },
+        {
+          "id": "c24-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "Why does the compare function get const void * pointers?",
+          "options": [
+            "qsort sorts any type, so it can't know the real one",
+            "void pointers are faster",
+            "So it can't sort",
+            "Because of the stack"
+          ],
+          "answer": 0,
+          "explanation": "void * means \"a pointer to something\". You know what it really is, so you turn it into that."
+        },
+        {
+          "id": "c24-l2-e5",
+          "type": "find_bug",
+          "prompt": "This program stops with an error. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "#include <stdlib.h>",
+            "",
+            "int cmp(const void *a, const void *b) {",
+            "    return *(const int *)a - *(const int *)b;",
+            "}",
+            "",
+            "int main() {",
+            "    int v[4] = {9, 4, 7, 1};",
+            "    qsort(v, 4, sizeof(char), cmp);",
+            "    printf(\"%d\\n\", v[0]);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 9,
+          "explanation": "The third argument is the size of one element: sizeof(int), or sizeof v[0], which can't go wrong."
+        },
+        {
+          "id": "c24-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "qsort(names, n, sizeof names[0], by_name); by_name compares with strcmp. In what order are the names?",
+          "options": [
+            "Alphabetical",
+            "Reverse alphabetical",
+            "By length",
+            "Unchanged"
+          ],
+          "answer": 0,
+          "explanation": "strcmp is negative when the first name comes first in the alphabet."
+        }
+      ]
+    },
+    {
+      "id": "c24-l3",
+      "title": "Tables of Functions",
+      "xp": 15,
+      "intro": [
+        "An array of function pointers turns a choice into a lookup: instead of a long if-else chain, you find the right entry in a table and call it. Menus, calculators and even the Unix kernel's system calls work like this.",
+        "A typedef makes these types readable: typedef int (*Op)(int, int); and then Op ops[4];.",
+        "Put a name and a function together in a struct, and you get a command table: to add a command, you add one line to the table."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "#include <string.h>",
+          "",
+          "typedef int (*Op)(int, int);",
+          "",
+          "int add(int a, int b) { return a + b; }",
+          "int sub(int a, int b) { return a - b; }",
+          "int mul(int a, int b) { return a * b; }",
+          "int divide(int a, int b) { return a / b; }",
+          "",
+          "struct command { char *name; Op run; };",
+          "",
+          "struct command commands[] = {",
+          "    {\"add\", add}, {\"sub\", sub}, {\"mul\", mul}, {\"div\", divide}",
+          "};",
+          "",
+          "int calc(char *name, int a, int b) {",
+          "    int i;",
+          "    for (i = 0; i < 4; i++)",
+          "        if (strcmp(commands[i].name, name) == 0)",
+          "            return commands[i].run(a, b);",
+          "    printf(\"unknown: %s\\n\", name);",
+          "    return 0;",
+          "}",
+          "",
+          "int main() {",
+          "    printf(\"%d\\n\", calc(\"add\", 6, 3));",
+          "    printf(\"%d\\n\", calc(\"mul\", 6, 3));",
+          "    printf(\"%d\\n\", calc(\"div\", 6, 3));",
+          "    return 0;",
+          "}"
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "c24-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "typedef int (*Op)(int, int); What is Op?",
+          "options": [
+            "A name for the type \"pointer to a function taking two ints and returning an int\"",
+            "A function",
+            "An operator",
+            "A variable"
+          ],
+          "answer": 0,
+          "explanation": "After the typedef, Op f; declares a function pointer."
+        },
+        {
+          "id": "c24-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "typedef int (*Op)(int, int);",
+            "int add(int a, int b) { return a + b; }",
+            "int mul(int a, int b) { return a * b; }",
+            "",
+            "int main() {",
+            "    Op ops[2] = {add, mul};",
+            "    printf(\"%d\\n\", ops[1](ops[0](1, 2), 4));",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "12",
+            "9",
+            "7",
+            "6"
+          ],
+          "answer": 0,
+          "explanation": "ops[0](1, 2) is add(1, 2) = 3, and ops[1](3, 4) is mul(3, 4) = 12."
+        },
+        {
+          "id": "c24-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Call the command's function.",
+          "code": [
+            "        if (strcmp(commands[i].name, name) == 0)",
+            "            return commands[i].___(a, b);"
+          ],
+          "options": [
+            "run",
+            "name",
+            "Op",
+            "calc"
+          ],
+          "answer": "run",
+          "explanation": "run is the function pointer in the struct."
+        },
+        {
+          "id": "c24-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "Why use a table instead of a long if-else chain?",
+          "options": [
+            "A new command is just one new line in the table",
+            "C requires it",
+            "if can't compare strings",
+            "Tables need no memory"
+          ],
+          "answer": 0,
+          "explanation": "The code that searches and calls never changes."
+        },
+        {
+          "id": "c24-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "In ops[i](a, b), what happens first?",
+          "options": [
+            "ops[i] picks a function pointer, then it's called with a and b",
+            "a and b are added",
+            "i is called",
+            "Nothing, it's an error"
+          ],
+          "answer": 0,
+          "explanation": "The [i] comes first, then the call."
+        },
+        {
+          "id": "c24-l3-e6",
+          "type": "order_lines",
+          "prompt": "Put the lines in order.",
+          "lines": [
+            "typedef int (*Op)(int, int);",
+            "Op ops[2] = {add, mul};",
+            "printf(\"%d\\n\", ops[0](2, 3));"
+          ],
+          "answer": [
+            "typedef int (*Op)(int, int);",
+            "Op ops[2] = {add, mul};",
+            "printf(\"%d\\n\", ops[0](2, 3));"
+          ],
+          "explanation": "First the type, then the table that uses it, then a call through the table."
+        }
+      ]
+    }
+  ]
+}

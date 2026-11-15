@@ -1,0 +1,399 @@
+{
+  "id": "cb3",
+  "title": "Talking to the Job",
+  "lessons": [
+    {
+      "id": "cb3-l1",
+      "title": "ACCEPT",
+      "xp": 15,
+      "intro": [
+        "A batch job doesn't ask questions while it runs. Its input comes on cards behind the program, called SYSIN. ACCEPT reads the next card into a field.",
+        "ACCEPT moves the card's text into the field like a MOVE: a short text is filled with spaces. A number card goes into a PIC 9 field as a number.",
+        "In this app, the cards are the lines in the SYSIN box: each ACCEPT takes the next one."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. WELCOME.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 CUSTOMER   PIC X(10).",
+          "       01 ITEMS      PIC 9(3).",
+          "       PROCEDURE DIVISION.",
+          "           ACCEPT CUSTOMER.",
+          "           ACCEPT ITEMS.",
+          "           DISPLAY \"WELCOME, \" CUSTOMER.",
+          "           DISPLAY \"ITEMS IN YOUR ORDER: \" ITEMS.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "WELCOME, GRACE     ",
+          "ITEMS IN YOUR ORDER: 003"
+        ],
+        "inputs": [
+          "GRACE",
+          "3"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb3-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "Where does ACCEPT get its input in a batch job?",
+          "options": [
+            "From the next SYSIN card",
+            "From the keyboard while the job runs",
+            "From a file on tape",
+            "From the printer"
+          ],
+          "answer": 0,
+          "explanation": "The cards were read in behind the program."
+        },
+        {
+          "id": "cb3-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "The SYSIN card is 7. What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. CARD.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 N PIC 9(3).",
+            "       PROCEDURE DIVISION.",
+            "           ACCEPT N.",
+            "           DISPLAY N.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "007",
+            "7",
+            "  7",
+            "700"
+          ],
+          "answer": 0,
+          "explanation": "A number in a PIC 9(3) field has 3 digits."
+        },
+        {
+          "id": "cb3-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Read the next card into CITY.",
+          "code": [
+            "           ___ CITY."
+          ],
+          "options": [
+            "ACCEPT",
+            "READ",
+            "INPUT",
+            "GET"
+          ],
+          "answer": "ACCEPT",
+          "explanation": "ACCEPT reads one card."
+        },
+        {
+          "id": "cb3-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "There are two ACCEPTs and two SYSIN cards. Which card does the second ACCEPT read?",
+          "options": [
+            "The second card",
+            "The first card again",
+            "Both cards",
+            "None"
+          ],
+          "answer": 0,
+          "explanation": "Each ACCEPT takes the next card."
+        },
+        {
+          "id": "cb3-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Why did batch jobs read cards instead of asking questions?",
+          "options": [
+            "The job ran later, without anyone at the terminal",
+            "Keyboards weren't invented",
+            "Questions cost extra",
+            "COBOL can't ask questions"
+          ],
+          "answer": 0,
+          "explanation": "You submitted a job and came back for the printout."
+        },
+        {
+          "id": "cb3-l1-e6",
+          "type": "order_lines",
+          "prompt": "Put the lines in order: read a name, then greet.",
+          "lines": [
+            "           ACCEPT GUEST.",
+            "           DISPLAY \"HELLO, \" GUEST.",
+            "           STOP RUN."
+          ],
+          "answer": [
+            "           ACCEPT GUEST.",
+            "           DISPLAY \"HELLO, \" GUEST.",
+            "           STOP RUN."
+          ],
+          "explanation": "Read first, then use it."
+        }
+      ]
+    },
+    {
+      "id": "cb3-l2",
+      "title": "ADD",
+      "xp": 15,
+      "intro": [
+        "ADD 1 TO VISITS adds 1 to a field. ADD PRICE TO TOTAL adds one field to another. It reads almost like English.",
+        "A field that is added to must hold a number first: give it VALUE ZERO. A PIC 9 field without a VALUE holds spaces, and adding to spaces stops the job with the most famous abend of them all, S0C7: a data exception.",
+        "ADD A B TO C adds A and B to C. Like MOVE, ADD loses the front digits if the result is too big for the field."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. VISITS.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 VISITS    PIC 9(3) VALUE ZERO.",
+          "       01 BONUS     PIC 9(3) VALUE 10.",
+          "       PROCEDURE DIVISION.",
+          "           ADD 1 TO VISITS.",
+          "           ADD 1 TO VISITS.",
+          "           ADD BONUS TO VISITS.",
+          "           DISPLAY \"VISITS: \" VISITS.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "VISITS: 012"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb3-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. SUM.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 N PIC 9(3) VALUE 10.",
+            "       PROCEDURE DIVISION.",
+            "           ADD 5 TO N.",
+            "           DISPLAY N.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "015",
+            "15",
+            "10",
+            "005"
+          ],
+          "answer": 0,
+          "explanation": "10 plus 5, in a 3-digit field."
+        },
+        {
+          "id": "cb3-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What is ABEND S0C7?",
+          "options": [
+            "A data exception: a number field doesn't hold a valid number",
+            "Division by zero",
+            "The job ran too long",
+            "A missing period"
+          ],
+          "answer": 0,
+          "explanation": "Every COBOL programmer has seen it. Usually a field was never given a value."
+        },
+        {
+          "id": "cb3-l2-e3",
+          "type": "find_bug",
+          "prompt": "This job stops with ABEND S0C7. Which line is wrong?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. COUNT.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 COUNTER PIC 9(3).",
+            "       PROCEDURE DIVISION.",
+            "           ADD 1 TO COUNTER.",
+            "           DISPLAY COUNTER.",
+            "           STOP RUN."
+          ],
+          "answer": 4,
+          "explanation": "COUNTER has no VALUE, so it holds spaces. Add VALUE ZERO."
+        },
+        {
+          "id": "cb3-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Add PRICE to TOTAL.",
+          "code": [
+            "           ADD PRICE ___ TOTAL."
+          ],
+          "options": [
+            "TO",
+            "INTO",
+            "+",
+            "AND"
+          ],
+          "answer": "TO",
+          "explanation": "ADD … TO …"
+        },
+        {
+          "id": "cb3-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. OVER.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 N PIC 99 VALUE 6.",
+            "       PROCEDURE DIVISION.",
+            "           ADD 99 TO N.",
+            "           DISPLAY N.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "05",
+            "105",
+            "10",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "6 + 99 = 105, but only 2 digits fit: the 1 is lost."
+        },
+        {
+          "id": "cb3-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Which start value makes a counter safe to ADD to?",
+          "options": [
+            "VALUE ZERO",
+            "VALUE SPACES",
+            "No VALUE",
+            "VALUE \"0\""
+          ],
+          "answer": 0,
+          "explanation": "ZERO puts a real 0 into every digit."
+        }
+      ]
+    },
+    {
+      "id": "cb3-l3",
+      "title": "Reading the Listing",
+      "xp": 15,
+      "intro": [
+        "When a job fails, the mainframe tells you how. A compile error comes from the compiler's listing, with the line: IKF ERROR, LINE 5. Then nothing runs at all.",
+        "If the program compiles but something goes wrong while it runs, the job ABENDs (abnormal end) with a code: S0C7 for bad data in a number field, S0CB for division by zero, S322 when the job runs too long.",
+        "Reading these messages is half of a COBOL programmer's job. The example shows a job that works; the exercises show what happens when it doesn't."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. STATUS.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 JOB-NO     PIC 9(5) VALUE 4711.",
+          "       01 STEPS      PIC 9    VALUE ZERO.",
+          "       PROCEDURE DIVISION.",
+          "           DISPLAY \"JOB \" JOB-NO \" STARTED\".",
+          "           ADD 1 TO STEPS.",
+          "           ADD 1 TO STEPS.",
+          "           DISPLAY \"STEPS DONE: \" STEPS.",
+          "           DISPLAY \"JOB \" JOB-NO \" ENDED\".",
+          "           STOP RUN."
+        ],
+        "output": [
+          "JOB 04711 STARTED",
+          "STEPS DONE: 2",
+          "JOB 04711 ENDED"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb3-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "A job shows IKF ERROR, LINE 5. What happened?",
+          "options": [
+            "The compiler found a mistake on line 5, and nothing ran",
+            "Line 5 ran 5 times",
+            "The job ran out of time",
+            "The printer jammed"
+          ],
+          "answer": 0,
+          "explanation": "Compile errors stop the job before it starts."
+        },
+        {
+          "id": "cb3-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does ABEND mean?",
+          "options": [
+            "Abnormal end: the job stopped with an error while running",
+            "A normal end",
+            "A compile warning",
+            "A kind of loop"
+          ],
+          "answer": 0,
+          "explanation": "Every abend has a code like S0C7."
+        },
+        {
+          "id": "cb3-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "A job abends with S322. What's the likely cause?",
+          "options": [
+            "It ran too long, maybe in a loop that never ends",
+            "Bad data in a number field",
+            "A missing period",
+            "Division by zero"
+          ],
+          "answer": 0,
+          "explanation": "S322 means the time limit was used up."
+        },
+        {
+          "id": "cb3-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "Which code means bad data in a number field?",
+          "options": [
+            "S0C7",
+            "S322",
+            "S0CB",
+            "IKF"
+          ],
+          "answer": 0,
+          "explanation": "The data exception."
+        },
+        {
+          "id": "cb3-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. NINE.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 N PIC 9 VALUE 9.",
+            "       PROCEDURE DIVISION.",
+            "           ADD 1 TO N.",
+            "           DISPLAY N.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "0",
+            "10",
+            "01",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "PIC 9 holds one digit: 9 + 1 = 10, and the 1 is lost. No abend, no warning: just the wrong answer."
+        },
+        {
+          "id": "cb3-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why is a wrong answer without an abend worse than an abend?",
+          "options": [
+            "Nobody notices, and the wrong number goes on into the bills",
+            "It isn't worse",
+            "It's slower",
+            "It uses more paper"
+          ],
+          "answer": 0,
+          "explanation": "That's why COBOL programmers choose their PIC sizes carefully."
+        }
+      ]
+    }
+  ]
+}

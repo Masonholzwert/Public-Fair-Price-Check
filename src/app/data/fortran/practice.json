@@ -1,0 +1,882 @@
+{
+ "challenges": [
+  {
+   "id": "f-hello-deck",
+   "unit": "f1",
+   "difficulty": 1,
+   "title": "Two Lines",
+   "task": "Print FORTRAN on the first line and IV on the second, with two WRITEs.",
+   "xp": 15,
+   "starter": "C     TWO LINES\n",
+   "expectedOutput": "FORTRAN\nIV",
+   "requirements": [
+    {
+     "pattern": "WRITE[\\s\\S]*WRITE",
+     "message": "Use one WRITE per line."
+    }
+   ],
+   "hints": [
+    "WRITE (6,10) with 10 FORMAT (' FORTRAN').",
+    "A second WRITE (6,20) with its own FORMAT.",
+    "End with STOP and END."
+   ]
+  },
+  {
+   "id": "f-comment-card",
+   "unit": "f1",
+   "difficulty": 1,
+   "title": "Comment the Deck",
+   "task": "Start the deck with a comment card, then print 1957.",
+   "xp": 15,
+   "starter": "C     COMMENT THE DECK\n",
+   "expectedOutput": "1957",
+   "requirements": [
+    {
+     "pattern": "^C",
+     "message": "Start with a comment card: C in column 1."
+    }
+   ],
+   "hints": [
+    "A card with C in column 1 is a comment.",
+    "Then WRITE (6,10) and 10 FORMAT (' 1957').",
+    "STOP and END."
+   ]
+  },
+  {
+   "id": "f-seconds",
+   "unit": "f2",
+   "difficulty": 1,
+   "title": "Seconds in a Day",
+   "task": "Compute the seconds in a day (24 × 60 × 60) and print the result as an integer.",
+   "xp": 15,
+   "starter": "C     SECONDS IN A DAY\n",
+   "expectedOutput": "86400",
+   "requirements": [
+    {
+     "pattern": "\\*",
+     "message": "Let the computer multiply."
+    }
+   ],
+   "hints": [
+    "Use an integer variable: ISEC = 24 * 60 * 60.",
+    "Print with I6.",
+    "WRITE (6,10) ISEC with 10 FORMAT (1X, I6)."
+   ]
+  },
+  {
+   "id": "f-celsius",
+   "unit": "f2",
+   "difficulty": 2,
+   "title": "Fahrenheit to Celsius",
+   "task": "Convert 98.6 °F to Celsius with C = (F - 32) × 5 / 9 and print it with one decimal. Watch out for integer division!",
+   "xp": 25,
+   "starter": "C     FAHRENHEIT TO CELSIUS\n",
+   "expectedOutput": "37.0",
+   "requirements": [
+    {
+     "pattern": "F\\s*\\d+\\s*\\.\\s*1",
+     "message": "Print with one decimal, like F6.1."
+    }
+   ],
+   "hints": [
+    "F = 98.6.",
+    "Use reals: C = (F - 32.0) * 5.0 / 9.0.",
+    "WRITE (6,10) C with 10 FORMAT (1X, F6.1)."
+   ]
+  },
+  {
+   "id": "f-label-value",
+   "unit": "f3",
+   "difficulty": 1,
+   "title": "Label and Value",
+   "task": "Set K = 42 and print it as ANSWER = 42, label and number on one line.",
+   "xp": 15,
+   "starter": "C     LABEL AND VALUE\n",
+   "expectedOutput": "ANSWER = 42",
+   "requirements": [
+    {
+     "pattern": "I\\s*\\d",
+     "message": "Print the number with an I format."
+    }
+   ],
+   "hints": [
+    "K = 42.",
+    "Text goes into the FORMAT: 10 FORMAT (' ANSWER =', I3).",
+    "WRITE (6,10) K."
+   ]
+  },
+  {
+   "id": "f-receipt",
+   "unit": "f3",
+   "difficulty": 2,
+   "title": "The Receipt",
+   "task": "Print two lines exactly: COFFEE    1.80 and CAKE      2.50. Use one FORMAT with text and F format for both lines.",
+   "xp": 25,
+   "starter": "C     THE RECEIPT\n",
+   "expectedOutput": "COFFEE    1.80\nCAKE      2.50",
+   "requirements": [
+    {
+     "pattern": "F\\s*\\d+\\s*\\.\\s*2",
+     "message": "Print the prices with F and two decimals."
+    }
+   ],
+   "hints": [
+    "One FORMAT per line: 10 FORMAT (' COFFEE', F8.2).",
+    "And 20 FORMAT (' CAKE', F10.2): the widths make the prices line up.",
+    "WRITE (6,10) 1.80 and WRITE (6,20) 2.50."
+   ],
+   "exact": true
+  },
+  {
+   "id": "f-skip",
+   "unit": "f4",
+   "difficulty": 1,
+   "title": "Jump Over",
+   "task": "Set N = 1, then jump over a card that would set N = 2, and print N.",
+   "xp": 15,
+   "starter": "C     JUMP OVER\n",
+   "expectedOutput": "1",
+   "requirements": [
+    {
+     "pattern": "GO\\s*TO",
+     "message": "Skip the card with GO TO."
+    }
+   ],
+   "hints": [
+    "N = 1, then GO TO 20.",
+    "The skipped card: N = 2.",
+    "20 WRITE (6,30) N."
+   ]
+  },
+  {
+   "id": "f-sign",
+   "unit": "f4",
+   "difficulty": 2,
+   "title": "Plus or Minus",
+   "task": "Set X = -2.5 and use the three-way IF to print NEGATIVE, ZERO or POSITIVE.",
+   "xp": 25,
+   "starter": "C     PLUS OR MINUS\n",
+   "expectedOutput": "NEGATIVE",
+   "requirements": [
+    {
+     "pattern": "IF\\s*\\(.*\\)\\s*\\d+\\s*,\\s*\\d+\\s*,\\s*\\d+",
+     "message": "Use the three-way IF."
+    }
+   ],
+   "hints": [
+    "IF (X) 10, 20, 30.",
+    "Each branch has its WRITE and a GO TO to the end.",
+    "Don't forget the FORMATs."
+   ]
+  },
+  {
+   "id": "f-even-odd",
+   "unit": "f5",
+   "difficulty": 1,
+   "title": "Even or Odd",
+   "task": "Set N = 14 and print EVEN or ODD, using MOD and logical IFs.",
+   "xp": 15,
+   "starter": "C     EVEN OR ODD\n",
+   "expectedOutput": "EVEN",
+   "requirements": [
+    {
+     "pattern": "MOD\\s*\\(",
+     "message": "Test with MOD(N, 2)."
+    },
+    {
+     "pattern": "\\.EQ\\.|\\.NE\\.",
+     "message": "Compare with .EQ. or .NE."
+    }
+   ],
+   "hints": [
+    "MOD(N, 2) is 0 for even numbers.",
+    "IF (MOD(N, 2) .EQ. 0) WRITE (6,10).",
+    "IF (MOD(N, 2) .NE. 0) WRITE (6,20)."
+   ]
+  },
+  {
+   "id": "f-teen",
+   "unit": "f5",
+   "difficulty": 2,
+   "title": "Teenager?",
+   "task": "Set IAGE = 15. Print TEENAGER if the age is from 13 to 19, otherwise NOT A TEENAGER.",
+   "xp": 25,
+   "starter": "C     TEENAGER?\n",
+   "expectedOutput": "TEENAGER",
+   "requirements": [
+    {
+     "pattern": "\\.AND\\.",
+     "message": "Combine both checks with .AND."
+    }
+   ],
+   "hints": [
+    "IF (IAGE .GE. 13 .AND. IAGE .LE. 19) GO TO 10.",
+    "Otherwise WRITE NOT A TEENAGER and GO TO 30.",
+    "10 WRITE TEENAGER."
+   ]
+  },
+  {
+   "id": "f-squares",
+   "unit": "f6",
+   "difficulty": 1,
+   "title": "Squares",
+   "task": "Print the squares of 1 to 5, one per line, with a DO loop.",
+   "xp": 15,
+   "starter": "C     SQUARES\n",
+   "expectedOutput": "1\n4\n9\n16\n25",
+   "requirements": [
+    {
+     "pattern": "^\\s*DO\\s+\\d+",
+     "message": "Use a DO loop."
+    }
+   ],
+   "hints": [
+    "DO 10 I = 1, 5.",
+    "K = I * I, then WRITE (6,20) K.",
+    "10 CONTINUE and 20 FORMAT (1X, I3)."
+   ]
+  },
+  {
+   "id": "f-sum-odd",
+   "unit": "f6",
+   "difficulty": 2,
+   "title": "Odd Sum",
+   "task": "Add up the odd numbers from 1 to 99 with a DO loop and a step, and print the sum.",
+   "xp": 25,
+   "starter": "C     ODD SUM\n",
+   "expectedOutput": "2500",
+   "requirements": [
+    {
+     "pattern": "^\\s*DO\\s+\\d+\\s+\\w+\\s*=\\s*1\\s*,\\s*99\\s*,\\s*2",
+     "message": "Use DO … = 1, 99, 2."
+    }
+   ],
+   "hints": [
+    "ISUM = 0 before the loop.",
+    "DO 10 I = 1, 99, 2 with ISUM = ISUM + I.",
+    "Print with I5."
+   ]
+  },
+  {
+   "id": "f-triangle",
+   "unit": "f6",
+   "difficulty": 3,
+   "title": "Number Staircase",
+   "task": "Print 1, 12, 123 and 1234 on four lines. Build each number with an inner DO loop inside an outer one.",
+   "xp": 40,
+   "starter": "C     NUMBER STAIRCASE\n",
+   "expectedOutput": "1\n12\n123\n1234",
+   "requirements": [
+    {
+     "pattern": "^\\s*DO\\s+\\d+[\\s\\S]*^\\s*DO\\s+\\d+",
+     "message": "Use two nested DO loops."
+    }
+   ],
+   "hints": [
+    "Build each number in K: start K = 0 for each line.",
+    "Inner loop: K = K * 10 + J for J = 1 to I.",
+    "Then WRITE (6,30) K with 30 FORMAT (1X, I4)."
+   ]
+  },
+  {
+   "id": "f-array-sum",
+   "unit": "f7",
+   "difficulty": 1,
+   "title": "Array Total",
+   "task": "Store 3, 5, 8 and 13 in an integer array and print their sum, using a DO loop.",
+   "xp": 15,
+   "starter": "C     ARRAY TOTAL\n",
+   "expectedOutput": "29",
+   "requirements": [
+    {
+     "pattern": "DIMENSION",
+     "message": "Use an array."
+    },
+    {
+     "pattern": "^\\s*DO\\s+\\d+",
+     "message": "Add them up with a DO loop."
+    }
+   ],
+   "hints": [
+    "DIMENSION K(4), then K(1) = 3 … K(4) = 13.",
+    "ISUM = 0, DO 10 I = 1, 4 with ISUM = ISUM + K(I).",
+    "Print with I4."
+   ]
+  },
+  {
+   "id": "f-reverse",
+   "unit": "f7",
+   "difficulty": 2,
+   "title": "Backwards",
+   "task": "Fill K(1) to K(5) with 10, 20, 30, 40, 50 using a DO loop, then print them backwards on one line.",
+   "xp": 25,
+   "starter": "C     BACKWARDS\n",
+   "expectedOutput": "50 40 30 20 10",
+   "requirements": [
+    {
+     "pattern": "DIMENSION",
+     "message": "Use an array."
+    }
+   ],
+   "hints": [
+    "DO 10 I = 1, 5 with K(I) = 10 * I.",
+    "Print with an implied DO: (K(6 - I), I = 1, 5).",
+    "FORMAT (1X, 5I4)."
+   ]
+  },
+  {
+   "id": "f-read-two",
+   "unit": "f8",
+   "difficulty": 1,
+   "title": "Read and Multiply",
+   "task": "A data card holds two integers in columns 1–5 and 6–10. Read them and print their product.",
+   "xp": 15,
+   "starter": "C     READ AND MULTIPLY\n",
+   "expectedOutput": "56",
+   "requirements": [
+    {
+     "pattern": "READ\\s*\\(\\s*5",
+     "message": "Read the card with READ (5, …)."
+    }
+   ],
+   "hints": [
+    "READ (5,10) I, J with 10 FORMAT (2I5).",
+    "K = I * J.",
+    "WRITE (6,20) K with 20 FORMAT (1X, I5)."
+   ],
+   "inputs": [
+    "    7    8"
+   ]
+  },
+  {
+   "id": "f-largest-card",
+   "unit": "f8",
+   "difficulty": 2,
+   "title": "The Largest Value",
+   "task": "Read integers from data cards (columns 1–4) until the -1 card, and print the largest.",
+   "xp": 25,
+   "starter": "C     THE LARGEST VALUE\n",
+   "expectedOutput": "93",
+   "requirements": [
+    {
+     "pattern": "READ\\s*\\(\\s*5",
+     "message": "Read with READ (5, …)."
+    },
+    {
+     "pattern": "\\.LT\\.|\\.GT\\.",
+     "message": "Compare with .GT. or .LT."
+    }
+   ],
+   "hints": [
+    "MAXV = 0, then 10 READ (5,20) K with 20 FORMAT (I4).",
+    "IF (K .LT. 0) GO TO 30, then IF (K .GT. MAXV) MAXV = K, then GO TO 10.",
+    "30 WRITE (6,40) MAXV."
+   ],
+   "inputs": [
+    "  41",
+    "  93",
+    "  17",
+    "  88",
+    "  -1"
+   ]
+  },
+  {
+   "id": "f-scientific",
+   "unit": "f9",
+   "difficulty": 1,
+   "title": "Big Number",
+   "task": "Print Avogadro's number, 6.022E23, in E format with 4 digits.",
+   "xp": 15,
+   "starter": "C     BIG NUMBER\n",
+   "expectedOutput": "0.6022E+24",
+   "requirements": [
+    {
+     "pattern": "E\\s*\\d+\\s*\\.\\s*4",
+     "message": "Use an E format with 4 digits, like E12.4."
+    }
+   ],
+   "hints": [
+    "A = 6.022E23.",
+    "WRITE (6,10) A.",
+    "10 FORMAT (1X, E12.4)."
+   ]
+  },
+  {
+   "id": "f-grid",
+   "unit": "f9",
+   "difficulty": 2,
+   "title": "Number Grid",
+   "task": "Print the numbers 1 to 12 in rows of 4, using one WRITE with an implied DO and FORMAT (1X, 4I4).",
+   "xp": 25,
+   "starter": "C     NUMBER GRID\n",
+   "expectedOutput": "   1   2   3   4\n   5   6   7   8\n   9  10  11  12",
+   "requirements": [
+    {
+     "pattern": "4\\s*I\\s*4",
+     "message": "Use FORMAT (1X, 4I4)."
+    }
+   ],
+   "hints": [
+    "WRITE (6,10) (I, I = 1, 12).",
+    "The format has room for 4 numbers, so FORTRAN starts a new line for the next 4.",
+    "10 FORMAT (1X, 4I4)."
+   ],
+   "exact": true
+  },
+  {
+   "id": "f-table-sum",
+   "unit": "f7",
+   "difficulty": 3,
+   "title": "Table Totals",
+   "task": "Fill a 3 × 3 table with M(I,J) = I × J and print the sum of each row on its own line.",
+   "xp": 40,
+   "starter": "C     TABLE TOTALS\n",
+   "expectedOutput": "6\n12\n18",
+   "requirements": [
+    {
+     "pattern": "DIMENSION\\s+\\w+\\s*\\(\\s*3\\s*,\\s*3",
+     "message": "Use a two-index array like DIMENSION M(3,3)."
+    },
+    {
+     "pattern": "^\\s*DO\\s+\\d+[\\s\\S]*^\\s*DO\\s+\\d+",
+     "message": "Use nested DO loops."
+    }
+   ],
+   "hints": [
+    "DIMENSION M(3,3), then fill it with two nested loops.",
+    "For each row I: ISUM = 0, then add M(I,J) for J = 1 to 3.",
+    "WRITE (6,30) ISUM after each row."
+   ]
+  },
+  {
+   "id": "f-stmt-fn",
+   "unit": "f10",
+   "difficulty": 1,
+   "title": "Circle Function",
+   "task": "Define a statement function for the area of a circle (3.14159 × R²) and print the area for R = 3.0 with two decimals.",
+   "xp": 15,
+   "starter": "C     CIRCLE FUNCTION\n",
+   "expectedOutput": "28.27",
+   "requirements": [
+    {
+     "pattern": "^\\s*\\w+\\s*\\(\\s*\\w+\\s*\\)\\s*=",
+     "message": "Define a one-line statement function, like AREA(R) = …"
+    }
+   ],
+   "hints": [
+    "AREA(R) = 3.14159 * R ** 2 at the top.",
+    "A = AREA(3.0).",
+    "Print with F8.2."
+   ]
+  },
+  {
+   "id": "f-power-fn",
+   "unit": "f10",
+   "difficulty": 2,
+   "title": "Powers of Two",
+   "task": "Write FUNCTION IPOW2(N) that works out 2 to the power N with a loop (no **). Print IPOW2(10).",
+   "xp": 25,
+   "starter": "C     POWERS OF TWO\n",
+   "expectedOutput": "1024",
+   "requirements": [
+    {
+     "pattern": "FUNCTION\\s+IPOW2",
+     "message": "Write FUNCTION IPOW2(N)."
+    }
+   ],
+   "hints": [
+    "Main: WRITE (6,10) IPOW2(10) with 10 FORMAT (1X, I6).",
+    "In the function: IPOW2 = 1, then DO 10 I = 1, N with IPOW2 = IPOW2 * 2.",
+    "RETURN and END."
+   ]
+  },
+  {
+   "id": "f-banner",
+   "unit": "f11",
+   "difficulty": 1,
+   "title": "Banner",
+   "task": "Write SUBROUTINE STARS that prints ********. Call it, print WELCOME, and call it again.",
+   "xp": 15,
+   "starter": "C     BANNER\n",
+   "expectedOutput": "********\nWELCOME\n********",
+   "requirements": [
+    {
+     "pattern": "SUBROUTINE\\s+STARS",
+     "message": "Write SUBROUTINE STARS."
+    },
+    {
+     "pattern": "CALL[\\s\\S]*CALL",
+     "message": "Call it twice."
+    }
+   ],
+   "hints": [
+    "Main: CALL STARS, WRITE WELCOME, CALL STARS, STOP, END.",
+    "SUBROUTINE STARS with WRITE (6,10) and 10 FORMAT (' ********').",
+    "RETURN and END."
+   ]
+  },
+  {
+   "id": "f-minmax-sub",
+   "unit": "f11",
+   "difficulty": 2,
+   "title": "Order Two",
+   "task": "Write SUBROUTINE ORDER(A, B) that swaps A and B if A is bigger. Call it with A = 9.0 and B = 4.0 and print both.",
+   "xp": 25,
+   "starter": "C     ORDER TWO\n",
+   "expectedOutput": "4.0 9.0",
+   "requirements": [
+    {
+     "pattern": "SUBROUTINE\\s+ORDER",
+     "message": "Write SUBROUTINE ORDER(A, B)."
+    },
+    {
+     "pattern": "CALL\\s+ORDER",
+     "message": "CALL ORDER from the main program."
+    }
+   ],
+   "hints": [
+    "IF (A .LE. B) RETURN skips the swap when they're already in order.",
+    "Swap with a spare variable: T = A, A = B, B = T.",
+    "Main: CALL ORDER(X, Y), then WRITE (6,10) X, Y with 10 FORMAT (1X, 2F5.1)."
+   ]
+  },
+  {
+   "id": "f-days-data",
+   "unit": "f12",
+   "difficulty": 1,
+   "title": "Days in Months",
+   "task": "Keep the days of the first six months (31, 28, 31, 30, 31, 30) in a DATA statement and print their total.",
+   "xp": 15,
+   "starter": "C     DAYS IN MONTHS\n",
+   "expectedOutput": "181",
+   "requirements": [
+    {
+     "pattern": "^\\s*DATA",
+     "message": "Use a DATA statement."
+    }
+   ],
+   "hints": [
+    "DIMENSION K(6) and DATA K / 31, 28, 31, 30, 31, 30 /.",
+    "Add them with a DO loop.",
+    "Print with I4."
+   ]
+  },
+  {
+   "id": "f-common-g",
+   "unit": "f12",
+   "difficulty": 2,
+   "title": "Shared Gravity",
+   "task": "Put G = 9.81 in COMMON. A subroutine FALL(T) prints the fall distance G × T² / 2 with one decimal. Call it for T = 2.0.",
+   "xp": 25,
+   "starter": "C     SHARED GRAVITY\n",
+   "expectedOutput": "19.6",
+   "requirements": [
+    {
+     "pattern": "^\\s*COMMON[\\s\\S]*^\\s*COMMON",
+     "message": "Share G with COMMON in both units."
+    },
+    {
+     "pattern": "SUBROUTINE\\s+FALL",
+     "message": "Write SUBROUTINE FALL(T)."
+    }
+   ],
+   "hints": [
+    "Main: COMMON G, G = 9.81, CALL FALL(2.0).",
+    "SUBROUTINE FALL(T) with COMMON G.",
+    "D = G * T ** 2 / 2.0, printed with F6.1."
+   ]
+  },
+  {
+   "id": "f-newton-5",
+   "unit": "f13",
+   "difficulty": 1,
+   "title": "Root of 5",
+   "task": "Use 6 rounds of Newton's method from X = 1.0 to find the square root of 5. Print it with 4 decimals.",
+   "xp": 15,
+   "starter": "C     ROOT OF 5\n",
+   "expectedOutput": "2.2361",
+   "requirements": [
+    {
+     "pattern": "/\\s*X",
+     "message": "Use Newton's step: (X + A / X) / 2."
+    }
+   ],
+   "hints": [
+    "A = 5.0, X = 1.0.",
+    "DO 10 I = 1, 6 with X = (X + A / X) / 2.0.",
+    "Print with F8.4."
+   ]
+  },
+  {
+   "id": "f-cube-root",
+   "unit": "f13",
+   "difficulty": 3,
+   "title": "Cube Root",
+   "task": "Find the cube root of 100 with Newton's method, X = (2X + A / X²) / 3, starting at X = 1.0, until the change is below 1.0E-6. Print it with 4 decimals.",
+   "xp": 40,
+   "starter": "C     CUBE ROOT\n",
+   "expectedOutput": "4.6416",
+   "requirements": [
+    {
+     "pattern": "ABS\\s*\\(",
+     "message": "Stop when ABS of the change is small."
+    },
+    {
+     "pattern": "\\*\\*\\s*2|X\\s*\\*\\s*X",
+     "message": "Divide by X squared."
+    }
+   ],
+   "hints": [
+    "A = 100.0, X = 1.0, then 10 XNEW = (2.0 * X + A / X ** 2) / 3.0.",
+    "IF (ABS(XNEW - X) .LT. 1.0E-6) GO TO 20, else X = XNEW and GO TO 10.",
+    "20 WRITE with F8.4."
+   ]
+  },
+  {
+   "id": "f-flight-time",
+   "unit": "f14",
+   "difficulty": 1,
+   "title": "Flight Time",
+   "task": "A ball is thrown straight up at 20 m/s. Compute the time until it lands, T = 2 × V / 9.81, and print it with 2 decimals.",
+   "xp": 15,
+   "starter": "C     FLIGHT TIME\n",
+   "expectedOutput": "4.08",
+   "requirements": [
+    {
+     "pattern": "9\\.81",
+     "message": "Use g = 9.81."
+    }
+   ],
+   "hints": [
+    "V = 20.0.",
+    "T = 2.0 * V / 9.81.",
+    "Print with F6.2."
+   ]
+  },
+  {
+   "id": "f-max-height",
+   "unit": "f14",
+   "difficulty": 2,
+   "title": "Highest Point",
+   "task": "A shell is fired at 60 m/s at 30 degrees. The highest point is (V × SIN(angle))² / (2 × 9.81). Print it with one decimal.",
+   "xp": 25,
+   "starter": "C     HIGHEST POINT\n",
+   "expectedOutput": "45.9",
+   "requirements": [
+    {
+     "pattern": "SIN\\s*\\(",
+     "message": "Use SIN for the upward part."
+    }
+   ],
+   "hints": [
+    "Convert: RAD = 30.0 * 3.14159 / 180.0.",
+    "VY = 60.0 * SIN(RAD).",
+    "H = VY ** 2 / (2.0 * 9.81), printed with F6.1."
+   ]
+  },
+  {
+   "id": "f-area-x3",
+   "unit": "f15",
+   "difficulty": 2,
+   "title": "Area of a Cube Curve",
+   "task": "Use the trapezoid rule with N = 20 to find the area under X³ from 0 to 2 (exactly 4). Print it with 4 decimals.",
+   "xp": 25,
+   "starter": "C     AREA OF A CUBE CURVE\n",
+   "expectedOutput": "4.0100",
+   "requirements": [
+    {
+     "pattern": "/\\s*2",
+     "message": "Count the end points half."
+    }
+   ],
+   "hints": [
+    "H = 2.0 / 20.0, SUM = (0.0 + 2.0 ** 3) / 2.0.",
+    "DO 10 I = 1, 19 with X = FLOAT(I) * H and SUM = SUM + X ** 3.",
+    "Area = SUM * H, printed with F8.4."
+   ]
+  },
+  {
+   "id": "f-parabola-area",
+   "unit": "f15",
+   "difficulty": 2,
+   "title": "The Area Under X²",
+   "task": "Use the trapezoid rule with N = 10 strips to compute the area under X**2 from 0 to 1. Print it with four decimals. (The exact answer is 1/3: why is yours a little bigger?)",
+   "xp": 25,
+   "starter": "C     AREA UNDER X SQUARED\n",
+   "expectedOutput": "0.3350",
+   "requirements": [
+    {
+     "pattern": "\\*\\*\\s*2",
+     "message": "Integrate X ** 2."
+    },
+    {
+     "pattern": "/\\s*2",
+     "message": "Count the end points half."
+    }
+   ],
+   "hints": [
+    "H = 0.1, SUM = (0.0 + 1.0) / 2.0",
+    "DO 10 I = 1, 9 with X = FLOAT(I) * H and SUM = SUM + X ** 2, then SUM = SUM * H."
+   ]
+  },
+  {
+   "id": "f-truth-table",
+   "unit": "f16",
+   "difficulty": 1,
+   "title": "The Truth Table",
+   "task": "Print the truth table of .AND.: for A and B being .TRUE. or .FALSE., print A, B and A .AND. B with L format, in this order:\nT T T\nT F F\nF T F\nF F F",
+   "xp": 15,
+   "starter": "C     TRUTH TABLE\n",
+   "expectedOutput": "T T T\nT F F\nF T F\nF F F",
+   "requirements": [
+    {
+     "pattern": "LOGICAL",
+     "message": "Declare LOGICAL variables."
+    },
+    {
+     "pattern": "\\.AND\\.",
+     "message": "Use .AND.."
+    },
+    {
+     "pattern": "L\\s*\\d",
+     "message": "Print with an L format."
+    }
+   ],
+   "hints": [
+    "LOGICAL A, B, then four groups: A = .TRUE. and B = .TRUE., WRITE …",
+    "FORMAT (1X, L1, L2, L2)"
+   ]
+  },
+  {
+   "id": "f-dispatch",
+   "unit": "f16",
+   "difficulty": 2,
+   "title": "The Job Codes",
+   "task": "A deck of job cards has the codes 3, 1 and 2 (keep them in an array with DATA). For each code, jump with a computed GO TO and print PRINT for 3, ADD for 1 and SUB for 2.",
+   "xp": 25,
+   "starter": "C     JOB CODES\n",
+   "expectedOutput": "PRINT\nADD\nSUB",
+   "requirements": [
+    {
+     "pattern": "GO\\s*TO\\s*\\(",
+     "message": "Jump with a computed GO TO."
+    },
+    {
+     "pattern": "DATA",
+     "message": "Keep the codes in an array with DATA."
+    }
+   ],
+   "hints": [
+    "DIMENSION KODE(3) with DATA KODE /3, 1, 2/",
+    "DO 50 I = 1, 3, then K = KODE(I) and GO TO (10, 20, 30), K. Each label writes its word and jumps to 50."
+   ]
+  },
+  {
+   "id": "f-one-third",
+   "unit": "f17",
+   "difficulty": 1,
+   "title": "One Third, Twice",
+   "task": "Compute 1/3 as a REAL and as DOUBLE PRECISION, and print both with F20.16. See how many digits are right:\n0.3333333432674408\n0.3333333333333333",
+   "xp": 15,
+   "starter": "C     ONE THIRD\n",
+   "expectedOutput": "0.3333333432674408\n0.3333333333333333",
+   "requirements": [
+    {
+     "pattern": "DOUBLE\\s*PRECISION",
+     "message": "Declare a DOUBLE PRECISION variable."
+    },
+    {
+     "pattern": "D0",
+     "message": "Write the double constants with D, like 1.0D0."
+    }
+   ],
+   "hints": [
+    "X = 1.0 / 3.0 and D = 1.0D0 / 3.0D0",
+    "FORMAT (1X, F20.16)"
+   ]
+  },
+  {
+   "id": "f-complex-product",
+   "unit": "f17",
+   "difficulty": 2,
+   "title": "A Complex Product",
+   "task": "Multiply 2 + 3i by 4 - i with COMPLEX variables. Print the product (two F7.2 fields) and its length with CABS (F7.2):\n11.00 10.00\n14.87",
+   "xp": 25,
+   "starter": "C     COMPLEX PRODUCT\n",
+   "expectedOutput": "11.00 10.00\n14.87",
+   "requirements": [
+    {
+     "pattern": "COMPLEX",
+     "message": "Use COMPLEX variables."
+    },
+    {
+     "pattern": "CMPLX\\s*\\(",
+     "message": "Make the numbers with CMPLX."
+    },
+    {
+     "pattern": "CABS\\s*\\(",
+     "message": "Get the length with CABS."
+    }
+   ],
+   "hints": [
+    "Z = CMPLX(2.0, 3.0), W = CMPLX(4.0, -1.0), P = Z * W",
+    "WRITE (6,10) P with FORMAT (1X, 2F7.2), then WRITE (6,20) CABS(P)."
+   ]
+  },
+  {
+   "id": "f-initials",
+   "unit": "f18",
+   "difficulty": 1,
+   "title": "Initials",
+   "task": "John Backus led the FORTRAN team. Keep the letters J, B and a full stop in INTEGER variables filled by DATA with Hollerith constants, and print his initials with an A format:\nJ.B.",
+   "xp": 15,
+   "starter": "C     INITIALS\n",
+   "expectedOutput": "J.B.",
+   "requirements": [
+    {
+     "pattern": "DATA",
+     "message": "Fill the letters with DATA."
+    },
+    {
+     "pattern": "1H",
+     "message": "Use Hollerith constants like 1HJ."
+    },
+    {
+     "pattern": "A\\s*1",
+     "message": "Print with A1."
+    }
+   ],
+   "hints": [
+    "INTEGER J, B, DOT with DATA J /1HJ/, B /1HB/, DOT /1H./",
+    "WRITE (6,10) J, DOT, B, DOT with FORMAT (1X, 4A1)"
+   ]
+  },
+  {
+   "id": "f-mirror-card",
+   "unit": "f18",
+   "difficulty": 2,
+   "title": "The Mirror Card",
+   "task": "Read a 12-column data card with 12A1 into an array, and print it backwards with an implied DO loop:\n7591 NARTROF",
+   "xp": 25,
+   "starter": "C     THE MIRROR CARD\n      INTEGER C(12)\n",
+   "expectedOutput": "7591 NARTROF",
+   "requirements": [
+    {
+     "pattern": "A\\s*1",
+     "message": "Read one character per element with A1."
+    },
+    {
+     "pattern": "-\\s*1\\s*\\)",
+     "message": "Go backwards with a step of -1."
+    }
+   ],
+   "hints": [
+    "INTEGER C(12), READ (5,10) C with 10 FORMAT (12A1)",
+    "WRITE (6,20) (C(I), I = 12, 1, -1) with 20 FORMAT (1X, 12A1)"
+   ],
+   "inputs": [
+    "FORTRAN 1957"
+   ]
+  }
+ ]
+}

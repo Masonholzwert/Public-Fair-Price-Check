@@ -1,0 +1,398 @@
+{
+  "id": "c5",
+  "title": "while Loops",
+  "lessons": [
+    {
+      "id": "c5-l1",
+      "title": "Repeat with while",
+      "xp": 15,
+      "intro": [
+        "while (condition) repeats its body as long as the condition is true. The condition is checked before every round, so a loop can also run zero times.",
+        "Something inside the loop must change, or the condition stays true forever. An endless loop on a shared PDP-11 would slow down everyone at Bell Labs.",
+        "i++ adds 1 to i, i-- takes 1 away. They're the most common lines in any C loop."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    int i = 1;",
+          "    while (i <= 5) {",
+          "        printf(\"%d\\n\", i);",
+          "        i++;",
+          "    }",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c5-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "When does while check its condition?",
+          "options": [
+            "Before every round",
+            "Only once at the start",
+            "After every round",
+            "Only at the end"
+          ],
+          "answer": 0,
+          "explanation": "If it's false right away, the body never runs."
+        },
+        {
+          "id": "c5-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int i = 3;",
+            "    while (i > 0) {",
+            "        printf(\"%d\\n\", i);",
+            "        i--;",
+            "    }",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "3\n2\n1",
+            "1\n2\n3",
+            "3\n2\n1\n0",
+            "nothing"
+          ],
+          "answer": 0,
+          "explanation": "i counts down from 3. When it reaches 0, the condition i > 0 is false."
+        },
+        {
+          "id": "c5-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Count up by one.",
+          "code": [
+            "    while (n < 10) {",
+            "        printf(\"%d\\n\", n);",
+            "        n___;",
+            "    }"
+          ],
+          "options": [
+            "++",
+            "--",
+            "+",
+            "=1"
+          ],
+          "answer": "++",
+          "explanation": "n++ adds one."
+        },
+        {
+          "id": "c5-l1-e4",
+          "type": "find_bug",
+          "prompt": "This loop never ends. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int i = 0;",
+            "    while (i < 3) {",
+            "        printf(\"%d\\n\", i);",
+            "    }",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 5,
+          "explanation": "Nothing changes i, so i < 3 stays true forever. The loop needs i++; inside."
+        },
+        {
+          "id": "c5-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "How often does the body of while (0) run?",
+          "options": [
+            "Never",
+            "Once",
+            "Forever",
+            "It's an error"
+          ],
+          "answer": 0,
+          "explanation": "0 is false, so the loop is skipped."
+        },
+        {
+          "id": "c5-l1-e6",
+          "type": "order_lines",
+          "prompt": "Put the lines in order: print 1, 2, 3 with a while loop.",
+          "lines": [
+            "int main() {",
+            "    int i = 1;",
+            "    while (i <= 3) {",
+            "        printf(\"%d\\n\", i);",
+            "        i++;",
+            "    }",
+            "}"
+          ],
+          "answer": [
+            "int main() {",
+            "    int i = 1;",
+            "    while (i <= 3) {",
+            "        printf(\"%d\\n\", i);",
+            "        i++;",
+            "    }",
+            "}"
+          ],
+          "explanation": "Set the counter first, then the loop with print and count."
+        }
+      ]
+    },
+    {
+      "id": "c5-l2",
+      "title": "Counting and Adding",
+      "xp": 15,
+      "intro": [
+        "Loops are perfect for adding things up: start with sum = 0 before the loop, and add one value each round with sum += value.",
+        "x += 3 is short for x = x + 3. The same works for -=, *= and /=.",
+        "Count the rounds too, and you can work out an average at the end. Remember: to keep the decimals, divide as a double."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    int n = 1, sum = 0;",
+          "    while (n <= 100) {",
+          "        sum += n;",
+          "        n++;",
+          "    }",
+          "    printf(\"sum %d\\n\", sum);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "sum 5050"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c5-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is x after x = 4; x += 3;?",
+          "options": [
+            "7",
+            "3",
+            "4",
+            "12"
+          ],
+          "answer": 0,
+          "explanation": "x += 3 adds 3 to x."
+        },
+        {
+          "id": "c5-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Why must sum = 0 come before the loop?",
+          "options": [
+            "Otherwise it would start over every round, or start with garbage",
+            "C requires it",
+            "To count the rounds",
+            "It doesn't matter"
+          ],
+          "answer": 0,
+          "explanation": "Local variables in C start with whatever was in memory before. Always give a sum its start value."
+        },
+        {
+          "id": "c5-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Double x.",
+          "code": [
+            "    x ___ 2;"
+          ],
+          "options": [
+            "*=",
+            "+=",
+            "=*",
+            "**"
+          ],
+          "answer": "*=",
+          "explanation": "x *= 2 is x = x * 2."
+        },
+        {
+          "id": "c5-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int x = 1;",
+            "    while (x < 10)",
+            "        x *= 2;",
+            "    printf(\"%d\\n\", x);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "16",
+            "8",
+            "4",
+            "2"
+          ],
+          "answer": 0,
+          "explanation": "x doubles while it's below 10: 1, 2, 4, 8, 16."
+        },
+        {
+          "id": "c5-l2-e5",
+          "type": "find_bug",
+          "prompt": "This prints 2.00 instead of 2.50. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int sum = 10, count = 4;",
+            "    double avg = sum / count;",
+            "    printf(\"%.2f\\n\", avg);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 4,
+          "explanation": "sum / count is integer division: 2. Write (double) sum / count to keep the decimals."
+        },
+        {
+          "id": "c5-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What does (double) sum do?",
+          "options": [
+            "Treats sum as a double for this calculation",
+            "Doubles the value",
+            "Changes sum forever",
+            "Prints sum twice"
+          ],
+          "answer": 0,
+          "explanation": "A cast converts a value to another type."
+        }
+      ]
+    },
+    {
+      "id": "c5-l3",
+      "title": "Reading Input",
+      "xp": 15,
+      "intro": [
+        "scanf reads what the user types: scanf(\"%d\", &n) reads a whole number into n. %lf reads a double, %c a character.",
+        "The & before n is important: it gives scanf the address of n, so it can store the value there. Forget it, and the program crashes. Chapter 5 explains why.",
+        "do { … } while (condition); checks at the end, so the body always runs at least once. Perfect for \"ask until the answer makes sense\"."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    int n, sum = 0;",
+          "    do {",
+          "        scanf(\"%d\", &n);",
+          "        sum += n;",
+          "    } while (n != 0);",
+          "    printf(\"total %d\\n\", sum);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "total 12"
+        ],
+        "inputs": [
+          "5",
+          "7",
+          "0"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c5-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Which line reads a whole number into age?",
+          "options": [
+            "scanf(\"%d\", &age);",
+            "scanf(\"%d\", age);",
+            "printf(\"%d\", &age);",
+            "scanf(age);"
+          ],
+          "answer": 0,
+          "explanation": "scanf needs the address of the variable: &age."
+        },
+        {
+          "id": "c5-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What's special about do … while?",
+          "options": [
+            "The body always runs at least once",
+            "It never runs",
+            "It runs forever",
+            "It can't use scanf"
+          ],
+          "answer": 0,
+          "explanation": "The condition is checked at the end of each round."
+        },
+        {
+          "id": "c5-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Read a double into price.",
+          "code": [
+            "    double price;",
+            "    scanf(\"___\", &price);"
+          ],
+          "options": [
+            "%lf",
+            "%d",
+            "%c",
+            "%s"
+          ],
+          "answer": "%lf",
+          "explanation": "scanf uses %lf for doubles (printf is fine with %f)."
+        },
+        {
+          "id": "c5-l3-e4",
+          "type": "find_bug",
+          "prompt": "This program crashes when it reads. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int n;",
+            "    scanf(\"%d\", n);",
+            "    printf(\"%d\\n\", n * 2);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 4,
+          "explanation": "scanf needs &n. Without the &, it uses the value of n as an address, and Unix stops the program."
+        },
+        {
+          "id": "c5-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "The example reads 5, 7 and 0. What does it print?",
+          "options": [
+            "total 12",
+            "total 5",
+            "total 0",
+            "total 57"
+          ],
+          "answer": 0,
+          "explanation": "It adds 5, 7 and the final 0, then stops because n is 0."
+        },
+        {
+          "id": "c5-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why did Unix programs read from \"standard input\"?",
+          "options": [
+            "So the same program could read from the keyboard, a file or another program",
+            "Keyboards were cheap",
+            "To save memory",
+            "Because printf needed it"
+          ],
+          "answer": 0,
+          "explanation": "Connecting programs with pipes, like ls | wc, became the heart of Unix."
+        }
+      ]
+    }
+  ]
+}

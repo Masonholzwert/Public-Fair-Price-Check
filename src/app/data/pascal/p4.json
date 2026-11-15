@@ -1,0 +1,440 @@
+{
+  "id": "p4",
+  "title": "if, then, else",
+  "lessons": [
+    {
+      "id": "p4-l1",
+      "title": "if … then",
+      "xp": 15,
+      "intro": [
+        "if condition then statement runs the statement only when the condition is true. Conditions compare values with = <> < > <= >= (<> means \"not equal\").",
+        "Remember: = compares and := stores. In a condition you always use =.",
+        "The result of a comparison is a boolean, so you can also store it: hot := temp > 30;"
+      ],
+      "example": {
+        "code": [
+          "program Weather;",
+          "var",
+          "  temp: integer;",
+          "begin",
+          "  write('Temperature? ');",
+          "  readln(temp);",
+          "  if temp > 30 then",
+          "    writeln('Hot! Stay in the shade.');",
+          "  if temp < 0 then",
+          "    writeln('Freezing!');",
+          "  writeln('Have a nice day.');",
+          "end."
+        ],
+        "output": [
+          "Temperature? 34",
+          "Hot! Stay in the shade.",
+          "Have a nice day."
+        ],
+        "inputs": [
+          "34"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p4-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does <> mean in Pascal?",
+          "options": [
+            "Not equal",
+            "Less or greater, but not both",
+            "Swap the values",
+            "Smaller than"
+          ],
+          "answer": 0,
+          "explanation": "a <> b is true when a and b are different."
+        },
+        {
+          "id": "p4-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Size;",
+            "var",
+            "  n: integer;",
+            "begin",
+            "  n := 12;",
+            "  if n > 10 then",
+            "    writeln('big');",
+            "end."
+          ],
+          "options": [
+            "big",
+            "small",
+            "nothing",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "n is 12, and 12 > 10 is true."
+        },
+        {
+          "id": "p4-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Print zero when n is 0.",
+          "code": [
+            "  if n ___ 0 then",
+            "    writeln('zero');"
+          ],
+          "options": [
+            "=",
+            ":=",
+            "==",
+            "<>"
+          ],
+          "answer": "=",
+          "explanation": "A single = compares in Pascal."
+        },
+        {
+          "id": "p4-l1-e4",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program Check;",
+            "var",
+            "  x: integer;",
+            "begin",
+            "  x := 5;",
+            "  if x := 5 then",
+            "    writeln('five');",
+            "end."
+          ],
+          "answer": 5,
+          "explanation": ":= stores, but a condition needs = to compare: if x = 5 then."
+        },
+        {
+          "id": "p4-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Skip;",
+            "begin",
+            "  if 3 > 7 then",
+            "    writeln('yes');",
+            "  writeln('done');",
+            "end."
+          ],
+          "options": [
+            "done",
+            "yes\ndone",
+            "yes",
+            "nothing"
+          ],
+          "answer": 0,
+          "explanation": "3 > 7 is false, so only the last writeln runs."
+        },
+        {
+          "id": "p4-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "What type does a comparison like a < b give?",
+          "options": [
+            "boolean",
+            "integer",
+            "char",
+            "real"
+          ],
+          "answer": 0,
+          "explanation": "true or false."
+        }
+      ]
+    },
+    {
+      "id": "p4-l2",
+      "title": "else and begin … end",
+      "xp": 15,
+      "intro": [
+        "else gives the other way: if a > b then writeln(a) else writeln(b); There must be no semicolon before else: the ; would end the if, and Turbo Pascal stops with Error 113.",
+        "To run several statements after then or else, group them with begin … end. Without it, only the first statement belongs to the if.",
+        "Chains with else if pick one of several cases."
+      ],
+      "example": {
+        "code": [
+          "program Grade;",
+          "var",
+          "  points: integer;",
+          "begin",
+          "  write('Points? ');",
+          "  readln(points);",
+          "  if points >= 90 then",
+          "    writeln('Grade A')",
+          "  else if points >= 75 then",
+          "    writeln('Grade B')",
+          "  else if points >= 50 then",
+          "    writeln('Grade C')",
+          "  else",
+          "  begin",
+          "    writeln('Grade F');",
+          "    writeln('Try again next time.');",
+          "  end;",
+          "end."
+        ],
+        "output": [
+          "Points? 82",
+          "Grade B"
+        ],
+        "inputs": [
+          "82"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p4-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "Why is there no semicolon before else?",
+          "options": [
+            "The ; would end the if statement, and else would be left alone",
+            "Semicolons are never allowed in an if",
+            "It's just a style choice",
+            "else needs a colon instead"
+          ],
+          "answer": 0,
+          "explanation": "Error 113: Error in statement."
+        },
+        {
+          "id": "p4-l2-e2",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program Sign;",
+            "var",
+            "  n: integer;",
+            "begin",
+            "  n := -4;",
+            "  if n >= 0 then",
+            "    writeln('positive');",
+            "  else",
+            "    writeln('negative');",
+            "end."
+          ],
+          "answer": 6,
+          "explanation": "The ; after writeln('positive') ends the if, so else has nothing to belong to."
+        },
+        {
+          "id": "p4-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Pick;",
+            "var",
+            "  x: integer;",
+            "begin",
+            "  x := 8;",
+            "  if x < 5 then",
+            "    writeln('A')",
+            "  else",
+            "    writeln('B');",
+            "end."
+          ],
+          "options": [
+            "B",
+            "A\nB",
+            "A",
+            "nothing"
+          ],
+          "answer": 0,
+          "explanation": "x < 5 is false, so the else part runs."
+        },
+        {
+          "id": "p4-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Group the two statements so both run only when ok is true.",
+          "code": [
+            "  if ok then",
+            "  ___",
+            "    writeln('Saving…');",
+            "    writeln('Saved.');",
+            "  end;"
+          ],
+          "options": [
+            "begin",
+            "do",
+            "then",
+            "{"
+          ],
+          "answer": "begin",
+          "explanation": "begin … end makes several statements count as one."
+        },
+        {
+          "id": "p4-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Trap;",
+            "var",
+            "  n: integer;",
+            "begin",
+            "  n := 0;",
+            "  if n > 0 then",
+            "    writeln('first')",
+            "  else",
+            "    writeln('second');",
+            "  writeln('third');",
+            "end."
+          ],
+          "options": [
+            "second\nthird",
+            "first\nthird",
+            "third",
+            "second"
+          ],
+          "answer": 0,
+          "explanation": "n > 0 is false, so the else part prints second. The last writeln isn't part of the if, so it always runs."
+        },
+        {
+          "id": "p4-l2-e6",
+          "type": "order_lines",
+          "prompt": "Put the lines in order: print even or odd.",
+          "lines": [
+            "if n mod 2 = 0 then",
+            "  writeln('even')",
+            "else",
+            "  writeln('odd');"
+          ],
+          "answer": [
+            "if n mod 2 = 0 then",
+            "  writeln('even')",
+            "else",
+            "  writeln('odd');"
+          ],
+          "explanation": "if … then, the statement without ;, else, the other statement."
+        }
+      ]
+    },
+    {
+      "id": "p4-l3",
+      "title": "and, or, not",
+      "xp": 15,
+      "intro": [
+        "and, or and not combine conditions. In Pascal, and and or are stronger than comparisons, so each comparison needs brackets: if (age >= 13) and (age <= 19) then …",
+        "Without brackets, Turbo Pascal reads age >= 13 and age <= 19 as age >= (13 and age) <= 19, and stops with an error.",
+        "not flips true and false: if not found then …"
+      ],
+      "example": {
+        "code": [
+          "program Teen;",
+          "var",
+          "  age: integer;",
+          "  member: boolean;",
+          "begin",
+          "  age := 15;",
+          "  member := false;",
+          "  if (age >= 13) and (age <= 19) then",
+          "    writeln('Teenager');",
+          "  if (age < 6) or (age >= 65) then",
+          "    writeln('Free entry')",
+          "  else if not member then",
+          "    writeln('Ticket: 9.00');",
+          "end."
+        ],
+        "output": [
+          "Teenager",
+          "Ticket: 9.00"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p4-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Why do comparisons need brackets with and/or?",
+          "options": [
+            "and and or are stronger than <, > and =",
+            "Brackets make it faster",
+            "It's only a style rule",
+            "They don't"
+          ],
+          "answer": 0,
+          "explanation": "Without brackets, and grabs the numbers next to it first."
+        },
+        {
+          "id": "p4-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What is (5 > 3) and (2 > 4)?",
+          "options": [
+            "FALSE",
+            "TRUE",
+            "5",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "and needs both sides to be true; 2 > 4 is false."
+        },
+        {
+          "id": "p4-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What is (5 > 3) or (2 > 4)?",
+          "options": [
+            "TRUE",
+            "FALSE",
+            "2",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "or needs just one true side."
+        },
+        {
+          "id": "p4-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Print OK when x is between 1 and 10.",
+          "code": [
+            "  if (x >= 1) ___ (x <= 10) then",
+            "    writeln('OK');"
+          ],
+          "options": [
+            "and",
+            "or",
+            "not",
+            "&&"
+          ],
+          "answer": "and",
+          "explanation": "Both must be true: and."
+        },
+        {
+          "id": "p4-l3-e5",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "program Range;",
+            "var",
+            "  n: integer;",
+            "begin",
+            "  n := 7;",
+            "  if n > 0 and n < 10 then",
+            "    writeln('one digit');",
+            "end."
+          ],
+          "answer": 5,
+          "explanation": "Each comparison needs brackets: if (n > 0) and (n < 10) then."
+        },
+        {
+          "id": "p4-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Door;",
+            "var",
+            "  open: boolean;",
+            "begin",
+            "  open := false;",
+            "  if not open then",
+            "    writeln('closed')",
+            "  else",
+            "    writeln('open');",
+            "end."
+          ],
+          "options": [
+            "closed",
+            "open",
+            "TRUE",
+            "nothing"
+          ],
+          "answer": 0,
+          "explanation": "not open is true, because open is false."
+        }
+      ]
+    }
+  ]
+}

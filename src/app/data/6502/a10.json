@@ -1,0 +1,325 @@
+{
+  "id": "a10",
+  "title": "Logic",
+  "lessons": [
+    {
+      "id": "a10-l1",
+      "title": "Bits and Binary",
+      "xp": 15,
+      "intro": [
+        "Every byte is made of 8 bits, each one 0 or 1. Written in binary with a % in front, $0A is %00001010.",
+        "The bits are numbered 7 to 0 from left to right, and each is worth double the one to its right: 128, 64, 32, 16, 8, 4, 2, 1. %00001010 is 8 + 2 = 10.",
+        "One hex digit is exactly 4 bits. That's why programmers love hex: $A5 is %1010 0101, one digit per half byte."
+      ],
+      "example": {
+        "code": [
+          "LDA #%00001010",
+          "BRK"
+        ],
+        "output": [
+          "A = $0A (8 + 2 = 10)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a10-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is %00000101 in decimal?",
+          "options": [
+            "5",
+            "101",
+            "3",
+            "6"
+          ],
+          "answer": 0,
+          "explanation": "Bit 2 (worth 4) and bit 0 (worth 1) are set: 4 + 1 = 5."
+        },
+        {
+          "id": "a10-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What is bit 7 worth?",
+          "options": [
+            "128",
+            "7",
+            "64",
+            "256"
+          ],
+          "answer": 0,
+          "explanation": "From bit 0 to bit 7: 1, 2, 4, 8, 16, 32, 64, 128."
+        },
+        {
+          "id": "a10-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "Which binary number is $F0?",
+          "options": [
+            "%11110000",
+            "%00001111",
+            "%10101010",
+            "%11111111"
+          ],
+          "answer": 0,
+          "explanation": "F is %1111 and 0 is %0000. Each hex digit becomes 4 bits."
+        },
+        {
+          "id": "a10-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Load A with 3, written in binary.",
+          "code": [
+            "LDA #___",
+            "BRK"
+          ],
+          "options": [
+            "%00000011",
+            "%00000101",
+            "%11000000",
+            "%00000110"
+          ],
+          "answer": "%00000011",
+          "explanation": "3 = 2 + 1, so bits 1 and 0 are set."
+        },
+        {
+          "id": "a10-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Why is bit 7 special on the 6502?",
+          "options": [
+            "It's copied into the N flag",
+            "It's always 0",
+            "It holds the carry",
+            "It can't be changed"
+          ],
+          "answer": 0,
+          "explanation": "When bit 7 is 1, the value is $80 or more, and N = 1."
+        },
+        {
+          "id": "a10-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "How many bits does one hex digit stand for?",
+          "options": [
+            "4",
+            "8",
+            "2",
+            "16"
+          ],
+          "answer": 0,
+          "explanation": "16 values need 4 bits. Two hex digits make a whole byte."
+        }
+      ]
+    },
+    {
+      "id": "a10-l2",
+      "title": "AND: Masking",
+      "xp": 15,
+      "intro": [
+        "AND #value compares A with the value bit by bit. A bit stays 1 only where both are 1. Everywhere else the result is 0.",
+        "That makes AND a mask: AND #%00001111 keeps the lower 4 bits and clears the upper 4. AND #$0F turns $3C into $0C.",
+        "It's also a quick test: AND #1 leaves 1 for odd numbers and 0 for even ones, and the Z flag tells you which."
+      ],
+      "example": {
+        "code": [
+          "LDA #$3C",
+          "AND #$0F",
+          "BRK"
+        ],
+        "output": [
+          "A = $0C (only the lower half is left)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a10-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is %1100 AND %1010?",
+          "options": [
+            "%1000",
+            "%1110",
+            "%0110",
+            "%0100"
+          ],
+          "answer": 0,
+          "explanation": "Only the leftmost bit is 1 in both."
+        },
+        {
+          "id": "a10-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What is A after LDA #$F7 and AND #$0F?",
+          "options": [
+            "$07",
+            "$F0",
+            "$F7",
+            "$0F"
+          ],
+          "answer": 0,
+          "explanation": "The upper 4 bits are cleared, the lower 4 ($7) stay."
+        },
+        {
+          "id": "a10-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "A holds 9. What is the Z flag after AND #1?",
+          "options": [
+            "0, because 9 is odd",
+            "1, because 9 is odd",
+            "0, because 9 is even",
+            "AND doesn't change Z"
+          ],
+          "answer": 0,
+          "explanation": "9 is %00001001. Bit 0 is set, so the result is 1 and Z = 0."
+        },
+        {
+          "id": "a10-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Keep only the lower 4 bits of A.",
+          "code": [
+            "LDA $0300",
+            "AND #___",
+            "STA $0301"
+          ],
+          "options": [
+            "$0F",
+            "$F0",
+            "$FF",
+            "$00"
+          ],
+          "answer": "$0F",
+          "explanation": "$0F is %00001111: ones in the lower half, zeros in the upper half."
+        },
+        {
+          "id": "a10-l2-e5",
+          "type": "find_bug",
+          "prompt": "This should keep the upper half of $AB ($A0), but gives $0B. Which line is wrong?",
+          "code": [
+            "LDA #$AB",
+            "AND #$0F",
+            "BRK"
+          ],
+          "answer": 1,
+          "explanation": "$0F keeps the lower half. For the upper half use AND #$F0."
+        },
+        {
+          "id": "a10-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What does AND #0 always give?",
+          "options": [
+            "0",
+            "A unchanged",
+            "$FF",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "No bit is 1 in both, so every bit becomes 0."
+        }
+      ]
+    },
+    {
+      "id": "a10-l3",
+      "title": "ORA and EOR",
+      "xp": 15,
+      "intro": [
+        "ORA #value sets bits: a bit becomes 1 if it's 1 in A or in the value. ORA #%10000000 switches bit 7 on, without touching the others.",
+        "EOR #value (exclusive or) flips bits: where the value has a 1, the bit in A turns over. EOR #$FF flips all 8 bits.",
+        "So: AND clears bits, ORA sets bits, EOR flips bits. With these three you can change any single bit of a byte."
+      ],
+      "example": {
+        "code": [
+          "LDA #$05",
+          "ORA #$80",
+          "STA $0300",
+          "EOR #$FF",
+          "BRK"
+        ],
+        "output": [
+          "$0300 = $85   A = $7A"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a10-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What is %0101 ORA %0011?",
+          "options": [
+            "%0111",
+            "%0001",
+            "%0110",
+            "%1000"
+          ],
+          "answer": 0,
+          "explanation": "A bit is 1 if it's 1 in either of them."
+        },
+        {
+          "id": "a10-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What is %0101 EOR %0011?",
+          "options": [
+            "%0110",
+            "%0111",
+            "%0001",
+            "%1010"
+          ],
+          "answer": 0,
+          "explanation": "EOR gives 1 where the two are different."
+        },
+        {
+          "id": "a10-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What is A after LDA #$0F and EOR #$FF?",
+          "options": [
+            "$F0",
+            "$FF",
+            "$0F",
+            "$00"
+          ],
+          "answer": 0,
+          "explanation": "Every bit flips: %00001111 becomes %11110000."
+        },
+        {
+          "id": "a10-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Switch bit 0 on, without changing the other bits.",
+          "code": [
+            "LDA $0300",
+            "___ #1",
+            "STA $0300"
+          ],
+          "options": [
+            "ORA",
+            "AND",
+            "EOR",
+            "ADC"
+          ],
+          "answer": "ORA",
+          "explanation": "ORA #1 sets bit 0. EOR would flip it off again if it was already on."
+        },
+        {
+          "id": "a10-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "You want to switch a lamp bit on and off each time. Which instruction fits?",
+          "options": [
+            "EOR",
+            "ORA",
+            "AND",
+            "LDA"
+          ],
+          "answer": 0,
+          "explanation": "EOR flips the bit: on becomes off, off becomes on."
+        },
+        {
+          "id": "a10-l3-e6",
+          "type": "order_lines",
+          "prompt": "Set bit 7 of the byte at $30, then store it back.",
+          "lines": [
+            "LDA $30",
+            "ORA #$80",
+            "STA $30",
+            "BRK"
+          ],
+          "answer": [
+            "LDA $30",
+            "ORA #$80",
+            "STA $30",
+            "BRK"
+          ],
+          "explanation": "Read, set the bit, write back."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,353 @@
+{
+  "id": "f13",
+  "title": "Newton's Square Root",
+  "lessons": [
+    {
+      "id": "f13-l1",
+      "title": "Guess and Improve",
+      "xp": 15,
+      "intro": [
+        "How does a computer find a square root? It can only add, subtract, multiply and divide. The trick is older than computers: guess, then improve the guess.",
+        "If X is a guess for the square root of A, then (X + A / X) / 2 is a better one. If X is too big, A / X is too small, and their average lands closer. The Babylonians used this 4000 years ago; Isaac Newton later showed why it works so well.",
+        "Each round roughly doubles the number of correct digits. Starting from 1.0, five rounds give the square root of 2 to more digits than the 704 could print."
+      ],
+      "example": {
+        "code": [
+          "      A = 2.0",
+          "      X = 1.0",
+          "      DO 10 I = 1, 5",
+          "      X = (X + A / X) / 2.0",
+          "      WRITE (6,20) I, X",
+          "   10 CONTINUE",
+          "   20 FORMAT (1X, I2, F12.8)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          " 1  1.50000000",
+          " 2  1.41666663",
+          " 3  1.41421568",
+          " 4  1.41421354",
+          " 5  1.41421354"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f13-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "X = 3.0 is a guess for the square root of 4. What is the next guess (X + A / X) / 2?",
+          "options": [
+            "2.1666…",
+            "2.0",
+            "3.5",
+            "1.3333…"
+          ],
+          "answer": 0,
+          "explanation": "(3 + 4 / 3) / 2 = (3 + 1.333) / 2 = 2.1666. Much closer to 2."
+        },
+        {
+          "id": "f13-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Why does averaging X and A / X work?",
+          "options": [
+            "If X is too big, A / X is too small, so the average is closer",
+            "Averages are always exact",
+            "Because A is 2",
+            "It only works for even numbers"
+          ],
+          "answer": 0,
+          "explanation": "The true root sits between X and A / X. Their average is a better guess."
+        },
+        {
+          "id": "f13-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "Roughly how fast does Newton's method improve?",
+          "options": [
+            "The number of correct digits doubles each round",
+            "One digit per round",
+            "It takes 100 rounds",
+            "It never gets exact"
+          ],
+          "answer": 0,
+          "explanation": "That's why only a handful of rounds are needed."
+        },
+        {
+          "id": "f13-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Improve the guess for the square root of A.",
+          "code": [
+            "      X = (X + A / ___) / 2.0"
+          ],
+          "options": [
+            "X",
+            "A",
+            "2.0",
+            "Y"
+          ],
+          "answer": "X",
+          "explanation": "Average X and A / X."
+        },
+        {
+          "id": "f13-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this deck print?",
+          "code": [
+            "      A = 9.0",
+            "      X = 3.0",
+            "      X = (X + A / X) / 2.0",
+            "      WRITE (6,10) X",
+            "   10 FORMAT (1X, F4.1)",
+            "      END"
+          ],
+          "options": [
+            "3.0",
+            "5.0",
+            "2.0",
+            "9.0"
+          ],
+          "answer": 0,
+          "explanation": "A = 9 and the guess 3 is already right: (3 + 9 / 3) / 2 = 3."
+        },
+        {
+          "id": "f13-l1-e6",
+          "type": "find_bug",
+          "prompt": "This job stops with *ERROR*. Which card is wrong?",
+          "code": [
+            "      A = 2.0",
+            "      X = 0.0",
+            "      DO 10 I = 1, 5",
+            "      X = (X + A / X) / 2.0",
+            "   10 CONTINUE",
+            "      END"
+          ],
+          "answer": 1,
+          "explanation": "Starting with X = 0.0 means dividing by zero in A / X. Any positive start like 1.0 works."
+        }
+      ]
+    },
+    {
+      "id": "f13-l2",
+      "title": "Close Enough",
+      "xp": 15,
+      "intro": [
+        "Five rounds is a guess too. Better: keep improving until the guess stops changing, then stop. ABS(XNEW - X) .LT. 1.0E-6 means \"the change is smaller than a millionth\".",
+        "Never test real numbers with .EQ. Computers store most decimals only approximately, so two values that should be equal can differ in the last digit, and the loop never ends.",
+        "Counting the rounds shows how quickly the method gets there."
+      ],
+      "example": {
+        "code": [
+          "      A = 2.0",
+          "      X = 1.0",
+          "      N = 0",
+          "   10 XNEW = (X + A / X) / 2.0",
+          "      N = N + 1",
+          "      IF (ABS(XNEW - X) .LT. 1.0E-6) GO TO 20",
+          "      X = XNEW",
+          "      GO TO 10",
+          "   20 WRITE (6,30) XNEW, N",
+          "   30 FORMAT (' ROOT', F10.6, '   ROUNDS', I3)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "ROOT  1.414214   ROUNDS  5"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f13-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "Why stop when ABS(XNEW - X) is tiny, instead of when XNEW .EQ. X?",
+          "options": [
+            "Real numbers may never match exactly, so the loop might not end",
+            ".EQ. doesn't work in FORTRAN",
+            "ABS is faster",
+            "It's the same thing"
+          ],
+          "answer": 0,
+          "explanation": "Rounding in the last digit can keep two values apart forever."
+        },
+        {
+          "id": "f13-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does 1.0E-6 mean?",
+          "options": [
+            "0.000001",
+            "1000000",
+            "-6.0",
+            "1.06"
+          ],
+          "answer": 0,
+          "explanation": "One times ten to the minus six: a millionth."
+        },
+        {
+          "id": "f13-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Stop when the change is smaller than 0.0001.",
+          "code": [
+            "      IF (ABS(XNEW - X) .LT. ___) GO TO 20"
+          ],
+          "options": [
+            "1.0E-4",
+            "1.0E4",
+            "0.1",
+            "4.0E-1"
+          ],
+          "answer": "1.0E-4",
+          "explanation": "1.0E-4 is 0.0001."
+        },
+        {
+          "id": "f13-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does ABS do in the stopping test?",
+          "options": [
+            "Ignores whether the change is up or down",
+            "Rounds the number",
+            "Makes it an integer",
+            "Nothing here"
+          ],
+          "answer": 0,
+          "explanation": "A change of -0.0000001 is just as small as +0.0000001."
+        },
+        {
+          "id": "f13-l2-e5",
+          "type": "find_bug",
+          "prompt": "This loop never stops. Which card is wrong?",
+          "code": [
+            "   10 XNEW = (X + A / X) / 2.0",
+            "      IF (ABS(XNEW - X) .LT. 1.0E-6) GO TO 20",
+            "      GO TO 10",
+            "   20 WRITE (6,30) XNEW"
+          ],
+          "answer": 2,
+          "explanation": "X never gets the new value, so every round computes the same XNEW. Before GO TO 10, set X = XNEW."
+        },
+        {
+          "id": "f13-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "In the example, about how many rounds are needed for 6 decimals?",
+          "options": [
+            "About 5",
+            "About 50",
+            "About 500",
+            "Exactly 1"
+          ],
+          "answer": 0,
+          "explanation": "Doubling the correct digits each round gets there very fast."
+        }
+      ]
+    },
+    {
+      "id": "f13-l3",
+      "title": "Checking the Answer",
+      "xp": 15,
+      "intro": [
+        "A careful scientist checks the result. Here the library function SQRT is the reference: print both and the difference.",
+        "The same idea works for other roots. For the cube root of A, the improved guess is (2 * X + A / X**2) / 3.",
+        "Methods like this, called numerical methods, are what FORTRAN was built for: approximate an answer step by step until it's good enough."
+      ],
+      "example": {
+        "code": [
+          "      A = 10.0",
+          "      X = 1.0",
+          "      DO 10 I = 1, 6",
+          "      X = (X + A / X) / 2.0",
+          "   10 CONTINUE",
+          "      D = ABS(X - SQRT(A))",
+          "      WRITE (6,20) X, SQRT(A), D",
+          "   20 FORMAT (' NEWTON', F10.6/' SQRT', F12.6/' DIFF', E12.3)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "NEWTON  3.162278",
+          "SQRT    3.162278",
+          "DIFF   0.000E+00"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f13-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Why compare with SQRT?",
+          "options": [
+            "To check the method gives the right answer",
+            "SQRT is wrong",
+            "To print more digits",
+            "FORTRAN requires it"
+          ],
+          "answer": 0,
+          "explanation": "Test your own code against something you trust."
+        },
+        {
+          "id": "f13-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What is the cube root of 27?",
+          "options": [
+            "3",
+            "9",
+            "5.2",
+            "13.5"
+          ],
+          "answer": 0,
+          "explanation": "3 × 3 × 3 = 27."
+        },
+        {
+          "id": "f13-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Improve a guess for the cube root of A.",
+          "code": [
+            "      X = (2.0 * X + A / X ** ___) / 3.0"
+          ],
+          "options": [
+            "2",
+            "3",
+            "1",
+            "0.5"
+          ],
+          "answer": "2",
+          "explanation": "Newton's method for cube roots divides by X squared."
+        },
+        {
+          "id": "f13-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "The example prints DIFF 0.000E+00. What does that tell you?",
+          "options": [
+            "Newton's method found the same REAL value as SQRT, to all its 7 digits",
+            "Something went wrong",
+            "The method didn't run",
+            "The answer is zero"
+          ],
+          "answer": 0,
+          "explanation": "A REAL keeps about 7 digits, and both results agree in every one of them. Chapter 6 shows DOUBLE PRECISION, with more than twice as many."
+        },
+        {
+          "id": "f13-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What is a numerical method?",
+          "options": [
+            "A step-by-step way to approximate an answer",
+            "A way to print numbers",
+            "A type of variable",
+            "A FORMAT code"
+          ],
+          "answer": 0,
+          "explanation": "Square roots, orbits, weather: most scientific computing is numerical methods."
+        },
+        {
+          "id": "f13-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why did early computers need methods like Newton's at all?",
+          "options": [
+            "The hardware could only add, subtract, multiply and divide",
+            "Square roots were secret",
+            "To save punch cards",
+            "They didn't"
+          ],
+          "answer": 0,
+          "explanation": "Everything else had to be built out of those four operations."
+        }
+      ]
+    }
+  ]
+}

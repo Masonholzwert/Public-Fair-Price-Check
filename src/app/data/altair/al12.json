@@ -1,0 +1,375 @@
+{
+  "id": "al12",
+  "title": "Sense Switches",
+  "lessons": [
+    {
+      "id": "al12-l1",
+      "title": "IN 377",
+      "xp": 15,
+      "intro": [
+        "The upper 8 switches on the Altair's panel (A15 to A8) are the sense switches. A program can read them with IN 377 (333, 377): their setting lands in A.",
+        "That was the Altair's only input without extra cards: you flipped switches while the program ran.",
+        "In this app, the switch settings come from the test, one for each IN 377."
+      ],
+      "example": {
+        "code": [
+          "333   ; 000: IN 377",
+          "377   ;      port 377",
+          "323   ; 002: OUT 377",
+          "377   ;      port 377",
+          "333   ; 004: IN 377",
+          "377   ;      port 377",
+          "306   ; 006: ADI",
+          "001   ;      1",
+          "323   ; 010: OUT 377",
+          "377   ;      port 377",
+          "166   ; 012: HLT"
+        ],
+        "output": [
+          "LEDS ○○○○○●○● = 5",
+          "LEDS ○○○○●○●○ = 10"
+        ],
+        "inputs": [
+          "00000101",
+          "00001001"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al12-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does IN 377 do?",
+          "options": [
+            "Reads the sense switches into A",
+            "Shows A",
+            "Stops the program",
+            "Loads address 377"
+          ],
+          "answer": 0,
+          "explanation": "INput from port 377."
+        },
+        {
+          "id": "al12-l1-e2",
+          "type": "switches",
+          "prompt": "Set the switches to IN (3 3 3).",
+          "answer": 219,
+          "explanation": "11 011 011."
+        },
+        {
+          "id": "al12-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "Where does the value of IN 377 go?",
+          "options": [
+            "Into A",
+            "Into B",
+            "Into memory",
+            "Onto the lights"
+          ],
+          "answer": 0,
+          "explanation": "Like everything else: the accumulator."
+        },
+        {
+          "id": "al12-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "The sense switches are set to 00000110. What do the lights show?",
+          "code": [
+            "333   ; 000: IN 377",
+            "377   ;      port 377",
+            "207   ; 002: ADD A",
+            "323   ; 003: OUT 377",
+            "377   ;      port 377",
+            "166   ; 005: HLT"
+          ],
+          "options": [
+            "12",
+            "6",
+            "3",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "IN reads 6, ADD A doubles it."
+        },
+        {
+          "id": "al12-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "How did Altair owners give a program input without extra cards?",
+          "options": [
+            "By flipping the sense switches",
+            "By typing",
+            "With a mouse",
+            "By talking"
+          ],
+          "answer": 0,
+          "explanation": "A keyboard needed an interface card and a Teletype."
+        },
+        {
+          "id": "al12-l1-e6",
+          "type": "fill_blank",
+          "prompt": "Read the sense switches.",
+          "code": [
+            "___   ; IN",
+            "377   ; port 377"
+          ],
+          "options": [
+            "333",
+            "323",
+            "377",
+            "033"
+          ],
+          "answer": "333",
+          "explanation": "IN = 3 3 3, OUT = 3 2 3."
+        }
+      ]
+    },
+    {
+      "id": "al12-l2",
+      "title": "Reacting to the Switches",
+      "xp": 15,
+      "intro": [
+        "Once the switches are in A, all the tools work: ANI to pick out one switch, CPI to compare, and conditional jumps to react.",
+        "For example: if switch 0 is up, show all lights, otherwise show none.",
+        "Programs read the switches again and again in a loop, so they react while running."
+      ],
+      "example": {
+        "code": [
+          "333   ; 000: IN 377",
+          "377   ;      port 377",
+          "346   ; 002: ANI",
+          "001   ;      1",
+          "312   ; 004: JZ off",
+          "014   ;      address 014 (low byte)",
+          "000   ;      (high byte)",
+          "076   ; 007: MVI A",
+          "377   ;      255",
+          "323   ; 011: OUT 377",
+          "377   ;      port 377",
+          "166   ; 013: HLT",
+          "257   ; 014: XRA A   ← off",
+          "323   ; 015: OUT 377",
+          "377   ;      port 377",
+          "166   ; 017: HLT"
+        ],
+        "output": [
+          "LEDS ●●●●●●●● = 255"
+        ],
+        "inputs": [
+          "00000011"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al12-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "How do you check whether sense switch 3 is up?",
+          "options": [
+            "IN 377, ANI 00001000, then look at the zero flag",
+            "IN 3",
+            "CPI 3",
+            "RLC three times"
+          ],
+          "answer": 0,
+          "explanation": "The mask picks out switch 3."
+        },
+        {
+          "id": "al12-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "After IN 377 and ANI 1, the zero flag is set. What does that mean?",
+          "options": [
+            "Switch 0 is down",
+            "Switch 0 is up",
+            "All switches are down",
+            "The program stops"
+          ],
+          "answer": 0,
+          "explanation": "AND gave 0, so bit 0 was 0."
+        },
+        {
+          "id": "al12-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "The sense switches show 00000011. What do the lights show?",
+          "code": [
+            "333   ; 000: IN 377",
+            "377   ;      port 377",
+            "346   ; 002: ANI",
+            "001   ;      1",
+            "312   ; 004: JZ off",
+            "014   ;      address 014 (low byte)",
+            "000   ;      (high byte)",
+            "076   ; 007: MVI A",
+            "377   ;      255",
+            "323   ; 011: OUT 377",
+            "377   ;      port 377",
+            "166   ; 013: HLT",
+            "257   ; 014: XRA A   ← off",
+            "323   ; 015: OUT 377",
+            "377   ;      port 377",
+            "166   ; 017: HLT"
+          ],
+          "options": [
+            "255",
+            "0",
+            "3",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "Switch 0 is up, so JZ doesn't jump."
+        },
+        {
+          "id": "al12-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Pick out switch 7.",
+          "code": [
+            "333   ; IN",
+            "377   ; port 377",
+            "346   ; ANI",
+            "___   ; the mask"
+          ],
+          "options": [
+            "200",
+            "007",
+            "001",
+            "377"
+          ],
+          "answer": "200",
+          "explanation": "Bit 7 = 10 000 000 = octal 200."
+        },
+        {
+          "id": "al12-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "Why do real Altair programs read the switches in a loop?",
+          "options": [
+            "So they can react while running",
+            "IN only works in loops",
+            "To save memory",
+            "They don't"
+          ],
+          "answer": 0,
+          "explanation": "Each IN reads the switches as they are right now."
+        },
+        {
+          "id": "al12-l2-e6",
+          "type": "switches",
+          "prompt": "Set the switches to the mask for switch 2.",
+          "answer": 4,
+          "explanation": "00000100."
+        }
+      ]
+    },
+    {
+      "id": "al12-l3",
+      "title": "Kill the Bit",
+      "xp": 15,
+      "intro": [
+        "In 1975, Dean McDaniel wrote a tiny game for the Altair: Kill the Bit. A single light runs across the panel. You flip the sense switch under it at the right moment to shoot it. Miss, and you create another bit.",
+        "The trick is XRA: the switches are XORed into the pattern. A switch under a lit bit turns it off, a switch under a dark bit turns one on.",
+        "Here, a few rounds of it: rotate the bit, read the switches, XOR, show."
+      ],
+      "example": {
+        "code": [
+          "006   ; 000: MVI B",
+          "001   ;      1",
+          "016   ; 002: MVI C",
+          "003   ;      3",
+          "170   ; 004: MOV A,B   ← round",
+          "007   ; 005: RLC",
+          "107   ; 006: MOV B,A",
+          "333   ; 007: IN 377",
+          "377   ;      port 377",
+          "250   ; 011: XRA B",
+          "107   ; 012: MOV B,A",
+          "323   ; 013: OUT 377",
+          "377   ;      port 377",
+          "015   ; 015: DCR C",
+          "302   ; 016: JNZ round",
+          "004   ;      address 004 (low byte)",
+          "000   ;      (high byte)",
+          "166   ; 021: HLT"
+        ],
+        "output": [
+          "LEDS ○○○○○○●○ = 2",
+          "LEDS ○○○○○○○○ = 0",
+          "LEDS ○○○○○○○○ = 0"
+        ],
+        "inputs": [
+          "00000000",
+          "00000100",
+          "00000000"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al12-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Who wrote Kill the Bit?",
+          "options": [
+            "Dean McDaniel",
+            "Bill Gates",
+            "Ed Roberts",
+            "Steve Wozniak"
+          ],
+          "answer": 0,
+          "explanation": "It spread through computer clubs in 1975."
+        },
+        {
+          "id": "al12-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "Why is XRA perfect for the game?",
+          "options": [
+            "A switch under a lit bit turns it off, under a dark bit turns one on",
+            "It adds the switches",
+            "It clears A",
+            "It rotates"
+          ],
+          "answer": 0,
+          "explanation": "XOR flips exactly the bits where the switch is up."
+        },
+        {
+          "id": "al12-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "The bit is at 00000100 and you flip switch 2. What happens?",
+          "options": [
+            "The bit is killed: 00000000",
+            "A new bit appears",
+            "Nothing",
+            "The game ends with an error"
+          ],
+          "answer": 0,
+          "explanation": "00000100 XOR 00000100 = 0."
+        },
+        {
+          "id": "al12-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "The bit is at 00000100 and you flip switch 5. What happens?",
+          "options": [
+            "A second bit appears: 00100100",
+            "The bit is killed",
+            "Nothing",
+            "The bit moves"
+          ],
+          "answer": 0,
+          "explanation": "Missing adds a bit."
+        },
+        {
+          "id": "al12-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "In the example, the switches are 00000000, 00000100, 00000000. What do the lights show in the last round?",
+          "options": [
+            "○○○○○○○○ = 0",
+            "○○○○●○○○ = 8",
+            "○○○○○●○○ = 4",
+            "●●●●●●●● = 255"
+          ],
+          "answer": 0,
+          "explanation": "Round 2 kills the bit at 4; round 3 rotates 0, which stays 0."
+        },
+        {
+          "id": "al12-l3-e6",
+          "type": "switches",
+          "prompt": "The bit is at 00010000. Set the switch that kills it.",
+          "answer": 16,
+          "explanation": "Switch 4, worth 16."
+        }
+      ]
+    }
+  ]
+}

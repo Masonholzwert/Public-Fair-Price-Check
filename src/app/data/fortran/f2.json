@@ -1,0 +1,325 @@
+{
+  "id": "f2",
+  "title": "Numbers and Names",
+  "lessons": [
+    {
+      "id": "f2-l1",
+      "title": "Variables and the I–N Rule",
+      "xp": 15,
+      "intro": [
+        "A variable name has up to six letters and digits and starts with a letter: X, AREA, TOTAL2.",
+        "FORTRAN decides the type by the first letter. Names starting with I, J, K, L, M or N are INTEGER: whole numbers. All others are REAL: numbers with decimals. (I to N, like INteger.)",
+        "Store 3.7 in N, and N holds 3, because the decimals are cut off. That's why FORTRAN programmers counted with KOUNT instead of COUNT."
+      ],
+      "example": {
+        "code": [
+          "      N = 3.7",
+          "      X = 3.7",
+          "      WRITE (6,10) N, X",
+          "   10 FORMAT (1X, I5, F8.2)",
+          "      END"
+        ],
+        "output": [
+          "    3    3.70"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f2-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "Which variable is an INTEGER?",
+          "options": [
+            "KOUNT",
+            "COUNT",
+            "XNUM",
+            "AREA"
+          ],
+          "answer": 0,
+          "explanation": "KOUNT starts with K, which is between I and N."
+        },
+        {
+          "id": "f2-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does N hold after N = 3.7?",
+          "options": [
+            "3",
+            "3.7",
+            "4",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "N is an integer, so the decimals are cut off. Not rounded: cut."
+        },
+        {
+          "id": "f2-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "Which name is allowed in FORTRAN IV?",
+          "options": [
+            "AREA2",
+            "2AREA",
+            "AREA-2",
+            "MYVARIABLE"
+          ],
+          "answer": 0,
+          "explanation": "Names start with a letter, have only letters and digits, and are at most 6 characters long."
+        },
+        {
+          "id": "f2-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "Why would a programmer write KOUNT instead of COUNT?",
+          "options": [
+            "To make the counter an INTEGER by its first letter",
+            "COUNT is a reserved word",
+            "To save memory",
+            "It's a typo that became popular"
+          ],
+          "answer": 0,
+          "explanation": "COUNT would be REAL. Starting with K makes it an integer."
+        },
+        {
+          "id": "f2-l1-e5",
+          "type": "fill_blank",
+          "prompt": "Choose a name that makes this variable an integer.",
+          "code": [
+            "      ___ = 10"
+          ],
+          "options": [
+            "ITEMS",
+            "TOTAL",
+            "SUM",
+            "AVG"
+          ],
+          "answer": "ITEMS",
+          "explanation": "ITEMS starts with I, so it's an INTEGER. The others start with T, S or A: REAL."
+        },
+        {
+          "id": "f2-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "What does X hold after X = 7?",
+          "options": [
+            "7.0",
+            "7",
+            "0.7",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "X is REAL. The whole number 7 is stored as 7.0."
+        }
+      ]
+    },
+    {
+      "id": "f2-l2",
+      "title": "REAL Numbers and Integer Division",
+      "xp": 15,
+      "intro": [
+        "A number with a decimal point is REAL: 2.5, 7., 0.5. Without the point it's an INTEGER: 7.",
+        "Here's the trap every FORTRAN programmer fell into: dividing two integers gives an integer. 7 / 2 is 3, not 3.5. And 2 / 3 is 0.",
+        "To get decimals, at least one side must be REAL: 7. / 2. is 3.5. For integer variables, convert first: FLOAT(N) / 2."
+      ],
+      "example": {
+        "code": [
+          "      I = 7 / 2",
+          "      X = 7. / 2.",
+          "      WRITE (6,10) I, X",
+          "   10 FORMAT (1X, I3, F6.2)",
+          "      END"
+        ],
+        "output": [
+          "  3  3.50"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f2-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is 7 / 2 in FORTRAN?",
+          "options": [
+            "3",
+            "3.5",
+            "4",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "Both are integers, so the result is an integer. The .5 is cut off."
+        },
+        {
+          "id": "f2-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What is 7. / 2.?",
+          "options": [
+            "3.5",
+            "3",
+            "4",
+            "3.0"
+          ],
+          "answer": 0,
+          "explanation": "Both are REAL, so the result keeps its decimals."
+        },
+        {
+          "id": "f2-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What does X hold after X = 2 / 3?",
+          "options": [
+            "0.0",
+            "0.67",
+            "0.666667",
+            "1.0"
+          ],
+          "answer": 0,
+          "explanation": "2 / 3 is computed first, with integers: 0. Only then is it stored in the REAL X."
+        },
+        {
+          "id": "f2-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Divide the integer N by 2, keeping the decimals.",
+          "code": [
+            "      N = 9",
+            "      X = ___(N) / 2."
+          ],
+          "options": [
+            "FLOAT",
+            "INT",
+            "REAL2",
+            "ROUND"
+          ],
+          "answer": "FLOAT",
+          "explanation": "FLOAT turns an integer into a REAL. 9.0 / 2. is 4.5."
+        },
+        {
+          "id": "f2-l2-e5",
+          "type": "find_bug",
+          "prompt": "The average of 7, 8 and 8 should be 7.67, but X is 7.00. Which card is wrong?",
+          "code": [
+            "      ISUM = 7 + 8 + 8",
+            "      X = ISUM / 3",
+            "      WRITE (6,10) X",
+            "   10 FORMAT (1X, F6.2)",
+            "      END"
+          ],
+          "answer": 1,
+          "explanation": "ISUM / 3 divides two integers: 23 / 3 = 7. Use FLOAT(ISUM) / 3. to keep the decimals."
+        },
+        {
+          "id": "f2-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Which of these is a REAL number?",
+          "options": [
+            "12.",
+            "12",
+            "-12",
+            "1200"
+          ],
+          "answer": 0,
+          "explanation": "The decimal point makes it REAL, even with nothing after it."
+        }
+      ]
+    },
+    {
+      "id": "f2-l3",
+      "title": "Arithmetic",
+      "xp": 15,
+      "intro": [
+        "FORTRAN was built for formulas. It has + and -, * for multiplication, / for division and ** for powers: R ** 2 is R squared.",
+        "The order is like in math: first **, then * and /, then + and -. A = 2. + 3. * 4. ** 2 is 2 + 3 × 16 = 50. Use brackets to change it.",
+        "There's no hidden multiplication: 2X is an error, you write 2. * X."
+      ],
+      "example": {
+        "code": [
+          "      A = 2. + 3. * 4. ** 2",
+          "      B = (2. + 3.) * 4.",
+          "      WRITE (6,10) A, B",
+          "   10 FORMAT (1X, 2F7.1)",
+          "      END"
+        ],
+        "output": [
+          "   50.0   20.0"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f2-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What is 2 ** 3?",
+          "options": [
+            "8",
+            "6",
+            "9",
+            "5"
+          ],
+          "answer": 0,
+          "explanation": "** is the power: 2 × 2 × 2."
+        },
+        {
+          "id": "f2-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What is 10. - 2. * 3.?",
+          "options": [
+            "4.0",
+            "24.0",
+            "16.0",
+            "-2.0"
+          ],
+          "answer": 0,
+          "explanation": "Multiplication first: 2 × 3 = 6, then 10 - 6."
+        },
+        {
+          "id": "f2-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Write the area of a circle: pi times R squared.",
+          "code": [
+            "      R = 2.5",
+            "      A = 3.14159 * R ___ 2"
+          ],
+          "options": [
+            "**",
+            "^",
+            "*",
+            "x"
+          ],
+          "answer": "**",
+          "explanation": "FORTRAN writes powers with **. The ^ came later in other languages."
+        },
+        {
+          "id": "f2-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "How do you write b² - 4ac in FORTRAN?",
+          "options": [
+            "B ** 2 - 4. * A * C",
+            "B2 - 4AC",
+            "B ** 2 - 4AC",
+            "(B ^ 2) - 4 * A * C"
+          ],
+          "answer": 0,
+          "explanation": "Every multiplication needs its *, and powers use **."
+        },
+        {
+          "id": "f2-l3-e5",
+          "type": "find_bug",
+          "prompt": "This card is rejected by the compiler. Which one?",
+          "code": [
+            "      X = 1.5",
+            "      Y = 2X + 1.",
+            "      WRITE (6,10) Y",
+            "   10 FORMAT (1X, F6.2)",
+            "      END"
+          ],
+          "answer": 1,
+          "explanation": "2X isn't FORTRAN. Multiplication always needs a star: 2. * X."
+        },
+        {
+          "id": "f2-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What is (2. + 3.) * 4.?",
+          "options": [
+            "20.0",
+            "14.0",
+            "24.0",
+            "9.0"
+          ],
+          "answer": 0,
+          "explanation": "The brackets go first: 5 × 4."
+        }
+      ]
+    }
+  ]
+}

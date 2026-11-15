@@ -1,0 +1,407 @@
+{
+  "id": "a8",
+  "title": "The Teletype",
+  "lessons": [
+    {
+      "id": "a8-l1",
+      "title": "OUTCH",
+      "xp": 15,
+      "intro": [
+        "Our board is connected to a teletype: a typewriter the computer can type on. The KIM-1 has a routine in its ROM at $1EA0 called OUTCH (OUTput CHaracter). It prints the character in A.",
+        "Give the address a name first: OUTCH = $1EA0. That's a constant, not a label. Then JSR OUTCH prints.",
+        "Characters are numbers too. You can write them with a quote in front: LDA #'H loads the code of the letter H. On this board, OUTCH leaves A, X and Y unchanged (the real one wasn't so polite)."
+      ],
+      "example": {
+        "code": [
+          "OUTCH = $1EA0",
+          "LDA #'H",
+          "JSR OUTCH",
+          "LDA #'I",
+          "JSR OUTCH",
+          "BRK"
+        ],
+        "output": [
+          "HI"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a8-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does JSR OUTCH do?",
+          "options": [
+            "Prints the character in A on the teletype",
+            "Reads a key from the keypad",
+            "Stores A at $1EA0",
+            "Stops the program"
+          ],
+          "answer": 0,
+          "explanation": "OUTCH is a subroutine in the KIM-1 ROM. It types the character in A."
+        },
+        {
+          "id": "a8-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "OUTCH = $1EA0",
+            "LDA #'O",
+            "JSR OUTCH",
+            "LDA #'K",
+            "JSR OUTCH",
+            "BRK"
+          ],
+          "options": [
+            "OK",
+            "KO",
+            "O",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "First O, then K."
+        },
+        {
+          "id": "a8-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Give the address $1EA0 the name OUTCH.",
+          "code": [
+            "OUTCH ___ $1EA0",
+            "LDA #'A",
+            "JSR OUTCH",
+            "BRK"
+          ],
+          "options": [
+            "=",
+            ":",
+            "#",
+            ","
+          ],
+          "answer": "=",
+          "explanation": "NAME = value defines a constant. A colon would make a label for the current line."
+        },
+        {
+          "id": "a8-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does LDA #'Z load?",
+          "options": [
+            "The character code of the letter Z",
+            "The number 0",
+            "The address Z",
+            "Nothing, it's an error"
+          ],
+          "answer": 0,
+          "explanation": "'Z means \"the code of the character Z\"."
+        },
+        {
+          "id": "a8-l1-e5",
+          "type": "find_bug",
+          "prompt": "This should print A, but nothing shows up on the teletype. Which line is in the wrong place?",
+          "code": [
+            "OUTCH = $1EA0",
+            "JSR OUTCH",
+            "LDA #'A",
+            "BRK"
+          ],
+          "answer": 1,
+          "explanation": "OUTCH prints whatever is in A at that moment, and A is still 0. Load the letter first, then JSR OUTCH."
+        },
+        {
+          "id": "a8-l1-e6",
+          "type": "order_lines",
+          "prompt": "Print GO.",
+          "lines": [
+            "OUTCH = $1EA0",
+            "LDA #'G",
+            "JSR OUTCH",
+            "LDA #'O",
+            "JSR OUTCH",
+            "BRK"
+          ],
+          "answer": [
+            "OUTCH = $1EA0",
+            "LDA #'G",
+            "JSR OUTCH",
+            "LDA #'O",
+            "JSR OUTCH",
+            "BRK"
+          ],
+          "explanation": "Define OUTCH first, then load and print each letter in order."
+        }
+      ]
+    },
+    {
+      "id": "a8-l2",
+      "title": "ASCII",
+      "xp": 15,
+      "intro": [
+        "Which number is which character? The code is called ASCII. Capital letters run from 'A = $41 to 'Z = $5A, digits from '0 = $30 to '9 = $39, and a space is $20.",
+        "Because the letters are in order, you can do math with them: 'A + 1 is 'B. A loop that adds 1 prints the alphabet.",
+        "Two special codes: 13 starts a new line (carriage return), and 0 isn't printed at all. We'll use 0 as an end marker soon."
+      ],
+      "example": {
+        "code": [
+          "OUTCH = $1EA0",
+          "LDA #'A",
+          "LDX #5",
+          "LOOP: JSR OUTCH",
+          "CLC",
+          "ADC #1",
+          "DEX",
+          "BNE LOOP",
+          "BRK"
+        ],
+        "output": [
+          "ABCDE"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a8-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is the ASCII code of 'A?",
+          "options": [
+            "$41",
+            "$01",
+            "$0A",
+            "$61"
+          ],
+          "answer": 0,
+          "explanation": "Capital letters start at $41. ($61 is the small a.)"
+        },
+        {
+          "id": "a8-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What is the ASCII code of the digit '7?",
+          "options": [
+            "$37",
+            "$07",
+            "$70",
+            "$47"
+          ],
+          "answer": 0,
+          "explanation": "Digits start at $30 for '0, so '7 is $30 + 7 = $37."
+        },
+        {
+          "id": "a8-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this print?",
+          "code": [
+            "OUTCH = $1EA0",
+            "LDA #'C",
+            "LDX #3",
+            "LOOP: JSR OUTCH",
+            "CLC",
+            "ADC #1",
+            "DEX",
+            "BNE LOOP",
+            "BRK"
+          ],
+          "options": [
+            "CDE",
+            "ABC",
+            "CCC",
+            "DEF"
+          ],
+          "answer": 0,
+          "explanation": "It starts at C and adds 1 after printing, three times: C, D, E."
+        },
+        {
+          "id": "a8-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Start a new line.",
+          "code": [
+            "OUTCH = $1EA0",
+            "LDA #'A",
+            "JSR OUTCH",
+            "LDA #___",
+            "JSR OUTCH",
+            "LDA #'B",
+            "JSR OUTCH",
+            "BRK"
+          ],
+          "options": [
+            "13",
+            "0",
+            "$20",
+            "'N"
+          ],
+          "answer": "13",
+          "explanation": "13 is the carriage return. The teletype moves to the start of the next line."
+        },
+        {
+          "id": "a8-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "Which code is the space?",
+          "options": [
+            "$20",
+            "$00",
+            "$13",
+            "$30"
+          ],
+          "answer": 0,
+          "explanation": "$20 (32) is the space. $30 would print the digit 0."
+        },
+        {
+          "id": "a8-l2-e6",
+          "type": "find_bug",
+          "prompt": "This should print 12345, but it prints 1 five times. Which line is missing something after it?",
+          "code": [
+            "OUTCH = $1EA0",
+            "LDA #'1",
+            "LDX #5",
+            "LOOP: JSR OUTCH",
+            "DEX",
+            "BNE LOOP",
+            "BRK"
+          ],
+          "answer": 3,
+          "explanation": "A never changes, so the same digit is printed every round. After printing: CLC, ADC #1."
+        }
+      ]
+    },
+    {
+      "id": "a8-l3",
+      "title": "Messages",
+      "xp": 15,
+      "intro": [
+        "Printing letter by letter gets long. Instead, put the whole text in a table: MSG: .BYTE \"HELLO\", 0. Text in double quotes becomes one byte per letter.",
+        "The 0 at the end marks where the message stops. A loop reads MSG,X, stops at the 0 with BEQ, and prints everything else.",
+        "This is the same loop you used for tables, with a different way to stop: not after a fixed count, but at the marker."
+      ],
+      "example": {
+        "code": [
+          "OUTCH = $1EA0",
+          "LDX #0",
+          "LOOP: LDA MSG,X",
+          "BEQ DONE",
+          "JSR OUTCH",
+          "INX",
+          "JMP LOOP",
+          "DONE: BRK",
+          "MSG: .BYTE \"HELLO\", 0"
+        ],
+        "output": [
+          "HELLO"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a8-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Why is there a 0 at the end of the message?",
+          "options": [
+            "It marks the end, so the loop knows when to stop",
+            "The teletype needs it to start",
+            "Every .BYTE line needs a 0",
+            "It prints a space"
+          ],
+          "answer": 0,
+          "explanation": "LDA sets the Z flag when it loads the 0, and BEQ DONE leaves the loop."
+        },
+        {
+          "id": "a8-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "How many bytes does .BYTE \"HI!\", 0 take?",
+          "options": [
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "H, I, ! and the 0: four bytes."
+        },
+        {
+          "id": "a8-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Leave the loop at the end marker.",
+          "code": [
+            "LOOP: LDA MSG,X",
+            "___ DONE",
+            "JSR OUTCH",
+            "INX",
+            "JMP LOOP",
+            "DONE: BRK"
+          ],
+          "options": [
+            "BEQ",
+            "BNE",
+            "BCS",
+            "JSR"
+          ],
+          "answer": "BEQ",
+          "explanation": "LDA sets Z when it loads 0. BEQ jumps out of the loop then."
+        },
+        {
+          "id": "a8-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this print?",
+          "code": [
+            "OUTCH = $1EA0",
+            "LDX #0",
+            "LOOP: LDA MSG,X",
+            "BEQ DONE",
+            "JSR OUTCH",
+            "INX",
+            "JMP LOOP",
+            "DONE: BRK",
+            "MSG: .BYTE \"OK!\", 0"
+          ],
+          "options": [
+            "OK!",
+            "OK",
+            "!",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "The loop prints every byte until the 0."
+        },
+        {
+          "id": "a8-l3-e5",
+          "type": "find_bug",
+          "prompt": "This program prints its message and then lots of garbage. Which line is missing something?",
+          "code": [
+            "OUTCH = $1EA0",
+            "LDX #0",
+            "LOOP: LDA MSG,X",
+            "BEQ DONE",
+            "JSR OUTCH",
+            "INX",
+            "JMP LOOP",
+            "DONE: BRK",
+            "MSG: .BYTE \"HI\""
+          ],
+          "answer": 8,
+          "explanation": "Without the 0 at the end, the loop keeps reading whatever comes after the message."
+        },
+        {
+          "id": "a8-l3-e6",
+          "type": "order_lines",
+          "prompt": "Print the message in MSG.",
+          "lines": [
+            "OUTCH = $1EA0",
+            "LDX #0",
+            "LOOP: LDA MSG,X",
+            "BEQ DONE",
+            "JSR OUTCH",
+            "INX",
+            "JMP LOOP",
+            "DONE: BRK",
+            "MSG: .BYTE \"BYE\", 0"
+          ],
+          "answer": [
+            "OUTCH = $1EA0",
+            "LDX #0",
+            "LOOP: LDA MSG,X",
+            "BEQ DONE",
+            "JSR OUTCH",
+            "INX",
+            "JMP LOOP",
+            "DONE: BRK",
+            "MSG: .BYTE \"BYE\", 0"
+          ],
+          "explanation": "Start at entry 0, load, stop at the marker, print, next entry, repeat. The message goes at the very end."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,304 @@
+{
+  "id": "u4",
+  "title": "READ & DATA",
+  "lessons": [
+    {
+      "id": "u4-l1",
+      "title": "Data inside the Program",
+      "xp": 15,
+      "intro": [
+        "So far, every number came from a LET line. When a program needs lots of values, that gets tiring. BASIC has a better way: DATA lines.",
+        "A DATA line is a list of numbers stored inside the program. READ takes the next value from that list and puts it into a variable. READ A, B takes two values at once.",
+        "The position of DATA lines doesn't matter. BASIC collects all DATA values from top to bottom before the program starts. If READ wants more values than there are, you get ?OUT OF DATA."
+      ],
+      "example": {
+        "code": ["10 READ A, B", "20 PRINT A + B", "30 DATA 4, 6", "40 END"],
+        "output": ["10"]
+      },
+      "exercises": [
+        {
+          "id": "u4-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": ["10 READ X", "20 PRINT X * 2", "30 DATA 7", "40 END"],
+          "options": ["14", "7", "X * 2", "?OUT OF DATA"],
+          "answer": 0,
+          "explanation": "READ X takes the 7 from the DATA line, and 7 * 2 = 14."
+        },
+        {
+          "id": "u4-l1-e2",
+          "type": "fill_blank",
+          "prompt": "Take two values from the DATA line.",
+          "code": ["10 ___ A, B", "20 PRINT A - B", "30 DATA 9, 4", "40 END"],
+          "options": ["READ", "DATA", "LET", "TAKE"],
+          "answer": "READ",
+          "explanation": "READ takes the next values from the DATA lines: A gets 9, B gets 4."
+        },
+        {
+          "id": "u4-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": ["10 READ A", "20 READ B", "30 PRINT B", "40 DATA 1, 2, 3", "50 END"],
+          "options": ["2", "1", "3", "1, 2"],
+          "answer": 0,
+          "explanation": "The first READ takes 1, the second READ takes the next value, 2. The 3 is never used."
+        },
+        {
+          "id": "u4-l1-e4",
+          "type": "find_bug",
+          "prompt": "This program stops with ?OUT OF DATA. Which line needs fixing?",
+          "code": ["10 READ A, B, C", "20 PRINT A + B + C", "30 DATA 5, 10", "40 END"],
+          "answer": 2,
+          "explanation": "READ wants three values, but the DATA line only has two. Adding a third value fixes it."
+        },
+        {
+          "id": "u4-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Where in the program may DATA lines be?",
+          "options": [
+            "Anywhere before END, BASIC collects them from top to bottom",
+            "Only directly before the READ",
+            "Only on the very first line",
+            "Only after END"
+          ],
+          "answer": 0,
+          "explanation": "All DATA values are collected before the program starts, so their position doesn't matter. Many programmers put them at the end."
+        },
+        {
+          "id": "u4-l1-e6",
+          "type": "order_lines",
+          "prompt": "Build a program that reads 6 and 7 and prints their product, 42.",
+          "lines": ["10 READ L, W", "20 PRINT L * W", "30 DATA 6, 7", "40 END"],
+          "answer": ["10 READ L, W", "20 PRINT L * W", "30 DATA 6, 7", "40 END"],
+          "explanation": "READ fills L and W from the DATA line, then PRINT multiplies them."
+        }
+      ]
+    },
+    {
+      "id": "u4-l2",
+      "title": "Reading in a Loop",
+      "xp": 15,
+      "intro": [
+        "READ really shines inside a loop. Each round takes the next value, so one READ line can work through a whole list of numbers.",
+        "A classic pattern is the running total: start with S = 0 and add every value you read.",
+        "The loop should run exactly as many times as there are values. Too many rounds and you get ?OUT OF DATA."
+      ],
+      "example": {
+        "code": [
+          "10 LET S = 0",
+          "20 FOR I = 1 TO 4",
+          "30 READ X",
+          "40 LET S = S + X",
+          "50 NEXT I",
+          "60 PRINT S",
+          "70 DATA 3, 5, 2, 10",
+          "80 END"
+        ],
+        "output": ["20"]
+      },
+      "exercises": [
+        {
+          "id": "u4-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "10 LET S = 0",
+            "20 FOR I = 1 TO 4",
+            "30 READ X",
+            "40 LET S = S + X",
+            "50 NEXT I",
+            "60 PRINT S / 4",
+            "70 DATA 3, 5, 2, 10",
+            "80 END"
+          ],
+          "options": ["5", "20", "10", "4"],
+          "answer": 0,
+          "explanation": "The total is 3 + 5 + 2 + 10 = 20. Divided by 4 values, that's the average: 5."
+        },
+        {
+          "id": "u4-l2-e2",
+          "type": "fill_blank",
+          "prompt": "Make the loop read exactly all the values.",
+          "code": ["10 LET S = 0", "20 FOR I = 1 TO ___", "30 READ X", "40 LET S = S + X", "50 NEXT I", "60 PRINT S", "70 DATA 8, 2, 6", "80 END"],
+          "options": ["3", "2", "4", "8"],
+          "answer": "3",
+          "explanation": "There are three values in the DATA line, so the loop needs three rounds."
+        },
+        {
+          "id": "u4-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "The loop runs 5 times, but there are only 4 DATA values. What happens?",
+          "options": [
+            "The program stops with ?OUT OF DATA",
+            "The fifth value is 0",
+            "BASIC starts again from the first value",
+            "The loop stops after 4 rounds by itself"
+          ],
+          "answer": 0,
+          "explanation": "In the fifth round READ finds no more values, and the program stops with ?OUT OF DATA."
+        },
+        {
+          "id": "u4-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "This program finds the biggest value. What does it print?",
+          "code": [
+            "10 READ M",
+            "20 FOR I = 1 TO 3",
+            "30 READ X",
+            "40 IF X <= M THEN 60",
+            "50 LET M = X",
+            "60 NEXT I",
+            "70 PRINT M",
+            "80 DATA 4, 9, 2, 7",
+            "90 END"
+          ],
+          "options": ["9", "7", "4", "22"],
+          "answer": 0,
+          "explanation": "M starts with the first value, 4. Whenever a bigger value comes along, it replaces M. The biggest is 9."
+        },
+        {
+          "id": "u4-l2-e5",
+          "type": "find_bug",
+          "prompt": "This program should print the total, but it prints only the last price. Which line is wrong?",
+          "code": [
+            "10 LET T = 0",
+            "20 FOR I = 1 TO 3",
+            "30 READ P",
+            "40 LET T = P",
+            "50 NEXT I",
+            "60 PRINT T",
+            "70 DATA 4, 5, 6",
+            "80 END"
+          ],
+          "answer": 3,
+          "explanation": "LET T = P overwrites the total every round. It should add to it: LET T = T + P."
+        },
+        {
+          "id": "u4-l2-e6",
+          "type": "order_lines",
+          "prompt": "Build a program that adds up three prices and prints the total, 15.",
+          "lines": [
+            "10 LET T = 0",
+            "20 FOR I = 1 TO 3",
+            "30 READ P",
+            "40 LET T = T + P",
+            "50 NEXT I",
+            "60 PRINT T",
+            "70 DATA 4, 5, 6",
+            "80 END"
+          ],
+          "answer": [
+            "10 LET T = 0",
+            "20 FOR I = 1 TO 3",
+            "30 READ P",
+            "40 LET T = T + P",
+            "50 NEXT I",
+            "60 PRINT T",
+            "70 DATA 4, 5, 6",
+            "80 END"
+          ],
+          "explanation": "Start at zero, read and add each price in the loop, print the total after the loop."
+        }
+      ]
+    },
+    {
+      "id": "u4-l3",
+      "title": "Tables from Data",
+      "xp": 20,
+      "intro": [
+        "DATA can hold pairs of values that belong together, like an item number and its price. READ N, P then takes one pair per round.",
+        "Combined with commas in PRINT, this gives you neat tables: a header line first, then one row per pair.",
+        "Text can be mixed in too: PRINT \"TOTAL = \"; T prints a label followed by the value."
+      ],
+      "example": {
+        "code": [
+          "10 PRINT \"ITEM\", \"PRICE\"",
+          "20 FOR I = 1 TO 3",
+          "30 READ N, P",
+          "40 PRINT N, P",
+          "50 NEXT I",
+          "60 DATA 1, 4.5, 2, 3, 3, 10",
+          "70 END"
+        ],
+        "output": ["ITEM           PRICE", "1              4.5", "2              3", "3              10"]
+      },
+      "exercises": [
+        {
+          "id": "u4-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "How many DATA values does line 30 take in each round?",
+          "code": ["30 READ N, P", "60 DATA 1, 4.5, 2, 3, 3, 10"],
+          "options": ["2", "1", "3", "6"],
+          "answer": 0,
+          "explanation": "READ N, P reads two values per round: one for N and one for P."
+        },
+        {
+          "id": "u4-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "Which values are printed in the second row of the table?",
+          "code": [
+            "10 FOR I = 1 TO 3",
+            "20 READ N, P",
+            "30 PRINT N, P",
+            "40 NEXT I",
+            "50 DATA 1, 4.5, 2, 3, 3, 10",
+            "60 END"
+          ],
+          "options": ["2 and 3", "4.5 and 2", "2 and 4.5", "3 and 10"],
+          "answer": 0,
+          "explanation": "The first round takes 1 and 4.5, the second round takes the next pair: 2 and 3."
+        },
+        {
+          "id": "u4-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Print a header with two separate columns.",
+          "code": ["10 PRINT \"NAME\"___ \"SCORE\""],
+          "options": [",", ";", ".", "+"],
+          "answer": ",",
+          "explanation": "A comma jumps to the next column. A semicolon would glue the words together: NAMESCORE."
+        },
+        {
+          "id": "u4-l3-e4",
+          "type": "find_bug",
+          "prompt": "This program stops with ?OUT OF DATA. Which line needs fixing?",
+          "code": ["10 FOR I = 1 TO 2", "20 READ A, B", "30 PRINT A * B", "40 NEXT I", "50 DATA 2, 3, 4", "60 END"],
+          "answer": 4,
+          "explanation": "Two rounds with two values each need four values, but the DATA line only has three."
+        },
+        {
+          "id": "u4-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": ["10 READ A, B", "20 PRINT \"SUM = \"; A + B", "30 DATA 2, 5", "40 END"],
+          "options": ["SUM = 7", "SUM = A + B", "7", "SUM = 25"],
+          "answer": 0,
+          "explanation": "The text in quotes is printed as it is, followed by the calculated value 2 + 5 = 7."
+        },
+        {
+          "id": "u4-l3-e6",
+          "type": "order_lines",
+          "prompt": "Build a table with a header and two rows of data.",
+          "lines": [
+            "10 PRINT \"NUMBER\", \"SQUARE\"",
+            "20 FOR I = 1 TO 2",
+            "30 READ N",
+            "40 PRINT N, N * N",
+            "50 NEXT I",
+            "60 DATA 4, 7",
+            "70 END"
+          ],
+          "answer": [
+            "10 PRINT \"NUMBER\", \"SQUARE\"",
+            "20 FOR I = 1 TO 2",
+            "30 READ N",
+            "40 PRINT N, N * N",
+            "50 NEXT I",
+            "60 DATA 4, 7",
+            "70 END"
+          ],
+          "explanation": "The header comes before the loop, so it's printed only once. Each round then prints one row."
+        }
+      ]
+    }
+  ]
+}

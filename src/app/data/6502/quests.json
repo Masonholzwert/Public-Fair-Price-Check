@@ -1,0 +1,1024 @@
+{
+  "a1": {
+    "title": "Power-On Test",
+    "xp": 40,
+    "story": "The board has just been soldered together. To test it, the engineer wants a known pattern in the registers. But the keypad is slow, so: as few loads as possible.",
+    "task": "End with A = $2A, X = $2B and Y = $2A. Use only one LDA, then copy and count to fill X and Y. End with BRK.",
+    "starter": "; POWER-ON TEST\n",
+    "expectedOutput": "",
+    "expect": {
+      "a": 42,
+      "x": 43,
+      "y": 42
+    },
+    "maxLines": 6,
+    "requirements": [
+      {
+        "pattern": "\\bTAX\\b",
+        "message": "Copy A into X with TAX instead of loading X."
+      },
+      {
+        "pattern": "\\bTAY\\b",
+        "message": "Copy A into Y with TAY instead of loading Y."
+      },
+      {
+        "pattern": "\\bINX\\b",
+        "message": "X has to be one more than A: use INX."
+      }
+    ],
+    "hints": [
+      "Start with LDA #$2A.",
+      "TAX and TAY copy A into X and Y.",
+      "INX makes X one bigger. Then BRK."
+    ]
+  },
+  "a2": {
+    "title": "Today's Date",
+    "xp": 40,
+    "story": "The board has no clock. Every morning, the operator types today's date into memory, so other programs can read it.",
+    "task": "Store the day 10 at $0300, the month 11 at $0301 and the year 76 at $0302. Then copy the day from $0300 to the zero page address $40, by loading it from memory. End with BRK.",
+    "starter": "; TODAY'S DATE\n",
+    "expectedOutput": "",
+    "expect": {
+      "mem": {
+        "0300": 10,
+        "0301": 11,
+        "0302": 76,
+        "0040": 10
+      }
+    },
+    "requirements": [
+      {
+        "pattern": "LDA\\s+\\$0?300\\b",
+        "message": "Copy the day by reading it from memory: LDA $0300."
+      },
+      {
+        "pattern": "ST[AXY]\\s+\\$0{0,2}40\\b",
+        "message": "Store the copy at $40."
+      }
+    ],
+    "hints": [
+      "Each value: LDA #… then STA to its address.",
+      "10 is $0A, 11 is $0B and 76 is $4C, but decimal works too.",
+      "At the end: LDA $0300, then STA $40, then BRK."
+    ]
+  },
+  "a3": {
+    "title": "Shopping Total",
+    "xp": 40,
+    "story": "The board now runs the till of a tiny shop. Someone bought bread for 25, milk for 17 and an apple for 8.",
+    "task": "Add 25, 17 and 8 and store the total at $0300. End with BRK.",
+    "starter": "; SHOPPING TOTAL\n",
+    "expectedOutput": "",
+    "expect": {
+      "mem": {
+        "0300": 50
+      }
+    },
+    "requirements": [
+      {
+        "pattern": "\\bCLC\\b",
+        "message": "Clear the carry with CLC before adding."
+      },
+      {
+        "pattern": "ADC[\\s\\S]*ADC",
+        "message": "Let the 6502 do the math: add the prices with ADC."
+      }
+    ],
+    "hints": [
+      "Start with LDA #25.",
+      "CLC, then ADC #17 and ADC #8.",
+      "Store A with STA $0300, then BRK."
+    ]
+  },
+  "ac1-project": {
+    "title": "The Bank Account",
+    "xp": 100,
+    "story": "A tiny bank keeps its only account at $0300 and counts every transaction at $0301. Today: the account is opened with 100, someone pays in 45 and takes out 30.",
+    "task": "Store 100 at $0300. Add 45 to the balance and store it back, then subtract 30 and store it back. Count both transactions at $0301 with INC, so it ends at 2. End with BRK.",
+    "starter": "; THE BANK ACCOUNT\n",
+    "expectedOutput": "",
+    "expect": {
+      "mem": {
+        "0300": 115,
+        "0301": 2
+      }
+    },
+    "requirements": [
+      {
+        "pattern": "\\bADC\\b",
+        "message": "Pay in with ADC."
+      },
+      {
+        "pattern": "\\bSBC\\b",
+        "message": "Pay out with SBC."
+      },
+      {
+        "pattern": "\\bSEC\\b",
+        "message": "Set the carry with SEC before subtracting."
+      },
+      {
+        "pattern": "INC\\s+\\$0?301\\b",
+        "message": "Count the transactions with INC $0301."
+      }
+    ],
+    "hints": [
+      "Open the account: LDA #100, STA $0300.",
+      "Pay in: LDA $0300, CLC, ADC #45, STA $0300, INC $0301.",
+      "Pay out: LDA $0300, SEC, SBC #30, STA $0300, INC $0301. Then BRK."
+    ]
+  },
+  "a4": {
+    "title": "The Alarm",
+    "xp": 40,
+    "story": "A sensor writes its reading to $0300. A reading of 0 means the pipe is empty, and someone has to be warned.",
+    "task": "If $0300 is 0, store $FF at $0301 (alarm on). Otherwise store $01 at $0301 (all good). End with BRK.",
+    "starter": "; THE ALARM\nLDA $0300\n",
+    "expectedOutput": "",
+    "cases": [
+      {
+        "memory": {
+          "0300": 0
+        },
+        "expect": {
+          "mem": {
+            "0301": 255
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 7
+        },
+        "expect": {
+          "mem": {
+            "0301": 1
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 128
+        },
+        "expect": {
+          "mem": {
+            "0301": 1
+          }
+        }
+      }
+    ],
+    "requirements": [
+      {
+        "pattern": "\\bB(EQ|NE)\\b",
+        "message": "Decide with BEQ or BNE."
+      }
+    ],
+    "hints": [
+      "LDA $0300 sets the Z flag when the reading is 0.",
+      "BEQ ALARM jumps to a label when it's 0. Otherwise store $01 and BRK.",
+      "ALARM: LDA #$FF, STA $0301, BRK."
+    ]
+  },
+  "a5": {
+    "title": "The Multiplier",
+    "xp": 40,
+    "story": "Customers keep asking the board to multiply, but the 6502 has no multiply instruction. Time to build one.",
+    "task": "Multiply the number at $0300 by the number at $0301 and store the result at $0302. The result always fits in one byte. End with BRK.",
+    "starter": "; THE MULTIPLIER\n",
+    "expectedOutput": "",
+    "cases": [
+      {
+        "memory": {
+          "0300": 3,
+          "0301": 4
+        },
+        "expect": {
+          "mem": {
+            "0302": 12
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 7,
+          "0301": 5
+        },
+        "expect": {
+          "mem": {
+            "0302": 35
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 9,
+          "0301": 1
+        },
+        "expect": {
+          "mem": {
+            "0302": 9
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 6,
+          "0301": 0
+        },
+        "expect": {
+          "mem": {
+            "0302": 0
+          }
+        }
+      }
+    ],
+    "requirements": [
+      {
+        "pattern": "\\bADC\\b",
+        "message": "Multiply by adding again and again with ADC."
+      },
+      {
+        "pattern": "\\bB(NE|EQ|CS|CC|PL|MI)\\b",
+        "message": "Repeat the adding with a loop."
+      }
+    ],
+    "hints": [
+      "LDA #0 for the total, LDX $0301 for the number of rounds.",
+      "Loop: CLC, ADC $0300, DEX, BNE back.",
+      "After the loop: STA $0302, then BRK."
+    ]
+  },
+  "a6": {
+    "title": "High Score",
+    "xp": 40,
+    "story": "Five players have finished the game. Their scores are at $0300 to $0304. The board has to find the winner's score.",
+    "task": "Find the biggest of the five bytes at $0300–$0304 and store it at $0310. End with BRK.",
+    "starter": "; HIGH SCORE\n",
+    "expectedOutput": "",
+    "cases": [
+      {
+        "memory": {
+          "0300": 12,
+          "0301": 45,
+          "0302": 7,
+          "0303": 30,
+          "0304": 22
+        },
+        "expect": {
+          "mem": {
+            "0310": 45
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 99,
+          "0301": 3,
+          "0302": 50,
+          "0303": 98,
+          "0304": 1
+        },
+        "expect": {
+          "mem": {
+            "0310": 99
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 5,
+          "0301": 8,
+          "0302": 13,
+          "0303": 21,
+          "0304": 200
+        },
+        "expect": {
+          "mem": {
+            "0310": 200
+          }
+        }
+      }
+    ],
+    "requirements": [
+      {
+        "pattern": "\\$0?300\\s*,\\s*[XY]",
+        "message": "Walk through the scores with $0300,X."
+      },
+      {
+        "pattern": "\\bCMP\\b",
+        "message": "Compare the scores with CMP."
+      }
+    ],
+    "hints": [
+      "Start with the first score as the best: LDA $0300, then LDX #1.",
+      "Loop: CMP $0300,X. BCS skips ahead when A is already bigger or equal. Otherwise LDA $0300,X.",
+      "INX, CPX #5, BNE back to the loop. Then STA $0310."
+    ]
+  },
+  "ac2-project": {
+    "title": "The Grade Counter",
+    "xp": 100,
+    "story": "A teacher typed the test scores of eight students into $0300–$0307. She wants two numbers from the board.",
+    "task": "Count how many scores are 50 or more and store the count at $0310. Store the highest score at $0311. End with BRK.",
+    "starter": "; THE GRADE COUNTER\n",
+    "expectedOutput": "",
+    "cases": [
+      {
+        "memory": {
+          "0300": 72,
+          "0301": 45,
+          "0302": 50,
+          "0303": 88,
+          "0304": 12,
+          "0305": 49,
+          "0306": 95,
+          "0307": 61
+        },
+        "expect": {
+          "mem": {
+            "0310": 5,
+            "0311": 95
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 10,
+          "0301": 20,
+          "0302": 30,
+          "0303": 40,
+          "0304": 49,
+          "0305": 0,
+          "0306": 5,
+          "0307": 44
+        },
+        "expect": {
+          "mem": {
+            "0310": 0,
+            "0311": 49
+          }
+        }
+      }
+    ],
+    "requirements": [
+      {
+        "pattern": "\\$0?300\\s*,\\s*[XY]",
+        "message": "Walk through the scores with $0300,X."
+      },
+      {
+        "pattern": "CMP\\s+#",
+        "message": "Compare each score with the pass mark, like CMP #50."
+      }
+    ],
+    "hints": [
+      "Two loops are easiest: one counts the passes, one finds the highest score.",
+      "Counting: LDX #0, then LOOP: LDA $0300,X, CMP #50, BCC SKIP, INC $0310, SKIP: INX, CPX #8, BNE LOOP.",
+      "Highest: reuse the High Score quest, with CPX #8 and STA $0311."
+    ]
+  },
+  "a7": {
+    "title": "The Tripler",
+    "xp": 40,
+    "story": "Two numbers wait at $0300 and $0301. Both have to be tripled, and nobody wants to write the same code twice.",
+    "task": "Write a subroutine TRIPLE that takes a number in A and returns three times that number in A. Use it to store 3 × $0300 at $0310 and 3 × $0301 at $0311. End the main program with BRK.",
+    "starter": "; THE TRIPLER\n",
+    "expectedOutput": "",
+    "cases": [
+      {
+        "memory": {
+          "0300": 4,
+          "0301": 10
+        },
+        "expect": {
+          "mem": {
+            "0310": 12,
+            "0311": 30
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 21,
+          "0301": 0
+        },
+        "expect": {
+          "mem": {
+            "0310": 63,
+            "0311": 0
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 1,
+          "0301": 50
+        },
+        "expect": {
+          "mem": {
+            "0310": 3,
+            "0311": 150
+          }
+        }
+      }
+    ],
+    "requirements": [
+      {
+        "pattern": "JSR[\\s\\S]*JSR",
+        "message": "Call your subroutine twice with JSR."
+      },
+      {
+        "pattern": "\\bRTS\\b",
+        "message": "End the subroutine with RTS."
+      }
+    ],
+    "hints": [
+      "Main program: LDA $0300, JSR TRIPLE, STA $0310, and the same for $0301 and $0311. Then BRK.",
+      "TRIPLE: STA $30 to keep the number, then add it twice.",
+      "TRIPLE: STA $30, CLC, ADC $30, CLC, ADC $30, RTS."
+    ]
+  },
+  "a8": {
+    "title": "Hello, KIM",
+    "xp": 40,
+    "story": "The board's first message to the world. The teletype is loaded with fresh paper and everyone is watching.",
+    "task": "Print HELLO, KIM-1! on the teletype. Keep the text in a .BYTE message with a 0 at the end, and print it with a loop. End with BRK.",
+    "starter": "; HELLO, KIM\nOUTCH = $1EA0\n",
+    "expectedOutput": "HELLO, KIM-1!",
+    "expect": {},
+    "requirements": [
+      {
+        "pattern": "\\.BYTE\\s*\"",
+        "message": "Put the text into a .BYTE message, like MSG: .BYTE \"HELLO, KIM-1!\", 0."
+      },
+      {
+        "pattern": "\\$?[A-Z0-9_]*\\s*,\\s*[XY]",
+        "message": "Print the message with a loop, like LDA MSG,X."
+      }
+    ],
+    "hints": [
+      "At the end: MSG: .BYTE \"HELLO, KIM-1!\", 0",
+      "LDX #0, then LOOP: LDA MSG,X and BEQ DONE.",
+      "JSR OUTCH, INX, JMP LOOP. DONE: BRK."
+    ]
+  },
+  "a9": {
+    "title": "The Scoreboard",
+    "xp": 40,
+    "story": "The arcade wants the score of the last game printed on the teletype, always with two digits.",
+    "task": "The score (0 to 99) is at $0300. Print SCORE: followed by the score with two digits, like SCORE: 42 or SCORE: 07. End with BRK.",
+    "starter": "; THE SCOREBOARD\nOUTCH = $1EA0\n",
+    "expectedOutput": "",
+    "cases": [
+      {
+        "memory": {
+          "0300": 42
+        },
+        "expect": {},
+        "output": "SCORE: 42"
+      },
+      {
+        "memory": {
+          "0300": 7
+        },
+        "expect": {},
+        "output": "SCORE: 07"
+      },
+      {
+        "memory": {
+          "0300": 99
+        },
+        "expect": {},
+        "output": "SCORE: 99"
+      }
+    ],
+    "requirements": [
+      {
+        "pattern": "SBC\\s+#(10|\\$0?A)\\b",
+        "message": "Split the score into tens and ones by subtracting 10."
+      }
+    ],
+    "hints": [
+      "Print the label first: a .BYTE message \"SCORE: \", 0 and a loop, or one JSR OUTCH per letter.",
+      "Then the tens loop from the lesson: LDA $0300, LDX #0, TENS: CMP #10, BCC ONES, SEC, SBC #10, INX, JMP TENS.",
+      "ONES: PHA, TXA, CLC, ADC #'0, JSR OUTCH, PLA, CLC, ADC #'0, JSR OUTCH, BRK."
+    ]
+  },
+  "ac3-project": {
+    "title": "Times Table Printer",
+    "xp": 100,
+    "story": "The school next door wants the board to print times tables. Each line has to be easy to read.",
+    "task": "The number at $0300 (1 to 9) is the table. Print its multiples from 1 × to 10 ×, one per line, always with two digits. For 7: 07, 14, 21 … 70. Write a subroutine that prints a two-digit number. End with BRK.",
+    "starter": "; TIMES TABLE PRINTER\nOUTCH = $1EA0\n",
+    "expectedOutput": "",
+    "cases": [
+      {
+        "memory": {
+          "0300": 7
+        },
+        "expect": {},
+        "output": "07\n14\n21\n28\n35\n42\n49\n56\n63\n70"
+      },
+      {
+        "memory": {
+          "0300": 3
+        },
+        "expect": {},
+        "output": "03\n06\n09\n12\n15\n18\n21\n24\n27\n30"
+      },
+      {
+        "memory": {
+          "0300": 9
+        },
+        "expect": {},
+        "output": "09\n18\n27\n36\n45\n54\n63\n72\n81\n90"
+      }
+    ],
+    "requirements": [
+      {
+        "pattern": "\\bRTS\\b",
+        "message": "Print each number with a subroutine that ends with RTS."
+      },
+      {
+        "pattern": "#13\\b|#\\$0?D\\b",
+        "message": "Start a new line with character 13."
+      }
+    ],
+    "hints": [
+      "Keep the running multiple in $31 and the line counter in $32 (start at 10). X is busy in the print subroutine.",
+      "Loop: LDA $31, CLC, ADC $0300, STA $31, JSR PRINT2, LDA #13, JSR OUTCH, DEC $32, BNE LOOP.",
+      "PRINT2 is the tens-and-ones code from The Scoreboard, ending with RTS instead of BRK."
+    ]
+  },
+  "a10": {
+    "title": "Odd or Even",
+    "xp": 40,
+    "story": "The board is running a game of odds and evens. Every number at $0300 needs a verdict.",
+    "task": "If the number at $0300 is odd, store 1 at $0301. If it's even, store 0 at $0301. Use AND to test the lowest bit. End with BRK.",
+    "starter": "; ODD OR EVEN\n",
+    "expectedOutput": "",
+    "cases": [
+      {
+        "memory": {
+          "0300": 7
+        },
+        "expect": {
+          "mem": {
+            "0301": 1
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 20,
+          "0301": 9
+        },
+        "expect": {
+          "mem": {
+            "0301": 0
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 255
+        },
+        "expect": {
+          "mem": {
+            "0301": 1
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 0,
+          "0301": 5
+        },
+        "expect": {
+          "mem": {
+            "0301": 0
+          }
+        }
+      }
+    ],
+    "requirements": [
+      {
+        "pattern": "\\bAND\\b",
+        "message": "Test the lowest bit with AND #1."
+      }
+    ],
+    "hints": [
+      "LDA $0300, then AND #1. A is now 1 for odd numbers and 0 for even ones.",
+      "That's already the answer! Just store it.",
+      "LDA $0300, AND #1, STA $0301, BRK."
+    ]
+  },
+  "a11": {
+    "title": "Times Ten",
+    "xp": 40,
+    "story": "The cash register counts in tens. It needs to multiply fast, without a slow adding loop.",
+    "task": "Multiply the number at $0300 (0 to 25) by 10 and store the result at $0301. Use shifts: 10 × N is 8 × N + 2 × N. End with BRK.",
+    "starter": "; TIMES TEN\n",
+    "expectedOutput": "",
+    "cases": [
+      {
+        "memory": {
+          "0300": 7
+        },
+        "expect": {
+          "mem": {
+            "0301": 70
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 25
+        },
+        "expect": {
+          "mem": {
+            "0301": 250
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 0
+        },
+        "expect": {
+          "mem": {
+            "0301": 0
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 13
+        },
+        "expect": {
+          "mem": {
+            "0301": 130
+          }
+        }
+      }
+    ],
+    "requirements": [
+      {
+        "pattern": "\\bASL\\b",
+        "message": "Multiply with ASL instead of adding in a loop."
+      },
+      {
+        "pattern": "\\bADC\\b",
+        "message": "Add 8 × N and 2 × N together with ADC."
+      }
+    ],
+    "hints": [
+      "LDA $0300, ASL A gives 2 × N. Keep it: STA $30.",
+      "Two more ASL A give 8 × N.",
+      "CLC, ADC $30 adds the 2 × N. Then STA $0301 and BRK."
+    ]
+  },
+  "a12": {
+    "title": "The Big Multiply",
+    "xp": 40,
+    "story": "The tiny shop has grown: 200 boxes at 150 each. The total doesn't fit into one byte any more.",
+    "task": "Multiply $0300 by $0301 (both 0 to 255). Store the 16-bit result with the low byte at $0310 and the high byte at $0311. End with BRK.",
+    "starter": "; THE BIG MULTIPLY\n",
+    "expectedOutput": "",
+    "cases": [
+      {
+        "memory": {
+          "0300": 5,
+          "0301": 6
+        },
+        "expect": {
+          "mem": {
+            "0310": 30,
+            "0311": 0
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 200,
+          "0301": 150
+        },
+        "expect": {
+          "mem": {
+            "0310": 48,
+            "0311": 117
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 255,
+          "0301": 255
+        },
+        "expect": {
+          "mem": {
+            "0310": 1,
+            "0311": 254
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 0,
+          "0301": 99
+        },
+        "expect": {
+          "mem": {
+            "0310": 0,
+            "0311": 0
+          }
+        }
+      }
+    ],
+    "requirements": [
+      {
+        "pattern": "\\bADC\\b",
+        "message": "Add with ADC to build the result."
+      }
+    ],
+    "hints": [
+      "Simplest way: add $0300 to a 16-bit total, $0301 times. Clear $0310 and $0311 first.",
+      "Each round: CLC, LDA $0310, ADC $0300, STA $0310, LDA $0311, ADC #0, STA $0311.",
+      "Count the rounds with LDX $0301 … DEX, BNE. And skip the loop with BEQ when $0301 is 0!"
+    ]
+  },
+  "ac4-project": {
+    "title": "The Hex Dump",
+    "xp": 100,
+    "story": "Every machine-code programmer needs a hex dump: a printout of memory, byte by byte, in hex. Time to build your own.",
+    "task": "Print the 8 bytes at $0300–$0307 in hex, with a space after each one, like 3C 0F A5 00 FF 12 80 7E. Get each byte's upper digit with LSR and its lower digit with AND #$0F. End with BRK.",
+    "starter": "; THE HEX DUMP\nOUTCH = $1EA0\n",
+    "expectedOutput": "",
+    "cases": [
+      {
+        "memory": {
+          "0300": 60,
+          "0301": 15,
+          "0302": 165,
+          "0303": 0,
+          "0304": 255,
+          "0305": 18,
+          "0306": 128,
+          "0307": 126
+        },
+        "expect": {},
+        "output": "3C 0F A5 00 FF 12 80 7E"
+      },
+      {
+        "memory": {
+          "0300": 222,
+          "0301": 173,
+          "0302": 190,
+          "0303": 239,
+          "0304": 1,
+          "0305": 35,
+          "0306": 69,
+          "0307": 103
+        },
+        "expect": {},
+        "output": "DE AD BE EF 01 23 45 67"
+      }
+    ],
+    "requirements": [
+      {
+        "pattern": "\\bLSR\\b",
+        "message": "Get the upper digit with LSR."
+      },
+      {
+        "pattern": "AND\\s+#(\\$0?F|15|%0*1111)\\b",
+        "message": "Get the lower digit with AND #$0F."
+      }
+    ],
+    "hints": [
+      "A table HEX: .BYTE \"0123456789ABCDEF\" turns 0–15 into a character.",
+      "Upper digit: LDA $0300,X, LSR A four times, TAY, LDA HEX,Y, JSR OUTCH. Lower: LDA $0300,X, AND #$0F, TAY, LDA HEX,Y, JSR OUTCH.",
+      "Then LDA #' ', JSR OUTCH, INX, CPX #8, BNE back to the loop."
+    ]
+  },
+  "a13": {
+    "title": "Long Distance",
+    "xp": 40,
+    "story": "A truck driver logs three trips in the board's memory, each as a 16-bit number of kilometres. The boss wants the total.",
+    "task": "Three 16-bit numbers are stored low byte first at $0300/$0301, $0302/$0303 and $0304/$0305. Add them and store the total at $0310 (low) and $0311 (high). End with BRK.",
+    "starter": "; LONG DISTANCE\n",
+    "expectedOutput": "",
+    "cases": [
+      {
+        "memory": {
+          "0300": 244,
+          "0301": 1,
+          "0302": 188,
+          "0303": 2,
+          "0304": 100,
+          "0305": 0
+        },
+        "expect": {
+          "mem": {
+            "0310": 20,
+            "0311": 5
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 255,
+          "0301": 0,
+          "0302": 1,
+          "0303": 0,
+          "0304": 0,
+          "0305": 16
+        },
+        "expect": {
+          "mem": {
+            "0310": 0,
+            "0311": 17
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 16,
+          "0301": 39,
+          "0302": 16,
+          "0303": 39,
+          "0304": 16,
+          "0305": 39
+        },
+        "expect": {
+          "mem": {
+            "0310": 48,
+            "0311": 117
+          }
+        }
+      }
+    ],
+    "requirements": [
+      {
+        "pattern": "ADC[\\s\\S]*ADC[\\s\\S]*ADC[\\s\\S]*ADC",
+        "message": "Add the low and high bytes with ADC."
+      }
+    ],
+    "hints": [
+      "First add trip 1 and trip 2, like in the lesson, and store the result at $0310/$0311.",
+      "Then add trip 3 to $0310/$0311: CLC, LDA $0310, ADC $0304, STA $0310, LDA $0311, ADC $0305, STA $0311.",
+      "Test 2: $00FF + $0001 needs the carry. Only one CLC per addition!"
+    ]
+  },
+  "a14": {
+    "title": "The Copy Machine",
+    "xp": 40,
+    "story": "The board needs to back up a block of data before an experiment. How long the block is changes every day.",
+    "task": "The length of the block (1 to 32) is at $0300, and the block itself starts at $0301. Copy the block to $0380 using pointers and (zp),Y. End with BRK.",
+    "starter": "; THE COPY MACHINE\n",
+    "expectedOutput": "",
+    "cases": [
+      {
+        "memory": {
+          "0300": 3,
+          "0301": 17,
+          "0302": 34,
+          "0303": 51
+        },
+        "expect": {
+          "mem": {
+            "0380": 17,
+            "0381": 34,
+            "0382": 51
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 5,
+          "0301": 222,
+          "0302": 173,
+          "0303": 190,
+          "0304": 239,
+          "0305": 66
+        },
+        "expect": {
+          "mem": {
+            "0380": 222,
+            "0381": 173,
+            "0382": 190,
+            "0383": 239,
+            "0384": 66
+          }
+        }
+      },
+      {
+        "memory": {
+          "0300": 1,
+          "0301": 7,
+          "0302": 153
+        },
+        "expect": {
+          "mem": {
+            "0380": 7,
+            "0381": 0
+          }
+        }
+      }
+    ],
+    "requirements": [
+      {
+        "pattern": "\\(\\s*\\$?\\w+\\s*\\)\\s*,\\s*Y",
+        "message": "Copy through pointers, like LDA ($40),Y and STA ($42),Y."
+      }
+    ],
+    "hints": [
+      "Pointer 1 at $40/$41 = $0301, pointer 2 at $42/$43 = $0380.",
+      "LDY #0, then LOOP: LDA ($40),Y, STA ($42),Y, INY.",
+      "Stop when Y reaches the length: CPY $0300, BNE LOOP. Test 3 checks that you don't copy one byte too many."
+    ]
+  },
+  "a15": {
+    "title": "Guess the Number",
+    "xp": 40,
+    "story": "The board thinks of a number from 0 to 9. The player types guesses until it's right. A classic of 1970s computer rooms.",
+    "task": "The secret number is at $0300. Read guesses with GETCH, one digit each. Print H if the guess is too high, L if it's too low, and when it's right print * and the number of guesses as one digit. End with BRK.",
+    "starter": "; GUESS THE NUMBER\nGETCH = $1E5A\nOUTCH = $1EA0\n",
+    "expectedOutput": "",
+    "cases": [
+      {
+        "memory": {
+          "0300": 6
+        },
+        "keys": "385796",
+        "expect": {},
+        "output": "LHLHH*6"
+      },
+      {
+        "memory": {
+          "0300": 2
+        },
+        "keys": "2",
+        "expect": {},
+        "output": "*1"
+      },
+      {
+        "memory": {
+          "0300": 9
+        },
+        "keys": "09",
+        "expect": {},
+        "output": "L*2"
+      }
+    ],
+    "requirements": [
+      {
+        "pattern": "JSR\\s+(GETCH|\\$1E5A)",
+        "message": "Read the guesses with JSR GETCH."
+      }
+    ],
+    "hints": [
+      "Count the guesses in $31 (start at 0). GAME: JSR GETCH, SEC, SBC #'0, INC $31.",
+      "CMP $0300: BEQ WIN. BCS means the guess is bigger: print 'H. Otherwise print 'L. Then JMP GAME.",
+      "WIN: LDA #'*, JSR OUTCH, LDA $31, CLC, ADC #'0, JSR OUTCH, BRK."
+    ]
+  },
+  "ac5-project": {
+    "title": "The Nim Machine",
+    "xp": 150,
+    "story": "Nim was one of the first games ever played against a computer. 16 sticks lie on the table. Players take turns taking 1, 2 or 3. Whoever takes the last stick wins. And the board never loses.",
+    "task": "Start with 16 sticks. Each round: read the player's move with GETCH (a digit 1 to 3) and take that many. The board then takes 4 minus the player's move. Print the sticks left as two digits and a new line. When none are left, print I WIN. End with BRK.",
+    "starter": "; THE NIM MACHINE\nGETCH = $1E5A\nOUTCH = $1EA0\n",
+    "expectedOutput": "",
+    "cases": [
+      {
+        "keys": "3122",
+        "expect": {},
+        "output": "12\n08\n04\n00\nI WIN"
+      },
+      {
+        "keys": "1111",
+        "expect": {},
+        "output": "12\n08\n04\n00\nI WIN"
+      },
+      {
+        "keys": "2313",
+        "expect": {},
+        "output": "12\n08\n04\n00\nI WIN"
+      }
+    ],
+    "requirements": [
+      {
+        "pattern": "JSR\\s+(GETCH|\\$1E5A)",
+        "message": "Read the player's moves with JSR GETCH."
+      },
+      {
+        "pattern": "\\bSBC\\b",
+        "message": "Take the sticks away with SBC."
+      }
+    ],
+    "hints": [
+      "The board always takes 4 minus the player's move, so together they take exactly 4 each round. 16, 12, 8, 4, 0: the board takes the last stick.",
+      "But do the real math: sticks in $30. Read the key, SBC #'0, keep the move in $31. Then SEC, LDA $30, SBC $31, then SEC, SBC the board's move (4 - $31).",
+      "Print the sticks with your two-digit routine from The Scoreboard and LDA #13, JSR OUTCH. When $30 is 0, print I WIN from a .BYTE message."
+    ]
+  }
+}

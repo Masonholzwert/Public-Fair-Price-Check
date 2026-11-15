@@ -1,0 +1,330 @@
+{
+  "id": "a14",
+  "title": "Pointers",
+  "lessons": [
+    {
+      "id": "a14-l1",
+      "title": "Pointers and (zp),Y",
+      "xp": 15,
+      "intro": [
+        "So far, every address was written into the instruction. A pointer is an address stored in memory: two zero page bytes, low byte first.",
+        "LDA ($40),Y reads the address stored at $40/$41, adds Y, and loads from there. Change the pointer, and the same instruction reads somewhere else.",
+        "Pointers only work in the zero page, and only with Y. Set them up with LDA #<TABLE and LDA #>TABLE, which give the low and high byte of an address."
+      ],
+      "example": {
+        "code": [
+          "LDA #$00",
+          "STA $40",
+          "LDA #$03",
+          "STA $41",
+          "LDY #2",
+          "LDA ($40),Y",
+          "BRK"
+        ],
+        "output": [
+          "The pointer is $0300, so A = the byte at $0302"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a14-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "$40 = $10 and $41 = $03. Where does LDA ($40),Y read when Y = 5?",
+          "options": [
+            "$0315",
+            "$0310",
+            "$1003",
+            "$0045"
+          ],
+          "answer": 0,
+          "explanation": "The pointer is $0310, plus Y = 5 gives $0315."
+        },
+        {
+          "id": "a14-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Which register works with pointers on the 6502?",
+          "options": [
+            "Y",
+            "X",
+            "A",
+            "Any of them"
+          ],
+          "answer": 0,
+          "explanation": "(zp),Y is the pointer mode. X has a different, rarer one."
+        },
+        {
+          "id": "a14-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Store the high byte of TABLE in the pointer.",
+          "code": [
+            "LDA #<TABLE",
+            "STA $40",
+            "LDA #___TABLE",
+            "STA $41"
+          ],
+          "options": [
+            ">",
+            "<",
+            "#",
+            "$"
+          ],
+          "answer": ">",
+          "explanation": "> gives the high byte, < gives the low byte."
+        },
+        {
+          "id": "a14-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "Why do pointers have to be in the zero page?",
+          "options": [
+            "The instruction only has room for a one-byte address of the pointer",
+            "Other memory is too slow",
+            "It's only a habit",
+            "The stack is there"
+          ],
+          "answer": 0,
+          "explanation": "LDA ($40),Y is two bytes: the opcode and $40."
+        },
+        {
+          "id": "a14-l1-e5",
+          "type": "find_bug",
+          "prompt": "This should read from $0300, but reads from $0003. Which line is wrong?",
+          "code": [
+            "LDA #$03",
+            "STA $40",
+            "LDA #$00",
+            "STA $41",
+            "LDY #0",
+            "LDA ($40),Y"
+          ],
+          "answer": 1,
+          "explanation": "The low byte goes first. $40 needs $00 and $41 needs $03."
+        },
+        {
+          "id": "a14-l1-e6",
+          "type": "order_lines",
+          "prompt": "Set up a pointer to $0380 at $40/$41.",
+          "lines": [
+            "LDA #$80",
+            "STA $40",
+            "LDA #$03",
+            "STA $41",
+            "BRK"
+          ],
+          "answer": [
+            "LDA #$80",
+            "STA $40",
+            "LDA #$03",
+            "STA $41",
+            "BRK"
+          ],
+          "explanation": "Low byte $80 to $40, high byte $03 to $41."
+        }
+      ]
+    },
+    {
+      "id": "a14-l2",
+      "title": "Copying Blocks",
+      "xp": 15,
+      "intro": [
+        "With two pointers, one loop can copy memory from anywhere to anywhere: LDA (from),Y, STA (to),Y, INY, and repeat.",
+        "Y goes up to 255, so one round of Y copies up to 256 bytes, a whole page. For more, add 1 to the high bytes of both pointers and start again.",
+        "This is how real programs moved text, graphics and data around. Some programs did nothing else all day."
+      ],
+      "example": {
+        "code": [
+          "LDY #0",
+          "LOOP: LDA ($40),Y",
+          "STA ($42),Y",
+          "INY",
+          "CPY #4",
+          "BNE LOOP",
+          "BRK"
+        ],
+        "output": [
+          "Copies 4 bytes from where $40/$41 points to where $42/$43 points"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a14-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "How many bytes can one loop with Y copy without changing the pointers?",
+          "options": [
+            "256",
+            "255",
+            "16",
+            "65,536"
+          ],
+          "answer": 0,
+          "explanation": "Y goes from 0 to 255: 256 different offsets."
+        },
+        {
+          "id": "a14-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What's the advantage of pointers here?",
+          "options": [
+            "The same loop can copy from and to any address",
+            "Copying is faster",
+            "It needs less memory",
+            "It works without Y"
+          ],
+          "answer": 0,
+          "explanation": "Change $40–$43, and the loop copies a different block."
+        },
+        {
+          "id": "a14-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Store the byte where the second pointer points.",
+          "code": [
+            "LOOP: LDA ($40),Y",
+            "___ ($42),Y",
+            "INY",
+            "CPY #8",
+            "BNE LOOP"
+          ],
+          "options": [
+            "STA",
+            "LDA",
+            "STY",
+            "ADC"
+          ],
+          "answer": "STA",
+          "explanation": "STA (zp),Y writes through a pointer, just like LDA reads."
+        },
+        {
+          "id": "a14-l2-e4",
+          "type": "find_bug",
+          "prompt": "This copy loop never stops. Which line is wrong?",
+          "code": [
+            "LDY #0",
+            "LOOP: LDA ($40),Y",
+            "STA ($42),Y",
+            "DEY",
+            "CPY #4",
+            "BNE LOOP"
+          ],
+          "answer": 3,
+          "explanation": "DEY counts down from 0 to $FF, $FE … and only reaches 4 much later, after copying the wrong bytes. Use INY."
+        },
+        {
+          "id": "a14-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "How do you copy the next 256 bytes after the first page?",
+          "options": [
+            "Add 1 to the high bytes of both pointers and start again",
+            "Set Y to 256",
+            "Use X instead",
+            "You can't"
+          ],
+          "answer": 0,
+          "explanation": "The pointer's high byte selects the page."
+        }
+      ]
+    },
+    {
+      "id": "a14-l3",
+      "title": "A Print Subroutine",
+      "xp": 15,
+      "intro": [
+        "Pointers make subroutines flexible. A PRINT subroutine can print any message: the caller puts the message's address into $40/$41, and PRINT reads it with ($40),Y.",
+        "LDA #<MSG and LDA #>MSG give the low and high byte of the label MSG, so the caller never needs to know the actual address.",
+        "PRINT loops until it finds the 0 at the end of the message, just like before, only now through the pointer."
+      ],
+      "example": {
+        "code": [
+          "OUTCH = $1EA0",
+          "LDA #<MSG",
+          "STA $40",
+          "LDA #>MSG",
+          "STA $41",
+          "JSR PRINT",
+          "BRK",
+          "PRINT: LDY #0",
+          "LOOP: LDA ($40),Y",
+          "BEQ DONE",
+          "JSR OUTCH",
+          "INY",
+          "JMP LOOP",
+          "DONE: RTS",
+          "MSG: .BYTE \"HI THERE\", 0"
+        ],
+        "output": [
+          "HI THERE"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a14-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "How does PRINT know which message to print?",
+          "options": [
+            "Its address is in the pointer at $40/$41",
+            "It always prints MSG",
+            "The message is in A",
+            "Through the stack"
+          ],
+          "answer": 0,
+          "explanation": "The caller sets the pointer before JSR PRINT."
+        },
+        {
+          "id": "a14-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What do #<MSG and #>MSG give?",
+          "options": [
+            "The low and the high byte of MSG's address",
+            "The first and the last letter",
+            "The length of the message",
+            "Two different messages"
+          ],
+          "answer": 0,
+          "explanation": "An address has two bytes, and the pointer needs both."
+        },
+        {
+          "id": "a14-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Read the next character through the pointer.",
+          "code": [
+            "PRINT: LDY #0",
+            "LOOP: LDA (___),Y",
+            "BEQ DONE"
+          ],
+          "options": [
+            "$40",
+            "#$40",
+            "$4041",
+            "MSG"
+          ],
+          "answer": "$40",
+          "explanation": "($40),Y reads through the pointer stored at $40/$41."
+        },
+        {
+          "id": "a14-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "To print a second message MSG2, what do you change?",
+          "options": [
+            "Only the pointer: LDA #<MSG2 and LDA #>MSG2",
+            "The PRINT subroutine",
+            "Nothing, PRINT prints everything",
+            "The 0 at the end"
+          ],
+          "answer": 0,
+          "explanation": "PRINT stays the same. That's the whole point."
+        },
+        {
+          "id": "a14-l3-e5",
+          "type": "find_bug",
+          "prompt": "PRINT prints garbage. Which line is wrong?",
+          "code": [
+            "LDA #>MSG",
+            "STA $40",
+            "LDA #<MSG",
+            "STA $41",
+            "JSR PRINT"
+          ],
+          "answer": 0,
+          "explanation": "The low byte goes to $40: LDA #<MSG first. Here the bytes are swapped."
+        }
+      ]
+    }
+  ]
+}

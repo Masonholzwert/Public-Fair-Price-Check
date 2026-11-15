@@ -1,0 +1,386 @@
+{
+  "id": "c27",
+  "title": "Text in Memory",
+  "lessons": [
+    {
+      "id": "c27-l1",
+      "title": "sprintf",
+      "xp": 15,
+      "intro": [
+        "sprintf works like printf, but writes into a char array instead of the screen: sprintf(buf, \"%d-%02d-%02d\", y, m, d) builds the text \"2026-11-04\" in buf.",
+        "It's how C programs build file names, messages and keys. snprintf(buf, size, …) is the safe version: it never writes more than size characters, even if the result is longer.",
+        "The array must be big enough for every character plus the closing '\\0'. sprintf can't know how big buf is, which is why snprintf was added later."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "#include <string.h>",
+          "",
+          "int main() {",
+          "    char date[11], file[20], small[6];",
+          "    int y = 2026, m = 11, d = 4;",
+          "    sprintf(date, \"%d-%02d-%02d\", y, m, d);",
+          "    sprintf(file, \"log-%s.txt\", date);",
+          "    puts(date);",
+          "    puts(file);",
+          "    printf(\"%d characters\\n\", strlen(file));",
+          "    snprintf(small, sizeof small, \"%s\", \"kernighan\");",
+          "    puts(small);",
+          "    return 0;",
+          "}"
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "c27-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "Where does sprintf write its result?",
+          "options": [
+            "Into the char array you give it",
+            "To the screen",
+            "To a file",
+            "Into a new variable"
+          ],
+          "answer": 0,
+          "explanation": "The s stands for string."
+        },
+        {
+          "id": "c27-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    char buf[10];",
+            "    sprintf(buf, \"%03d\", 7);",
+            "    puts(buf);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "007",
+            "7",
+            "  7",
+            "%03d"
+          ],
+          "answer": 0,
+          "explanation": "%03d pads with zeros to 3 digits, and puts prints the buffer."
+        },
+        {
+          "id": "c27-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Build the file name score-3.txt.",
+          "code": [
+            "    ___(name, \"score-%d.txt\", level);"
+          ],
+          "options": [
+            "sprintf",
+            "printf",
+            "scanf",
+            "fprintf"
+          ],
+          "answer": "sprintf",
+          "explanation": "sprintf writes into name."
+        },
+        {
+          "id": "c27-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "Why is snprintf safer than sprintf?",
+          "options": [
+            "It never writes more than the size you give it",
+            "It's faster",
+            "It checks the spelling",
+            "It frees the memory"
+          ],
+          "answer": 0,
+          "explanation": "Writing past the end of an array is one of the most common security holes in C."
+        },
+        {
+          "id": "c27-l1-e5",
+          "type": "find_bug",
+          "prompt": "This program writes past the end of buf. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    char buf[5];",
+            "    sprintf(buf, \"%d\", 123456);",
+            "    puts(buf);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 3,
+          "explanation": "\"123456\" needs 7 chars with the '\\0'. buf has to be bigger (or use snprintf)."
+        },
+        {
+          "id": "c27-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "What does sprintf return?",
+          "options": [
+            "The number of characters it wrote",
+            "The buffer",
+            "0",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "Just like printf."
+        }
+      ]
+    },
+    {
+      "id": "c27-l2",
+      "title": "sscanf",
+      "xp": 15,
+      "intro": [
+        "sscanf is the opposite: it reads values out of a string, with the same formats as scanf. sscanf(\"14.11.2026\", \"%d.%d.%d\", &d, &m, &y) splits a date.",
+        "It returns how many values it could read. That's the way to check input: if the result isn't the number you expected, the text had the wrong form.",
+        "Because the string doesn't change, you can try several formats one after another on the same text. scanf reading from the keyboard can't go back like that."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "void parse(char *s) {",
+          "    int d, m, y;",
+          "    if (sscanf(s, \"%d.%d.%d\", &d, &m, &y) == 3)",
+          "        printf(\"%-12s day %d, month %d, year %d\\n\", s, d, m, y);",
+          "    else if (sscanf(s, \"%d/%d/%d\", &m, &d, &y) == 3)",
+          "        printf(\"%-12s day %d, month %d, year %d (US)\\n\", s, d, m, y);",
+          "    else",
+          "        printf(\"%-12s ???\\n\", s);",
+          "}",
+          "",
+          "int main() {",
+          "    parse(\"14.11.2026\");",
+          "    parse(\"11/14/2026\");",
+          "    parse(\"tomorrow\");",
+          "    return 0;",
+          "}"
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "c27-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does sscanf read from?",
+          "options": [
+            "A string",
+            "The keyboard",
+            "A file",
+            "The screen"
+          ],
+          "answer": 0,
+          "explanation": "The first s stands for string, just like in sprintf."
+        },
+        {
+          "id": "c27-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int n, r;",
+            "    char what[10];",
+            "    r = sscanf(\"10 apples\", \"%d %s\", &n, what);",
+            "    printf(\"%d %d %s\\n\", r, n, what);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "2 10 apples",
+            "1 10 apples",
+            "10 apples",
+            "0 10 apples"
+          ],
+          "answer": 0,
+          "explanation": "%d reads 10, %s reads apples: sscanf read 2 values and returns 2."
+        },
+        {
+          "id": "c27-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Read two numbers from the string pos.",
+          "code": [
+            "    if (sscanf(pos, \"%d,%d\", &x, &y) == ___)"
+          ],
+          "options": [
+            "2",
+            "1",
+            "0",
+            "EOF"
+          ],
+          "answer": "2",
+          "explanation": "Both values must be read, so the result must be 2."
+        },
+        {
+          "id": "c27-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "Why check what sscanf returns?",
+          "options": [
+            "To find out if the text had the expected form",
+            "To free memory",
+            "It returns the string",
+            "To count characters"
+          ],
+          "answer": 0,
+          "explanation": "\"tomorrow\" gives 0: no number could be read."
+        },
+        {
+          "id": "c27-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "sscanf(\"7 3\", \"%d %d\", &a, &b) sets a and b to:",
+          "options": [
+            "7 and 3",
+            "73 and 0",
+            "3 and 7",
+            "Nothing, it needs scanf"
+          ],
+          "answer": 0,
+          "explanation": "Spaces in the format skip spaces in the text."
+        },
+        {
+          "id": "c27-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What's the advantage of fgets + sscanf over scanf alone?",
+          "options": [
+            "You read a whole line first and can try several formats on it",
+            "It's shorter",
+            "sscanf is faster",
+            "scanf can't read numbers"
+          ],
+          "answer": 0,
+          "explanation": "If the line is wrong, you skip it and read the next one, instead of getting stuck."
+        }
+      ]
+    },
+    {
+      "id": "c27-l3",
+      "title": "Reading Records",
+      "xp": 15,
+      "intro": [
+        "Real data comes in lines: names, numbers, dates. The safe pattern is fgets to read one line, then sscanf to take it apart, and the return value to skip bad lines.",
+        "This combination is how Unix tools, config files and log readers have read text for 50 years. It never gets stuck on a bad line the way scanf can.",
+        "In the example, each line holds a name and a score. The bad line is reported and skipped."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "#include <string.h>",
+          "",
+          "int main() {",
+          "    char line[80], name[20];",
+          "    int score, n = 0, total = 0, best = -1;",
+          "    char best_name[20];",
+          "    while (fgets(line, sizeof line, stdin) != NULL) {",
+          "        n++;",
+          "        if (sscanf(line, \"%s %d\", name, &score) != 2) {",
+          "            printf(\"line %d skipped\\n\", n);",
+          "            continue;",
+          "        }",
+          "        total += score;",
+          "        if (score > best) {",
+          "            best = score;",
+          "            strcpy(best_name, name);",
+          "        }",
+          "    }",
+          "    printf(\"total %d, best %s with %d\\n\", total, best_name, best);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [],
+        "inputs": [
+          "ken 70",
+          "dmr 95",
+          "oops",
+          "bwk 80"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c27-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Why read a line with fgets first, then use sscanf?",
+          "options": [
+            "A bad line can be skipped without getting stuck",
+            "fgets is faster",
+            "sscanf can't read numbers otherwise",
+            "To save memory"
+          ],
+          "answer": 0,
+          "explanation": "scanf leaves the bad text waiting in the input, and the next scanf fails on it again."
+        },
+        {
+          "id": "c27-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does sscanf(\"oops\", \"%s %d\", name, &score) return?",
+          "options": [
+            "1",
+            "2",
+            "0",
+            "EOF"
+          ],
+          "answer": 0,
+          "explanation": "The word is read, but there's no number after it."
+        },
+        {
+          "id": "c27-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Skip the line if it doesn't have both values.",
+          "code": [
+            "    if (sscanf(line, \"%s %d\", name, &score) ___ 2) {"
+          ],
+          "options": [
+            "!=",
+            "==",
+            "<",
+            ">"
+          ],
+          "answer": "!=",
+          "explanation": "Anything other than 2 means the line was bad."
+        },
+        {
+          "id": "c27-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does the example print last?",
+          "options": [
+            "total 245, best dmr with 95",
+            "total 245, best ken with 70",
+            "total 250, best dmr with 95",
+            "line 3 skipped"
+          ],
+          "answer": 0,
+          "explanation": "70 + 95 + 80 = 245, and dmr has the highest score."
+        },
+        {
+          "id": "c27-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Why strcpy(best_name, name) instead of best_name = name?",
+          "options": [
+            "Arrays can't be assigned; the characters must be copied",
+            "strcpy is faster",
+            "name is a number",
+            "It's the same"
+          ],
+          "answer": 0,
+          "explanation": "And name is overwritten by the next line anyway."
+        },
+        {
+          "id": "c27-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What does continue do inside the while loop?",
+          "options": [
+            "Jumps to the next round, skipping the rest of the loop body",
+            "Ends the loop",
+            "Ends the program",
+            "Repeats the same line"
+          ],
+          "answer": 0,
+          "explanation": "The total isn't changed for the bad line."
+        }
+      ]
+    }
+  ]
+}

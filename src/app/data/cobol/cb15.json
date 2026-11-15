@@ -1,0 +1,461 @@
+{
+  "id": "cb15",
+  "title": "Control Breaks",
+  "lessons": [
+    {
+      "id": "cb15-l1",
+      "title": "Sorted Input",
+      "xp": 15,
+      "intro": [
+        "The SALES file is sorted by region: all NORTH records first, then SOUTH, then WEST. Reports use that order: when the region changes, a group has ended. That moment is called a control break.",
+        "To notice it, keep the previous region in a field and compare it with each new record. When they differ, a new group starts.",
+        "Here, each new region gets a heading line."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. REGIONS.",
+          "       ENVIRONMENT DIVISION.",
+          "       INPUT-OUTPUT SECTION.",
+          "       FILE-CONTROL.",
+          "           SELECT SALES-FILE ASSIGN TO SALES.",
+          "           SELECT REPORT-FILE ASSIGN TO PRINTER.",
+          "       DATA DIVISION.",
+          "       FILE SECTION.",
+          "       FD SALES-FILE.",
+          "       01 SALES-REC.",
+          "          05 S-REGION     PIC X(6).",
+          "          05 S-NAME       PIC X(10).",
+          "          05 S-AMOUNT     PIC 9(5)V99.",
+          "       FD REPORT-FILE.",
+          "       01 PRINT-LINE     PIC X(40).",
+          "       WORKING-STORAGE SECTION.",
+          "       01 EOF-FLAG       PIC X VALUE \"N\".",
+          "          88 END-OF-FILE VALUE \"Y\".",
+          "       01 PREV-REGION   PIC X(6) VALUE SPACES.",
+          "       PROCEDURE DIVISION.",
+          "       MAIN.",
+          "           OPEN INPUT SALES-FILE OUTPUT REPORT-FILE.",
+          "           PERFORM UNTIL END-OF-FILE",
+          "               READ SALES-FILE",
+          "                   AT END SET END-OF-FILE TO TRUE",
+          "                   NOT AT END PERFORM ONE-SALE",
+          "               END-READ",
+          "           END-PERFORM.",
+          "           CLOSE SALES-FILE REPORT-FILE.",
+          "           STOP RUN.",
+          "       ONE-SALE.",
+          "           IF S-REGION NOT = PREV-REGION",
+          "               WRITE PRINT-LINE FROM S-REGION AFTER ADVANCING 2 LINES",
+          "               MOVE S-REGION TO PREV-REGION",
+          "           END-IF.",
+          "           MOVE SPACES TO PRINT-LINE.",
+          "           MOVE S-NAME TO PRINT-LINE(3:10).",
+          "           WRITE PRINT-LINE."
+        ],
+        "output": [
+          "",
+          "NORTH",
+          "  ADA",
+          "  GRACE",
+          "  KEN",
+          "",
+          "SOUTH",
+          "  DENNIS",
+          "  NIKLAUS",
+          "",
+          "WEST",
+          "  JOHN"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb15-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is a control break?",
+          "options": [
+            "The moment the key field (like the region) changes in sorted input",
+            "A bug that stops the job",
+            "A pause in the loop",
+            "A page break"
+          ],
+          "answer": 0,
+          "explanation": "A group of records has ended."
+        },
+        {
+          "id": "cb15-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Why must the input be sorted for control breaks?",
+          "options": [
+            "Otherwise a region's records would be spread out, and each would start a new group",
+            "Sorting is faster",
+            "READ needs sorted files",
+            "It doesn't matter"
+          ],
+          "answer": 0,
+          "explanation": "In 1970, a SORT step usually ran before the report job."
+        },
+        {
+          "id": "cb15-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Notice a new region.",
+          "code": [
+            "           IF S-REGION ___ PREV-REGION"
+          ],
+          "options": [
+            "NOT =",
+            "=",
+            ">",
+            "IS"
+          ],
+          "answer": "NOT =",
+          "explanation": "A different region than before means a break."
+        },
+        {
+          "id": "cb15-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does PRINT-LINE(3:10) mean?",
+          "options": [
+            "10 characters of PRINT-LINE, starting at position 3",
+            "Line 3 to 10",
+            "The 3rd and 10th character",
+            "PRINT-LINE times 3"
+          ],
+          "answer": 0,
+          "explanation": "Reference modification: (start:length)."
+        },
+        {
+          "id": "cb15-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Why does PREV-REGION start with VALUE SPACES?",
+          "options": [
+            "So the very first record counts as a new region",
+            "To save memory",
+            "It's required",
+            "To print spaces"
+          ],
+          "answer": 0,
+          "explanation": "No region equals spaces."
+        },
+        {
+          "id": "cb15-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "How many regions are in SALES?",
+          "options": [
+            "3",
+            "6",
+            "2",
+            "4"
+          ],
+          "answer": 0,
+          "explanation": "NORTH, SOUTH and WEST."
+        }
+      ]
+    },
+    {
+      "id": "cb15-l2",
+      "title": "Subtotals",
+      "xp": 15,
+      "intro": [
+        "At a control break, the group that just ended gets its subtotal line. Then the subtotal goes back to zero for the next group.",
+        "The last group has no next record to cause its break, so after the loop, the job must print the last subtotal itself. Forgetting this is the most common control break bug.",
+        "Here, each region ends with its total."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. SUBTOTAL.",
+          "       ENVIRONMENT DIVISION.",
+          "       INPUT-OUTPUT SECTION.",
+          "       FILE-CONTROL.",
+          "           SELECT SALES-FILE ASSIGN TO SALES.",
+          "           SELECT REPORT-FILE ASSIGN TO PRINTER.",
+          "       DATA DIVISION.",
+          "       FILE SECTION.",
+          "       FD SALES-FILE.",
+          "       01 SALES-REC.",
+          "          05 S-REGION     PIC X(6).",
+          "          05 S-NAME       PIC X(10).",
+          "          05 S-AMOUNT     PIC 9(5)V99.",
+          "       FD REPORT-FILE.",
+          "       01 PRINT-LINE     PIC X(40).",
+          "       WORKING-STORAGE SECTION.",
+          "       01 EOF-FLAG       PIC X VALUE \"N\".",
+          "          88 END-OF-FILE VALUE \"Y\".",
+          "       01 PREV-REGION   PIC X(6) VALUE SPACES.",
+          "       01 REGION-TOTAL  PIC 9(6)V99 VALUE ZERO.",
+          "       01 SUB-LINE.",
+          "          05 SL-REGION    PIC X(8).",
+          "          05 SL-AMOUNT    PIC $$$,$$9.99.",
+          "       PROCEDURE DIVISION.",
+          "       MAIN.",
+          "           OPEN INPUT SALES-FILE OUTPUT REPORT-FILE.",
+          "           PERFORM UNTIL END-OF-FILE",
+          "               READ SALES-FILE",
+          "                   AT END SET END-OF-FILE TO TRUE",
+          "                   NOT AT END PERFORM ONE-SALE",
+          "               END-READ",
+          "           END-PERFORM.",
+          "           PERFORM REGION-BREAK.",
+          "           CLOSE SALES-FILE REPORT-FILE.",
+          "           STOP RUN.",
+          "       ONE-SALE.",
+          "           IF S-REGION NOT = PREV-REGION AND PREV-REGION NOT = SPACES",
+          "               PERFORM REGION-BREAK",
+          "           END-IF.",
+          "           MOVE S-REGION TO PREV-REGION.",
+          "           ADD S-AMOUNT TO REGION-TOTAL.",
+          "       REGION-BREAK.",
+          "           MOVE PREV-REGION TO SL-REGION.",
+          "           MOVE REGION-TOTAL TO SL-AMOUNT.",
+          "           WRITE PRINT-LINE FROM SUB-LINE.",
+          "           MOVE ZERO TO REGION-TOTAL."
+        ],
+        "output": [
+          "NORTH      $419.25",
+          "SOUTH      $195.25",
+          "WEST       $300.00"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb15-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What happens at each control break here?",
+          "options": [
+            "The region's subtotal is printed and set back to zero",
+            "The file is closed",
+            "A heading is printed",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "REGION-BREAK does both."
+        },
+        {
+          "id": "cb15-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Why is REGION-BREAK performed once more after the loop?",
+          "options": [
+            "The last region never sees a break, so its subtotal is printed at the end",
+            "To print twice",
+            "To reset the totals",
+            "It's a mistake"
+          ],
+          "answer": 0,
+          "explanation": "No next record means no break."
+        },
+        {
+          "id": "cb15-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Start the next group at zero.",
+          "code": [
+            "           MOVE ___ TO REGION-TOTAL."
+          ],
+          "options": [
+            "ZERO",
+            "SPACES",
+            "1",
+            "PREV-REGION"
+          ],
+          "answer": "ZERO",
+          "explanation": "A fresh subtotal."
+        },
+        {
+          "id": "cb15-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What is NORTH's subtotal (120.50 + 98.75 + 200.00)?",
+          "options": [
+            "$419.25",
+            "$420.25",
+            "$319.25",
+            "$419.75"
+          ],
+          "answer": 0,
+          "explanation": "120.50 + 98.75 + 200.00 = 419.25."
+        },
+        {
+          "id": "cb15-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "Why check PREV-REGION NOT = SPACES?",
+          "options": [
+            "So no empty subtotal is printed before the very first region",
+            "To skip spaces",
+            "Spaces are a region",
+            "It's required by READ"
+          ],
+          "answer": 0,
+          "explanation": "The first record isn't the end of a group."
+        },
+        {
+          "id": "cb15-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What would the report miss without PERFORM REGION-BREAK after the loop?",
+          "options": [
+            "WEST's subtotal",
+            "NORTH's subtotal",
+            "All subtotals",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "The last group."
+        }
+      ]
+    },
+    {
+      "id": "cb15-l3",
+      "title": "The Grand Total",
+      "xp": 15,
+      "intro": [
+        "Above the subtotals sits the grand total: the sum of everything. Add each subtotal to the grand total at its break, and print the grand total at the very end.",
+        "A report with region subtotals and a grand total is a one-level control break. Real reports nested more levels: branch within region within country.",
+        "This exact structure printed bank statements, sales reports and payrolls for half a century."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. GRAND.",
+          "       ENVIRONMENT DIVISION.",
+          "       INPUT-OUTPUT SECTION.",
+          "       FILE-CONTROL.",
+          "           SELECT SALES-FILE ASSIGN TO SALES.",
+          "           SELECT REPORT-FILE ASSIGN TO PRINTER.",
+          "       DATA DIVISION.",
+          "       FILE SECTION.",
+          "       FD SALES-FILE.",
+          "       01 SALES-REC.",
+          "          05 S-REGION     PIC X(6).",
+          "          05 S-NAME       PIC X(10).",
+          "          05 S-AMOUNT     PIC 9(5)V99.",
+          "       FD REPORT-FILE.",
+          "       01 PRINT-LINE     PIC X(40).",
+          "       WORKING-STORAGE SECTION.",
+          "       01 EOF-FLAG       PIC X VALUE \"N\".",
+          "          88 END-OF-FILE VALUE \"Y\".",
+          "       01 PREV-REGION   PIC X(6) VALUE SPACES.",
+          "       01 REGION-TOTAL  PIC 9(6)V99 VALUE ZERO.",
+          "       01 GRAND-TOTAL   PIC 9(7)V99 VALUE ZERO.",
+          "       01 SUB-LINE.",
+          "          05 SL-REGION    PIC X(8).",
+          "          05 SL-AMOUNT    PIC $$$,$$9.99.",
+          "       PROCEDURE DIVISION.",
+          "       MAIN.",
+          "           OPEN INPUT SALES-FILE OUTPUT REPORT-FILE.",
+          "           PERFORM UNTIL END-OF-FILE",
+          "               READ SALES-FILE",
+          "                   AT END SET END-OF-FILE TO TRUE",
+          "                   NOT AT END PERFORM ONE-SALE",
+          "               END-READ",
+          "           END-PERFORM.",
+          "           PERFORM REGION-BREAK.",
+          "           MOVE \"TOTAL\" TO SL-REGION.",
+          "           MOVE GRAND-TOTAL TO SL-AMOUNT.",
+          "           WRITE PRINT-LINE FROM SUB-LINE AFTER ADVANCING 2 LINES.",
+          "           CLOSE SALES-FILE REPORT-FILE.",
+          "           STOP RUN.",
+          "       ONE-SALE.",
+          "           IF S-REGION NOT = PREV-REGION AND PREV-REGION NOT = SPACES",
+          "               PERFORM REGION-BREAK",
+          "           END-IF.",
+          "           MOVE S-REGION TO PREV-REGION.",
+          "           ADD S-AMOUNT TO REGION-TOTAL.",
+          "       REGION-BREAK.",
+          "           MOVE PREV-REGION TO SL-REGION.",
+          "           MOVE REGION-TOTAL TO SL-AMOUNT.",
+          "           WRITE PRINT-LINE FROM SUB-LINE.",
+          "           ADD REGION-TOTAL TO GRAND-TOTAL.",
+          "           MOVE ZERO TO REGION-TOTAL."
+        ],
+        "output": [
+          "NORTH      $419.25",
+          "SOUTH      $195.25",
+          "WEST       $300.00",
+          "",
+          "TOTAL      $914.50"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb15-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "When is each subtotal added to the grand total?",
+          "options": [
+            "At its control break, before it's set back to zero",
+            "At the start",
+            "After STOP RUN",
+            "Never: the grand total is read from the file"
+          ],
+          "answer": 0,
+          "explanation": "Then it's reset for the next group."
+        },
+        {
+          "id": "cb15-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What is the grand total of SALES?",
+          "options": [
+            "$914.50",
+            "$814.50",
+            "$914.00",
+            "$1,014.50"
+          ],
+          "answer": 0,
+          "explanation": "419.25 + 195.25 + 300.00."
+        },
+        {
+          "id": "cb15-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Add the region to the grand total.",
+          "code": [
+            "           ADD REGION-TOTAL ___ GRAND-TOTAL."
+          ],
+          "options": [
+            "TO",
+            "INTO",
+            "FROM",
+            "GIVING"
+          ],
+          "answer": "TO",
+          "explanation": "ADD … TO …."
+        },
+        {
+          "id": "cb15-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "Why does GRAND-TOTAL have more digits than REGION-TOTAL?",
+          "options": [
+            "The sum of all regions can be bigger than any one region",
+            "Grand totals always have 7 digits",
+            "To print it",
+            "It's a mistake"
+          ],
+          "answer": 0,
+          "explanation": "Size the fields for the biggest possible value."
+        },
+        {
+          "id": "cb15-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What's a two-level control break?",
+          "options": [
+            "Subtotals for two keys, like branch inside region, plus the grand total",
+            "Two reports",
+            "Reading two files",
+            "Breaking twice per record"
+          ],
+          "answer": 0,
+          "explanation": "Each level has its own previous key and subtotal."
+        },
+        {
+          "id": "cb15-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why is reading sorted input and printing totals still done in COBOL today?",
+          "options": [
+            "Banks and insurers still run these batch jobs every night",
+            "It isn't",
+            "Only for teaching",
+            "Printers need COBOL"
+          ],
+          "answer": 0,
+          "explanation": "Billions of lines of it still run."
+        }
+      ]
+    }
+  ]
+}

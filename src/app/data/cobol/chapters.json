@@ -1,0 +1,214 @@
+{
+  "chapters": [
+    {
+      "id": "cbc1",
+      "title": "Hello, Mainframe",
+      "subtitle": "Divisions, columns and your first jobs.",
+      "units": [
+        {
+          "id": "cb1",
+          "title": "The Four Divisions",
+          "learn": [
+            "DISPLAY and STOP RUN",
+            "Columns and areas",
+            "Periods and sentences"
+          ],
+          "goal": "Print a job banner."
+        },
+        {
+          "id": "cb2",
+          "title": "Working-Storage",
+          "learn": [
+            "Fields and PIC",
+            "Numbers in PIC 9",
+            "MOVE"
+          ],
+          "goal": "Print a name tag."
+        },
+        {
+          "id": "cb3",
+          "title": "Talking to the Job",
+          "learn": [
+            "ACCEPT",
+            "ADD",
+            "Reading the listing"
+          ],
+          "goal": "Count the orders."
+        }
+      ],
+      "project": {
+        "id": "cbc1-project",
+        "title": "The Bank Greeting",
+        "xp": 100
+      }
+    },
+    {
+      "id": "cbc2",
+      "title": "Data and PIC",
+      "subtitle": "Describe every field down to the last digit.",
+      "units": [
+        {
+          "id": "cb4",
+          "title": "Decimals and Signs",
+          "learn": [
+            "V: the invisible point",
+            "S: negative numbers",
+            "Exact money"
+          ],
+          "goal": "Keep a balance."
+        },
+        {
+          "id": "cb5",
+          "title": "Editing Pictures",
+          "learn": [
+            "Z: no leading zeros",
+            "$ , and .",
+            "Signs and stars"
+          ],
+          "goal": "Print a cheque."
+        },
+        {
+          "id": "cb6",
+          "title": "Groups and Levels",
+          "learn": [
+            "Group items",
+            "Report lines",
+            "Group moves"
+          ],
+          "goal": "A customer record."
+        }
+      ],
+      "project": {
+        "id": "cbc2-project",
+        "title": "The Payslip",
+        "xp": 100
+      }
+    },
+    {
+      "id": "cbc3",
+      "title": "Doing Business",
+      "subtitle": "Arithmetic and decisions, the COBOL way.",
+      "units": [
+        {
+          "id": "cb7",
+          "title": "The Four Verbs",
+          "learn": [
+            "SUBTRACT and MULTIPLY",
+            "DIVIDE",
+            "ROUNDED and SIZE ERROR"
+          ],
+          "goal": "Split the bill."
+        },
+        {
+          "id": "cb8",
+          "title": "COMPUTE",
+          "learn": [
+            "Formulas",
+            "Percent and interest",
+            "Exact all the way"
+          ],
+          "goal": "Compound interest."
+        },
+        {
+          "id": "cb9",
+          "title": "Decisions",
+          "learn": [
+            "IF and ELSE",
+            "Conditions and 88 levels",
+            "EVALUATE"
+          ],
+          "goal": "Shipping prices."
+        }
+      ],
+      "project": {
+        "id": "cbc3-project",
+        "title": "The Invoice",
+        "xp": 100
+      }
+    },
+    {
+      "id": "cbc4",
+      "title": "Loops and Tables",
+      "subtitle": "PERFORM, the COBOL loop.",
+      "units": [
+        {
+          "id": "cb10",
+          "title": "Paragraphs",
+          "learn": [
+            "PERFORM a paragraph",
+            "TIMES",
+            "UNTIL"
+          ],
+          "goal": "A countdown."
+        },
+        {
+          "id": "cb11",
+          "title": "PERFORM VARYING",
+          "learn": [
+            "Counting loops",
+            "Inline PERFORM",
+            "Loops in loops"
+          ],
+          "goal": "A times table."
+        },
+        {
+          "id": "cb12",
+          "title": "Tables",
+          "learn": [
+            "OCCURS",
+            "Searching a table",
+            "STRING and INSPECT"
+          ],
+          "goal": "Find the weekday."
+        }
+      ],
+      "project": {
+        "id": "cbc4-project",
+        "title": "The Sales Report",
+        "xp": 100
+      }
+    },
+    {
+      "id": "cbc5",
+      "title": "Files and Reports",
+      "subtitle": "What COBOL was made for.",
+      "units": [
+        {
+          "id": "cb13",
+          "title": "Files",
+          "learn": [
+            "SELECT and FD",
+            "READ … AT END",
+            "WRITE"
+          ],
+          "goal": "Filter a file."
+        },
+        {
+          "id": "cb14",
+          "title": "Reports",
+          "learn": [
+            "The printer",
+            "Detail lines",
+            "Totals"
+          ],
+          "goal": "A balance report."
+        },
+        {
+          "id": "cb15",
+          "title": "Control Breaks",
+          "learn": [
+            "Sorted input",
+            "Subtotals",
+            "The grand total"
+          ],
+          "goal": "Sales per region."
+        }
+      ],
+      "project": {
+        "id": "cbc5-project",
+        "title": "The Bank Statement",
+        "xp": 100
+      }
+    }
+  ]
+}

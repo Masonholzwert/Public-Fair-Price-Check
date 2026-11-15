@@ -1,0 +1,291 @@
+{
+  "id": "u7",
+  "title": "Subroutines",
+  "lessons": [
+    {
+      "id": "u7-l1",
+      "title": "GOSUB and RETURN",
+      "xp": 15,
+      "intro": [
+        "Sometimes the same few lines are needed in several places. Instead of copying them, you write them once as a subroutine and call it with GOSUB.",
+        "GOSUB 100 works like GOTO 100, but BASIC remembers where it came from. When the subroutine reaches RETURN, the program jumps back to the line right after the GOSUB.",
+        "Subroutines usually sit at the end of the program. Put a STOP before them, so the main program doesn't accidentally run into them."
+      ],
+      "example": {
+        "code": [
+          "10 PRINT \"START\"",
+          "20 GOSUB 100",
+          "30 PRINT \"BACK\"",
+          "40 STOP",
+          "100 PRINT \"IN SUB\"",
+          "110 RETURN",
+          "120 END"
+        ],
+        "output": ["START", "IN SUB", "BACK"]
+      },
+      "exercises": [
+        {
+          "id": "u7-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": ["10 GOSUB 100", "20 PRINT \"B\"", "30 STOP", "100 PRINT \"A\"", "110 RETURN", "120 END"],
+          "options": ["A, then B", "B, then A", "Only A", "Only B"],
+          "answer": 0,
+          "explanation": "Line 10 jumps into the subroutine first and prints A. RETURN brings the program back to line 20, which prints B."
+        },
+        {
+          "id": "u7-l1-e2",
+          "type": "fill_blank",
+          "prompt": "Call the subroutine that starts at line 200.",
+          "code": ["10 ___ 200", "20 STOP", "200 PRINT \"HELLO\"", "210 RETURN", "220 END"],
+          "options": ["GOSUB", "GOTO", "CALL", "RUN"],
+          "answer": "GOSUB",
+          "explanation": "GOSUB jumps to the subroutine and remembers where to come back. GOTO would never come back."
+        },
+        {
+          "id": "u7-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "Where does RETURN jump to?",
+          "options": [
+            "To the line right after the GOSUB that called it",
+            "To the first line of the program",
+            "To the END line",
+            "To the line right after RETURN"
+          ],
+          "answer": 0,
+          "explanation": "BASIC remembers each GOSUB. RETURN goes back to the line that follows it, so the main program continues where it left off."
+        },
+        {
+          "id": "u7-l1-e4",
+          "type": "find_bug",
+          "prompt": "This program prints HELLO, DONE, HELLO and then stops with ?RETURN WITHOUT GOSUB. After which line is a STOP missing?",
+          "code": ["10 GOSUB 100", "20 PRINT \"DONE\"", "100 PRINT \"HELLO\"", "110 RETURN", "120 END"],
+          "answer": 1,
+          "explanation": "After line 20, the program simply continues with line 100 and runs into the subroutine a second time. A STOP after line 20 prevents that."
+        },
+        {
+          "id": "u7-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "How often does this program print HI?",
+          "code": ["10 GOSUB 100", "20 GOSUB 100", "30 GOSUB 100", "40 STOP", "100 PRINT \"HI\"", "110 RETURN", "120 END"],
+          "options": ["3 times", "1 time", "2 times", "4 times"],
+          "answer": 0,
+          "explanation": "Every GOSUB runs the subroutine once. Three GOSUBs, three HIs, and the PRINT line was only written once."
+        },
+        {
+          "id": "u7-l1-e6",
+          "type": "order_lines",
+          "prompt": "Build a program that prints HI twice using one subroutine.",
+          "lines": ["10 GOSUB 100", "20 GOSUB 100", "30 STOP", "100 PRINT \"HI\"", "110 RETURN", "120 END"],
+          "answer": ["10 GOSUB 100", "20 GOSUB 100", "30 STOP", "100 PRINT \"HI\"", "110 RETURN", "120 END"],
+          "explanation": "The main program calls the subroutine twice, then STOP keeps it from running into the subroutine a third time."
+        }
+      ]
+    },
+    {
+      "id": "u7-l2",
+      "title": "Subroutines with Values",
+      "xp": 15,
+      "intro": [
+        "A subroutine can use every variable of the program. That's how you hand it values: set a variable, then GOSUB.",
+        "The subroutine can also leave a result in a variable, which the main program then uses after the RETURN.",
+        "Careful: because all variables are shared, a subroutine can accidentally change a variable the main program still needs, like a loop counter."
+      ],
+      "example": {
+        "code": [
+          "10 LET X = 3",
+          "20 GOSUB 100",
+          "30 PRINT Y",
+          "40 LET X = 5",
+          "50 GOSUB 100",
+          "60 PRINT Y",
+          "70 STOP",
+          "100 LET Y = X * X + 1",
+          "110 RETURN",
+          "120 END"
+        ],
+        "output": ["10", "26"]
+      },
+      "exercises": [
+        {
+          "id": "u7-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": ["10 LET X = 4", "20 GOSUB 100", "30 PRINT Y", "40 STOP", "100 LET Y = X * 2", "110 RETURN", "120 END"],
+          "options": ["8", "4", "2", "?UNDEFINED VARIABLE Y"],
+          "answer": 0,
+          "explanation": "The subroutine reads X (4) and leaves the result 8 in Y. After RETURN, line 30 prints it."
+        },
+        {
+          "id": "u7-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Which variables can a subroutine use?",
+          "options": [
+            "All variables of the program",
+            "Only variables created inside the subroutine",
+            "Only the variable X",
+            "None, it needs its own copies"
+          ],
+          "answer": 0,
+          "explanation": "In Dartmouth BASIC, all variables are shared. The subroutine sees and changes the same variables as the main program."
+        },
+        {
+          "id": "u7-l2-e3",
+          "type": "fill_blank",
+          "prompt": "End the subroutine so the program goes back.",
+          "code": ["100 LET T = A + B", "110 ___"],
+          "options": ["RETURN", "END", "STOP", "NEXT"],
+          "answer": "RETURN",
+          "explanation": "Every subroutine ends with RETURN. END or STOP would stop the whole program."
+        },
+        {
+          "id": "u7-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "A subroutine can call another one. What does this print?",
+          "code": [
+            "10 GOSUB 100",
+            "20 PRINT \"C\"",
+            "30 STOP",
+            "100 PRINT \"A\"",
+            "110 GOSUB 200",
+            "120 RETURN",
+            "200 PRINT \"B\"",
+            "210 RETURN",
+            "220 END"
+          ],
+          "options": ["A, B, C", "A, C, B", "C, A, B", "A, B"],
+          "answer": 0,
+          "explanation": "The first subroutine prints A and calls the second, which prints B. Each RETURN goes back one step, until line 20 prints C."
+        },
+        {
+          "id": "u7-l2-e5",
+          "type": "find_bug",
+          "prompt": "This should print three lines, but it prints only one. Which line causes it?",
+          "code": [
+            "10 FOR I = 1 TO 3",
+            "20 GOSUB 100",
+            "30 NEXT I",
+            "40 STOP",
+            "100 LET I = 5",
+            "110 PRINT I",
+            "120 RETURN",
+            "130 END"
+          ],
+          "answer": 4,
+          "explanation": "The subroutine changes I, which is also the loop counter. After NEXT I, I is already 6 and the loop ends. Use a different variable in the subroutine."
+        },
+        {
+          "id": "u7-l2-e6",
+          "type": "order_lines",
+          "prompt": "Build a program that hands 7 to a subroutine, which doubles it, and prints 14.",
+          "lines": ["10 LET X = 7", "20 GOSUB 100", "30 PRINT Y", "40 STOP", "100 LET Y = X * 2", "110 RETURN", "120 END"],
+          "answer": ["10 LET X = 7", "20 GOSUB 100", "30 PRINT Y", "40 STOP", "100 LET Y = X * 2", "110 RETURN", "120 END"],
+          "explanation": "Set X, call the subroutine, and print the result it left in Y."
+        }
+      ]
+    },
+    {
+      "id": "u7-l3",
+      "title": "Organizing with Subroutines",
+      "xp": 20,
+      "intro": [
+        "Bigger programs stay readable when they're split into parts. The main program at the top only calls subroutines, like a table of contents.",
+        "A common habit is to start subroutines at round numbers like 1000, 2000 and 3000, each with a REM line saying what it does. That leaves plenty of room for new lines.",
+        "A subroutine can contain loops and IFs too. Anything that would otherwise be copied is a good candidate."
+      ],
+      "example": {
+        "code": [
+          "10 GOSUB 1000",
+          "20 PRINT \"REPORT\"",
+          "30 GOSUB 1000",
+          "40 STOP",
+          "1000 REM *** DRAW A LINE ***",
+          "1010 PRINT \"----------\"",
+          "1020 RETURN",
+          "1030 END"
+        ],
+        "output": ["----------", "REPORT", "----------"]
+      },
+      "exercises": [
+        {
+          "id": "u7-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Why do programmers often start subroutines at numbers like 1000?",
+          "options": [
+            "It keeps them apart from the main program and leaves room for new lines",
+            "BASIC requires it",
+            "Higher line numbers run faster",
+            "GOSUB only works above 999"
+          ],
+          "answer": 0,
+          "explanation": "It's a habit, not a rule. Big gaps make the program easier to read and to extend."
+        },
+        {
+          "id": "u7-l3-e2",
+          "type": "fill_blank",
+          "prompt": "Add a note that explains what the subroutine does.",
+          "code": ["1000 ___ *** PRINT THE TOTAL ***", "1010 PRINT T", "1020 RETURN"],
+          "options": ["REM", "NOTE", "DATA", "DEF"],
+          "answer": "REM",
+          "explanation": "A REM line at the start of each subroutine works like a heading."
+        },
+        {
+          "id": "u7-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "10 LET N = 3",
+            "20 GOSUB 500",
+            "30 LET N = 2",
+            "40 GOSUB 500",
+            "50 STOP",
+            "500 FOR I = 1 TO N",
+            "510 PRINT \"*\";",
+            "520 NEXT I",
+            "530 PRINT",
+            "540 RETURN",
+            "550 END"
+          ],
+          "options": ["***, then **", "**, then ***", "*****", "***, then ***"],
+          "answer": 0,
+          "explanation": "The subroutine prints N stars and then ends the line. First N is 3, then 2."
+        },
+        {
+          "id": "u7-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "Why does this program never print DONE?",
+          "code": ["10 GOSUB 100", "20 PRINT \"DONE\"", "30 STOP", "100 PRINT \"WORKING\"", "110 END"],
+          "options": [
+            "The subroutine has no RETURN, so it runs straight into END",
+            "STOP in line 30 runs too early",
+            "GOSUB can't jump forward",
+            "PRINT can't be used in a subroutine"
+          ],
+          "answer": 0,
+          "explanation": "Without RETURN, the program never goes back to line 20. It continues to line 110 and ends."
+        },
+        {
+          "id": "u7-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Which part of a program is the best candidate for a subroutine?",
+          "options": [
+            "Lines that are needed in several places",
+            "The END line",
+            "A single LET that runs once",
+            "The DATA lines"
+          ],
+          "answer": 0,
+          "explanation": "Subroutines pay off when the same work is needed more than once. Write it once, call it everywhere."
+        },
+        {
+          "id": "u7-l3-e6",
+          "type": "order_lines",
+          "prompt": "Build a program that prints HELLO between two lines of stars.",
+          "lines": ["10 GOSUB 1000", "20 PRINT \"HELLO\"", "30 GOSUB 1000", "40 STOP", "1000 PRINT \"****\"", "1010 RETURN", "1020 END"],
+          "answer": ["10 GOSUB 1000", "20 PRINT \"HELLO\"", "30 GOSUB 1000", "40 STOP", "1000 PRINT \"****\"", "1010 RETURN", "1020 END"],
+          "explanation": "The star line is written once in the subroutine and called before and after HELLO."
+        }
+      ]
+    }
+  ]
+}

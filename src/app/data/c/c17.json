@@ -1,0 +1,454 @@
+{
+  "id": "c17",
+  "title": "Linked Lists",
+  "lessons": [
+    {
+      "id": "c17-l1",
+      "title": "Nodes",
+      "xp": 15,
+      "intro": [
+        "An array sits in one block of memory. A linked list is different: every element is a separate node from malloc, and each node points to the next one.",
+        "struct node { int value; struct node *next; }; A struct may contain a pointer to its own kind. The last node's next is NULL: that's where the list ends.",
+        "The program only keeps a pointer to the first node, the head. Everything else is reached by following next."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "#include <stdlib.h>",
+          "",
+          "struct node {",
+          "    int value;",
+          "    struct node *next;",
+          "};",
+          "",
+          "struct node *make(int v) {",
+          "    struct node *n = malloc(sizeof(struct node));",
+          "    n->value = v;",
+          "    n->next = NULL;",
+          "    return n;",
+          "}",
+          "",
+          "int main() {",
+          "    struct node *head = make(1);",
+          "    head->next = make(2);",
+          "    head->next->next = make(3);",
+          "    printf(\"%d %d %d\\n\", head->value, head->next->value, head->next->next->value);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "1 2 3"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c17-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does each node in a linked list hold?",
+          "options": [
+            "A value and a pointer to the next node",
+            "Only a value",
+            "An index",
+            "The whole list"
+          ],
+          "answer": 0,
+          "explanation": "The pointers chain the nodes together."
+        },
+        {
+          "id": "c17-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "How do you know you've reached the end of the list?",
+          "options": [
+            "next is NULL",
+            "value is 0",
+            "The index is too big",
+            "You count to 10"
+          ],
+          "answer": 0,
+          "explanation": "NULL marks the end."
+        },
+        {
+          "id": "c17-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Finish the node type.",
+          "code": [
+            "struct node {",
+            "    int value;",
+            "    struct node ___next;",
+            "};"
+          ],
+          "options": [
+            "*",
+            "&",
+            ".",
+            "[]"
+          ],
+          "answer": "*",
+          "explanation": "next is a pointer to another node."
+        },
+        {
+          "id": "c17-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "#include <stdlib.h>",
+            "",
+            "struct node {",
+            "    int value;",
+            "    struct node *next;",
+            "};",
+            "",
+            "int main() {",
+            "    struct node a, b;",
+            "    a.value = 7;",
+            "    b.value = 8;",
+            "    a.next = &b;",
+            "    b.next = NULL;",
+            "    printf(\"%d\\n\", a.next->value);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "8",
+            "7",
+            "9",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "head->next is the second node."
+        },
+        {
+          "id": "c17-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What's the big advantage over an array?",
+          "options": [
+            "It can grow and shrink one node at a time",
+            "It's faster to read element 500",
+            "It uses less memory per element",
+            "It needs no pointers"
+          ],
+          "answer": 0,
+          "explanation": "Arrays have a fixed size; lists grow as needed. But reaching element 500 means walking 500 nodes."
+        },
+        {
+          "id": "c17-l1-e6",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "struct node {",
+            "    int value;",
+            "    struct node next;",
+            "};"
+          ],
+          "answer": 4,
+          "explanation": "A struct can't contain itself (it would be endless), only a pointer to its own kind: struct node *next;"
+        }
+      ]
+    },
+    {
+      "id": "c17-l2",
+      "title": "Walking a List",
+      "xp": 15,
+      "intro": [
+        "To visit every node, start at the head and follow next until you hit NULL: for (p = head; p != NULL; p = p->next). This loop is everywhere in C.",
+        "The easiest way to add a node is at the front: the new node points to the old head, and becomes the new head.",
+        "That's why a list built that way comes out backwards: the last one added is first."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "#include <stdlib.h>",
+          "",
+          "struct node {",
+          "    int value;",
+          "    struct node *next;",
+          "};",
+          "",
+          "struct node *push(struct node *head, int v) {",
+          "    struct node *n = malloc(sizeof(struct node));",
+          "    n->value = v;",
+          "    n->next = head;",
+          "    return n;",
+          "}",
+          "",
+          "int main() {",
+          "    struct node *head = NULL;",
+          "    struct node *p;",
+          "    int sum = 0;",
+          "    head = push(head, 10);",
+          "    head = push(head, 20);",
+          "    head = push(head, 30);",
+          "    for (p = head; p != NULL; p = p->next) {",
+          "        printf(\"%d \", p->value);",
+          "        sum += p->value;",
+          "    }",
+          "    printf(\"\\nsum %d\\n\", sum);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "30 20 10 ",
+          "sum 60"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c17-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does p = p->next do?",
+          "options": [
+            "Moves p to the next node",
+            "Deletes the node",
+            "Adds a node",
+            "Copies the value"
+          ],
+          "answer": 0,
+          "explanation": "It follows the pointer one step."
+        },
+        {
+          "id": "c17-l2-e2",
+          "type": "fill_blank",
+          "prompt": "Count the nodes.",
+          "code": [
+            "    for (p = head; p != ___; p = p->next)",
+            "        count++;"
+          ],
+          "options": [
+            "NULL",
+            "head",
+            "0.5",
+            "next"
+          ],
+          "answer": "NULL",
+          "explanation": "Stop when p falls off the end."
+        },
+        {
+          "id": "c17-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "In the example, why does the list print 30 20 10?",
+          "options": [
+            "push adds at the front, so the newest is first",
+            "The loop runs backwards",
+            "printf reverses it",
+            "It sorts the list"
+          ],
+          "answer": 0,
+          "explanation": "Each new node becomes the new head."
+        },
+        {
+          "id": "c17-l2-e4",
+          "type": "order_lines",
+          "prompt": "Put the lines of push in the right order.",
+          "lines": [
+            "struct node *n = malloc(sizeof(struct node));",
+            "n->value = v;",
+            "n->next = head;",
+            "return n;"
+          ],
+          "answer": [
+            "struct node *n = malloc(sizeof(struct node));",
+            "n->value = v;",
+            "n->next = head;",
+            "return n;"
+          ],
+          "explanation": "Make the node, fill it, link it in front, return the new head."
+        },
+        {
+          "id": "c17-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "#include <stdlib.h>",
+            "",
+            "struct node {",
+            "    int value;",
+            "    struct node *next;",
+            "};",
+            "",
+            "int main() {",
+            "    struct node c = {3, NULL};",
+            "    struct node b = {2, &c};",
+            "    struct node a = {1, &b};",
+            "    struct node *p;",
+            "    int n = 0;",
+            "    for (p = &a; p != NULL; p = p->next)",
+            "        n++;",
+            "    printf(\"%d\\n\", n);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "3",
+            "2",
+            "1",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "The list has three nodes."
+        },
+        {
+          "id": "c17-l2-e6",
+          "type": "find_bug",
+          "prompt": "This loop crashes at the end of the list. Which line is wrong?",
+          "code": [
+            "for (p = head; p->next != NULL || p != NULL; p = p->next)",
+            "    printf(\"%d\\n\", p->value);"
+          ],
+          "answer": 0,
+          "explanation": "When p is NULL, p->next crashes before p != NULL is ever checked. The condition should just be p != NULL."
+        }
+      ]
+    },
+    {
+      "id": "c17-l3",
+      "title": "Insert and Remove",
+      "xp": 15,
+      "intro": [
+        "To insert after a node p: the new node points to p's next, then p points to the new node. Two pointer changes, no shifting of elements like in an array.",
+        "To remove a node, the node before it must skip it: prev->next = victim->next; then free(victim). Removing the head is special: the head itself moves on.",
+        "When you're done with a list, free every node. Save next before freeing, because after free you can't read it anymore."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "#include <stdlib.h>",
+          "",
+          "struct node {",
+          "    int value;",
+          "    struct node *next;",
+          "};",
+          "",
+          "struct node *push(struct node *head, int v) {",
+          "    struct node *n = malloc(sizeof(struct node));",
+          "    n->value = v;",
+          "    n->next = head;",
+          "    return n;",
+          "}",
+          "",
+          "struct node *removev(struct node *head, int v) {",
+          "    struct node *p = head, *prev = NULL;",
+          "    while (p != NULL && p->value != v) {",
+          "        prev = p;",
+          "        p = p->next;",
+          "    }",
+          "    if (p == NULL) return head;",
+          "    if (prev == NULL) head = p->next;",
+          "    else prev->next = p->next;",
+          "    free(p);",
+          "    return head;",
+          "}",
+          "",
+          "int main() {",
+          "    struct node *head = NULL, *p, *next;",
+          "    int i;",
+          "    for (i = 4; i >= 1; i--)",
+          "        head = push(head, i);",
+          "    head = removev(head, 3);",
+          "    head = removev(head, 1);",
+          "    for (p = head; p != NULL; p = p->next)",
+          "        printf(\"%d \", p->value);",
+          "    printf(\"\\n\");",
+          "    for (p = head; p != NULL; p = next) {",
+          "        next = p->next;",
+          "        free(p);",
+          "    }",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "2 4 "
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c17-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "How do you remove the node after prev?",
+          "options": [
+            "prev->next = prev->next->next, then free the removed node",
+            "free(prev)",
+            "prev = NULL",
+            "Shift all elements left"
+          ],
+          "answer": 0,
+          "explanation": "The list simply skips the node, and its memory is given back."
+        },
+        {
+          "id": "c17-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What is special about removing the first node?",
+          "options": [
+            "There's no node before it, so the head itself must move",
+            "It can't be removed",
+            "It must be freed twice",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "That's why removev returns the (maybe new) head."
+        },
+        {
+          "id": "c17-l3-e3",
+          "type": "order_lines",
+          "prompt": "Insert the node n after p.",
+          "lines": [
+            "n->next = p->next;",
+            "p->next = n;"
+          ],
+          "answer": [
+            "n->next = p->next;",
+            "p->next = n;"
+          ],
+          "explanation": "First link n to the rest, then link p to n. The other way round, the rest of the list would be lost."
+        },
+        {
+          "id": "c17-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Free the whole list safely.",
+          "code": [
+            "    while (p != NULL) {",
+            "        next = p->___;",
+            "        free(p);",
+            "        p = next;",
+            "    }"
+          ],
+          "options": [
+            "next",
+            "value",
+            "head",
+            "prev"
+          ],
+          "answer": "next",
+          "explanation": "Read next before the node is freed."
+        },
+        {
+          "id": "c17-l3-e5",
+          "type": "find_bug",
+          "prompt": "This loop uses freed memory. Which line is wrong?",
+          "code": [
+            "for (p = head; p != NULL; p = p->next)",
+            "    free(p);"
+          ],
+          "answer": 0,
+          "explanation": "p = p->next runs after free(p). Save next first."
+        },
+        {
+          "id": "c17-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why is inserting faster in a list than in an array?",
+          "options": [
+            "Only two pointers change; nothing has to move",
+            "Lists are in faster memory",
+            "Arrays can't insert at all",
+            "It isn't faster"
+          ],
+          "answer": 0,
+          "explanation": "An array must shift every following element by one."
+        }
+      ]
+    }
+  ]
+}

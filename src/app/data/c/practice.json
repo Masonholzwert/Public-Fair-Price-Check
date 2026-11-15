@@ -1,0 +1,1380 @@
+{
+ "challenges": [
+  {
+   "id": "c-two-lines",
+   "unit": "c1",
+   "difficulty": 1,
+   "title": "Two Lines",
+   "task": "Print hello on the first line and unix on the second, with two printf calls.",
+   "xp": 15,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "hello\nunix",
+   "requirements": [
+    {
+     "pattern": "printf[\\s\\S]*printf",
+     "message": "Use two printf calls."
+    }
+   ],
+   "hints": [
+    "printf(\"hello\\n\");",
+    "A second printf for unix, also ending in \\n."
+   ]
+  },
+  {
+   "id": "c-one-call",
+   "unit": "c1",
+   "difficulty": 1,
+   "title": "Three Lines, One Call",
+   "task": "Print the three lines below with a single printf:\nken\ndennis\nbrian",
+   "xp": 15,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "ken\ndennis\nbrian",
+   "requirements": [
+    {
+     "pattern": "printf",
+     "message": "Use printf."
+    }
+   ],
+   "hints": [
+    "\\n starts a new line inside the string.",
+    "printf(\"ken\\ndennis\\nbrian\\n\");"
+   ]
+  },
+  {
+   "id": "c-seconds",
+   "unit": "c2",
+   "difficulty": 1,
+   "title": "Seconds in a Day",
+   "task": "Store hours, minutes and seconds per day in int variables (24, 60, 60) and print the seconds in a day: 86400 seconds.",
+   "xp": 15,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "86400 seconds",
+   "requirements": [
+    {
+     "pattern": "int\\s+\\w+",
+     "message": "Use int variables."
+    }
+   ],
+   "hints": [
+    "int h = 24, m = 60, s = 60;",
+    "printf(\"%d seconds\\n\", h * m * s);"
+   ]
+  },
+  {
+   "id": "c-minutes",
+   "unit": "c2",
+   "difficulty": 2,
+   "title": "Hours and Minutes",
+   "task": "A tape ran for 437 minutes. Use / and % to print it as 7 h 17 min.",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "7 h 17 min",
+   "requirements": [
+    {
+     "pattern": "/",
+     "message": "Use / for the hours."
+    },
+    {
+     "pattern": "%[^dfcs]|%\\s",
+     "message": "Use % for the minutes left over."
+    }
+   ],
+   "hints": [
+    "437 / 60 is 7.",
+    "437 % 60 is 17."
+   ]
+  },
+  {
+   "id": "c-price",
+   "unit": "c3",
+   "difficulty": 1,
+   "title": "Two Decimals",
+   "task": "A terminal costs 1200.5 dollars, a tape 12.25. Store them in doubles and print the sum with two decimals: total 1212.75",
+   "xp": 15,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "total 1212.75",
+   "requirements": [
+    {
+     "pattern": "double",
+     "message": "Use double variables."
+    },
+    {
+     "pattern": "%\\.2f",
+     "message": "Print with %.2f."
+    }
+   ],
+   "hints": [
+    "double a = 1200.5, b = 12.25;",
+    "printf(\"total %.2f\\n\", a + b);"
+   ]
+  },
+  {
+   "id": "c-table-cols",
+   "unit": "c3",
+   "difficulty": 2,
+   "title": "Lined Up",
+   "task": "Print this table, with the names in a column of 8 left-aligned characters and the years right-aligned in 5:\nfortran  1957\nbasic    1964\nc        1972",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "fortran  1957\nbasic    1964\nc        1972",
+   "requirements": [
+    {
+     "pattern": "%-8s",
+     "message": "Left-align the names with %-8s."
+    },
+    {
+     "pattern": "%5d",
+     "message": "Right-align the years with %5d."
+    }
+   ],
+   "hints": [
+    "printf(\"%-8s%5d\\n\", \"fortran\", 1957);",
+    "One printf per row, with the same format."
+   ],
+   "exact": true
+  },
+  {
+   "id": "c-sign",
+   "unit": "c4",
+   "difficulty": 1,
+   "title": "Positive or Negative",
+   "task": "Read a number with scanf and print positive, negative or zero. The app types -12.",
+   "xp": 15,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "negative",
+   "requirements": [
+    {
+     "pattern": "scanf",
+     "message": "Read the number with scanf."
+    },
+    {
+     "pattern": "else\\s+if",
+     "message": "Use else if."
+    }
+   ],
+   "hints": [
+    "scanf(\"%d\", &n);",
+    "if (n > 0) … else if (n < 0) … else …"
+   ],
+   "inputs": [
+    "-12"
+   ]
+  },
+  {
+   "id": "c-grade",
+   "unit": "c4",
+   "difficulty": 2,
+   "title": "Grades",
+   "task": "Read a score from 0 to 100 and print the grade with a chain of if/else if: 90+ is A, 80+ B, 70+ C, 60+ D, else F. The app types 83.",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "B",
+   "requirements": [
+    {
+     "pattern": "scanf",
+     "message": "Read the score with scanf."
+    },
+    {
+     "pattern": "else\\s+if",
+     "message": "Use an else if chain."
+    }
+   ],
+   "hints": [
+    "Test the biggest boundary first: if (s >= 90).",
+    "Then else if (s >= 80) and so on."
+   ],
+   "inputs": [
+    "83"
+   ]
+  },
+  {
+   "id": "c-countdown",
+   "unit": "c5",
+   "difficulty": 1,
+   "title": "Countdown",
+   "task": "With a while loop, print 5 4 3 2 1 on one line, then liftoff on the next.",
+   "xp": 15,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "5 4 3 2 1\nliftoff",
+   "requirements": [
+    {
+     "pattern": "while",
+     "message": "Use a while loop."
+    }
+   ],
+   "hints": [
+    "int n = 5; while (n > 0) { … n--; }",
+    "printf(\"%d \", n); inside, then printf(\"\\nliftoff\\n\");"
+   ]
+  },
+  {
+   "id": "c-sum-input",
+   "unit": "c5",
+   "difficulty": 2,
+   "title": "Add Until Zero",
+   "task": "Read numbers with scanf until a 0 comes, then print how many there were and their sum: 4 numbers, sum 100. The app types 10 20 30 40 0.",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "4 numbers, sum 100",
+   "requirements": [
+    {
+     "pattern": "while",
+     "message": "Use a while loop."
+    },
+    {
+     "pattern": "scanf",
+     "message": "Read with scanf."
+    }
+   ],
+   "hints": [
+    "scanf(\"%d\", &n); before the loop, and again at the end of the loop body.",
+    "while (n != 0) { count++; sum += n; scanf(…); }"
+   ],
+   "inputs": [
+    "10 20 30 40 0"
+   ]
+  },
+  {
+   "id": "c-squares",
+   "unit": "c6",
+   "difficulty": 1,
+   "title": "Squares",
+   "task": "With a for loop, print the squares of 1 to 8 on one line: 1 4 9 16 25 36 49 64",
+   "xp": 15,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "1 4 9 16 25 36 49 64",
+   "requirements": [
+    {
+     "pattern": "for\\s*\\(",
+     "message": "Use a for loop."
+    }
+   ],
+   "hints": [
+    "for (i = 1; i <= 8; i++)",
+    "printf(\"%d \", i * i);"
+   ]
+  },
+  {
+   "id": "c-triangle",
+   "unit": "c6",
+   "difficulty": 2,
+   "title": "Star Triangle",
+   "task": "With two nested for loops, print this triangle:\n*\n**\n***\n****",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "*\n**\n***\n****",
+   "requirements": [
+    {
+     "pattern": "for[\\s\\S]*for",
+     "message": "Use two nested for loops."
+    }
+   ],
+   "hints": [
+    "The outer loop counts the rows from 1 to 4.",
+    "The inner loop prints as many * as the row number, then a newline."
+   ]
+  },
+  {
+   "id": "c-first-multiple",
+   "unit": "c6",
+   "difficulty": 2,
+   "title": "First Multiple",
+   "task": "Find the first number above 100 that's divisible by both 7 and 9. Use a for loop with break, and print it: 126",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "126",
+   "requirements": [
+    {
+     "pattern": "break",
+     "message": "Leave the loop with break."
+    }
+   ],
+   "hints": [
+    "for (n = 101; ; n++)",
+    "if (n % 7 == 0 && n % 9 == 0) break;"
+   ]
+  },
+  {
+   "id": "c-cube-fn",
+   "unit": "c7",
+   "difficulty": 1,
+   "title": "cube()",
+   "task": "Write int cube(int n) and use it to print the cubes of 1 to 5: 1 8 27 64 125",
+   "xp": 15,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "1 8 27 64 125",
+   "requirements": [
+    {
+     "pattern": "int\\s+cube\\s*\\(",
+     "message": "Write int cube(int n)."
+    }
+   ],
+   "hints": [
+    "int cube(int n) { return n * n * n; }",
+    "Call it in a loop: printf(\"%d \", cube(i));"
+   ]
+  },
+  {
+   "id": "c-line-fn",
+   "unit": "c7",
+   "difficulty": 2,
+   "title": "A Line of Dashes",
+   "task": "Write void line(int n) that prints n dashes and a newline. Use it to print a box title:\n----------\n  UNIX V6\n----------",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "----------\n  UNIX V6\n----------",
+   "requirements": [
+    {
+     "pattern": "void\\s+line\\s*\\(",
+     "message": "Write void line(int n)."
+    }
+   ],
+   "hints": [
+    "Inside: a for loop with putchar('-'), then putchar('\\n').",
+    "line(10); printf(\"  UNIX V6\\n\"); line(10);"
+   ],
+   "exact": true
+  },
+  {
+   "id": "c-max3",
+   "unit": "c8",
+   "difficulty": 1,
+   "title": "Biggest of Three",
+   "task": "Write int max3(int a, int b, int c) and print max3(17, 42, 23) and max3(-5, -9, -2):\n42\n-2",
+   "xp": 15,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "42\n-2",
+   "requirements": [
+    {
+     "pattern": "int\\s+max3\\s*\\(\\s*int",
+     "message": "Write int max3(int a, int b, int c)."
+    }
+   ],
+   "hints": [
+    "int m = a; if (b > m) m = b; if (c > m) m = c; return m;"
+   ]
+  },
+  {
+   "id": "c-counter",
+   "unit": "c8",
+   "difficulty": 2,
+   "title": "Call Counter",
+   "task": "Use a global variable calls. Write void ping() that adds one to it and prints ping N. Call ping three times, then print calls = 3.",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "ping 1\nping 2\nping 3\ncalls = 3",
+   "requirements": [
+    {
+     "pattern": "void\\s+ping\\s*\\(",
+     "message": "Write void ping()."
+    },
+    {
+     "pattern": "^int\\s+calls",
+     "message": "Make calls a global variable (outside of every function)."
+    }
+   ],
+   "hints": [
+    "int calls = 0; above the functions.",
+    "In ping: calls++; printf(\"ping %d\\n\", calls);"
+   ]
+  },
+  {
+   "id": "c-power",
+   "unit": "c9",
+   "difficulty": 2,
+   "title": "Power, Recursively",
+   "task": "Write a recursive int power(int b, int e): b^0 is 1, and b^e is b * b^(e-1). Print power(2, 10) and power(3, 4):\n1024\n81",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "1024\n81",
+   "requirements": [
+    {
+     "pattern": "int\\s+power\\s*\\(",
+     "message": "Write int power(int b, int e)."
+    },
+    {
+     "pattern": "return[^;]*power\\s*\\(",
+     "message": "power must call itself."
+    }
+   ],
+   "hints": [
+    "if (e == 0) return 1;",
+    "return b * power(b, e - 1);"
+   ]
+  },
+  {
+   "id": "c-digits-rec",
+   "unit": "c9",
+   "difficulty": 3,
+   "title": "Digit Sum, Recursively",
+   "task": "Write a recursive int digitsum(int n) with no loops: the last digit (n % 10) plus the digit sum of the rest (n / 10). Print digitsum(1972) and digitsum(65536):\n19\n25",
+   "xp": 40,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "19\n25",
+   "requirements": [
+    {
+     "pattern": "int\\s+digitsum\\s*\\(",
+     "message": "Write int digitsum(int n)."
+    },
+    {
+     "pattern": "return[^;]*digitsum\\s*\\(",
+     "message": "digitsum must call itself."
+    }
+   ],
+   "hints": [
+    "When n is 0, the sum is 0.",
+    "return n % 10 + digitsum(n / 10);"
+   ]
+  },
+  {
+   "id": "c-reverse-arr",
+   "unit": "c10",
+   "difficulty": 1,
+   "title": "Backwards",
+   "task": "Store 3 1 4 1 5 9 2 6 in an int array and print it backwards with a loop: 6 2 9 5 1 4 1 3",
+   "xp": 15,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "6 2 9 5 1 4 1 3",
+   "requirements": [
+    {
+     "pattern": "\\[\\s*\\d*\\s*\\]\\s*=\\s*\\{",
+     "message": "Store the numbers in an array with { … }."
+    }
+   ],
+   "hints": [
+    "int a[8] = {3, 1, 4, 1, 5, 9, 2, 6};",
+    "for (i = 7; i >= 0; i--)"
+   ]
+  },
+  {
+   "id": "c-above-avg",
+   "unit": "c10",
+   "difficulty": 2,
+   "title": "Above Average",
+   "task": "Temperatures: 12 17 9 21 15 18. Print the average with one decimal, then the ones above it:\naverage 15.3\n17 21 18",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "average 15.3\n17 21 18",
+   "requirements": [
+    {
+     "pattern": "\\[",
+     "message": "Use an array."
+    }
+   ],
+   "hints": [
+    "Add them up in a loop and divide by 6.0.",
+    "A second loop prints the ones bigger than the average."
+   ]
+  },
+  {
+   "id": "c-count-vowels",
+   "unit": "c11",
+   "difficulty": 2,
+   "title": "Count the Vowels",
+   "task": "Count the vowels (a e i o u) in \"the c programming language\" with a loop over the characters, and print 8 vowels.",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "8 vowels",
+   "requirements": [
+    {
+     "pattern": "\\[\\s*i\\s*\\]|\\*\\s*\\w+",
+     "message": "Walk through the string character by character."
+    }
+   ],
+   "hints": [
+    "for (i = 0; s[i] != '\\0'; i++)",
+    "if (c == 'a' || c == 'e' || …) count++;"
+   ]
+  },
+  {
+   "id": "c-reverse-str",
+   "unit": "c11",
+   "difficulty": 2,
+   "title": "Reverse a String",
+   "task": "Reverse the char array \"ritchie\" in place (swap from both ends, use strlen) and print eihctir.",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n#include <string.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "eihctir",
+   "requirements": [
+    {
+     "pattern": "strlen",
+     "message": "Use strlen to find the end."
+    }
+   ],
+   "hints": [
+    "int i = 0, j = strlen(s) - 1;",
+    "while (i < j) { char t = s[i]; s[i] = s[j]; s[j] = t; i++; j--; }"
+   ]
+  },
+  {
+   "id": "c-row-sums",
+   "unit": "c12",
+   "difficulty": 2,
+   "title": "Row Sums",
+   "task": "Store this 3 × 4 table in a 2D array and print the sum of every row:\n1 2 3 4\n5 6 7 8\n9 10 11 12\nOutput: 10 26 42",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "10 26 42",
+   "requirements": [
+    {
+     "pattern": "\\]\\s*\\[",
+     "message": "Use a two-dimensional array."
+    }
+   ],
+   "hints": [
+    "int t[3][4] = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}};",
+    "For each row r, add t[r][c] for c from 0 to 3."
+   ]
+  },
+  {
+   "id": "c-sort-desc",
+   "unit": "c12",
+   "difficulty": 3,
+   "title": "Highest First",
+   "task": "Sort the scores 340 1200 75 860 1200 15 from highest to lowest with a bubble sort, and print them: 1200 1200 860 340 75 15",
+   "xp": 40,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "1200 1200 860 340 75 15",
+   "requirements": [
+    {
+     "pattern": "for[\\s\\S]*for",
+     "message": "Use two nested loops."
+    }
+   ],
+   "hints": [
+    "Swap neighbours when the left one is smaller.",
+    "if (a[j] < a[j + 1]) { int t = a[j]; a[j] = a[j + 1]; a[j + 1] = t; }"
+   ]
+  },
+  {
+   "id": "c-divmod",
+   "unit": "c13",
+   "difficulty": 2,
+   "title": "Two Results",
+   "task": "Write void divide(int a, int b, int *q, int *r) that stores the quotient and the remainder through the pointers. Print divide(437, 60, …) as 7 r 17.",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "7 r 17",
+   "requirements": [
+    {
+     "pattern": "void\\s+divide\\s*\\([^)]*\\*",
+     "message": "Write divide with pointer parameters."
+    },
+    {
+     "pattern": "divide\\s*\\([^)]*&",
+     "message": "Pass the addresses with &."
+    }
+   ],
+   "hints": [
+    "*q = a / b; *r = a % b;",
+    "int q, r; divide(437, 60, &q, &r);"
+   ]
+  },
+  {
+   "id": "c-sort3",
+   "unit": "c13",
+   "difficulty": 3,
+   "title": "Sort Three Variables",
+   "task": "Write void sort3(int *a, int *b, int *c) that puts three variables in order, using a swap function. With x = 9, y = 2, z = 5, print 2 5 9.",
+   "xp": 40,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "2 5 9",
+   "requirements": [
+    {
+     "pattern": "void\\s+swap\\s*\\(\\s*int\\s*\\*",
+     "message": "Write void swap(int *a, int *b)."
+    },
+    {
+     "pattern": "void\\s+sort3\\s*\\(",
+     "message": "Write void sort3(int *a, int *b, int *c)."
+    }
+   ],
+   "hints": [
+    "if (*a > *b) swap(a, b);",
+    "Three compares: a and b, b and c, then a and b again."
+   ]
+  },
+  {
+   "id": "c-ptr-sum",
+   "unit": "c14",
+   "difficulty": 2,
+   "title": "Sum with a Pointer",
+   "task": "Write int sum(int *a, int n) that adds up an array with a moving pointer (p++, no [ ]). Print sum of {4, 8, 15, 16, 23, 42}: 108",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "108",
+   "requirements": [
+    {
+     "pattern": "int\\s+sum\\s*\\(\\s*int\\s*\\*",
+     "message": "Write int sum(int *a, int n)."
+    },
+    {
+     "pattern": "\\+\\+",
+     "message": "Move the pointer with ++."
+    }
+   ],
+   "hints": [
+    "int *p = a; int *end = a + n;",
+    "while (p < end) s += *p++;"
+   ]
+  },
+  {
+   "id": "c-upcase",
+   "unit": "c14",
+   "difficulty": 2,
+   "title": "Shout",
+   "task": "Write void shout(char *s) that turns every lowercase letter into a capital by walking with a pointer ('a' - 'A' is the distance). Shout the char array \"hello, world\" and print HELLO, WORLD.",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "HELLO, WORLD",
+   "requirements": [
+    {
+     "pattern": "void\\s+shout\\s*\\(\\s*char\\s*\\*",
+     "message": "Write void shout(char *s)."
+    }
+   ],
+   "hints": [
+    "while (*s) { … s++; }",
+    "if (*s >= 'a' && *s <= 'z') *s = *s - 'a' + 'A';"
+   ]
+  },
+  {
+   "id": "c-distance",
+   "unit": "c15",
+   "difficulty": 2,
+   "title": "Manhattan Distance",
+   "task": "Define struct point { int x; int y; } and int dist(struct point a, struct point b) that returns |dx| + |dy| (use abs). Print dist of (1, 2) and (4, -2): 7",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "7",
+   "requirements": [
+    {
+     "pattern": "struct\\s+point\\s*\\{",
+     "message": "Define struct point."
+    },
+    {
+     "pattern": "int\\s+dist\\s*\\(",
+     "message": "Write int dist(…)."
+    }
+   ],
+   "hints": [
+    "return abs(a.x - b.x) + abs(a.y - b.y);",
+    "struct point p = {1, 2}, q = {4, -2};"
+   ]
+  },
+  {
+   "id": "c-oldest",
+   "unit": "c15",
+   "difficulty": 3,
+   "title": "The Oldest Language",
+   "task": "Make an array of struct lang { char name[10]; int year; } with c 1972, basic 1964, fortran 1957, pascal 1970. Write struct lang *oldest(struct lang *a, int n) that returns a pointer to the oldest, and print fortran 1957.",
+   "xp": 40,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "fortran 1957",
+   "requirements": [
+    {
+     "pattern": "struct\\s+lang\\s*\\{",
+     "message": "Define struct lang."
+    },
+    {
+     "pattern": "struct\\s+lang\\s*\\*\\s*oldest\\s*\\(",
+     "message": "Write struct lang *oldest(…)."
+    },
+    {
+     "pattern": "->",
+     "message": "Use -> on the result."
+    }
+   ],
+   "hints": [
+    "struct lang *best = &a[0]; then compare a[i].year with best->year.",
+    "struct lang *o = oldest(l, 4); printf(\"%s %d\\n\", o->name, o->year);"
+   ]
+  },
+  {
+   "id": "c-repeat",
+   "unit": "c16",
+   "difficulty": 2,
+   "title": "Repeat a Word",
+   "task": "Write char *repeat(char *s, int n) that returns new memory from malloc holding s n times. Print repeat(\"ab\", 3) as ababab, then free it.",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "ababab",
+   "requirements": [
+    {
+     "pattern": "char\\s*\\*\\s*repeat\\s*\\(",
+     "message": "Write char *repeat(char *s, int n)."
+    },
+    {
+     "pattern": "malloc\\s*\\(",
+     "message": "Get the memory with malloc."
+    },
+    {
+     "pattern": "free\\s*\\(",
+     "message": "Free it in main."
+    }
+   ],
+   "hints": [
+    "The size is strlen(s) * n + 1 (for the '\\0').",
+    "Start with r[0] = '\\0'; then strcat(r, s) n times."
+   ]
+  },
+  {
+   "id": "c-histogram",
+   "unit": "c16",
+   "difficulty": 3,
+   "title": "Dice Histogram",
+   "task": "Read how many sides a die has, then count the rolls that follow (up to the 0) in an array from calloc. Print one line per side with a * per roll:\n1 **\n2 *\n3 \n4 ***\nThe app types 4, then 1 4 2 4 1 4 0. Free the array.",
+   "xp": 40,
+   "starter": "#include <stdio.h>\n#include <stdlib.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "1 **\n2 *\n3\n4 ***",
+   "requirements": [
+    {
+     "pattern": "calloc\\s*\\(",
+     "message": "Get a zeroed array with calloc."
+    },
+    {
+     "pattern": "free\\s*\\(",
+     "message": "Free the array."
+    }
+   ],
+   "hints": [
+    "int *count = calloc(sides + 1, sizeof(int));",
+    "while (scanf(\"%d\", &r) == 1 && r != 0) count[r]++;",
+    "For each side: printf(\"%d \", s); then the stars, then a newline."
+   ],
+   "inputs": [
+    "4",
+    "1 4 2 4 1 4 0"
+   ]
+  },
+  {
+   "id": "c-list-max",
+   "unit": "c17",
+   "difficulty": 2,
+   "title": "Biggest in the List",
+   "task": "Build a list from 31 7 58 12 by pushing at the front. Walk it and print the list (12 58 7 31) and then max 58. Free all nodes.",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n#include <stdlib.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "12 58 7 31\nmax 58",
+   "requirements": [
+    {
+     "pattern": "struct\\s+node\\s*\\{",
+     "message": "Define struct node."
+    },
+    {
+     "pattern": "->\\s*next",
+     "message": "Walk the list with ->next."
+    },
+    {
+     "pattern": "free\\s*\\(",
+     "message": "Free the nodes."
+    }
+   ],
+   "hints": [
+    "push: a new node with next = head becomes the head.",
+    "for (p = head; p != NULL; p = p->next)"
+   ]
+  },
+  {
+   "id": "c-list-reverse",
+   "unit": "c17",
+   "difficulty": 3,
+   "title": "Turn the List Around",
+   "task": "Build the list 1 2 3 4 5 (in that order, append at the end). Write struct node *reverse(struct node *head) that reverses it by changing the next pointers, then print both:\n1 2 3 4 5\n5 4 3 2 1",
+   "xp": 40,
+   "starter": "#include <stdio.h>\n#include <stdlib.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "1 2 3 4 5\n5 4 3 2 1",
+   "requirements": [
+    {
+     "pattern": "struct\\s+node\\s*\\*\\s*reverse\\s*\\(",
+     "message": "Write struct node *reverse(struct node *head)."
+    },
+    {
+     "pattern": "malloc\\s*\\(",
+     "message": "Make the nodes with malloc."
+    }
+   ],
+   "hints": [
+    "Keep prev = NULL. For each node: save next, point the node at prev, move prev and the node forward.",
+    "At the end, prev is the new head."
+   ]
+  },
+  {
+   "id": "c-rpn",
+   "unit": "c18",
+   "difficulty": 3,
+   "title": "Reverse Polish Calculator",
+   "task": "Old HP calculators worked without brackets: 3 4 + 2 * means (3 + 4) * 2. Read words with scanf(\"%s\") until EOF: numbers are pushed on a stack, an operator (+ - *) pops two and pushes the result. Print the final result: 14. The app types 3 4 + 2 *.",
+   "xp": 40,
+   "starter": "#include <stdio.h>\n#include <stdlib.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "14",
+   "requirements": [
+    {
+     "pattern": "push\\s*\\(",
+     "message": "Use a push function."
+    },
+    {
+     "pattern": "pop\\s*\\(",
+     "message": "Use a pop function."
+    },
+    {
+     "pattern": "atoi\\s*\\(",
+     "message": "Turn number words into ints with atoi."
+    }
+   ],
+   "hints": [
+    "while (scanf(\"%s\", w) == 1) { … }",
+    "For an operator: int b = pop(), a = pop(); then push(a + b) (or - or *).",
+    "Otherwise: push(atoi(w));"
+   ],
+   "inputs": [
+    "3 4 + 2 *"
+   ]
+  },
+  {
+   "id": "c-ticket-queue",
+   "unit": "c18",
+   "difficulty": 2,
+   "title": "Ticket Counter",
+   "task": "A ring-buffer queue of size 4: put 101, 102, 103, serve one, put 104 and 105, then serve everyone. Print each served ticket as serving N.",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "serving 101\nserving 102\nserving 103\nserving 104\nserving 105",
+   "requirements": [
+    {
+     "pattern": "%\\s*\\w+",
+     "message": "Wrap the positions around with %."
+    },
+    {
+     "pattern": "void\\s+put\\s*\\(",
+     "message": "Write void put(int x)."
+    }
+   ],
+   "hints": [
+    "tail = (tail + 1) % SIZE; and the same for head.",
+    "Keep a count to know when the queue is empty."
+   ]
+  },
+  {
+   "id": "c-count-bits",
+   "unit": "c19",
+   "difficulty": 2,
+   "title": "Count the Ones",
+   "task": "Write int ones(int n) that counts the 1 bits with & and >>. Print ones(255), ones(1972) and ones(1024):\n8\n7\n1",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "8\n7\n1",
+   "requirements": [
+    {
+     "pattern": "int\\s+ones\\s*\\(",
+     "message": "Write int ones(int n)."
+    },
+    {
+     "pattern": ">>",
+     "message": "Shift with >>."
+    },
+    {
+     "pattern": "&\\s*1",
+     "message": "Test the lowest bit with & 1."
+    }
+   ],
+   "hints": [
+    "while (n != 0) { c += n & 1; n >>= 1; }"
+   ]
+  },
+  {
+   "id": "c-rwx",
+   "unit": "c19",
+   "difficulty": 2,
+   "title": "ls -l",
+   "task": "Write void rwx(int mode) that prints a Unix permission like 0754 as rwxr-xr--: three groups (owner, group, others) of 3 bits each. Print rwx(0754) and rwx(0640):\nrwxr-xr--\nrw-r-----",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "rwxr-xr--\nrw-r-----",
+   "requirements": [
+    {
+     "pattern": "void\\s+rwx\\s*\\(",
+     "message": "Write void rwx(int mode)."
+    },
+    {
+     "pattern": "&",
+     "message": "Test the bits with &."
+    }
+   ],
+   "hints": [
+    "The owner's bits are (mode >> 6) & 7, the group's (mode >> 3) & 7, the others' mode & 7.",
+    "For each group g: putchar(g & 4 ? 'r' : '-'); and the same with 2 for w and 1 for x."
+   ]
+  },
+  {
+   "id": "c-cat-n",
+   "unit": "c20",
+   "difficulty": 2,
+   "title": "cat -n",
+   "task": "Open todo.txt (it's on the disk already), print every line with its number like cat -n does:\n1 edit\n2 compile\n3 test\nPrint can't open to stderr if fopen fails.",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "1 edit\n2 compile\n3 test",
+   "requirements": [
+    {
+     "pattern": "fopen\\s*\\(",
+     "message": "Open the file with fopen."
+    },
+    {
+     "pattern": "fgets\\s*\\(",
+     "message": "Read lines with fgets."
+    },
+    {
+     "pattern": "NULL",
+     "message": "Check fopen's result for NULL."
+    },
+    {
+     "pattern": "fclose\\s*\\(",
+     "message": "Close it with fclose."
+    }
+   ],
+   "hints": [
+    "FILE *f = fopen(\"todo.txt\", \"r\");",
+    "while (fgets(line, 80, f) != NULL) printf(\"%d %s\", ++n, line);"
+   ]
+  },
+  {
+   "id": "c-copy-file",
+   "unit": "c20",
+   "difficulty": 3,
+   "title": "cp",
+   "task": "Write int copy(char *from, char *to) that copies a file character by character with fgetc and fputc, and returns the number of characters (or -1 if from can't be opened). Copy todo.txt to backup.txt, print 18 bytes copied, then print backup.txt's contents.",
+   "xp": 40,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "18 bytes copied\nedit\ncompile\ntest",
+   "requirements": [
+    {
+     "pattern": "int\\s+copy\\s*\\(",
+     "message": "Write int copy(char *from, char *to)."
+    },
+    {
+     "pattern": "fgetc\\s*\\(",
+     "message": "Read with fgetc."
+    },
+    {
+     "pattern": "fputc\\s*\\(",
+     "message": "Write with fputc."
+    }
+   ],
+   "hints": [
+    "FILE *in = fopen(from, \"r\"); FILE *out = fopen(to, \"w\");",
+    "while ((c = fgetc(in)) != EOF) { fputc(c, out); n++; }",
+    "Close both files before reading backup.txt."
+   ]
+  },
+  {
+   "id": "c-echo",
+   "unit": "c21",
+   "difficulty": 1,
+   "title": "Your Own echo",
+   "task": "echo prints its arguments separated by spaces. Write it with argc and argv. The program is started as ./echo hello from unix.",
+   "xp": 15,
+   "starter": "/* $ ./echo hello from unix */\n#include <stdio.h>\n\nint main(int argc, char *argv[]) {\n    \n    return 0;\n}\n",
+   "expectedOutput": "hello from unix",
+   "requirements": [
+    {
+     "pattern": "argv",
+     "message": "Use argv."
+    },
+    {
+     "pattern": "argc",
+     "message": "Loop up to argc."
+    }
+   ],
+   "hints": [
+    "for (i = 1; i < argc; i++)",
+    "printf(\"%s\", argv[i]); and a space between the words."
+   ]
+  },
+  {
+   "id": "c-head",
+   "unit": "c21",
+   "difficulty": 2,
+   "title": "head -n",
+   "task": "head prints the first lines of its input. Read the number from argv[1] with atoi and print only that many lines from stdin. The program is started as ./head 2.",
+   "xp": 25,
+   "starter": "/* $ ./head 2 */\n#include <stdio.h>\n#include <stdlib.h>\n\nint main(int argc, char *argv[]) {\n    \n    return 0;\n}\n",
+   "expectedOutput": "line one\nline two",
+   "requirements": [
+    {
+     "pattern": "atoi\\s*\\(\\s*argv\\s*\\[\\s*1\\s*\\]",
+     "message": "Read the count with atoi(argv[1])."
+    },
+    {
+     "pattern": "fgets\\s*\\(",
+     "message": "Read the lines with fgets."
+    }
+   ],
+   "hints": [
+    "int n = atoi(argv[1]);",
+    "while (n > 0 && fgets(line, 100, stdin) != NULL) { printf(\"%s\", line); n--; }"
+   ],
+   "inputs": [
+    "line one",
+    "line two",
+    "line three",
+    "line four"
+   ]
+  },
+  {
+   "id": "c-uniq",
+   "unit": "c21",
+   "difficulty": 3,
+   "title": "uniq",
+   "task": "uniq removes repeated lines that follow each other. Read stdin with fgets and print each line only if it differs from the line before (use strcmp and strcpy).",
+   "xp": 40,
+   "starter": "/* $ ./uniq */\n#include <stdio.h>\n#include <string.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "a\nb\na\nc",
+   "requirements": [
+    {
+     "pattern": "strcmp\\s*\\(",
+     "message": "Compare with strcmp."
+    },
+    {
+     "pattern": "strcpy\\s*\\(",
+     "message": "Remember the last line with strcpy."
+    },
+    {
+     "pattern": "fgets\\s*\\(",
+     "message": "Read with fgets."
+    }
+   ],
+   "hints": [
+    "char line[100], last[100] = \"\";",
+    "if (strcmp(line, last) != 0) { printf(\"%s\", line); strcpy(last, line); }"
+   ],
+   "inputs": [
+    "a",
+    "a",
+    "b",
+    "a",
+    "c",
+    "c",
+    "c"
+   ]
+  },
+  {
+   "id": "c-weekend",
+   "unit": "c22",
+   "difficulty": 1,
+   "title": "The Weekend",
+   "task": "Declare enum day { MON, TUE, WED, THU, FRI, SAT, SUN }; and an array of the names. Loop over the days and print only the weekend, with its number:\nSAT is day 5\nSUN is day 6",
+   "xp": 15,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "SAT is day 5\nSUN is day 6",
+   "requirements": [
+    {
+     "pattern": "enum\\s+day",
+     "message": "Declare enum day."
+    },
+    {
+     "pattern": "SAT",
+     "message": "Use the enum names."
+    }
+   ],
+   "hints": [
+    "char *names[] = {\"MON\", \"TUE\", …, \"SUN\"};",
+    "for (d = MON; d <= SUN; d++) if (d >= SAT) printf(\"%s is day %d\\n\", names[d], d);"
+   ]
+  },
+  {
+   "id": "c-readings",
+   "unit": "c22",
+   "difficulty": 2,
+   "title": "Weather Readings",
+   "task": "Write typedef struct { char city[10]; double celsius; } Reading; and a function double fahrenheit(Reading r) (celsius * 9 / 5 + 32). Print each of Berlin 15, Oslo 5 and Cairo 30 with one decimal:\nBerlin 59.0\nOslo 41.0\nCairo 86.0",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "Berlin 59.0\nOslo 41.0\nCairo 86.0",
+   "requirements": [
+    {
+     "pattern": "typedef\\s+struct",
+     "message": "Make the Reading type with typedef struct."
+    },
+    {
+     "pattern": "double\\s+fahrenheit\\s*\\(\\s*Reading",
+     "message": "Write double fahrenheit(Reading r)."
+    }
+   ],
+   "hints": [
+    "Reading r[3] = {{\"Berlin\", 15}, {\"Oslo\", 5}, {\"Cairo\", 30}};",
+    "return r.celsius * 9 / 5 + 32;"
+   ]
+  },
+  {
+   "id": "c-abs-macro",
+   "unit": "c23",
+   "difficulty": 1,
+   "title": "A Safe ABS",
+   "task": "Write a macro #define ABS(x) that gives the absolute value, with all the brackets it needs. Print ABS(-7), ABS(3 - 10) and ABS(4) on one line:\n7 7 4",
+   "xp": 15,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "7 7 4",
+   "requirements": [
+    {
+     "pattern": "#define\\s+ABS\\s*\\(",
+     "message": "Write the ABS macro."
+    },
+    {
+     "pattern": "\\(\\s*x\\s*\\)",
+     "message": "Put x in brackets inside the macro."
+    }
+   ],
+   "hints": [
+    "#define ABS(x) ((x) < 0 ? -(x) : (x))",
+    "Without brackets, ABS(3 - 10) would become -3 - 10."
+   ]
+  },
+  {
+   "id": "c-debug-sum",
+   "unit": "c23",
+   "difficulty": 2,
+   "title": "Debug Mode",
+   "task": "Add up 1 to 5. Define DEBUG at the top, and inside the loop print each step like +3=6, but only #ifdef DEBUG. At the end print total 15.",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "+1=1\n+2=3\n+3=6\n+4=10\n+5=15\ntotal 15",
+   "requirements": [
+    {
+     "pattern": "#define\\s+DEBUG",
+     "message": "Define DEBUG."
+    },
+    {
+     "pattern": "#ifdef\\s+DEBUG",
+     "message": "Print the steps only #ifdef DEBUG."
+    },
+    {
+     "pattern": "#endif",
+     "message": "Close the block with #endif."
+    }
+   ],
+   "hints": [
+    "#ifdef DEBUG must be at the start of its own line.",
+    "printf(\"+%d=%d\\n\", i, sum); between #ifdef DEBUG and #endif."
+   ]
+  },
+  {
+   "id": "c-apply",
+   "unit": "c24",
+   "difficulty": 2,
+   "title": "Apply to All",
+   "task": "Write void apply(int *a, int n, int (*f)(int)) that replaces every element with f(element). Start with {1, 2, 3, 4}, apply a function twice (x * 2) and print, then apply plus_one and print again:\n2 4 6 8\n3 5 7 9",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "2 4 6 8\n3 5 7 9",
+   "requirements": [
+    {
+     "pattern": "\\(\\s*\\*\\s*f\\s*\\)\\s*\\(\\s*int\\s*\\)",
+     "message": "The parameter is int (*f)(int)."
+    },
+    {
+     "pattern": "void\\s+apply\\s*\\(",
+     "message": "Write void apply(…)."
+    }
+   ],
+   "hints": [
+    "for (i = 0; i < n; i++) a[i] = f(a[i]);",
+    "apply(v, 4, twice); then print the array."
+   ]
+  },
+  {
+   "id": "c-sort-names",
+   "unit": "c24",
+   "difficulty": 2,
+   "title": "Sort the Names",
+   "task": "Sort char *names[] = {\"ken\", \"dmr\", \"bwk\", \"rob\"} alphabetically with qsort and print them on one line. The array holds char * pointers, so the compare function gets pointers to pointers.",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "bwk dmr ken rob",
+   "requirements": [
+    {
+     "pattern": "qsort\\s*\\(",
+     "message": "Sort with qsort."
+    },
+    {
+     "pattern": "strcmp\\s*\\(",
+     "message": "Compare with strcmp."
+    }
+   ],
+   "hints": [
+    "int cmp(const void *a, const void *b) { return strcmp(*(char * const *)a, *(char * const *)b); }",
+    "qsort(names, 4, sizeof names[0], cmp);"
+   ]
+  },
+  {
+   "id": "c-tree-sum",
+   "unit": "c25",
+   "difficulty": 2,
+   "title": "Sum of a Tree",
+   "task": "Insert 5, 3, 8, 1 and 4 into a binary search tree. Write recursive functions sum and count, and print:\nsum 21, 5 nodes",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n#include <stdlib.h>\n\n\n\nint main() {\n    int keys[] = {5, 3, 8, 1, 4};\n    \n    return 0;\n}\n",
+   "expectedOutput": "sum 21, 5 nodes",
+   "requirements": [
+    {
+     "pattern": "malloc\\s*\\(",
+     "message": "Make the nodes with malloc."
+    },
+    {
+     "pattern": "->\\s*left",
+     "message": "Each node needs a left pointer."
+    },
+    {
+     "pattern": "int\\s+sum\\s*\\(",
+     "message": "Write int sum(…)."
+    }
+   ],
+   "hints": [
+    "sum: if (t == NULL) return 0; return sum(t->left) + t->key + sum(t->right);",
+    "count works the same way, with 1 instead of t->key."
+   ]
+  },
+  {
+   "id": "c-tree-path",
+   "unit": "c25",
+   "difficulty": 3,
+   "title": "The Search Path",
+   "task": "Insert 5, 3, 8, 1 and 4 into a binary search tree. Then search for 4 and print every key you visit on the way down, with arrows:\n5 -> 3 -> 4\nThen search for 7 and print the path and not found:\n5 -> 8 -> not found",
+   "xp": 40,
+   "starter": "#include <stdio.h>\n#include <stdlib.h>\n\n\n\nint main() {\n    int keys[] = {5, 3, 8, 1, 4};\n    \n    return 0;\n}\n",
+   "expectedOutput": "5 -> 3 -> 4\n5 -> 8 -> not found",
+   "requirements": [
+    {
+     "pattern": "->\\s*left",
+     "message": "Walk down the left pointers."
+    },
+    {
+     "pattern": "->\\s*right",
+     "message": "Walk down the right pointers."
+    },
+    {
+     "pattern": "NULL",
+     "message": "Stop at NULL."
+    }
+   ],
+   "hints": [
+    "Walk with t = root; while (t != NULL) { print t->key; if found stop; go left or right; }",
+    "Print \" -> \" between the keys, and \"not found\" when t becomes NULL."
+   ]
+  },
+  {
+   "id": "c-hash-it",
+   "unit": "c26",
+   "difficulty": 1,
+   "title": "Where Does It Go?",
+   "task": "Write the hash function from the lessons with SIZE 13: h = (h * 31 + c) % SIZE for every character. Print the hash of c, go and unix. Two of them land in the same place: a collision!\nc 8\ngo 2\nunix 2",
+   "xp": 15,
+   "starter": "#include <stdio.h>\n\n#define SIZE 13\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "c 8\ngo 2\nunix 2",
+   "requirements": [
+    {
+     "pattern": "%\\s*SIZE",
+     "message": "Keep the hash inside the table with % SIZE."
+    },
+    {
+     "pattern": "int\\s+hash\\s*\\(",
+     "message": "Write int hash(char *s)."
+    }
+   ],
+   "hints": [
+    "#define SIZE 13",
+    "while (*s) h = (h * 31 + *s++) % SIZE;"
+   ]
+  },
+  {
+   "id": "c-repeats",
+   "unit": "c26",
+   "difficulty": 3,
+   "title": "Spot the Repeats",
+   "task": "Read words with scanf(\"%s\", …) and count them in a hash table. Print a word at the moment it's seen for the second time (so each repeated word is printed once):\nthe\nand",
+   "xp": 40,
+   "starter": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\n#define SIZE 7\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "the\nand",
+   "requirements": [
+    {
+     "pattern": "->\\s*next",
+     "message": "Chain the entries in the table."
+    },
+    {
+     "pattern": "strcmp\\s*\\(",
+     "message": "Compare words with strcmp."
+    },
+    {
+     "pattern": "scanf\\s*\\(",
+     "message": "Read the words with scanf."
+    }
+   ],
+   "hints": [
+    "Use add() from the lessons: it returns the entry, new ones with count 0.",
+    "e = add(buf); e->count++; if (e->count == 2) printf(\"%s\\n\", buf);"
+   ],
+   "inputs": [
+    "the cat and the dog",
+    "and the bird"
+   ]
+  },
+  {
+   "id": "c-clock",
+   "unit": "c27",
+   "difficulty": 1,
+   "title": "The Clock",
+   "task": "Build the time 07:05:09 from int h = 7, m = 5, s = 9 into a char array with sprintf, then print it and its length:\n07:05:09 (8 chars)",
+   "xp": 15,
+   "starter": "#include <stdio.h>\n#include <string.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "07:05:09 (8 chars)",
+   "requirements": [
+    {
+     "pattern": "sprintf\\s*\\(",
+     "message": "Build the text with sprintf."
+    },
+    {
+     "pattern": "%02d",
+     "message": "Pad with zeros: %02d."
+    },
+    {
+     "pattern": "strlen\\s*\\(",
+     "message": "Measure it with strlen."
+    }
+   ],
+   "hints": [
+    "char buf[9]; sprintf(buf, \"%02d:%02d:%02d\", h, m, s);",
+    "printf(\"%s (%d chars)\\n\", buf, strlen(buf));"
+   ]
+  },
+  {
+   "id": "c-coords",
+   "unit": "c27",
+   "difficulty": 2,
+   "title": "Read the Coordinates",
+   "task": "Each input line looks like x=3,y=4. Read the lines with fgets, take them apart with sscanf, and print x + y for each. For a line that doesn't fit, print skipped.",
+   "xp": 25,
+   "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+   "expectedOutput": "7\n8\nskipped\n0",
+   "requirements": [
+    {
+     "pattern": "fgets\\s*\\(",
+     "message": "Read each line with fgets."
+    },
+    {
+     "pattern": "sscanf\\s*\\(",
+     "message": "Take it apart with sscanf."
+    }
+   ],
+   "hints": [
+    "if (sscanf(line, \"x=%d,y=%d\", &x, &y) == 2) printf(\"%d\\n\", x + y);",
+    "else printf(\"skipped\\n\");"
+   ],
+   "inputs": [
+    "x=3,y=4",
+    "x=10,y=-2",
+    "bad",
+    "x=0,y=0"
+   ]
+  }
+ ]
+}

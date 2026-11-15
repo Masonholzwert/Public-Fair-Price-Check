@@ -1,0 +1,397 @@
+{
+  "id": "cb8",
+  "title": "COMPUTE",
+  "lessons": [
+    {
+      "id": "cb8-l1",
+      "title": "Formulas",
+      "xp": 15,
+      "intro": [
+        "For anything longer than one step, COMPUTE takes a formula: COMPUTE AREA = WIDTH * HEIGHT. It knows + - * / and ** for powers, with * and / before + and -, and brackets.",
+        "The spaces around the signs are a must: in COBOL, A-B is a single name (like TOTAL-PRICE), and only A - B is a subtraction.",
+        "COMPUTE can round too: COMPUTE X ROUNDED = …, and it has ON SIZE ERROR like the other verbs."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. AREA.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 LEN    PIC 99   VALUE 12.",
+          "       01 WID    PIC 99   VALUE 5.",
+          "       01 AREA   PIC 9(4).",
+          "       PROCEDURE DIVISION.",
+          "           COMPUTE AREA = LEN * WID.",
+          "           DISPLAY \"AREA:  \" AREA.",
+          "           COMPUTE AREA = (LEN + WID) * 2.",
+          "           DISPLAY \"EDGE:  \" AREA.",
+          "           COMPUTE AREA = LEN ** 2.",
+          "           DISPLAY \"LEN²:  \" AREA.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "AREA:  0060",
+          "EDGE:  0034",
+          "LEN²:  0144"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb8-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is COMPUTE X = 2 + 3 * 4?",
+          "options": [
+            "14",
+            "20",
+            "24",
+            "9"
+          ],
+          "answer": 0,
+          "explanation": "* comes before +."
+        },
+        {
+          "id": "cb8-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. C.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 X PIC 999.",
+            "       PROCEDURE DIVISION.",
+            "           COMPUTE X = (2 + 3) * 4.",
+            "           DISPLAY X.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "020",
+            "014",
+            "200",
+            "10"
+          ],
+          "answer": 0,
+          "explanation": "(2 + 3) * 4 = 20."
+        },
+        {
+          "id": "cb8-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "Why must there be spaces in A - B?",
+          "options": [
+            "A-B would be one name, like TOTAL-PRICE",
+            "COBOL needs spaces everywhere",
+            "It's just style",
+            "So it fits on the card"
+          ],
+          "answer": 0,
+          "explanation": "The hyphen belongs to COBOL's names."
+        },
+        {
+          "id": "cb8-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Square SIDE.",
+          "code": [
+            "           COMPUTE SQ = SIDE ___ 2."
+          ],
+          "options": [
+            "**",
+            "^",
+            "*",
+            "SQUARE"
+          ],
+          "answer": "**",
+          "explanation": "** is the power."
+        },
+        {
+          "id": "cb8-l1-e5",
+          "type": "find_bug",
+          "prompt": "This job doesn't compile. Which line is wrong?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. MINUS.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 A PIC 99 VALUE 9.",
+            "       01 B PIC 99 VALUE 4.",
+            "       01 C PIC 99.",
+            "       PROCEDURE DIVISION.",
+            "           COMPUTE C = A-B.",
+            "           STOP RUN."
+          ],
+          "answer": 8,
+          "explanation": "A-B is read as one name, which doesn't exist. Write A - B with spaces."
+        },
+        {
+          "id": "cb8-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "What is 2 ** 3 ** 2 in COBOL?",
+          "options": [
+            "512, because ** goes from right to left",
+            "64",
+            "36",
+            "12"
+          ],
+          "answer": 0,
+          "explanation": "3 ** 2 = 9 first, then 2 ** 9."
+        }
+      ]
+    },
+    {
+      "id": "cb8-l2",
+      "title": "Percent and Interest",
+      "xp": 15,
+      "intro": [
+        "Business math is mostly percentages. 19 % tax on a price is COMPUTE TAX ROUNDED = PRICE * 0.19. With ROUNDED, half a cent and more rounds up, like the tax office expects.",
+        "Interest grows on itself: after 3 years at 5 %, the balance is BALANCE * 1.05 ** 3. COBOL works out the long decimals inside, and only rounds at the end.",
+        "This exactness is why banks never moved away from COBOL: the result is the same on paper, at the bank and at the tax office."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. INTEREST.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 PRICE      PIC 9(4)V99 VALUE 49.99.",
+          "       01 TAX        PIC 9(4)V99.",
+          "       01 GROSS      PIC 9(4)V99.",
+          "       01 SAVINGS    PIC 9(5)V99 VALUE 1000.",
+          "       01 MONEY-OUT  PIC $$,$$9.99.",
+          "       PROCEDURE DIVISION.",
+          "           COMPUTE TAX ROUNDED = PRICE * 0.19.",
+          "           COMPUTE GROSS = PRICE + TAX.",
+          "           MOVE GROSS TO MONEY-OUT.",
+          "           DISPLAY \"WITH TAX:      \" MONEY-OUT.",
+          "           COMPUTE SAVINGS ROUNDED = SAVINGS * 1.05 ** 3.",
+          "           MOVE SAVINGS TO MONEY-OUT.",
+          "           DISPLAY \"AFTER 3 YEARS: \" MONEY-OUT.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "WITH TAX:         $59.49",
+          "AFTER 3 YEARS: $1,157.63"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb8-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "How do you compute 19 % of PRICE?",
+          "options": [
+            "PRICE * 0.19",
+            "PRICE * 19",
+            "PRICE / 19",
+            "PRICE % 19"
+          ],
+          "answer": 0,
+          "explanation": "19 % is 19 hundredths."
+        },
+        {
+          "id": "cb8-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. P.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 T PIC 9(4)V99.",
+            "       PROCEDURE DIVISION.",
+            "           COMPUTE T = 100 * 0.19.",
+            "           DISPLAY T.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "001900",
+            "0019.00",
+            "1900",
+            "19.00"
+          ],
+          "answer": 0,
+          "explanation": "100 * 0.19 = 19, shown in a PIC 9(4)V99 field: 6 digits, no point."
+        },
+        {
+          "id": "cb8-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Grow the balance by 5 %.",
+          "code": [
+            "           COMPUTE BALANCE ROUNDED = BALANCE * ___."
+          ],
+          "options": [
+            "1.05",
+            "0.05",
+            "5",
+            "105"
+          ],
+          "answer": "1.05",
+          "explanation": "100 % plus 5 %."
+        },
+        {
+          "id": "cb8-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "1000 at 5 % for 2 years, with interest on interest. How much?",
+          "options": [
+            "1102.50",
+            "1100.00",
+            "1105.00",
+            "1010.00"
+          ],
+          "answer": 0,
+          "explanation": "1000 × 1.05 × 1.05 = 1102.50."
+        },
+        {
+          "id": "cb8-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "When should a money calculation round?",
+          "options": [
+            "At the end, with ROUNDED on the result",
+            "After every step",
+            "Never",
+            "Before multiplying"
+          ],
+          "answer": 0,
+          "explanation": "COMPUTE keeps all the decimals inside, then rounds once."
+        },
+        {
+          "id": "cb8-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What does ROUNDED do with exactly half a cent, like 2.345 to 2 decimals?",
+          "options": [
+            "Rounds up to 2.35",
+            "Rounds down to 2.34",
+            "Keeps 2.345",
+            "Rounds to 2.3"
+          ],
+          "answer": 0,
+          "explanation": "Half and more rounds up."
+        }
+      ]
+    },
+    {
+      "id": "cb8-l3",
+      "title": "Exact All the Way",
+      "xp": 15,
+      "intro": [
+        "COMPUTE keeps many decimals while it works, and only cuts (or rounds) when the result goes into the field. So the order of the steps matters less than in other languages.",
+        "Still, the field decides what's kept: 10 / 3 into a PIC 9V99 field is 3.33, and 3.33 * 3 is 9.99, not 10. Dividing last keeps more digits.",
+        "So the rule from bank programmers: multiply first, divide last, round once."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. ORDER.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 THIRD   PIC 9V99.",
+          "       01 RESULT  PIC 99V99.",
+          "       PROCEDURE DIVISION.",
+          "           COMPUTE THIRD = 10 / 3.",
+          "           COMPUTE RESULT = THIRD * 3.",
+          "           DISPLAY \"STEP BY STEP: \" RESULT.",
+          "           COMPUTE RESULT = 10 * 3 / 3.",
+          "           DISPLAY \"ONE FORMULA:  \" RESULT.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "STEP BY STEP: 0999",
+          "ONE FORMULA:  1000"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb8-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Why is 10 / 3 stored in PIC 9V99 and then multiplied by 3 not 10?",
+          "options": [
+            "3.33 was cut when it was stored",
+            "COBOL can't divide",
+            "It is exactly 10",
+            "Because of binary"
+          ],
+          "answer": 0,
+          "explanation": "The field kept only 2 decimals."
+        },
+        {
+          "id": "cb8-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. CUT.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 X PIC 9V99.",
+            "       01 Y PIC 99V99.",
+            "       PROCEDURE DIVISION.",
+            "           COMPUTE X = 10 / 3.",
+            "           COMPUTE Y = X * 3.",
+            "           DISPLAY Y.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "0999",
+            "1000",
+            "999",
+            "0333"
+          ],
+          "answer": 0,
+          "explanation": "X holds 3.33; 3.33 × 3 = 9.99, shown as 4 digits."
+        },
+        {
+          "id": "cb8-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What's the bank programmers' rule?",
+          "options": [
+            "Multiply first, divide last, round once",
+            "Divide first",
+            "Round after every step",
+            "Use ** for everything"
+          ],
+          "answer": 0,
+          "explanation": "That keeps the most exact digits."
+        },
+        {
+          "id": "cb8-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Round the share once, at the end.",
+          "code": [
+            "           COMPUTE SHARE ___ = TOTAL * RATE / 12."
+          ],
+          "options": [
+            "ROUNDED",
+            "EXACT",
+            "ROUND",
+            "FINAL"
+          ],
+          "answer": "ROUNDED",
+          "explanation": "ROUNDED right after the result field."
+        },
+        {
+          "id": "cb8-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Inside a COMPUTE, how many decimals does COBOL keep while working?",
+          "options": [
+            "Many more than the result field: it cuts only at the end",
+            "None",
+            "Exactly 2",
+            "As many as the first field"
+          ],
+          "answer": 0,
+          "explanation": "That's why one COMPUTE is more exact than several steps."
+        },
+        {
+          "id": "cb8-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What does COMPUTE X = 7 / 2 put into a PIC 9 field?",
+          "options": [
+            "3",
+            "4",
+            "3.5",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "No decimals in the field: .5 is cut. With ROUNDED, it would be 4."
+        }
+      ]
+    }
+  ]
+}

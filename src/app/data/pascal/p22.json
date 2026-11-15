@@ -1,0 +1,436 @@
+{
+  "id": "p22",
+  "title": "The Screen",
+  "lessons": [
+    {
+      "id": "p22-l1",
+      "title": "clrscr and gotoxy",
+      "xp": 15,
+      "intro": [
+        "The PC's text screen has 80 columns and 25 rows. With uses crt, clrscr clears it, and gotoxy(x, y) puts the cursor anywhere: column x (1 to 80), row y (1 to 25). The next write starts there.",
+        "Without gotoxy, text just scrolls up line by line, like on a Teletype. With it, a program can draw a whole screen: menus, forms, tables, even games.",
+        "wherex and wherey tell you where the cursor is right now."
+      ],
+      "example": {
+        "code": [
+          "program Title;",
+          "uses crt;",
+          "begin",
+          "  clrscr;",
+          "  gotoxy(30, 2);",
+          "  write('TURBO PASCAL 3.0');",
+          "  gotoxy(28, 3);",
+          "  write('(C) 1983 Borland Inc.');",
+          "  gotoxy(1, 6);",
+          "  write('Press a key...');",
+          "  writeln;",
+          "end."
+        ],
+        "output": [
+          "",
+          "                             TURBO PASCAL 3.0",
+          "                           (C) 1983 Borland Inc.",
+          "",
+          "",
+          "Press a key..."
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p22-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does gotoxy(10, 5) do?",
+          "options": [
+            "Puts the cursor at column 10, row 5",
+            "Puts it at row 10, column 5",
+            "Writes 10 and 5",
+            "Clears 5 rows"
+          ],
+          "answer": 0,
+          "explanation": "x first (across), then y (down)."
+        },
+        {
+          "id": "p22-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "How big is the PC's text screen?",
+          "options": [
+            "80 columns, 25 rows",
+            "40 columns, 25 rows",
+            "25 columns, 80 rows",
+            "640 by 480"
+          ],
+          "answer": 0,
+          "explanation": "Like the IBM PC from 1981."
+        },
+        {
+          "id": "p22-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Clear the screen.",
+          "code": [
+            "  ___;"
+          ],
+          "options": [
+            "clrscr",
+            "clear",
+            "cls",
+            "gotoxy"
+          ],
+          "answer": "clrscr",
+          "explanation": "clrscr: clear screen."
+        },
+        {
+          "id": "p22-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program show?",
+          "code": [
+            "program Hi;",
+            "uses crt;",
+            "begin",
+            "  clrscr;",
+            "  gotoxy(4, 1);",
+            "  write('Hi');",
+            "end."
+          ],
+          "options": [
+            "   Hi",
+            "Hi",
+            "Hi   ",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "Column 4 means three spaces before Hi."
+        },
+        {
+          "id": "p22-l1-e5",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is missing something?",
+          "code": [
+            "program Screen;",
+            "begin",
+            "  clrscr;",
+            "  gotoxy(10, 5);",
+            "  write('Hello');",
+            "end."
+          ],
+          "answer": 0,
+          "explanation": "clrscr and gotoxy come from the crt unit: add uses crt; after the program line."
+        },
+        {
+          "id": "p22-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "What does gotoxy do with a position outside the screen, like gotoxy(100, 5)?",
+          "options": [
+            "Nothing: the cursor stays where it was",
+            "It wraps around",
+            "Runtime error",
+            "It makes the screen bigger"
+          ],
+          "answer": 0,
+          "explanation": "Turbo Pascal just ignored impossible positions."
+        }
+      ]
+    },
+    {
+      "id": "p22-l2",
+      "title": "Drawing Boxes",
+      "xp": 15,
+      "intro": [
+        "A box is four corners, two horizontal lines and two vertical lines. With gotoxy and a few loops, you can draw one anywhere.",
+        "The IBM PC had special line characters (chr(201), chr(205), chr(186) …) for real frames. Here we use + - and | so they show up everywhere.",
+        "A procedure Box(x, y, w, h) that draws a frame of any size was in nearly every Turbo Pascal program of the 80s."
+      ],
+      "example": {
+        "code": [
+          "program Boxes;",
+          "uses crt;",
+          "",
+          "procedure Box(x, y, w, h: integer);",
+          "var",
+          "  i: integer;",
+          "begin",
+          "  gotoxy(x, y);",
+          "  write('+');",
+          "  for i := 1 to w - 2 do write('-');",
+          "  write('+');",
+          "  for i := 1 to h - 2 do",
+          "  begin",
+          "    gotoxy(x, y + i); write('|');",
+          "    gotoxy(x + w - 1, y + i); write('|');",
+          "  end;",
+          "  gotoxy(x, y + h - 1);",
+          "  write('+');",
+          "  for i := 1 to w - 2 do write('-');",
+          "  write('+');",
+          "end;",
+          "",
+          "begin",
+          "  clrscr;",
+          "  Box(1, 1, 20, 5);",
+          "  gotoxy(5, 3);",
+          "  write('Main menu');",
+          "  Box(24, 2, 8, 3);",
+          "  gotoxy(26, 3);",
+          "  write('OK');",
+          "  gotoxy(1, 7);",
+          "end."
+        ],
+        "output": [
+          "+------------------+",
+          "|                  |   +------+",
+          "|   Main menu      |   | OK   |",
+          "|                  |   +------+",
+          "+------------------+"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p22-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "How many characters wide is a box drawn with Box(1, 1, 20, 5)?",
+          "options": [
+            "20",
+            "18",
+            "22",
+            "5"
+          ],
+          "answer": 0,
+          "explanation": "w is the whole width, including the corners."
+        },
+        {
+          "id": "p22-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Why does the horizontal loop go to w - 2?",
+          "options": [
+            "The two corners take the other 2 places",
+            "To leave a gap",
+            "Pascal counts from 2",
+            "It's a mistake"
+          ],
+          "answer": 0,
+          "explanation": "Corner, w - 2 dashes, corner."
+        },
+        {
+          "id": "p22-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Draw the right side of the box.",
+          "code": [
+            "    gotoxy(x + w ___ 1, y + i); write('|');"
+          ],
+          "options": [
+            "-",
+            "+",
+            "*",
+            "div"
+          ],
+          "answer": "-",
+          "explanation": "The right edge is in column x + w - 1."
+        },
+        {
+          "id": "p22-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What did real PC programs use for frames?",
+          "options": [
+            "Line characters like chr(201) and chr(205)",
+            "Pictures",
+            "Only + and -",
+            "The mouse"
+          ],
+          "answer": 0,
+          "explanation": "Code page 437 had single and double lines."
+        },
+        {
+          "id": "p22-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this draw?",
+          "code": [
+            "program Tiny;",
+            "uses crt;",
+            "",
+            "procedure Box(x, y, w, h: integer);",
+            "var",
+            "  i: integer;",
+            "begin",
+            "  gotoxy(x, y);",
+            "  write('+');",
+            "  for i := 1 to w - 2 do write('-');",
+            "  write('+');",
+            "  for i := 1 to h - 2 do",
+            "  begin",
+            "    gotoxy(x, y + i); write('|');",
+            "    gotoxy(x + w - 1, y + i); write('|');",
+            "  end;",
+            "  gotoxy(x, y + h - 1);",
+            "  write('+');",
+            "  for i := 1 to w - 2 do write('-');",
+            "  write('+');",
+            "end;",
+            "",
+            "begin",
+            "  clrscr;",
+            "  Box(1, 1, 4, 3);",
+            "end."
+          ],
+          "options": [
+            "+--+\n|  |\n+--+",
+            "+--+",
+            "----\n|  |",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "A 4 by 3 box."
+        },
+        {
+          "id": "p22-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Why put the drawing in a procedure Box?",
+          "options": [
+            "Draw any number of boxes in any size with one line each",
+            "Procedures draw faster",
+            "gotoxy only works in procedures",
+            "To hide the box"
+          ],
+          "answer": 0,
+          "explanation": "Write it once, use it everywhere."
+        }
+      ]
+    },
+    {
+      "id": "p22-l3",
+      "title": "A Menu",
+      "xp": 15,
+      "intro": [
+        "readkey waits for one key and gives it back as a char, without showing it on the screen. It's how menus and games read the keyboard: no Enter needed.",
+        "A menu program draws its choices, reads a key with readkey, and uses case to decide what to do. Here, the keys come from the box below the program.",
+        "A repeat … until loop keeps the menu going until the user chooses to quit."
+      ],
+      "example": {
+        "code": [
+          "program Menu;",
+          "uses crt;",
+          "var",
+          "  key: char;",
+          "  row: integer;",
+          "begin",
+          "  clrscr;",
+          "  gotoxy(5, 1); write('1 Hello');",
+          "  gotoxy(5, 2); write('2 Time');",
+          "  gotoxy(5, 3); write('Q Quit');",
+          "  row := 5;",
+          "  repeat",
+          "    key := upcase(readkey);",
+          "    gotoxy(1, row);",
+          "    case key of",
+          "      '1': write('Hello, world!');",
+          "      '2': write('It''s 1985.');",
+          "      'Q': write('Bye.');",
+          "    else",
+          "      write('No such choice: ', key);",
+          "    end;",
+          "    row := row + 1;",
+          "  until key = 'Q';",
+          "  writeln;",
+          "end."
+        ],
+        "output": [
+          "    1 Hello",
+          "    2 Time",
+          "    Q Quit",
+          "",
+          "Hello, world!",
+          "No such choice: X",
+          "It's 1985.",
+          "Bye."
+        ],
+        "inputs": [
+          "1",
+          "x",
+          "2",
+          "q"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p22-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does readkey do?",
+          "options": [
+            "Waits for one key and returns it, without showing it",
+            "Reads a whole line",
+            "Reads a number",
+            "Clears the keyboard"
+          ],
+          "answer": 0,
+          "explanation": "No Enter, and nothing appears on the screen."
+        },
+        {
+          "id": "p22-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "Why upcase(readkey)?",
+          "options": [
+            "So q and Q both work",
+            "readkey only reads capitals",
+            "To show the key",
+            "To make it a string"
+          ],
+          "answer": 0,
+          "explanation": "The menu then only has to check for 'Q'."
+        },
+        {
+          "id": "p22-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Stop the menu when Q is pressed.",
+          "code": [
+            "until key ___ 'Q';"
+          ],
+          "options": [
+            "=",
+            ":=",
+            "<>",
+            "in"
+          ],
+          "answer": "=",
+          "explanation": "repeat … until runs until the condition is true."
+        },
+        {
+          "id": "p22-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does the example write for the key x?",
+          "options": [
+            "No such choice: x",
+            "Hello, world!",
+            "Bye.",
+            "nothing"
+          ],
+          "answer": 0,
+          "explanation": "The else part of case catches all other keys."
+        },
+        {
+          "id": "p22-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Why does a menu use repeat … until and not while?",
+          "options": [
+            "The menu must be shown and read at least once",
+            "while can't read keys",
+            "repeat is faster",
+            "It doesn't matter at all"
+          ],
+          "answer": 0,
+          "explanation": "repeat checks its condition at the end."
+        },
+        {
+          "id": "p22-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "How do you write an apostrophe inside a Pascal string?",
+          "options": [
+            "Twice: 'It''s'",
+            "With a backslash",
+            "With \"",
+            "You can't"
+          ],
+          "answer": 0,
+          "explanation": "Two quotes inside a string mean one."
+        }
+      ]
+    }
+  ]
+}

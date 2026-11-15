@@ -1,0 +1,251 @@
+{
+  "id": "u2",
+  "title": "Jumps & Decisions",
+  "lessons": [
+    {
+      "id": "u2-l1",
+      "title": "GOTO: Jumping Around",
+      "xp": 15,
+      "intro": [
+        "So far, programs ran from the first line straight down to END. GOTO changes that: GOTO 40 jumps directly to line 40 and continues from there.",
+        "Lines that are jumped over are simply skipped. You can also jump backwards, to a lower line number, and run lines again.",
+        "Careful: a GOTO that always jumps backwards creates an endless loop. The program never reaches END.",
+        "STOP ends the program immediately, wherever it appears. Unlike END, it can stand anywhere in the program."
+      ],
+      "example": {
+        "code": ["10 PRINT \"A\"", "20 GOTO 40", "30 PRINT \"B\"", "40 PRINT \"C\"", "50 END"],
+        "output": ["A", "C"]
+      },
+      "exercises": [
+        {
+          "id": "u2-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": ["10 PRINT \"A\"", "20 GOTO 40", "30 PRINT \"B\"", "40 PRINT \"C\"", "50 END"],
+          "options": ["A, then C", "A, B, C", "Only C", "An error"],
+          "answer": 0,
+          "explanation": "Line 20 jumps to line 40, so line 30 is skipped. B is never printed."
+        },
+        {
+          "id": "u2-l1-e2",
+          "type": "fill_blank",
+          "prompt": "Make the program skip line 30.",
+          "code": ["10 PRINT \"START\"", "20 ___ 40", "30 PRINT \"SKIP ME\"", "40 END"],
+          "options": ["GOTO", "JUMP", "SKIP", "NEXT"],
+          "answer": "GOTO",
+          "explanation": "GOTO followed by a line number jumps to that line."
+        },
+        {
+          "id": "u2-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What happens when you run this?",
+          "code": ["10 PRINT \"HI\"", "20 GOTO 10", "30 END"],
+          "options": ["HI is printed forever", "HI is printed once", "HI is printed twice", "Nothing"],
+          "answer": 0,
+          "explanation": "Line 20 always jumps back to line 10, so the program never reaches END. That's an endless loop."
+        },
+        {
+          "id": "u2-l1-e4",
+          "type": "find_bug",
+          "prompt": "This program crashes. Which line causes it?",
+          "code": ["10 PRINT \"START\"", "20 GOTO 50", "30 PRINT \"MIDDLE\"", "40 END"],
+          "answer": 1,
+          "explanation": "Line 20 jumps to line 50, but there is no line 50. GOTO always needs a line that exists."
+        },
+        {
+          "id": "u2-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": ["10 PRINT \"ONE\"", "20 STOP", "30 PRINT \"TWO\"", "40 END"],
+          "options": ["ONE", "ONE, TWO", "TWO", "Nothing"],
+          "answer": 0,
+          "explanation": "STOP ends the program right away, so line 30 never runs."
+        },
+        {
+          "id": "u2-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "In what order are the PRINT lines executed?",
+          "code": ["10 GOTO 40", "20 PRINT \"SECOND\"", "30 GOTO 60", "40 PRINT \"FIRST\"", "50 GOTO 20", "60 END"],
+          "options": ["FIRST, then SECOND", "SECOND, then FIRST", "Only FIRST", "It loops forever"],
+          "answer": 0,
+          "explanation": "10 jumps to 40 (FIRST), 50 jumps back to 20 (SECOND), and 30 jumps to END."
+        }
+      ]
+    },
+    {
+      "id": "u2-l2",
+      "title": "IF…THEN: Decisions",
+      "xp": 15,
+      "intro": [
+        "IF lets the program make decisions: IF A > 5 THEN 50 jumps to line 50, but only if A is greater than 5. Otherwise the program simply continues with the next line.",
+        "BASIC compares numbers with = (equal), <> (not equal), < (less than), > (greater than), <= (less or equal) and >= (greater or equal).",
+        "In the original 1964 BASIC, THEN is always followed by a line number. Commands like THEN PRINT only came in later versions."
+      ],
+      "example": {
+        "code": [
+          "10 LET A = 7",
+          "20 IF A > 5 THEN 50",
+          "30 PRINT \"SMALL\"",
+          "40 GOTO 60",
+          "50 PRINT \"BIG\"",
+          "60 END"
+        ],
+        "output": ["BIG"]
+      },
+      "exercises": [
+        {
+          "id": "u2-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does <> mean in BASIC?",
+          "options": ["Not equal", "Less or greater than zero", "Between", "Empty"],
+          "answer": 0,
+          "explanation": "<> means 'not equal'. Many modern languages write != instead."
+        },
+        {
+          "id": "u2-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "10 LET N = 4",
+            "20 IF N < 3 THEN 50",
+            "30 PRINT \"A\"",
+            "40 GOTO 60",
+            "50 PRINT \"B\"",
+            "60 END"
+          ],
+          "options": ["A", "B", "A and B", "Nothing"],
+          "answer": 0,
+          "explanation": "4 is not less than 3, so the jump doesn't happen. Line 30 prints A, and line 40 skips over B."
+        },
+        {
+          "id": "u2-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Jump to line 50 if A is NOT equal to 0.",
+          "code": ["20 IF A ___ 0 THEN 50"],
+          "options": ["<>", "!=", "=/=", "NOT"],
+          "answer": "<>",
+          "explanation": "BASIC uses <> for 'not equal'."
+        },
+        {
+          "id": "u2-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "X is 5. Which condition is true?",
+          "options": ["X >= 5", "X > 5", "X < 5", "X <> 5"],
+          "answer": 0,
+          "explanation": ">= means 'greater or equal'. 5 is equal to 5, so X >= 5 is true."
+        },
+        {
+          "id": "u2-l2-e5",
+          "type": "find_bug",
+          "prompt": "This line works in later BASICs, but not in 1964. Which one?",
+          "code": ["10 LET X = 3", "20 IF X = 3 THEN PRINT \"YES\"", "30 END"],
+          "answer": 1,
+          "explanation": "In the original BASIC, THEN must be followed by a line number, like THEN 50."
+        },
+        {
+          "id": "u2-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Why is line 40 needed?",
+          "code": [
+            "10 LET A = 2",
+            "20 IF A > 5 THEN 50",
+            "30 PRINT \"SMALL\"",
+            "40 GOTO 60",
+            "50 PRINT \"BIG\"",
+            "60 END"
+          ],
+          "options": [
+            "Without it, SMALL numbers would also print BIG",
+            "It makes the program faster",
+            "END needs a GOTO in front of it",
+            "It isn't needed"
+          ],
+          "answer": 0,
+          "explanation": "After printing SMALL, the program would continue to line 50 and also print BIG. GOTO 60 jumps over it."
+        }
+      ]
+    },
+    {
+      "id": "u2-l3",
+      "title": "Counting with Jumps",
+      "xp": 20,
+      "intro": [
+        "With IF and GOTO together you can repeat lines on purpose: a counter variable goes up by 1 each round, and IF jumps back until it reaches the target.",
+        "This pattern has three parts: start the counter (LET I = 1), change it (LET I = I + 1), and check it (IF I <= 3 THEN ...).",
+        "If you forget to change the counter, the condition never becomes false, and you get an endless loop."
+      ],
+      "example": {
+        "code": ["10 LET I = 1", "20 PRINT I", "30 LET I = I + 1", "40 IF I <= 3 THEN 20", "50 END"],
+        "output": ["1", "2", "3"]
+      },
+      "exercises": [
+        {
+          "id": "u2-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": ["10 LET I = 1", "20 PRINT I", "30 LET I = I + 1", "40 IF I <= 3 THEN 20", "50 END"],
+          "options": ["1, 2, 3 (one per line)", "1, 2, 3, 4", "Only 1", "1 forever"],
+          "answer": 0,
+          "explanation": "I starts at 1 and goes up after each PRINT. When I becomes 4, the condition is false and the program reaches END."
+        },
+        {
+          "id": "u2-l3-e2",
+          "type": "fill_blank",
+          "prompt": "Make the program count from 1 to 5.",
+          "code": ["10 LET I = 1", "20 PRINT I", "30 LET I = I + 1", "40 IF I <= ___ THEN 20", "50 END"],
+          "options": ["5", "4", "6", "I"],
+          "answer": "5",
+          "explanation": "The loop repeats as long as I is at most 5, so it prints 1 to 5."
+        },
+        {
+          "id": "u2-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "Why does this program never stop?",
+          "code": ["10 LET I = 1", "20 PRINT I", "30 IF I <= 3 THEN 20", "40 END"],
+          "options": [
+            "I never changes, so I <= 3 is always true",
+            "Line 40 is missing STOP",
+            "IF can only jump forward",
+            "PRINT cannot print variables"
+          ],
+          "answer": 0,
+          "explanation": "There is no LET I = I + 1, so I stays 1 forever and the program keeps jumping back."
+        },
+        {
+          "id": "u2-l3-e4",
+          "type": "order_lines",
+          "prompt": "Build a countdown that prints 3, 2, 1.",
+          "lines": ["40 IF C > 0 THEN 20", "10 LET C = 3", "50 END", "30 LET C = C - 1", "20 PRINT C"],
+          "answer": ["10 LET C = 3", "20 PRINT C", "30 LET C = C - 1", "40 IF C > 0 THEN 20", "50 END"],
+          "explanation": "Start at 3, print, count down by 1, and jump back as long as C is still above 0."
+        },
+        {
+          "id": "u2-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What is the last number this program prints?",
+          "code": ["10 LET N = 2", "20 PRINT N", "30 LET N = N * 2", "40 IF N < 20 THEN 20", "50 END"],
+          "options": ["16", "20", "32", "8"],
+          "answer": 0,
+          "explanation": "It prints 2, 4, 8, 16. Then N becomes 32, which is not below 20, so the loop ends."
+        },
+        {
+          "id": "u2-l3-e6",
+          "type": "fill_blank",
+          "prompt": "Add up the numbers 1 to 3 in S.",
+          "code": [
+            "10 LET S = 0",
+            "20 LET I = 1",
+            "30 LET S = S ___ I",
+            "40 LET I = I + 1",
+            "50 IF I <= 3 THEN 30",
+            "60 PRINT S",
+            "70 END"
+          ],
+          "options": ["+", "*", "-", "="],
+          "answer": "+",
+          "explanation": "Each round adds I to S: 0 + 1 + 2 + 3 = 6. This 'running total' pattern is used all the time."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,390 @@
+{
+  "id": "al8",
+  "title": "Flags and Decisions",
+  "lessons": [
+    {
+      "id": "al8-l1",
+      "title": "The Zero Flag",
+      "xp": 15,
+      "intro": [
+        "After most arithmetic, the 8080 sets flags: little one-bit notes about the result. The zero flag (Z) is set when the result is 0.",
+        "JZ (312) jumps only if the zero flag is set; JNZ (302) jumps only if it isn't. Every other time, the program just continues.",
+        "DCR, INR, ADD, SUB and their friends set the flags. MOV and MVI don't."
+      ],
+      "example": {
+        "code": [
+          "076   ; 000: MVI A",
+          "003   ;      3",
+          "326   ; 002: SUI",
+          "003   ;      3",
+          "312   ; 004: JZ zero",
+          "014   ;      address 014 (low byte)",
+          "000   ;      (high byte)",
+          "076   ; 007: MVI A",
+          "001   ;      1",
+          "323   ; 011: OUT 377",
+          "377   ;      port 377",
+          "166   ; 013: HLT",
+          "076   ; 014: MVI A   ← zero",
+          "377   ;      255",
+          "323   ; 016: OUT 377",
+          "377   ;      port 377",
+          "166   ; 020: HLT"
+        ],
+        "output": [
+          "LEDS ●●●●●●●● = 255"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al8-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "When is the zero flag set?",
+          "options": [
+            "When a result is 0",
+            "When A is 255",
+            "After every MOV",
+            "When the program starts"
+          ],
+          "answer": 0,
+          "explanation": "Z = the result was Zero."
+        },
+        {
+          "id": "al8-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does JNZ do?",
+          "options": [
+            "Jumps if the result was not zero",
+            "Jumps if it was zero",
+            "Always jumps",
+            "Stops"
+          ],
+          "answer": 0,
+          "explanation": "Jump if Not Zero."
+        },
+        {
+          "id": "al8-l1-e3",
+          "type": "switches",
+          "prompt": "Set the switches to JZ (3 1 2).",
+          "answer": 202,
+          "explanation": "11 001 010."
+        },
+        {
+          "id": "al8-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "076   ; 000: MVI A",
+            "004   ;      4",
+            "326   ; 002: SUI",
+            "003   ;      3",
+            "312   ; 004: JZ zero",
+            "014   ;      address 014 (low byte)",
+            "000   ;      (high byte)",
+            "076   ; 007: MVI A",
+            "001   ;      1",
+            "323   ; 011: OUT 377",
+            "377   ;      port 377",
+            "166   ; 013: HLT",
+            "076   ; 014: MVI A   ← zero",
+            "377   ;      255",
+            "323   ; 016: OUT 377",
+            "377   ;      port 377",
+            "166   ; 020: HLT"
+          ],
+          "options": [
+            "1",
+            "255",
+            "0",
+            "4"
+          ],
+          "answer": 0,
+          "explanation": "4 - 3 is 1, not zero, so JZ doesn't jump."
+        },
+        {
+          "id": "al8-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Does MVI A 0 set the zero flag?",
+          "options": [
+            "No, MVI doesn't change the flags",
+            "Yes",
+            "Only on the Altair",
+            "Only with OUT"
+          ],
+          "answer": 0,
+          "explanation": "Only arithmetic and logic set flags."
+        },
+        {
+          "id": "al8-l1-e6",
+          "type": "fill_blank",
+          "prompt": "Jump if the result was not zero.",
+          "code": [
+            "___   ; JNZ",
+            "020   ; address",
+            "000"
+          ],
+          "options": [
+            "302",
+            "312",
+            "303",
+            "322"
+          ],
+          "answer": "302",
+          "explanation": "JNZ = 3 0 2."
+        }
+      ]
+    },
+    {
+      "id": "al8-l2",
+      "title": "CPI and the Carry",
+      "xp": 15,
+      "intro": [
+        "CPI n (376) compares A with n: it subtracts, sets the flags, and throws the result away. A stays the same.",
+        "If A equals n, the zero flag is set. If A is smaller than n, the subtraction needs a borrow, so the carry flag is set.",
+        "JC (332) jumps if the carry is set, JNC (322) if it isn't. So CPI 10 then JC means: jump if A < 10."
+      ],
+      "example": {
+        "code": [
+          "076   ; 000: MVI A",
+          "007   ;      7",
+          "376   ; 002: CPI",
+          "012   ;      10",
+          "332   ; 004: JC small",
+          "014   ;      address 014 (low byte)",
+          "000   ;      (high byte)",
+          "076   ; 007: MVI A",
+          "000   ;      0",
+          "323   ; 011: OUT 377",
+          "377   ;      port 377",
+          "166   ; 013: HLT",
+          "076   ; 014: MVI A   ← small",
+          "001   ;      1",
+          "323   ; 016: OUT 377",
+          "377   ;      port 377",
+          "166   ; 020: HLT"
+        ],
+        "output": [
+          "LEDS ○○○○○○○● = 1"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al8-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does CPI 20 do to A?",
+          "options": [
+            "Nothing: it only sets the flags",
+            "Subtracts 20",
+            "Sets A to 20",
+            "Adds 20"
+          ],
+          "answer": 0,
+          "explanation": "ComPare Immediate."
+        },
+        {
+          "id": "al8-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "After CPI 20, when is the carry set?",
+          "options": [
+            "When A is smaller than 20",
+            "When A equals 20",
+            "When A is bigger",
+            "Never"
+          ],
+          "answer": 0,
+          "explanation": "A - 20 needs a borrow."
+        },
+        {
+          "id": "al8-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "After CPI 20, when is the zero flag set?",
+          "options": [
+            "When A equals 20",
+            "When A is 0",
+            "When A is smaller",
+            "Always"
+          ],
+          "answer": 0,
+          "explanation": "A - 20 = 0."
+        },
+        {
+          "id": "al8-l2-e4",
+          "type": "switches",
+          "prompt": "Set the switches to CPI (3 7 6).",
+          "answer": 254,
+          "explanation": "11 111 110."
+        },
+        {
+          "id": "al8-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "076   ; 000: MVI A",
+            "062   ;      50",
+            "376   ; 002: CPI",
+            "012   ;      10",
+            "332   ; 004: JC small",
+            "014   ;      address 014 (low byte)",
+            "000   ;      (high byte)",
+            "076   ; 007: MVI A",
+            "000   ;      0",
+            "323   ; 011: OUT 377",
+            "377   ;      port 377",
+            "166   ; 013: HLT",
+            "076   ; 014: MVI A   ← small",
+            "001   ;      1",
+            "323   ; 016: OUT 377",
+            "377   ;      port 377",
+            "166   ; 020: HLT"
+          ],
+          "options": [
+            "0",
+            "1",
+            "50",
+            "10"
+          ],
+          "answer": 0,
+          "explanation": "50 isn't smaller than 10, so JC doesn't jump: A becomes 0."
+        },
+        {
+          "id": "al8-l2-e6",
+          "type": "fill_blank",
+          "prompt": "Jump if A was not smaller (no carry).",
+          "code": [
+            "___   ; JNC"
+          ],
+          "options": [
+            "322",
+            "332",
+            "302",
+            "312"
+          ],
+          "answer": "322",
+          "explanation": "JNC = 3 2 2."
+        }
+      ]
+    },
+    {
+      "id": "al8-l3",
+      "title": "Choosing the Bigger One",
+      "xp": 15,
+      "intro": [
+        "With CMP r (2 7 r), A is compared with a register instead of a number. CMP B then JNC: A is at least as big as B.",
+        "Decisions on the 8080 always look like this: compare, then a conditional jump around the code you want to skip.",
+        "Many jumps that skip each other make a program hard to follow. Draw arrows on the listing, like programmers did on paper."
+      ],
+      "example": {
+        "code": [
+          "072   ; 000: LDA x",
+          "017   ;      address 017 (low byte)",
+          "000   ;      (high byte)",
+          "107   ; 003: MOV B,A",
+          "072   ; 004: LDA y",
+          "020   ;      address 020 (low byte)",
+          "000   ;      (high byte)",
+          "270   ; 007: CMP B",
+          "322   ; 010: JNC show",
+          "014   ;      address 014 (low byte)",
+          "000   ;      (high byte)",
+          "170   ; 013: MOV A,B",
+          "323   ; 014: OUT 377   ← show",
+          "377   ;      port 377",
+          "166   ; 016: HLT",
+          "052   ; 017: data: 42",
+          "021   ; 020: data: 17"
+        ],
+        "output": [
+          "LEDS ○○●○●○●○ = 42"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al8-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does CMP B do?",
+          "options": [
+            "Compares A with B and sets the flags",
+            "Copies B",
+            "Adds B",
+            "Swaps A and B"
+          ],
+          "answer": 0,
+          "explanation": "Like CPI, but with a register."
+        },
+        {
+          "id": "al8-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "After CMP B, the carry is not set. What do you know?",
+          "options": [
+            "A is at least as big as B",
+            "A is smaller than B",
+            "A equals B",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "No borrow was needed."
+        },
+        {
+          "id": "al8-l3-e3",
+          "type": "switches",
+          "prompt": "Set the switches to CMP C (2 7 1).",
+          "answer": 185,
+          "explanation": "10 111 001."
+        },
+        {
+          "id": "al8-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "In the example, why does MOV A,B come after JNC?",
+          "options": [
+            "If A is smaller, the bigger value is in B",
+            "It always runs",
+            "To show B",
+            "CMP needs it"
+          ],
+          "answer": 0,
+          "explanation": "When JNC doesn't jump, B is bigger, so it's copied into A."
+        },
+        {
+          "id": "al8-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "006   ; 000: MVI B",
+            "011   ;      9",
+            "076   ; 002: MVI A",
+            "004   ;      4",
+            "270   ; 004: CMP B",
+            "322   ; 005: JNC show",
+            "011   ;      address 011 (low byte)",
+            "000   ;      (high byte)",
+            "170   ; 010: MOV A,B",
+            "323   ; 011: OUT 377   ← show",
+            "377   ;      port 377",
+            "166   ; 013: HLT"
+          ],
+          "options": [
+            "9",
+            "4",
+            "13",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "A = 4, B = 9; CMP B sets the carry (4 < 9), so JNC doesn't jump and A gets B."
+        },
+        {
+          "id": "al8-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "How did 1970s programmers keep track of jumps?",
+          "options": [
+            "Arrows drawn on printed listings",
+            "With a mouse",
+            "They didn't use jumps",
+            "With colors on screen"
+          ],
+          "answer": 0,
+          "explanation": "Paper, pencil and patience."
+        }
+      ]
+    }
+  ]
+}

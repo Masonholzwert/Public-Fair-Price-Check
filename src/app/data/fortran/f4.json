@@ -1,0 +1,391 @@
+{
+  "id": "f4",
+  "title": "Jumps and the Three-Way IF",
+  "lessons": [
+    {
+      "id": "f4-l1",
+      "title": "GO TO",
+      "xp": 15,
+      "intro": [
+        "So far the computer read your cards from top to bottom, once. GO TO changes that: GO TO 20 jumps straight to the card with statement number 20 and carries on from there.",
+        "Any statement can have a number in columns 1–5, not just FORMATs. The numbers don't have to be in order: they're names, not positions.",
+        "Jumping forward skips cards. Jumping backward runs cards again, and that's the start of every loop."
+      ],
+      "example": {
+        "code": [
+          "      I = 1",
+          "      GO TO 20",
+          "   10 I = 99",
+          "   20 WRITE (6,30) I",
+          "   30 FORMAT (1X, I3)",
+          "      STOP",
+          "      END"
+        ],
+        "output": [
+          "  1"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f4-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does GO TO 50 do?",
+          "options": [
+            "Jumps to the statement numbered 50",
+            "Jumps 50 cards forward",
+            "Repeats the next card 50 times",
+            "Waits 50 seconds"
+          ],
+          "answer": 0,
+          "explanation": "The number is a label: the computer looks for the card with 50 in columns 1–5 and continues there."
+        },
+        {
+          "id": "f4-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this deck print?",
+          "code": [
+            "      I = 1",
+            "      GO TO 20",
+            "   10 I = 99",
+            "   20 WRITE (6,30) I",
+            "   30 FORMAT (1X, I3)",
+            "      END"
+          ],
+          "options": [
+            "  1",
+            " 99",
+            "Nothing",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "GO TO 20 jumps over the card I = 99, so I is still 1."
+        },
+        {
+          "id": "f4-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "Do statement numbers have to be in order, like 10, 20, 30?",
+          "options": [
+            "No, any number from 1 to 99999 in any order",
+            "Yes, they must go up",
+            "Yes, in steps of 10",
+            "Only FORMATs may have numbers"
+          ],
+          "answer": 0,
+          "explanation": "Labels are names. Many programmers still used 10, 20, 30 … to leave room for new cards."
+        },
+        {
+          "id": "f4-l1-e4",
+          "type": "fill_blank",
+          "prompt": "Skip the card that sets X to zero.",
+          "code": [
+            "      X = 5.0",
+            "      GO TO ___",
+            "      X = 0.0",
+            "   40 WRITE (6,50) X",
+            "   50 FORMAT (1X, F5.1)",
+            "      END"
+          ],
+          "options": [
+            "40",
+            "50",
+            "X",
+            "1"
+          ],
+          "answer": "40",
+          "explanation": "Jump to 40, the WRITE. GO TO 50 would jump to a FORMAT, which isn't a statement you can run."
+        },
+        {
+          "id": "f4-l1-e5",
+          "type": "find_bug",
+          "prompt": "This job stops with *ERROR*. Which card is wrong?",
+          "code": [
+            "      K = 7",
+            "      GO TO 30",
+            "   20 WRITE (6,40) K",
+            "   40 FORMAT (1X, I3)",
+            "      END"
+          ],
+          "answer": 1,
+          "explanation": "There is no card with the number 30. GO TO 20 would work."
+        },
+        {
+          "id": "f4-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "In 1968, Edsger Dijkstra wrote a famous letter: \"Go To Statement Considered Harmful\". What was his point?",
+          "options": [
+            "Too many jumps make a program hard to follow",
+            "GO TO is slow",
+            "GO TO wastes punch cards",
+            "GO TO only works on IBM machines"
+          ],
+          "answer": 0,
+          "explanation": "Programs full of jumps were called spaghetti code. Later languages replaced most GO TOs with loops and blocks, but in 1957 GO TO was all there was."
+        }
+      ]
+    },
+    {
+      "id": "f4-l2",
+      "title": "The Three-Way IF",
+      "xp": 15,
+      "intro": [
+        "The original FORTRAN had exactly one way to decide: IF (expression) n1, n2, n3. It works out the expression and jumps to n1 if it's negative, n2 if it's zero, n3 if it's positive.",
+        "It's called the arithmetic IF, and it matched an instruction of the IBM 704, which could test a number for minus, zero or plus in one go.",
+        "To compare two values, subtract them: IF (A - B) 10, 20, 30 jumps to 10 when A is smaller, 20 when they're equal, 30 when A is bigger. After each branch, a GO TO keeps the others from running too."
+      ],
+      "example": {
+        "code": [
+          "      X = -4.0",
+          "      IF (X) 10, 20, 30",
+          "   10 WRITE (6,40)",
+          "      GO TO 50",
+          "   20 WRITE (6,41)",
+          "      GO TO 50",
+          "   30 WRITE (6,42)",
+          "   40 FORMAT (' NEGATIVE')",
+          "   41 FORMAT (' ZERO')",
+          "   42 FORMAT (' POSITIVE')",
+          "   50 STOP",
+          "      END"
+        ],
+        "output": [
+          "NEGATIVE"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f4-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "K is 0. Where does IF (K) 10, 20, 30 jump?",
+          "options": [
+            "20",
+            "10",
+            "30",
+            "Nowhere, it goes to the next card"
+          ],
+          "answer": 0,
+          "explanation": "Negative → first number, zero → second, positive → third."
+        },
+        {
+          "id": "f4-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "How do you ask \"is A bigger than B?\" with the three-way IF?",
+          "options": [
+            "IF (A - B) 10, 10, 30, and A is bigger at 30",
+            "IF (A, B) 10, 20, 30",
+            "IF A > B GO TO 30",
+            "IF (A + B) 10, 20, 30"
+          ],
+          "answer": 0,
+          "explanation": "A - B is positive exactly when A is bigger. Both other cases can go to the same label."
+        },
+        {
+          "id": "f4-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Jump to 99 when N is negative.",
+          "code": [
+            "      IF (N) ___, 10, 10"
+          ],
+          "options": [
+            "99",
+            "10",
+            "0",
+            "-1"
+          ],
+          "answer": "99",
+          "explanation": "The first label is for negative values."
+        },
+        {
+          "id": "f4-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this deck print?",
+          "code": [
+            "      K = 5 - 5",
+            "      IF (K) 10, 20, 30",
+            "   10 WRITE (6,40)",
+            "      GO TO 50",
+            "   20 WRITE (6,41)",
+            "      GO TO 50",
+            "   30 WRITE (6,42)",
+            "   40 FORMAT (' NEGATIVE')",
+            "   41 FORMAT (' ZERO')",
+            "   42 FORMAT (' POSITIVE')",
+            "   50 STOP",
+            "      END"
+          ],
+          "options": [
+            "ZERO",
+            "NEGATIVE",
+            "POSITIVE",
+            "All three"
+          ],
+          "answer": 0,
+          "explanation": "5 - 5 is zero, so the IF jumps to 20."
+        },
+        {
+          "id": "f4-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "In the example, what would X = -4.0 print if both GO TO 50 cards were missing?",
+          "options": [
+            "NEGATIVE, ZERO and POSITIVE",
+            "Only NEGATIVE",
+            "Only POSITIVE",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "After a jump, the computer simply reads on. Without GO TO 50, it falls through into the other branches."
+        },
+        {
+          "id": "f4-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Why is it called the arithmetic IF?",
+          "options": [
+            "It decides by the sign of a number",
+            "It can only add",
+            "It was invented by a mathematician",
+            "It does arithmetic instead of jumping"
+          ],
+          "answer": 0,
+          "explanation": "Negative, zero or positive: the decision comes from arithmetic, not from a true/false question."
+        }
+      ]
+    },
+    {
+      "id": "f4-l3",
+      "title": "Loops by Hand",
+      "xp": 15,
+      "intro": [
+        "With a counter, a jump back and an IF, you can repeat cards as often as you like. That's how the first FORTRAN programmers wrote loops.",
+        "I = I + 1 isn't an equation: it means \"take I, add 1, store it back in I\". Then IF (I - 3) 10, 10, 30 jumps back to 10 while I is 3 or less, and goes on to 30 once I is bigger.",
+        "Forget to count up, and the loop never ends. The operator would see the job run and run, and stop it by hand."
+      ],
+      "example": {
+        "code": [
+          "      I = 1",
+          "   10 WRITE (6,20) I",
+          "   20 FORMAT (1X, I2)",
+          "      I = I + 1",
+          "      IF (I - 3) 10, 10, 30",
+          "   30 STOP",
+          "      END"
+        ],
+        "output": [
+          " 1",
+          " 2",
+          " 3"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "f4-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does I = I + 1 do?",
+          "options": [
+            "Adds 1 to I",
+            "Checks if I equals I + 1",
+            "Nothing, it's never true",
+            "Sets I to 1"
+          ],
+          "answer": 0,
+          "explanation": "= means \"store\" in FORTRAN. The right side is worked out first, then stored on the left."
+        },
+        {
+          "id": "f4-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "How many lines does this deck print?",
+          "code": [
+            "      I = 1",
+            "   10 WRITE (6,20) I",
+            "   20 FORMAT (1X, I2)",
+            "      I = I + 1",
+            "      IF (I - 5) 10, 10, 30",
+            "   30 STOP",
+            "      END"
+          ],
+          "options": [
+            "5",
+            "4",
+            "6",
+            "It never stops"
+          ],
+          "answer": 0,
+          "explanation": "I goes 1, 2, 3, 4, 5. When I becomes 6, I - 5 is positive and the IF jumps to 30."
+        },
+        {
+          "id": "f4-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Count from 1 to 10.",
+          "code": [
+            "      I = 1",
+            "   10 WRITE (6,20) I",
+            "   20 FORMAT (1X, I3)",
+            "      I = I + 1",
+            "      IF (I - ___) 10, 10, 30",
+            "   30 STOP",
+            "      END"
+          ],
+          "options": [
+            "10",
+            "11",
+            "9",
+            "I"
+          ],
+          "answer": "10",
+          "explanation": "While I - 10 is negative or zero, it jumps back. At 11 it stops."
+        },
+        {
+          "id": "f4-l3-e4",
+          "type": "order_lines",
+          "prompt": "Stack the cards for a loop that prints 1, 2 and 3.",
+          "lines": [
+            "      I = 1",
+            "   10 WRITE (6,20) I",
+            "      I = I + 1",
+            "      IF (I - 3) 10, 10, 30",
+            "   20 FORMAT (1X, I2)",
+            "   30 STOP",
+            "      END"
+          ],
+          "answer": [
+            "      I = 1",
+            "   10 WRITE (6,20) I",
+            "      I = I + 1",
+            "      IF (I - 3) 10, 10, 30",
+            "   20 FORMAT (1X, I2)",
+            "   30 STOP",
+            "      END"
+          ],
+          "explanation": "Set the counter, print, count up, then jump back. In a deck with jumps, every card has its place."
+        },
+        {
+          "id": "f4-l3-e5",
+          "type": "find_bug",
+          "prompt": "This job never stops. Which card is wrong?",
+          "code": [
+            "      I = 1",
+            "   10 WRITE (6,20) I",
+            "   20 FORMAT (1X, I2)",
+            "      I = I + 1",
+            "      IF (I - 3) 10, 10, 10",
+            "   30 STOP",
+            "      END"
+          ],
+          "answer": 4,
+          "explanation": "All three labels jump back to 10, so the loop can never leave. The last one has to be 30."
+        },
+        {
+          "id": "f4-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Little Carl Friedrich Gauss had to add the numbers from 1 to 100 at school. His answer, and the one a loop gives:",
+          "options": [
+            "5050",
+            "5000",
+            "10000",
+            "100"
+          ],
+          "answer": 0,
+          "explanation": "Gauss saw 50 pairs that each add up to 101. The computer just adds all hundred numbers, which is easy with a loop."
+        }
+      ]
+    }
+  ]
+}

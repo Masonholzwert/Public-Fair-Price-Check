@@ -1,0 +1,382 @@
+{
+  "id": "c19",
+  "title": "Bits and Bytes",
+  "lessons": [
+    {
+      "id": "c19-l1",
+      "title": "Binary and Hexadecimal",
+      "xp": 15,
+      "intro": [
+        "Inside the machine, every number is bits: 13 is 1101 in binary (8 + 4 + 1). Eight bits make a byte, which holds 0 to 255.",
+        "Long rows of bits are hard to read, so programmers group them: hexadecimal uses 16 digits (0–9, a–f), one per 4 bits. In C, 0xFF is 255. printf shows hex with %x.",
+        "The PDP-11 crowd loved octal (base 8, one digit per 3 bits): a number starting with 0 is octal in C, so 017 is 15, and %o prints octal. Unix file permissions like 0755 are still written that way."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    int n = 13, b;",
+          "    printf(\"%d in hex: %x, in octal: %o\\n\", n, n, n);",
+          "    printf(\"0xFF = %d, 0755 = %d\\n\", 0xFF, 0755);",
+          "    printf(\"13 in binary: \");",
+          "    for (b = 3; b >= 0; b--)",
+          "        printf(\"%d\", (n >> b) & 1);",
+          "    printf(\"\\n\");",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "13 in hex: d, in octal: 15",
+          "0xFF = 255, 0755 = 493",
+          "13 in binary: 1101"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c19-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is 1010 in binary as a normal number?",
+          "options": [
+            "10",
+            "1010",
+            "5",
+            "12"
+          ],
+          "answer": 0,
+          "explanation": "8 + 2 = 10."
+        },
+        {
+          "id": "c19-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What is 0x10 in C?",
+          "options": [
+            "16",
+            "10",
+            "2",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "Hex 10 means 1 × 16 + 0."
+        },
+        {
+          "id": "c19-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    printf(\"%x\\n\", 255);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "ff",
+            "255",
+            "377",
+            "FF"
+          ],
+          "answer": 0,
+          "explanation": "%x prints hexadecimal with lowercase letters."
+        },
+        {
+          "id": "c19-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does 010 mean in C?",
+          "options": [
+            "8, because a leading 0 means octal",
+            "10",
+            "2",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "A classic trap: 010 is not ten."
+        },
+        {
+          "id": "c19-l1-e5",
+          "type": "fill_blank",
+          "prompt": "Print n in hexadecimal.",
+          "code": [
+            "    printf(\"%___\\n\", n);"
+          ],
+          "options": [
+            "x",
+            "d",
+            "o",
+            "h"
+          ],
+          "answer": "x",
+          "explanation": "%x is for hex, %o for octal, %d for decimal."
+        },
+        {
+          "id": "c19-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "How many bits are in a byte?",
+          "options": [
+            "8",
+            "4",
+            "16",
+            "10"
+          ],
+          "answer": 0,
+          "explanation": "One byte holds 2^8 = 256 different values."
+        }
+      ]
+    },
+    {
+      "id": "c19-l2",
+      "title": "& | ^ and Shifts",
+      "xp": 15,
+      "intro": [
+        "C can work on single bits. a & b keeps the bits that are 1 in both, a | b the bits that are 1 in either, and a ^ b (XOR) the bits where they differ. ~a flips every bit.",
+        "a << 1 moves all bits one place left, which doubles the number; a >> 1 moves them right, which halves it. 1 << n is a number with only bit n set.",
+        "Don't mix up & with &&, or | with ||: the doubled ones are for true and false, the single ones work bit by bit."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int main() {",
+          "    int a = 12, b = 10;",
+          "    printf(\"a & b = %d\\n\", a & b);",
+          "    printf(\"a | b = %d\\n\", a | b);",
+          "    printf(\"a ^ b = %d\\n\", a ^ b);",
+          "    printf(\"a << 2 = %d\\n\", a << 2);",
+          "    printf(\"a >> 1 = %d\\n\", a >> 1);",
+          "    printf(\"1 << 5 = %d\\n\", 1 << 5);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "a & b = 8",
+          "a | b = 14",
+          "a ^ b = 6",
+          "a << 2 = 48",
+          "a >> 1 = 6",
+          "1 << 5 = 32"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c19-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is 6 & 3? (110 and 011)",
+          "options": [
+            "2",
+            "7",
+            "5",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "Only the middle bit is 1 in both: 010 = 2."
+        },
+        {
+          "id": "c19-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What is 6 | 3?",
+          "options": [
+            "7",
+            "2",
+            "9",
+            "5"
+          ],
+          "answer": 0,
+          "explanation": "110 | 011 = 111 = 7."
+        },
+        {
+          "id": "c19-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    printf(\"%d\\n\", 10 << 2);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "40",
+            "10",
+            "5",
+            "20"
+          ],
+          "answer": 0,
+          "explanation": "Shifting left by 2 multiplies by 4."
+        },
+        {
+          "id": "c19-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Make a number with only bit 4 set.",
+          "code": [
+            "    int mask = 1 ___ 4;"
+          ],
+          "options": [
+            "<<",
+            ">>",
+            "&",
+            "^"
+          ],
+          "answer": "<<",
+          "explanation": "1 << 4 is 16, binary 10000."
+        },
+        {
+          "id": "c19-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What is 5 ^ 5?",
+          "options": [
+            "0",
+            "5",
+            "10",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "XOR with itself clears every bit."
+        },
+        {
+          "id": "c19-l2-e6",
+          "type": "find_bug",
+          "prompt": "This program prints 0, but it should print 1 (bit 2 of 13 is set). Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int main() {",
+            "    int n = 13;",
+            "    printf(\"%d\\n\", n >> 2 && 0);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 4,
+          "explanation": "&& 0 is always false. It should be (n >> 2) & 1, a bitwise AND."
+        }
+      ]
+    },
+    {
+      "id": "c19-l3",
+      "title": "Flags in One Number",
+      "xp": 15,
+      "intro": [
+        "One int can hold many yes/no flags, one per bit. Unix does this for file permissions: read is 4, write is 2, execute is 1, so 6 means read and write.",
+        "Set a flag with |=, test it with &, clear it with &= ~FLAG, and flip it with ^=.",
+        "With #define names for the bits, the code reads almost like English: if (perm & WRITE) …"
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "#define READ  4",
+          "#define WRITE 2",
+          "#define EXEC  1",
+          "",
+          "int main() {",
+          "    int perm = READ | WRITE;",
+          "    printf(\"%d\\n\", perm);",
+          "    perm |= EXEC;",
+          "    perm &= ~WRITE;",
+          "    printf(\"%c%c%c\\n\", perm & READ ? 'r' : '-', perm & WRITE ? 'w' : '-', perm & EXEC ? 'x' : '-');",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "6",
+          "r-x"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c19-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "How do you turn the flag EXEC on?",
+          "options": [
+            "perm |= EXEC;",
+            "perm &= EXEC;",
+            "perm = EXEC;",
+            "perm ^= ~EXEC;"
+          ],
+          "answer": 0,
+          "explanation": "OR sets the bit and leaves the others alone."
+        },
+        {
+          "id": "c19-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "How do you check if WRITE is set?",
+          "options": [
+            "if (perm & WRITE)",
+            "if (perm == WRITE)",
+            "if (perm | WRITE)",
+            "if (perm && WRITE)"
+          ],
+          "answer": 0,
+          "explanation": "& keeps only that bit: nonzero means it's set."
+        },
+        {
+          "id": "c19-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Turn the WRITE flag off.",
+          "code": [
+            "    perm &= ___WRITE;"
+          ],
+          "options": [
+            "~",
+            "!",
+            "-",
+            "^"
+          ],
+          "answer": "~",
+          "explanation": "~WRITE has every bit set except WRITE, so & clears just that one."
+        },
+        {
+          "id": "c19-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "#define READ 4",
+            "#define EXEC 1",
+            "",
+            "int main() {",
+            "    printf(\"%d\\n\", READ | EXEC);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "5",
+            "7",
+            "4",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "4 | 1 = 5, read and execute."
+        },
+        {
+          "id": "c19-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What does flags ^= 2 do?",
+          "options": [
+            "Flips bit 1: on becomes off, off becomes on",
+            "Sets it",
+            "Clears it",
+            "Doubles flags"
+          ],
+          "answer": 0,
+          "explanation": "XOR toggles."
+        },
+        {
+          "id": "c19-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "In Unix permissions, what does 7 mean?",
+          "options": [
+            "Read, write and execute",
+            "Only read",
+            "Nothing",
+            "Write and execute"
+          ],
+          "answer": 0,
+          "explanation": "4 + 2 + 1. So chmod 755 means rwx for the owner, r-x for everyone else."
+        }
+      ]
+    }
+  ]
+}

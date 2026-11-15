@@ -1,0 +1,1118 @@
+{
+  "challenges": [
+    {
+      "id": "cob-bank-sign",
+      "unit": "cb1",
+      "difficulty": 1,
+      "title": "The Bank Sign",
+      "task": "Print FIRST NATIONAL BANK and OPEN SINCE 1959 on two lines.",
+      "xp": 15,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. SIGN.\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "FIRST NATIONAL BANK\nOPEN SINCE 1959",
+      "requirements": [
+        {
+          "pattern": "DISPLAY",
+          "message": "Print with DISPLAY."
+        }
+      ],
+      "hints": [
+        "One DISPLAY per line.",
+        "DISPLAY \"FIRST NATIONAL BANK\"."
+      ]
+    },
+    {
+      "id": "cob-cheque-line",
+      "unit": "cb1",
+      "difficulty": 1,
+      "title": "The Cheque Line",
+      "task": "Print PAY TO THE ORDER OF on one line, with two DISPLAYs: PAY TO and THE ORDER OF. The first must stay on the line.",
+      "xp": 15,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. CHEQUE.\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "PAY TO THE ORDER OF",
+      "requirements": [
+        {
+          "pattern": "NO\\s+ADVANCING",
+          "message": "Stay on the line with WITH NO ADVANCING."
+        },
+        {
+          "pattern": "DISPLAY[\\s\\S]*DISPLAY",
+          "message": "Use two DISPLAYs."
+        }
+      ],
+      "hints": [
+        "DISPLAY \"PAY TO \" WITH NO ADVANCING.",
+        "Mind the space at the end of the first text."
+      ]
+    },
+    {
+      "id": "cob-commented",
+      "unit": "cb1",
+      "difficulty": 1,
+      "title": "Leave a Note",
+      "task": "Start the PROCEDURE DIVISION with a comment line (a * in column 7) that says who wrote the job, then print JOB DONE.",
+      "xp": 15,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. NOTE.\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "JOB DONE",
+      "requirements": [
+        {
+          "pattern": "^.{6}\\*",
+          "message": "Write a comment line with * in column 7."
+        }
+      ],
+      "hints": [
+        "Column 7 is the 7th character: six spaces, then *.",
+        "      * WRITTEN BY ME"
+      ]
+    },
+    {
+      "id": "cob-badge",
+      "unit": "cb2",
+      "difficulty": 1,
+      "title": "The Badge",
+      "task": "Declare BADGE-NO as PIC 9(5) with VALUE 7 and EMP-NAME as PIC X(12) with VALUE \"GRACE HOPPER\". Print BADGE, the number, a space and the name.",
+      "xp": 15,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. BADGE.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "BADGE 00007 GRACE HOPPER",
+      "requirements": [
+        {
+          "pattern": "PIC\\s+9\\(5\\)",
+          "message": "BADGE-NO is PIC 9(5)."
+        },
+        {
+          "pattern": "VALUE",
+          "message": "Give the fields VALUEs."
+        }
+      ],
+      "hints": [
+        "01 BADGE-NO PIC 9(5) VALUE 7.",
+        "DISPLAY \"BADGE \" BADGE-NO \" \" EMP-NAME."
+      ]
+    },
+    {
+      "id": "cob-lost-digits",
+      "unit": "cb2",
+      "difficulty": 2,
+      "title": "What Gets Lost",
+      "task": "MOVE 1959 into a PIC 99 field and \"MAINFRAME\" into a PIC X(4) field, and DISPLAY both. COBOL cuts without a warning.",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. LOST.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "59\nMAIN",
+      "requirements": [
+        {
+          "pattern": "MOVE[\\s\\S]*MOVE",
+          "message": "Use MOVE for both."
+        },
+        {
+          "pattern": "PIC\\s+99",
+          "message": "The number field is PIC 99."
+        },
+        {
+          "pattern": "X\\(4\\)",
+          "message": "The text field is PIC X(4)."
+        }
+      ],
+      "hints": [
+        "Numbers lose digits at the front, text at the end.",
+        "MOVE 1959 TO SHORT-YEAR."
+      ]
+    },
+    {
+      "id": "cob-swap",
+      "unit": "cb2",
+      "difficulty": 2,
+      "title": "The Swap",
+      "task": "LEFT-SIDE holds \"LEFT\" and RIGHT-SIDE holds \"RIGHT\" (both PIC X(5)). Swap them with a third field, then DISPLAY LEFT-SIDE \" \" RIGHT-SIDE.",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. SWAP.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "RIGHT LEFT",
+      "requirements": [
+        {
+          "pattern": "MOVE[\\s\\S]*MOVE[\\s\\S]*MOVE",
+          "message": "A swap takes three MOVEs."
+        }
+      ],
+      "hints": [
+        "MOVE LEFT-SIDE TO TEMP first, or it's lost.",
+        "MOVE RIGHT-SIDE TO LEFT-SIDE. MOVE TEMP TO RIGHT-SIDE."
+      ]
+    },
+    {
+      "id": "cob-welcome",
+      "unit": "cb3",
+      "difficulty": 1,
+      "title": "The Welcome Card",
+      "task": "Read a name from a SYSIN card into a PIC X(10) field and print WELCOME, followed by the name.",
+      "xp": 15,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. WELCOME.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "WELCOME, ADA",
+      "requirements": [
+        {
+          "pattern": "ACCEPT",
+          "message": "Read the card with ACCEPT."
+        }
+      ],
+      "hints": [
+        "01 VISITOR PIC X(10).",
+        "ACCEPT VISITOR. DISPLAY \"WELCOME, \" VISITOR."
+      ],
+      "inputs": [
+        "ADA"
+      ]
+    },
+    {
+      "id": "cob-three-cards",
+      "unit": "cb3",
+      "difficulty": 1,
+      "title": "Three Deposits",
+      "task": "Read three amounts (PIC 9(3)) from SYSIN cards, add each to TOTAL (PIC 9(4)), and print TOTAL followed by the total.",
+      "xp": 15,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. DEPOSIT.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "TOTAL 0465",
+      "requirements": [
+        {
+          "pattern": "ACCEPT",
+          "message": "Read the cards with ACCEPT."
+        },
+        {
+          "pattern": "ADD",
+          "message": "Add them up with ADD."
+        },
+        {
+          "pattern": "VALUE\\s+ZERO",
+          "message": "TOTAL needs VALUE ZERO."
+        }
+      ],
+      "hints": [
+        "Use one field for each card, or reuse one: ACCEPT AMOUNT. ADD AMOUNT TO TOTAL.",
+        "01 TOTAL PIC 9(4) VALUE ZERO."
+      ],
+      "inputs": [
+        "120",
+        "45",
+        "300"
+      ]
+    },
+    {
+      "id": "cob-fix-s0c7",
+      "unit": "cb3",
+      "difficulty": 2,
+      "title": "Fix the S0C7",
+      "task": "This job abends with S0C7. Find out why, and fix it so it prints 0005.",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. ABEND.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n       01 VISITS PIC 9(4).\n       PROCEDURE DIVISION.\n           ADD 5 TO VISITS.\n           DISPLAY VISITS.\n           STOP RUN.\n",
+      "expectedOutput": "0005",
+      "requirements": [
+        {
+          "pattern": "VALUE\\s+ZERO",
+          "message": "Give the counter a start value."
+        }
+      ],
+      "hints": [
+        "What does a PIC 9 field hold before anything is moved into it?",
+        "VALUE ZERO."
+      ]
+    },
+    {
+      "id": "cob-cents",
+      "unit": "cb4",
+      "difficulty": 1,
+      "title": "Exact Cents",
+      "task": "BALANCE is PIC 9(4)V99 with VALUE 1000.00. Add 12.34 and then 0.66, and DISPLAY BALANCE. (DISPLAY shows the digits, without a point.)",
+      "xp": 15,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. CENTS.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "101300",
+      "requirements": [
+        {
+          "pattern": "V99",
+          "message": "Use a PIC with V99."
+        },
+        {
+          "pattern": "ADD[\\s\\S]*ADD",
+          "message": "Add both amounts."
+        }
+      ],
+      "hints": [
+        "01 BALANCE PIC 9(4)V99 VALUE 1000.00.",
+        "1013.00 shows as 101300."
+      ]
+    },
+    {
+      "id": "cob-overdrawn",
+      "unit": "cb4",
+      "difficulty": 2,
+      "title": "Overdrawn",
+      "task": "An account holds 50.00 dollars. Take out 75.25 with ADD -75.25, and DISPLAY the balance. The field needs a sign, or the minus is lost.",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. OVER.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "02525-",
+      "requirements": [
+        {
+          "pattern": "S9",
+          "message": "Use a signed field: PIC S9…"
+        },
+        {
+          "pattern": "ADD\\s+-",
+          "message": "Take the money out with ADD -75.25."
+        }
+      ],
+      "hints": [
+        "01 BALANCE PIC S9(3)V99 VALUE 50.00.",
+        "DISPLAY shows a negative signed field with - at the end."
+      ]
+    },
+    {
+      "id": "cob-cut-decimals",
+      "unit": "cb4",
+      "difficulty": 2,
+      "title": "Cut, Not Rounded",
+      "task": "MOVE 3.14159 into a PIC 9V99 field and 12.5 into a PIC 9V9 field, and DISPLAY both.",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. CUT.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "314\n25",
+      "requirements": [
+        {
+          "pattern": "9V99",
+          "message": "One field is PIC 9V99."
+        },
+        {
+          "pattern": "9V9\\b",
+          "message": "The other is PIC 9V9."
+        }
+      ],
+      "hints": [
+        "Extra decimals are cut at the end, extra digits in front are lost.",
+        "12.5 in PIC 9V9 keeps 2.5."
+      ]
+    },
+    {
+      "id": "cob-cheque-stars",
+      "unit": "cb5",
+      "difficulty": 1,
+      "title": "Cheque Protection",
+      "task": "Print the amount 42.50 so nobody can write digits in front of it: PIC $**,**9.99.",
+      "xp": 15,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. STARS.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "$****42.50",
+      "requirements": [
+        {
+          "pattern": "\\*\\*",
+          "message": "Use * in the picture."
+        }
+      ],
+      "hints": [
+        "01 CHEQUE-OUT PIC $**,**9.99.",
+        "MOVE 42.50 TO CHEQUE-OUT."
+      ],
+      "exact": true
+    },
+    {
+      "id": "cob-price-tag",
+      "unit": "cb5",
+      "difficulty": 1,
+      "title": "The Price Tag",
+      "task": "Print PRICE and then 1234.5 as money, with a floating $ and a comma: PRICE $1,234.50.",
+      "xp": 15,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. PRICE.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "PRICE $1,234.50",
+      "requirements": [
+        {
+          "pattern": "\\$\\$",
+          "message": "Let the $ float with $$…"
+        }
+      ],
+      "hints": [
+        "PIC $$$,$$9.99.",
+        "MOVE 1234.5 TO PRICE-OUT."
+      ]
+    },
+    {
+      "id": "cob-refund",
+      "unit": "cb5",
+      "difficulty": 2,
+      "title": "The Refund",
+      "task": "A refund of -19.99 is printed with CR (PIC $$$9.99CR), and a stock change of -5 with a trailing minus (PIC ZZ9-). Print both:\nREFUND $19.99CR\nCHANGE 5-",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. REFUND.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "REFUND $19.99CR\nCHANGE 5-",
+      "requirements": [
+        {
+          "pattern": "CR",
+          "message": "Use CR for the refund."
+        },
+        {
+          "pattern": "9-",
+          "message": "Use a trailing - for the change."
+        }
+      ],
+      "hints": [
+        "MOVE -19.99 TO REFUND-OUT.",
+        "CR and - only show for negative values."
+      ]
+    },
+    {
+      "id": "cob-address",
+      "unit": "cb6",
+      "difficulty": 1,
+      "title": "The Address",
+      "task": "Make a group ADDRESS with STREET (X(12), \"MAIN STREET\"), HOUSE-NO (9(3), 42) and CITY (X(10), \"FRANKFURT\"). DISPLAY the whole group at once.",
+      "xp": 15,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. ADDR.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "MAIN STREET 042FRANKFURT",
+      "requirements": [
+        {
+          "pattern": "05",
+          "message": "Put the fields under the group with level 05."
+        },
+        {
+          "pattern": "DISPLAY\\s+ADDRESS",
+          "message": "DISPLAY the group."
+        }
+      ],
+      "hints": [
+        "01 ADDRESS. then 05 STREET PIC X(12) VALUE \"MAIN STREET\".",
+        "The group is all its characters in a row."
+      ]
+    },
+    {
+      "id": "cob-date-parts",
+      "unit": "cb6",
+      "difficulty": 2,
+      "title": "Take a Date Apart",
+      "task": "MOVE \"19691120\" into a group DATE-IN with YYYY (9(4)), MM (99) and DD (99). Then print the date the European way.",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. DATES.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "20.11.1969",
+      "requirements": [
+        {
+          "pattern": "05\\s+YYYY",
+          "message": "Declare YYYY under the group."
+        },
+        {
+          "pattern": "MOVE\\s+\"19691120\"",
+          "message": "MOVE the date into the group."
+        }
+      ],
+      "hints": [
+        "01 DATE-IN. 05 YYYY PIC 9(4). 05 MM PIC 99. 05 DD PIC 99.",
+        "DISPLAY DD \".\" MM \".\" YYYY."
+      ]
+    },
+    {
+      "id": "cob-order-line",
+      "unit": "cb6",
+      "difficulty": 2,
+      "title": "The Order Line",
+      "task": "Build a line from FILLERs and fields: FILLER \"ITEM: \", ITEM-NAME (X(8)), FILLER \"QTY: \", QTY (99). MOVE COFFEE and 3 into it and DISPLAY the line.",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. ORDER.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "ITEM: COFFEE  QTY: 03",
+      "requirements": [
+        {
+          "pattern": "FILLER",
+          "message": "Use FILLERs for the labels."
+        }
+      ],
+      "hints": [
+        "05 FILLER PIC X(6) VALUE \"ITEM: \".",
+        "MOVE \"COFFEE\" TO ITEM-NAME. MOVE 3 TO QTY. DISPLAY ORDER-LINE."
+      ]
+    },
+    {
+      "id": "cob-split-bill",
+      "unit": "cb7",
+      "difficulty": 1,
+      "title": "Split the Bill",
+      "task": "Four friends share a bill of 86.00. DIVIDE it with GIVING and ROUNDED, and print EACH PAYS with the share in PIC ZZ9.99.",
+      "xp": 15,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. SPLIT.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "EACH PAYS 21.50",
+      "requirements": [
+        {
+          "pattern": "DIVIDE",
+          "message": "Use DIVIDE."
+        },
+        {
+          "pattern": "GIVING",
+          "message": "Keep the bill: use GIVING."
+        }
+      ],
+      "hints": [
+        "DIVIDE BILL BY 4 GIVING SHARE ROUNDED.",
+        "MOVE SHARE TO SHARE-OUT."
+      ]
+    },
+    {
+      "id": "cob-hours",
+      "unit": "cb7",
+      "difficulty": 2,
+      "title": "Hours and Minutes",
+      "task": "Read a number of minutes from a SYSIN card and print it as hours and minutes, with DIVIDE … REMAINDER. Hours are PIC 9, minutes PIC 99.",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. HOURS.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "2 HOURS 15 MINUTES",
+      "requirements": [
+        {
+          "pattern": "REMAINDER",
+          "message": "Use DIVIDE … REMAINDER."
+        }
+      ],
+      "hints": [
+        "DIVIDE MINS BY 60 GIVING HRS REMAINDER REST.",
+        "DISPLAY HRS \" HOURS \" REST \" MINUTES\"."
+      ],
+      "inputs": [
+        "135"
+      ]
+    },
+    {
+      "id": "cob-counter-full",
+      "unit": "cb7",
+      "difficulty": 2,
+      "title": "The Full Counter",
+      "task": "COUNTER is PIC 999 with VALUE 200. ADD 900 to it, and when it doesn't fit, print COUNTER FULL instead. Then DISPLAY COUNTER.",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. FULL.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "COUNTER FULL\n200",
+      "requirements": [
+        {
+          "pattern": "SIZE\\s+ERROR",
+          "message": "Catch the overflow with ON SIZE ERROR."
+        },
+        {
+          "pattern": "END-ADD",
+          "message": "Close the ADD with END-ADD."
+        }
+      ],
+      "hints": [
+        "ADD 900 TO COUNTER ON SIZE ERROR DISPLAY \"COUNTER FULL\" END-ADD.",
+        "The field keeps its old value."
+      ]
+    },
+    {
+      "id": "cob-vat",
+      "unit": "cb8",
+      "difficulty": 1,
+      "title": "Add the VAT",
+      "task": "A price of 49.90 gets 19 % VAT. COMPUTE the gross price, ROUNDED, and print it in PIC ZZ9.99 after GROSS.",
+      "xp": 15,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. VAT.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "GROSS 59.38",
+      "requirements": [
+        {
+          "pattern": "COMPUTE",
+          "message": "Use COMPUTE."
+        },
+        {
+          "pattern": "ROUNDED",
+          "message": "Round the result."
+        }
+      ],
+      "hints": [
+        "COMPUTE GROSS ROUNDED = PRICE * 1.19.",
+        "MOVE GROSS TO GROSS-OUT."
+      ]
+    },
+    {
+      "id": "cob-fahrenheit",
+      "unit": "cb8",
+      "difficulty": 2,
+      "title": "Fever",
+      "task": "Convert 37 degrees Celsius to Fahrenheit (C × 9 / 5 + 32) with one COMPUTE, and print it with one decimal in PIC ZZ9.9.",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. FEVER.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "37 C IS 98.6 F",
+      "requirements": [
+        {
+          "pattern": "COMPUTE",
+          "message": "Use COMPUTE."
+        },
+        {
+          "pattern": "\\*\\s*9",
+          "message": "Multiply by 9."
+        }
+      ],
+      "hints": [
+        "Keep one decimal in the result: PIC 999V9.",
+        "DISPLAY CELSIUS \" C IS \" F-OUT \" F\"."
+      ]
+    },
+    {
+      "id": "cob-compound",
+      "unit": "cb8",
+      "difficulty": 3,
+      "title": "Three Years of Interest",
+      "task": "1,000 dollars earn 5 % a year, compounded. COMPUTE the balance after 3 years with ** in one formula, ROUNDED, and print it in PIC $$,$$9.99.",
+      "xp": 40,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. INTEREST.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "AFTER 3 YEARS $1,157.63",
+      "requirements": [
+        {
+          "pattern": "\\*\\*",
+          "message": "Use ** for the power."
+        },
+        {
+          "pattern": "ROUNDED",
+          "message": "Round once, at the end."
+        }
+      ],
+      "hints": [
+        "COMPUTE BALANCE ROUNDED = 1000 * 1.05 ** 3.",
+        "1157.625 rounds to 1157.63."
+      ]
+    },
+    {
+      "id": "cob-grades",
+      "unit": "cb9",
+      "difficulty": 1,
+      "title": "Grades",
+      "task": "Read two scores from SYSIN cards. For each, print its grade with EVALUATE TRUE: 90 and up is A, 75 and up B, 50 and up C, anything else F.",
+      "xp": 15,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. GRADES.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "GRADE B\nGRADE F",
+      "requirements": [
+        {
+          "pattern": "EVALUATE",
+          "message": "Use EVALUATE TRUE."
+        },
+        {
+          "pattern": "WHEN\\s+OTHER",
+          "message": "WHEN OTHER catches the rest."
+        }
+      ],
+      "hints": [
+        "The first WHEN that's true wins, so start with the highest.",
+        "WHEN SCORE >= 90 DISPLAY \"GRADE A\""
+      ],
+      "inputs": [
+        "82",
+        "41"
+      ]
+    },
+    {
+      "id": "cob-odd-even",
+      "unit": "cb9",
+      "difficulty": 1,
+      "title": "Odd or Even",
+      "task": "Read a number (PIC 99) and print whether it's odd or even, using the REMAINDER of a division by 2.",
+      "xp": 15,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. ODD.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "17 IS ODD",
+      "requirements": [
+        {
+          "pattern": "REMAINDER",
+          "message": "Use DIVIDE … REMAINDER."
+        },
+        {
+          "pattern": "IF",
+          "message": "Decide with IF."
+        }
+      ],
+      "hints": [
+        "DIVIDE N BY 2 GIVING HALF REMAINDER R.",
+        "IF R = 0 DISPLAY N \" IS EVEN\" ELSE DISPLAY N \" IS ODD\" END-IF."
+      ],
+      "inputs": [
+        "17"
+      ]
+    },
+    {
+      "id": "cob-account-status",
+      "unit": "cb9",
+      "difficulty": 2,
+      "title": "Account Status",
+      "task": "Read a status code (PIC X). Give it 88 levels: ACTIVE for A, CLOSED for C, FROZEN for F or X. Print ACCOUNT ACTIVE, ACCOUNT CLOSED, ACCOUNT FROZEN or UNKNOWN CODE.",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. STATUS.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "ACCOUNT FROZEN",
+      "requirements": [
+        {
+          "pattern": "88",
+          "message": "Use 88 levels."
+        },
+        {
+          "pattern": "FROZEN",
+          "message": "Name one FROZEN."
+        }
+      ],
+      "hints": [
+        "88 FROZEN VALUE \"F\" \"X\".",
+        "EVALUATE TRUE WHEN ACTIVE … WHEN FROZEN … WHEN OTHER … END-EVALUATE."
+      ],
+      "inputs": [
+        "X"
+      ]
+    },
+    {
+      "id": "cob-leap-year",
+      "unit": "cb9",
+      "difficulty": 3,
+      "title": "Leap Year",
+      "task": "Read a year. It's a leap year if it divides by 4, except years that divide by 100, unless they also divide by 400. Print 1900 IS A LEAP YEAR or 1900 IS NOT A LEAP YEAR.",
+      "xp": 40,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. LEAP.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "1900 IS NOT A LEAP YEAR",
+      "requirements": [
+        {
+          "pattern": "REMAINDER",
+          "message": "Use DIVIDE … REMAINDER."
+        },
+        {
+          "pattern": "IF|EVALUATE",
+          "message": "Decide with IF or EVALUATE."
+        }
+      ],
+      "hints": [
+        "Get three remainders: by 4, by 100 and by 400.",
+        "EVALUATE TRUE WHEN R400 = 0 … WHEN R100 = 0 … WHEN R4 = 0 … WHEN OTHER …"
+      ],
+      "inputs": [
+        "1900"
+      ]
+    },
+    {
+      "id": "cob-stars",
+      "unit": "cb10",
+      "difficulty": 1,
+      "title": "A Row of Stars",
+      "task": "Print ***** on one line with PERFORM 5 TIMES, one * at a time.",
+      "xp": 15,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. STARS.\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "*****",
+      "requirements": [
+        {
+          "pattern": "5\\s+TIMES",
+          "message": "Repeat with PERFORM 5 TIMES."
+        },
+        {
+          "pattern": "NO\\s+ADVANCING",
+          "message": "Stay on the line with WITH NO ADVANCING."
+        }
+      ],
+      "hints": [
+        "PERFORM 5 TIMES DISPLAY \"*\" WITH NO ADVANCING END-PERFORM.",
+        "End the line with DISPLAY \" \"."
+      ]
+    },
+    {
+      "id": "cob-cards-until-zero",
+      "unit": "cb10",
+      "difficulty": 2,
+      "title": "Cards Until Zero",
+      "task": "Read amounts (PIC 999) from SYSIN cards until a card holds 0. Print how many cards there were (PIC 9) and their total (PIC 999).",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. CARDS.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "3 CARDS, TOTAL 090",
+      "requirements": [
+        {
+          "pattern": "UNTIL",
+          "message": "Loop with PERFORM … UNTIL."
+        },
+        {
+          "pattern": "ACCEPT",
+          "message": "Read with ACCEPT."
+        }
+      ],
+      "hints": [
+        "Read the first card before the loop, and the next one at the end of the loop body.",
+        "PERFORM UNTIL AMOUNT = 0 … END-PERFORM."
+      ],
+      "inputs": [
+        "15",
+        "30",
+        "45",
+        "0"
+      ]
+    },
+    {
+      "id": "cob-doublings",
+      "unit": "cb10",
+      "difficulty": 2,
+      "title": "Grains on the Board",
+      "task": "Start with 1 grain and double it UNTIL there are more than 1000. Count the doublings, and print the grains and the count.",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. GRAINS.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "1024 AFTER 10 DOUBLINGS",
+      "requirements": [
+        {
+          "pattern": "UNTIL",
+          "message": "Loop with PERFORM … UNTIL."
+        }
+      ],
+      "hints": [
+        "01 GRAINS PIC 9(4) VALUE 1. 01 STEPS PIC 99 VALUE ZERO.",
+        "COMPUTE GRAINS = GRAINS * 2, ADD 1 TO STEPS."
+      ]
+    },
+    {
+      "id": "cob-count-down-two",
+      "unit": "cb11",
+      "difficulty": 1,
+      "title": "Down by Two",
+      "task": "Print 10, 08, 06, 04, 02 (I is PIC 99) with PERFORM VARYING and a negative step.",
+      "xp": 15,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. DOWN.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "10\n08\n06\n04\n02",
+      "requirements": [
+        {
+          "pattern": "VARYING",
+          "message": "Use PERFORM VARYING."
+        },
+        {
+          "pattern": "BY\\s+-2",
+          "message": "Count down with BY -2."
+        }
+      ],
+      "hints": [
+        "VARYING I FROM 10 BY -2 UNTIL I < 2",
+        "DISPLAY I inside the loop."
+      ]
+    },
+    {
+      "id": "cob-triangle",
+      "unit": "cb11",
+      "difficulty": 2,
+      "title": "The Triangle",
+      "task": "Print a triangle of stars, 4 rows, with one loop inside another:\n*\n**\n***\n****",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. TRI.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "*\n**\n***\n****",
+      "requirements": [
+        {
+          "pattern": "VARYING[\\s\\S]*VARYING",
+          "message": "Use two VARYING loops."
+        }
+      ],
+      "hints": [
+        "The inner loop runs UNTIL J > I.",
+        "After the inner loop, end the row with DISPLAY \" \"."
+      ]
+    },
+    {
+      "id": "cob-factorials",
+      "unit": "cb11",
+      "difficulty": 2,
+      "title": "Factorials",
+      "task": "Print the factorials of 1 to 6, each as N, a space, and the factorial in PIC ZZZ9.",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. FACT.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "1 1\n2 2\n3 6\n4 24\n5 120\n6 720",
+      "requirements": [
+        {
+          "pattern": "VARYING",
+          "message": "Count with PERFORM VARYING."
+        },
+        {
+          "pattern": "MULTIPLY|COMPUTE",
+          "message": "Multiply as you go."
+        }
+      ],
+      "hints": [
+        "Keep a running product, starting at 1.",
+        "COMPUTE FACT = FACT * N, then MOVE FACT TO FACT-OUT."
+      ]
+    },
+    {
+      "id": "cob-savings-plan",
+      "unit": "cb11",
+      "difficulty": 3,
+      "title": "The Savings Plan",
+      "task": "Pay in 100 dollars at the start of each month for 12 months. After each payment, the balance earns 1 %: BALANCE = (BALANCE + 100) × 1.01, ROUNDED to the cent each month. Print the balance after 12 months in PIC $$,$$9.99.",
+      "xp": 40,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. SAVINGS.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "AFTER 12 MONTHS $1,280.93",
+      "requirements": [
+        {
+          "pattern": "VARYING|TIMES",
+          "message": "Loop over the 12 months."
+        },
+        {
+          "pattern": "ROUNDED",
+          "message": "Round each month."
+        }
+      ],
+      "hints": [
+        "01 BALANCE PIC 9(5)V99 VALUE ZERO.",
+        "COMPUTE BALANCE ROUNDED = (BALANCE + 100) * 1.01."
+      ]
+    },
+    {
+      "id": "cob-hottest-day",
+      "unit": "cb12",
+      "difficulty": 2,
+      "title": "The Hottest Day",
+      "task": "Put the temperatures 18, 23, 31, 27 and 19 into a table (FILLER VALUEs and REDEFINES, PIC 99). Find the hottest day and print its number and temperature.",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. HOT.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "HOTTEST DAY 3: 31",
+      "requirements": [
+        {
+          "pattern": "OCCURS",
+          "message": "Use an OCCURS table."
+        },
+        {
+          "pattern": "REDEFINES",
+          "message": "Fill it with REDEFINES."
+        },
+        {
+          "pattern": "VARYING",
+          "message": "Go through it with PERFORM VARYING."
+        }
+      ],
+      "hints": [
+        "01 TEMP-TABLE REDEFINES TEMP-DATA. 05 TEMP PIC 99 OCCURS 5 TIMES.",
+        "Remember the best day: IF TEMP(D) > BEST MOVE TEMP(D) TO BEST MOVE D TO BEST-DAY END-IF."
+      ]
+    },
+    {
+      "id": "cob-exchange",
+      "unit": "cb12",
+      "difficulty": 2,
+      "title": "The Exchange Desk",
+      "task": "A table holds currencies and rates: USD 1.08, GBP 0.86, CHF 0.94 (code X(3), rate 9V99). Read a code from a SYSIN card, SEARCH the table, and print the rate in PIC 9.99, or the code and NO RATE. There are two cards.",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. RATES.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "GBP RATE 0.86\nJPY NO RATE",
+      "requirements": [
+        {
+          "pattern": "SEARCH",
+          "message": "Look it up with SEARCH."
+        },
+        {
+          "pattern": "INDEXED\\s+BY",
+          "message": "The table needs INDEXED BY."
+        },
+        {
+          "pattern": "AT\\s+END",
+          "message": "Handle a missing code with AT END."
+        }
+      ],
+      "hints": [
+        "05 FILLER PIC X(6) VALUE \"USD108\".",
+        "SET RX TO 1 before each SEARCH."
+      ],
+      "inputs": [
+        "GBP",
+        "JPY"
+      ]
+    },
+    {
+      "id": "cob-last-first",
+      "unit": "cb12",
+      "difficulty": 2,
+      "title": "Last Name First",
+      "task": "FIRST-NAME is \"GRACE\" and LAST-NAME is \"HOPPER\" (both X(10)). Join them with STRING into HOPPER, GRACE and DISPLAY the result between [ and ].",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. NAMES.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "[HOPPER, GRACE]",
+      "requirements": [
+        {
+          "pattern": "STRING",
+          "message": "Join with STRING."
+        },
+        {
+          "pattern": "DELIMITED\\s+BY\\s+SPACE",
+          "message": "Cut the names at their first space."
+        }
+      ],
+      "hints": [
+        "The result field must start as SPACES, and be exactly as long as the text, or the spaces show before ].",
+        "STRING LAST-NAME DELIMITED BY SPACE \", \" DELIMITED BY SIZE FIRST-NAME DELIMITED BY SPACE INTO FULL-NAME END-STRING."
+      ],
+      "exact": true
+    },
+    {
+      "id": "cob-vowels",
+      "unit": "cb12",
+      "difficulty": 2,
+      "title": "Count the Vowels",
+      "task": "Count the vowels in COMMON BUSINESS ORIENTED LANGUAGE with INSPECT … TALLYING, and print the count (PIC 99).",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. VOWELS.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "13 VOWELS",
+      "requirements": [
+        {
+          "pattern": "INSPECT",
+          "message": "Count with INSPECT."
+        },
+        {
+          "pattern": "TALLYING",
+          "message": "Use TALLYING."
+        }
+      ],
+      "hints": [
+        "One INSPECT per vowel works: INSPECT TXT TALLYING N FOR ALL \"A\".",
+        "N starts at zero, and every INSPECT adds to it."
+      ]
+    },
+    {
+      "id": "cob-all-balances",
+      "unit": "cb13",
+      "difficulty": 1,
+      "title": "All Balances",
+      "task": "Read CUSTOMERS to the end. Print how many customers there are (PIC 9) and the sum of their balances in PIC $$,$$9.99.",
+      "xp": 15,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. BALANCES.\n       ENVIRONMENT DIVISION.\n       INPUT-OUTPUT SECTION.\n       FILE-CONTROL.\n           SELECT CUST-FILE ASSIGN TO CUSTOMERS.\n       DATA DIVISION.\n       FILE SECTION.\n       FD CUST-FILE.\n       01 CUST-REC.\n          05 CUST-NO      PIC 9(5).\n          05 CUST-NAME    PIC X(12).\n          05 CUST-CITY    PIC X(10).\n          05 CUST-BAL     PIC 9(5)V99.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "4 CUSTOMERS $4,445.35",
+      "requirements": [
+        {
+          "pattern": "AT\\s+END",
+          "message": "Read until AT END."
+        },
+        {
+          "pattern": "CLOSE",
+          "message": "CLOSE the file."
+        }
+      ],
+      "hints": [
+        "ADD 1 TO N and ADD CUST-BAL TO TOTAL for every record.",
+        "After the loop: MOVE TOTAL TO TOTAL-OUT. DISPLAY N \" CUSTOMERS \" TOTAL-OUT."
+      ]
+    },
+    {
+      "id": "cob-big-sales",
+      "unit": "cb13",
+      "difficulty": 2,
+      "title": "The Big Sales",
+      "task": "Read SALES and print the name of every salesperson who sold more than 100.00 dollars, one per line.",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. BIGSALES.\n       ENVIRONMENT DIVISION.\n       INPUT-OUTPUT SECTION.\n       FILE-CONTROL.\n           SELECT SALES-FILE ASSIGN TO SALES.\n       DATA DIVISION.\n       FILE SECTION.\n       FD SALES-FILE.\n       01 SALES-REC.\n          05 S-REGION     PIC X(6).\n          05 S-NAME       PIC X(10).\n          05 S-AMOUNT     PIC 9(5)V99.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "ADA\nKEN\nDENNIS\nJOHN",
+      "requirements": [
+        {
+          "pattern": "AT\\s+END",
+          "message": "Read until AT END."
+        },
+        {
+          "pattern": "IF",
+          "message": "Pick the big ones with IF."
+        }
+      ],
+      "hints": [
+        "IF S-AMOUNT > 100 DISPLAY S-NAME END-IF",
+        "S-AMOUNT has two decimals, so > 100 means more than 100.00."
+      ]
+    },
+    {
+      "id": "cob-new-customer",
+      "unit": "cb13",
+      "difficulty": 3,
+      "title": "The New Customer",
+      "task": "Add a fifth customer to the end of CUSTOMERS with OPEN EXTEND: number 03000, KEN THOMPSON, MURRAY HIL, balance 50.00. Close it, read the whole file again, and print every name, then 5 CUSTOMERS.",
+      "xp": 40,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. NEWCUST.\n       ENVIRONMENT DIVISION.\n       INPUT-OUTPUT SECTION.\n       FILE-CONTROL.\n           SELECT CUST-FILE ASSIGN TO CUSTOMERS.\n       DATA DIVISION.\n       FILE SECTION.\n       FD CUST-FILE.\n       01 CUST-REC.\n          05 CUST-NO      PIC 9(5).\n          05 CUST-NAME    PIC X(12).\n          05 CUST-CITY    PIC X(10).\n          05 CUST-BAL     PIC 9(5)V99.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "GRACE HOPPER\nADA LOVELACE\nJOHN BACKUS\nLINUS T.\nKEN THOMPSON\n5 CUSTOMERS",
+      "requirements": [
+        {
+          "pattern": "OPEN\\s+EXTEND",
+          "message": "Add to the end with OPEN EXTEND."
+        },
+        {
+          "pattern": "WRITE\\s+CUST-REC",
+          "message": "WRITE the record."
+        }
+      ],
+      "hints": [
+        "MOVE 3000 TO CUST-NO, MOVE \"KEN THOMPSON\" TO CUST-NAME … then WRITE CUST-REC.",
+        "CLOSE CUST-FILE, then OPEN INPUT CUST-FILE and read it to the end."
+      ]
+    },
+    {
+      "id": "cob-city-list",
+      "unit": "cb14",
+      "difficulty": 2,
+      "title": "The City List",
+      "task": "Print to a PRINTER file: the heading CITY      CUSTOMER, then for each customer a line with the city (X(10)) and the name.",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. CITIES.\n       ENVIRONMENT DIVISION.\n       INPUT-OUTPUT SECTION.\n       FILE-CONTROL.\n           SELECT CUST-FILE ASSIGN TO CUSTOMERS.\n           SELECT REPORT-FILE ASSIGN TO PRINTER.\n       DATA DIVISION.\n       FILE SECTION.\n       FD CUST-FILE.\n       01 CUST-REC.\n          05 CUST-NO      PIC 9(5).\n          05 CUST-NAME    PIC X(12).\n          05 CUST-CITY    PIC X(10).\n          05 CUST-BAL     PIC 9(5)V99.\n       FD REPORT-FILE.\n       01 PRINT-LINE     PIC X(40).\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "CITY      CUSTOMER\nNEW YORK  GRACE HOPPER\nLONDON    ADA LOVELACE\nPHILADELPHJOHN BACKUS\nHELSINKI  LINUS T.",
+      "requirements": [
+        {
+          "pattern": "ASSIGN\\s+TO\\s+PRINTER",
+          "message": "Print with a file ASSIGNed TO PRINTER."
+        },
+        {
+          "pattern": "WRITE",
+          "message": "Print with WRITE."
+        }
+      ],
+      "hints": [
+        "01 DETAIL-LINE. 05 D-CITY PIC X(10). 05 D-NAME PIC X(12).",
+        "WRITE PRINT-LINE FROM DETAIL-LINE."
+      ],
+      "exact": true
+    },
+    {
+      "id": "cob-numbered-sales",
+      "unit": "cb14",
+      "difficulty": 2,
+      "title": "Numbered Sales",
+      "task": "Print every sale from SALES as a numbered line: the number in PIC Z9, a period, the name (X(10)) and the amount in PIC $$,$$9.99. Then, after an empty line, the number of sales.",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. NUMBERED.\n       ENVIRONMENT DIVISION.\n       INPUT-OUTPUT SECTION.\n       FILE-CONTROL.\n           SELECT SALES-FILE ASSIGN TO SALES.\n           SELECT REPORT-FILE ASSIGN TO PRINTER.\n       DATA DIVISION.\n       FILE SECTION.\n       FD SALES-FILE.\n       01 SALES-REC.\n          05 S-REGION     PIC X(6).\n          05 S-NAME       PIC X(10).\n          05 S-AMOUNT     PIC 9(5)V99.\n       FD REPORT-FILE.\n       01 PRINT-LINE     PIC X(40).\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "1. ADA         $120.50\n2. GRACE        $98.75\n3. KEN         $200.00\n4. DENNIS      $150.25\n5. NIKLAUS      $45.00\n6. JOHN        $300.00\n\n6 SALES",
+      "requirements": [
+        {
+          "pattern": "Z9",
+          "message": "Number the lines with PIC Z9."
+        },
+        {
+          "pattern": "ADVANCING",
+          "message": "Leave a line with AFTER ADVANCING."
+        }
+      ],
+      "hints": [
+        "05 L-NO PIC Z9. 05 FILLER PIC XX VALUE \". \". 05 L-NAME PIC X(10). 05 L-AMT PIC $$,$$9.99.",
+        "ADD 1 TO COUNTER before MOVE COUNTER TO L-NO."
+      ]
+    },
+    {
+      "id": "cob-region-count",
+      "unit": "cb15",
+      "difficulty": 2,
+      "title": "Sales per Region",
+      "task": "Read SALES with a control break and print each region with its number of sales (PIC 9).",
+      "xp": 25,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. COUNTS.\n       ENVIRONMENT DIVISION.\n       INPUT-OUTPUT SECTION.\n       FILE-CONTROL.\n           SELECT SALES-FILE ASSIGN TO SALES.\n       DATA DIVISION.\n       FILE SECTION.\n       FD SALES-FILE.\n       01 SALES-REC.\n          05 S-REGION     PIC X(6).\n          05 S-NAME       PIC X(10).\n          05 S-AMOUNT     PIC 9(5)V99.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "NORTH 3\nSOUTH 2\nWEST 1",
+      "requirements": [
+        {
+          "pattern": "PREV",
+          "message": "Keep the previous region to notice the break."
+        },
+        {
+          "pattern": "AT\\s+END",
+          "message": "Read until AT END."
+        }
+      ],
+      "hints": [
+        "When the region changes, print the previous region and its count, then set the count to zero.",
+        "After the loop, break once more for the last region."
+      ]
+    },
+    {
+      "id": "cob-region-best",
+      "unit": "cb15",
+      "difficulty": 3,
+      "title": "Best in Each Region",
+      "task": "Read SALES with a control break and print the best salesperson of each region with the amount in PIC $$$9.99:\nNORTH KEN     $200.00\nSOUTH DENNIS  $150.25\nWEST  JOHN    $300.00",
+      "xp": 40,
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. BEST.\n       ENVIRONMENT DIVISION.\n       INPUT-OUTPUT SECTION.\n       FILE-CONTROL.\n           SELECT SALES-FILE ASSIGN TO SALES.\n       DATA DIVISION.\n       FILE SECTION.\n       FD SALES-FILE.\n       01 SALES-REC.\n          05 S-REGION     PIC X(6).\n          05 S-NAME       PIC X(10).\n          05 S-AMOUNT     PIC 9(5)V99.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "NORTH KEN     $200.00\nSOUTH DENNIS  $150.25\nWEST  JOHN    $300.00",
+      "requirements": [
+        {
+          "pattern": "PREV",
+          "message": "Keep the previous region to notice the break."
+        },
+        {
+          "pattern": "IF",
+          "message": "Compare each sale with the best so far."
+        }
+      ],
+      "hints": [
+        "Keep BEST-NAME and BEST-AMT for the current region, and set BEST-AMT to zero at each break.",
+        "The line: 05 B-REGION PIC X(6). 05 B-NAME PIC X(8). 05 B-AMT PIC $$$9.99."
+      ],
+      "exact": true
+    }
+  ]
+}

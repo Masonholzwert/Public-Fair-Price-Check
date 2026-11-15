@@ -1,0 +1,421 @@
+{
+  "id": "c9",
+  "title": "Recursion",
+  "lessons": [
+    {
+      "id": "c9-l1",
+      "title": "A Function That Calls Itself",
+      "xp": 15,
+      "intro": [
+        "A function can call itself. That's recursion: solve a big problem by solving a smaller version of the same problem.",
+        "Every recursive function needs a base case, a situation simple enough to answer directly. Without it, the function calls itself forever, until the stack overflows and Unix stops the program.",
+        "A countdown: to count down from n, print n, then count down from n − 1. Stop when n is 0."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "void countdown(int n) {",
+          "    if (n == 0) {",
+          "        printf(\"liftoff\\n\");",
+          "        return;",
+          "    }",
+          "    printf(\"%d\\n\", n);",
+          "    countdown(n - 1);",
+          "}",
+          "",
+          "int main() {",
+          "    countdown(3);",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "3",
+          "2",
+          "1",
+          "liftoff"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c9-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is recursion?",
+          "options": [
+            "A function that calls itself",
+            "A loop with break",
+            "A function with no return",
+            "Two programs running at once"
+          ],
+          "answer": 0,
+          "explanation": "Each call works on a smaller version of the problem."
+        },
+        {
+          "id": "c9-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What is the base case?",
+          "options": [
+            "The case simple enough to answer without calling itself again",
+            "The first line of main",
+            "The biggest input",
+            "An error"
+          ],
+          "answer": 0,
+          "explanation": "It's where the recursion stops."
+        },
+        {
+          "id": "c9-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What happens without a base case?",
+          "options": [
+            "The function calls itself until the stack overflows",
+            "It returns 0",
+            "It runs once",
+            "The compiler fixes it"
+          ],
+          "answer": 0,
+          "explanation": "Unix answers with a segmentation fault."
+        },
+        {
+          "id": "c9-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "void show(int n) {",
+            "    if (n == 0)",
+            "        return;",
+            "    printf(\"%d\\n\", n);",
+            "    show(n - 1);",
+            "}",
+            "",
+            "int main() {",
+            "    show(3);",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "3\n2\n1",
+            "1\n2\n3",
+            "3",
+            "nothing"
+          ],
+          "answer": 0,
+          "explanation": "show prints n, then calls itself with n - 1, until n is 0."
+        },
+        {
+          "id": "c9-l1-e5",
+          "type": "find_bug",
+          "prompt": "This program crashes. Which line is wrong?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "void down(int n) {",
+            "    if (n == 0)",
+            "        return;",
+            "    down(n + 1);",
+            "}",
+            "",
+            "int main() {",
+            "    down(3);",
+            "    return 0;",
+            "}"
+          ],
+          "answer": 5,
+          "explanation": "n grows instead of shrinking, so it never reaches the base case 0. It must be down(n - 1)."
+        },
+        {
+          "id": "c9-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "What changes from one recursive call to the next?",
+          "options": [
+            "The argument gets closer to the base case",
+            "Nothing",
+            "The function name",
+            "The return type"
+          ],
+          "answer": 0,
+          "explanation": "Each step makes the problem a little smaller."
+        }
+      ]
+    },
+    {
+      "id": "c9-l2",
+      "title": "Factorials",
+      "xp": 15,
+      "intro": [
+        "5! (5 factorial) is 5 × 4 × 3 × 2 × 1 = 120. Notice: 5! is just 5 × 4!. And 4! is 4 × 3!, and so on, down to 1! = 1.",
+        "That's a perfect fit for recursion: factorial(n) is n * factorial(n - 1), with the base case factorial(1) = 1.",
+        "The computer keeps every waiting call on the stack: factorial(5) waits for factorial(4), which waits for factorial(3) … then they all finish in reverse order."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int factorial(int n) {",
+          "    if (n <= 1)",
+          "        return 1;",
+          "    return n * factorial(n - 1);",
+          "}",
+          "",
+          "int main() {",
+          "    int i;",
+          "    for (i = 1; i <= 6; i++)",
+          "        printf(\"%d! = %d\\n\", i, factorial(i));",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "1! = 1",
+          "2! = 2",
+          "3! = 6",
+          "4! = 24",
+          "5! = 120",
+          "6! = 720"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c9-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What is 4!?",
+          "options": [
+            "24",
+            "10",
+            "16",
+            "4"
+          ],
+          "answer": 0,
+          "explanation": "4 × 3 × 2 × 1 = 24."
+        },
+        {
+          "id": "c9-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What is the base case of factorial?",
+          "options": [
+            "n <= 1 returns 1",
+            "n == 10",
+            "n * n",
+            "There is none"
+          ],
+          "answer": 0,
+          "explanation": "1! (and 0!) are 1."
+        },
+        {
+          "id": "c9-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Finish the recursive step.",
+          "code": [
+            "int factorial(int n) {",
+            "    if (n <= 1)",
+            "        return 1;",
+            "    return n * ___;",
+            "}"
+          ],
+          "options": [
+            "factorial(n - 1)",
+            "factorial(n)",
+            "n - 1",
+            "factorial(n + 1)"
+          ],
+          "answer": "factorial(n - 1)",
+          "explanation": "n! = n × (n − 1)!"
+        },
+        {
+          "id": "c9-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "When factorial(3) is called, how many calls are waiting at the deepest point?",
+          "options": [
+            "3: factorial(3), (2) and (1)",
+            "1",
+            "6",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "Each call waits for the next smaller one."
+        },
+        {
+          "id": "c9-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int sum(int n) {",
+            "    if (n == 0)",
+            "        return 0;",
+            "    return n + sum(n - 1);",
+            "}",
+            "",
+            "int main() {",
+            "    printf(\"%d\\n\", sum(4));",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "10",
+            "6",
+            "4",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "sum(4) = 4 + 3 + 2 + 1 + 0 = 10."
+        },
+        {
+          "id": "c9-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "13! is 6,227,020,800. What happens in a 32-bit int?",
+          "options": [
+            "It's too big and overflows to a wrong number",
+            "It works fine",
+            "The program stops with an error",
+            "It's rounded"
+          ],
+          "answer": 0,
+          "explanation": "An int holds up to about 2.1 billion. On the PDP-11, with 16-bit ints, the limit was just 32,767!"
+        }
+      ]
+    },
+    {
+      "id": "c9-l3",
+      "title": "Fibonacci and Friends",
+      "xp": 15,
+      "intro": [
+        "The Fibonacci numbers: 0, 1, 1, 2, 3, 5, 8, 13 … each one is the sum of the two before. fib(n) = fib(n − 1) + fib(n − 2), with fib(0) = 0 and fib(1) = 1 as base cases.",
+        "Euclid's algorithm, over 2000 years old, finds the greatest common divisor: gcd(a, b) = gcd(b, a % b), and gcd(a, 0) = a.",
+        "Recursion is elegant, but not always fast: the simple fib calls itself billions of times for fib(50). A loop is much quicker there."
+      ],
+      "example": {
+        "code": [
+          "#include <stdio.h>",
+          "",
+          "int fib(int n) {",
+          "    if (n < 2)",
+          "        return n;",
+          "    return fib(n - 1) + fib(n - 2);",
+          "}",
+          "",
+          "int gcd(int a, int b) {",
+          "    if (b == 0)",
+          "        return a;",
+          "    return gcd(b, a % b);",
+          "}",
+          "",
+          "int main() {",
+          "    int i;",
+          "    for (i = 0; i < 10; i++)",
+          "        printf(\"%d \", fib(i));",
+          "    printf(\"\\ngcd %d\\n\", gcd(48, 18));",
+          "    return 0;",
+          "}"
+        ],
+        "output": [
+          "0 1 1 2 3 5 8 13 21 34 ",
+          "gcd 6"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "c9-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What comes after 0, 1, 1, 2, 3, 5, 8?",
+          "options": [
+            "13",
+            "11",
+            "10",
+            "16"
+          ],
+          "answer": 0,
+          "explanation": "5 + 8 = 13."
+        },
+        {
+          "id": "c9-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "How many base cases does fib have?",
+          "options": [
+            "Two: fib(0) and fib(1)",
+            "One",
+            "None",
+            "Ten"
+          ],
+          "answer": 0,
+          "explanation": "It looks back two steps, so it needs two starting values. if (n < 2) return n; covers both."
+        },
+        {
+          "id": "c9-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What is gcd(12, 8)?",
+          "options": [
+            "4",
+            "2",
+            "8",
+            "96"
+          ],
+          "answer": 0,
+          "explanation": "gcd(12, 8) = gcd(8, 4) = gcd(4, 0) = 4."
+        },
+        {
+          "id": "c9-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Finish Euclid's algorithm.",
+          "code": [
+            "int gcd(int a, int b) {",
+            "    if (b == 0)",
+            "        return a;",
+            "    return gcd(b, ___);",
+            "}"
+          ],
+          "options": [
+            "a % b",
+            "a / b",
+            "a - 1",
+            "b % a"
+          ],
+          "answer": "a % b",
+          "explanation": "The remainder becomes the new second number."
+        },
+        {
+          "id": "c9-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Why is the simple recursive fib slow for big n?",
+          "options": [
+            "It computes the same values again and again",
+            "Recursion is always slow",
+            "Because of printf",
+            "It isn't slow"
+          ],
+          "answer": 0,
+          "explanation": "fib(5) calls fib(3) twice, fib(2) three times … The work doubles at each level."
+        },
+        {
+          "id": "c9-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "#include <stdio.h>",
+            "",
+            "int fib(int n) {",
+            "    if (n < 2)",
+            "        return n;",
+            "    return fib(n - 1) + fib(n - 2);",
+            "}",
+            "",
+            "int main() {",
+            "    printf(\"%d\\n\", fib(6));",
+            "    return 0;",
+            "}"
+          ],
+          "options": [
+            "8",
+            "5",
+            "13",
+            "21"
+          ],
+          "answer": 0,
+          "explanation": "fib(6) = 8: 0, 1, 1, 2, 3, 5, 8."
+        }
+      ]
+    }
+  ]
+}

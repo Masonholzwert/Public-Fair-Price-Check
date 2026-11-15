@@ -1,0 +1,557 @@
+{
+  "id": "p21",
+  "title": "Binary Trees",
+  "lessons": [
+    {
+      "id": "p21-l1",
+      "title": "Tree Nodes",
+      "xp": 15,
+      "intro": [
+        "A list node has one pointer to the next node. A tree node has two: left and right. In a binary search tree, smaller keys go to the left and bigger ones to the right, at every node.",
+        "Insert is recursive: if the tree is empty (nil), make a new node there. Otherwise go left or right and insert into that smaller tree. Because t is a var parameter, the new node is linked in automatically.",
+        "Visiting left, then the node, then right (in order) shows all keys sorted. Niklaus Wirth's famous book was called Algorithms + Data Structures = Programs, and trees were a big part of it."
+      ],
+      "example": {
+        "code": [
+          "program Tree;",
+          "type",
+          "  PTree = ^TTree;",
+          "  TTree = record",
+          "    key: integer;",
+          "    left, right: PTree;",
+          "  end;",
+          "const",
+          "  keys: array[1..7] of integer = (50, 30, 70, 20, 40, 60, 80);",
+          "var",
+          "  root: PTree;",
+          "  i: integer;",
+          "",
+          "procedure Insert(var t: PTree; k: integer);",
+          "begin",
+          "  if t = nil then",
+          "  begin",
+          "    new(t);",
+          "    t^.key := k;",
+          "    t^.left := nil;",
+          "    t^.right := nil;",
+          "  end",
+          "  else if k < t^.key then Insert(t^.left, k)",
+          "  else Insert(t^.right, k);",
+          "end;",
+          "",
+          "procedure InOrder(t: PTree);",
+          "begin",
+          "  if t <> nil then",
+          "  begin",
+          "    InOrder(t^.left);",
+          "    write(t^.key, ' ');",
+          "    InOrder(t^.right);",
+          "  end;",
+          "end;",
+          "",
+          "",
+          "begin",
+          "  root := nil;",
+          "  for i := 1 to 7 do",
+          "    Insert(root, keys[i]);",
+          "  InOrder(root);",
+          "  writeln;",
+          "end."
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "p21-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "Where are the keys smaller than a node?",
+          "options": [
+            "In its left subtree",
+            "In its right subtree",
+            "Above it",
+            "Anywhere"
+          ],
+          "answer": 0,
+          "explanation": "Smaller left, bigger right."
+        },
+        {
+          "id": "p21-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Why is t a var parameter in Insert?",
+          "options": [
+            "So the new node gets linked into the tree",
+            "To make it faster",
+            "Pointers must always be var",
+            "It isn't needed"
+          ],
+          "answer": 0,
+          "explanation": "new(t) changes the pointer in the parent node itself."
+        },
+        {
+          "id": "p21-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Go left for a smaller key.",
+          "code": [
+            "  else if k < t^.key then Insert(t^.___, k)"
+          ],
+          "options": [
+            "left",
+            "right",
+            "key",
+            "next"
+          ],
+          "answer": "left",
+          "explanation": "Smaller keys belong in the left subtree."
+        },
+        {
+          "id": "p21-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does in-order traversal print?",
+          "options": [
+            "All keys sorted",
+            "The keys in insert order",
+            "Only the root",
+            "The keys backwards"
+          ],
+          "answer": 0,
+          "explanation": "Left, node, right."
+        },
+        {
+          "id": "p21-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program Small;",
+            "type",
+            "  PTree = ^TTree;",
+            "  TTree = record",
+            "    key: integer;",
+            "    left, right: PTree;",
+            "  end;",
+            "var",
+            "  root: PTree;",
+            "",
+            "procedure Insert(var t: PTree; k: integer);",
+            "begin",
+            "  if t = nil then",
+            "  begin",
+            "    new(t);",
+            "    t^.key := k;",
+            "    t^.left := nil;",
+            "    t^.right := nil;",
+            "  end",
+            "  else if k < t^.key then Insert(t^.left, k)",
+            "  else Insert(t^.right, k);",
+            "end;",
+            "",
+            "procedure InOrder(t: PTree);",
+            "begin",
+            "  if t <> nil then",
+            "  begin",
+            "    InOrder(t^.left);",
+            "    write(t^.key, ' ');",
+            "    InOrder(t^.right);",
+            "  end;",
+            "end;",
+            "",
+            "",
+            "begin",
+            "  root := nil;",
+            "  Insert(root, 2);",
+            "  Insert(root, 3);",
+            "  Insert(root, 1);",
+            "  InOrder(root);",
+            "end."
+          ],
+          "options": [
+            "1 2 3",
+            "2 1 3",
+            "3 2 1",
+            "2 3 1"
+          ],
+          "answer": 0,
+          "explanation": "Whatever the order of inserting, in-order prints them sorted."
+        },
+        {
+          "id": "p21-l1-e6",
+          "type": "order_lines",
+          "prompt": "Put InOrder's lines in order.",
+          "lines": [
+            "  if t <> nil then",
+            "  begin",
+            "    InOrder(t^.left);",
+            "    write(t^.key, ' ');",
+            "    InOrder(t^.right);",
+            "  end;"
+          ],
+          "answer": [
+            "  if t <> nil then",
+            "  begin",
+            "    InOrder(t^.left);",
+            "    write(t^.key, ' ');",
+            "    InOrder(t^.right);",
+            "  end;"
+          ],
+          "explanation": "Check for nil, then left, the node, right."
+        }
+      ]
+    },
+    {
+      "id": "p21-l2",
+      "title": "Searching a Tree",
+      "xp": 15,
+      "intro": [
+        "To find a key, start at the root and go left or right, just like inserting. Each step leaves out a whole subtree.",
+        "In a balanced tree of 1,000 keys, that's about 10 steps. A linked list would need up to 1,000.",
+        "The height (the longest path down) decides the worst case. If the keys come in already sorted, every node goes right, and the tree is no better than a list."
+      ],
+      "example": {
+        "code": [
+          "program Search;",
+          "type",
+          "  PTree = ^TTree;",
+          "  TTree = record",
+          "    key: integer;",
+          "    left, right: PTree;",
+          "  end;",
+          "const",
+          "  mixed: array[1..7] of integer = (4, 2, 6, 1, 3, 5, 7);",
+          "var",
+          "  a, b: PTree;",
+          "  i: integer;",
+          "",
+          "procedure Insert(var t: PTree; k: integer);",
+          "begin",
+          "  if t = nil then",
+          "  begin",
+          "    new(t);",
+          "    t^.key := k;",
+          "    t^.left := nil;",
+          "    t^.right := nil;",
+          "  end",
+          "  else if k < t^.key then Insert(t^.left, k)",
+          "  else Insert(t^.right, k);",
+          "end;",
+          "",
+          "function Find(t: PTree; k: integer): boolean;",
+          "begin",
+          "  while (t <> nil) and (t^.key <> k) do",
+          "    if k < t^.key then t := t^.left else t := t^.right;",
+          "  Find := t <> nil;",
+          "end;",
+          "",
+          "function Height(t: PTree): integer;",
+          "var",
+          "  l, r: integer;",
+          "begin",
+          "  if t = nil then Height := 0",
+          "  else",
+          "  begin",
+          "    l := Height(t^.left);",
+          "    r := Height(t^.right);",
+          "    if l > r then Height := l + 1 else Height := r + 1;",
+          "  end;",
+          "end;",
+          "",
+          "",
+          "begin",
+          "  a := nil;",
+          "  b := nil;",
+          "  for i := 1 to 7 do",
+          "  begin",
+          "    Insert(a, mixed[i]);",
+          "    Insert(b, i);",
+          "  end;",
+          "  writeln('Find 5: ', Find(a, 5));",
+          "  writeln('Find 9: ', Find(a, 9));",
+          "  writeln('Heights: ', Height(a), ' and ', Height(b));",
+          "end."
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "p21-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does Find return when the key isn't there?",
+          "options": [
+            "FALSE, because t became nil",
+            "TRUE",
+            "0",
+            "It never stops"
+          ],
+          "answer": 0,
+          "explanation": "Walking off the bottom of the tree means: not found."
+        },
+        {
+          "id": "p21-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Why is tree b 7 levels high?",
+          "options": [
+            "The keys 1 to 7 came in sorted, so every node went right",
+            "It has more keys",
+            "Height is wrong",
+            "Trees are always 7 high"
+          ],
+          "answer": 0,
+          "explanation": "It's really a linked list."
+        },
+        {
+          "id": "p21-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Walk to the correct side.",
+          "code": [
+            "    if k < t^.key then t := t^.left else t := t^.___;"
+          ],
+          "options": [
+            "right",
+            "left",
+            "key",
+            "nil"
+          ],
+          "answer": "right",
+          "explanation": "Bigger keys are on the right."
+        },
+        {
+          "id": "p21-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "About how many steps does a search take in a balanced tree of 1,000 keys?",
+          "options": [
+            "About 10",
+            "About 500",
+            "1,000",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "2 to the power of 10 is 1,024."
+        },
+        {
+          "id": "p21-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program H;",
+            "type",
+            "  PTree = ^TTree;",
+            "  TTree = record",
+            "    key: integer;",
+            "    left, right: PTree;",
+            "  end;",
+            "var",
+            "  t: PTree;",
+            "",
+            "procedure Insert(var t: PTree; k: integer);",
+            "begin",
+            "  if t = nil then",
+            "  begin",
+            "    new(t);",
+            "    t^.key := k;",
+            "    t^.left := nil;",
+            "    t^.right := nil;",
+            "  end",
+            "  else if k < t^.key then Insert(t^.left, k)",
+            "  else Insert(t^.right, k);",
+            "end;",
+            "",
+            "function Height(t: PTree): integer;",
+            "var",
+            "  l, r: integer;",
+            "begin",
+            "  if t = nil then Height := 0",
+            "  else",
+            "  begin",
+            "    l := Height(t^.left);",
+            "    r := Height(t^.right);",
+            "    if l > r then Height := l + 1 else Height := r + 1;",
+            "  end;",
+            "end;",
+            "",
+            "",
+            "begin",
+            "  t := nil;",
+            "  Insert(t, 2);",
+            "  Insert(t, 1);",
+            "  Insert(t, 3);",
+            "  writeln(Height(t));",
+            "end."
+          ],
+          "options": [
+            "2",
+            "3",
+            "1",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "2 is the root, with 1 on the left and 3 on the right: 2 levels."
+        },
+        {
+          "id": "p21-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "Why can Find use a value parameter for t?",
+          "options": [
+            "It only walks down and never changes the tree",
+            "Value parameters are faster",
+            "It can't",
+            "Pointers are always value parameters"
+          ],
+          "answer": 0,
+          "explanation": "Changing the local copy of t doesn't change the tree."
+        }
+      ]
+    },
+    {
+      "id": "p21-l3",
+      "title": "Disposing a Tree",
+      "xp": 15,
+      "intro": [
+        "Every node came from new, so every node must go back with dispose. But after dispose(t), t^.left can't be used anymore.",
+        "So dispose the children first and the node last: left subtree, right subtree, node. That order is called post-order.",
+        "Counting nodes or adding up the keys follow the same recursive pattern: the result for the left subtree, plus the node, plus the result for the right subtree."
+      ],
+      "example": {
+        "code": [
+          "program Clean;",
+          "type",
+          "  PTree = ^TTree;",
+          "  TTree = record",
+          "    key: integer;",
+          "    left, right: PTree;",
+          "  end;",
+          "var",
+          "  root: PTree;",
+          "",
+          "procedure Insert(var t: PTree; k: integer);",
+          "begin",
+          "  if t = nil then",
+          "  begin",
+          "    new(t);",
+          "    t^.key := k;",
+          "    t^.left := nil;",
+          "    t^.right := nil;",
+          "  end",
+          "  else if k < t^.key then Insert(t^.left, k)",
+          "  else Insert(t^.right, k);",
+          "end;",
+          "",
+          "function Count(t: PTree): integer;",
+          "begin",
+          "  if t = nil then Count := 0",
+          "  else Count := Count(t^.left) + 1 + Count(t^.right);",
+          "end;",
+          "",
+          "procedure DisposeTree(var t: PTree);",
+          "begin",
+          "  if t <> nil then",
+          "  begin",
+          "    DisposeTree(t^.left);",
+          "    DisposeTree(t^.right);",
+          "    writeln('dispose ', t^.key);",
+          "    dispose(t);",
+          "    t := nil;",
+          "  end;",
+          "end;",
+          "",
+          "",
+          "begin",
+          "  root := nil;",
+          "  Insert(root, 2);",
+          "  Insert(root, 1);",
+          "  Insert(root, 3);",
+          "  writeln(Count(root), ' nodes');",
+          "  DisposeTree(root);",
+          "  writeln(Count(root), ' nodes left');",
+          "end."
+        ],
+        "output": []
+      },
+      "exercises": [
+        {
+          "id": "p21-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "Why dispose the children before the node?",
+          "options": [
+            "After dispose(t), t^.left and t^.right can't be used",
+            "dispose only works on leaves",
+            "It's faster",
+            "The order doesn't matter"
+          ],
+          "answer": 0,
+          "explanation": "Using a disposed node is Runtime error 204."
+        },
+        {
+          "id": "p21-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "In what order are 2, 1 and 3 disposed?",
+          "options": [
+            "1, 3, 2",
+            "2, 1, 3",
+            "1, 2, 3",
+            "3, 2, 1"
+          ],
+          "answer": 0,
+          "explanation": "Left, right, then the root."
+        },
+        {
+          "id": "p21-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Count the nodes.",
+          "code": [
+            "  else Count := Count(t^.left) + ___ + Count(t^.right);"
+          ],
+          "options": [
+            "1",
+            "0",
+            "t^.key",
+            "2"
+          ],
+          "answer": "1",
+          "explanation": "The node itself counts as one."
+        },
+        {
+          "id": "p21-l3-e4",
+          "type": "find_bug",
+          "prompt": "This procedure uses a node after disposing it. Which line is wrong?",
+          "code": [
+            "procedure DisposeTree(t: PTree);",
+            "begin",
+            "  if t <> nil then",
+            "  begin",
+            "    dispose(t);",
+            "    DisposeTree(t^.left);",
+            "    DisposeTree(t^.right);",
+            "  end;",
+            "end;"
+          ],
+          "answer": 4,
+          "explanation": "dispose(t) must come last."
+        },
+        {
+          "id": "p21-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Why does DisposeTree set t := nil at the end?",
+          "options": [
+            "So the tree is clearly empty and nothing uses the old node",
+            "dispose needs it",
+            "To free the memory",
+            "It isn't allowed otherwise"
+          ],
+          "answer": 0,
+          "explanation": "That's why the example then counts 0 nodes."
+        },
+        {
+          "id": "p21-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "A function Sum adds up all keys the same way as Count. For keys 5, 3 and 8, what does it return?",
+          "options": [
+            "16",
+            "5",
+            "3",
+            "8"
+          ],
+          "answer": 0,
+          "explanation": "Sum(t^.left) + t^.key + Sum(t^.right) = 3 + 5 + 8."
+        }
+      ]
+    }
+  ]
+}

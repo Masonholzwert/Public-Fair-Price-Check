@@ -1,0 +1,356 @@
+{
+  "id": "a13",
+  "title": "16-Bit Numbers",
+  "lessons": [
+    {
+      "id": "a13-l1",
+      "title": "Adding Big Numbers",
+      "xp": 15,
+      "intro": [
+        "A 16-bit number lives in two bytes. By 6502 tradition, the low byte comes first: $1234 is stored as $34 at the first address and $12 at the next. This order is called little-endian.",
+        "To add two 16-bit numbers: CLC once, add the low bytes, then add the high bytes with ADC. The carry from the low bytes moves into the high bytes by itself.",
+        "That's the whole trick, and it works for any size: three bytes, four bytes, as long as you go from low to high and never clear the carry in between."
+      ],
+      "example": {
+        "code": [
+          "CLC",
+          "LDA $30",
+          "ADC $32",
+          "STA $34",
+          "LDA $31",
+          "ADC $33",
+          "STA $35",
+          "BRK"
+        ],
+        "output": [
+          "$30/$31 = $01F4 (500), $32/$33 = $02BC (700): $34 = $B0   $35 = $04 ($04B0 = 1200)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a13-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "How is $1234 stored at $30 and $31?",
+          "options": [
+            "$30 = $34, $31 = $12",
+            "$30 = $12, $31 = $34",
+            "$30 = $1234",
+            "$30 = $00, $31 = $1234"
+          ],
+          "answer": 0,
+          "explanation": "Low byte first: $34 goes to $30, $12 to $31."
+        },
+        {
+          "id": "a13-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "In which order are the two bytes added?",
+          "options": [
+            "Low bytes first, then high bytes",
+            "High bytes first, then low bytes",
+            "It doesn't matter",
+            "Both at once"
+          ],
+          "answer": 0,
+          "explanation": "The carry only goes upward, from the low bytes to the high bytes."
+        },
+        {
+          "id": "a13-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Add the high bytes, including the carry.",
+          "code": [
+            "CLC",
+            "LDA $30",
+            "ADC $32",
+            "STA $34",
+            "LDA $31",
+            "___ $33",
+            "STA $35"
+          ],
+          "options": [
+            "ADC",
+            "SBC",
+            "ORA",
+            "AND"
+          ],
+          "answer": "ADC",
+          "explanation": "ADC adds the high bytes and the carry from the low bytes."
+        },
+        {
+          "id": "a13-l1-e4",
+          "type": "find_bug",
+          "prompt": "This 16-bit addition is sometimes 256 too small. Which line is wrong?",
+          "code": [
+            "CLC",
+            "LDA $30",
+            "ADC $32",
+            "STA $34",
+            "CLC",
+            "LDA $31",
+            "ADC $33",
+            "STA $35"
+          ],
+          "answer": 4,
+          "explanation": "The second CLC throws away the carry from the low bytes."
+        },
+        {
+          "id": "a13-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "What's the biggest number you can store in 3 bytes?",
+          "options": [
+            "16,777,215 ($FFFFFF)",
+            "65,535",
+            "765",
+            "999,999"
+          ],
+          "answer": 0,
+          "explanation": "Each extra byte multiplies the range by 256."
+        },
+        {
+          "id": "a13-l1-e6",
+          "type": "order_lines",
+          "prompt": "Add the 16-bit numbers at $30/$31 and $32/$33, store the result at $34/$35.",
+          "lines": [
+            "CLC",
+            "LDA $30",
+            "ADC $32",
+            "STA $34",
+            "LDA $31",
+            "ADC $33",
+            "STA $35",
+            "BRK"
+          ],
+          "answer": [
+            "CLC",
+            "LDA $30",
+            "ADC $32",
+            "STA $34",
+            "LDA $31",
+            "ADC $33",
+            "STA $35",
+            "BRK"
+          ],
+          "explanation": "Clear the carry once, then low bytes, then high bytes."
+        }
+      ]
+    },
+    {
+      "id": "a13-l2",
+      "title": "Counting Past 255",
+      "xp": 15,
+      "intro": [
+        "Subtracting works the same way: SEC once, subtract the low bytes, then the high bytes with SBC. A borrow moves through the carry.",
+        "Counting up by one is even simpler: INC the low byte. Only when it wraps to $00 does the high byte need an INC too. INC sets the Z flag, so BNE skips the second INC most of the time.",
+        "INC $30, BNE SKIP, INC $31, SKIP: … counts $30/$31 from 0 to 65,535."
+      ],
+      "example": {
+        "code": [
+          "INC $30",
+          "BNE SKIP",
+          "INC $31",
+          "SKIP: BRK"
+        ],
+        "output": [
+          "With $30 = $FF, $31 = $00: $30 = $00   $31 = $01 ($00FF + 1 = $0100)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a13-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "$30 = $FF and $31 = $02. What do they hold after the 16-bit increment?",
+          "options": [
+            "$30 = $00, $31 = $03",
+            "$30 = $00, $31 = $02",
+            "$30 = $100, $31 = $02",
+            "$30 = $FF, $31 = $03"
+          ],
+          "answer": 0,
+          "explanation": "$02FF + 1 = $0300. The low byte wraps, the high byte goes up."
+        },
+        {
+          "id": "a13-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "Why is there a BNE after INC $30?",
+          "options": [
+            "The high byte only changes when the low byte wraps to $00",
+            "BNE adds the carry",
+            "To repeat the INC",
+            "It's needed for INC to work"
+          ],
+          "answer": 0,
+          "explanation": "INC $30 sets Z when it reaches $00. Only then does INC $31 run."
+        },
+        {
+          "id": "a13-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Get the carry ready for a 16-bit subtraction.",
+          "code": [
+            "___",
+            "LDA $30",
+            "SBC $32",
+            "STA $34",
+            "LDA $31",
+            "SBC $33",
+            "STA $35"
+          ],
+          "options": [
+            "SEC",
+            "CLC",
+            "CLD",
+            "SED"
+          ],
+          "answer": "SEC",
+          "explanation": "Subtraction always starts with SEC."
+        },
+        {
+          "id": "a13-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What is $0100 - 1?",
+          "options": [
+            "$00FF",
+            "$0000",
+            "$01FF",
+            "$FFFF"
+          ],
+          "answer": 0,
+          "explanation": "The low byte borrows from the high byte: 256 - 1 = 255."
+        },
+        {
+          "id": "a13-l2-e5",
+          "type": "find_bug",
+          "prompt": "This 16-bit counter jumps from $00FF to $0000 instead of $0100. Which line is wrong?",
+          "code": [
+            "INC $30",
+            "BNE SKIP",
+            "INC $30",
+            "SKIP: BRK"
+          ],
+          "answer": 2,
+          "explanation": "The second INC has to count the high byte: INC $31."
+        },
+        {
+          "id": "a13-l2-e6",
+          "type": "order_lines",
+          "prompt": "Add 1 to the 16-bit counter in $30/$31.",
+          "lines": [
+            "INC $30",
+            "BNE SKIP",
+            "INC $31",
+            "SKIP: BRK"
+          ],
+          "answer": [
+            "INC $30",
+            "BNE SKIP",
+            "INC $31",
+            "SKIP: BRK"
+          ],
+          "explanation": "Low byte first. Only when it wraps, the high byte too."
+        }
+      ]
+    },
+    {
+      "id": "a13-l3",
+      "title": "Comparing Big Numbers",
+      "xp": 15,
+      "intro": [
+        "CMP only compares one byte. For 16 bits, use a subtraction and look at the carry at the end: SEC, LDA low1, SBC low2, LDA high1, SBC high2.",
+        "If the carry is set afterwards, the first number is bigger than or equal to the second (BCS). If it's clear, it's smaller (BCC). The result itself can be thrown away.",
+        "Why does that work? A subtraction that has to borrow past the high byte means the first number was smaller, and borrowing clears the carry."
+      ],
+      "example": {
+        "code": [
+          "SEC",
+          "LDA $30",
+          "SBC $32",
+          "LDA $31",
+          "SBC $33",
+          "BCS BIGGER",
+          "LDX #1",
+          "BRK",
+          "BIGGER: LDX #2",
+          "BRK"
+        ],
+        "output": [
+          "$30/$31 = $0300, $32/$33 = $0280: X = $02 (the first number is bigger)"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "a13-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "After the 16-bit subtraction the carry is clear. What does that mean?",
+          "options": [
+            "The first number is smaller",
+            "The first number is bigger or equal",
+            "The numbers are equal",
+            "There was an error"
+          ],
+          "answer": 0,
+          "explanation": "A borrow out of the high byte clears the carry. That only happens when the first number was smaller."
+        },
+        {
+          "id": "a13-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "Why isn't the result of the subtraction stored?",
+          "options": [
+            "Only the carry is needed for the comparison",
+            "You can't store 16-bit numbers",
+            "It would overwrite the program",
+            "It's stored automatically"
+          ],
+          "answer": 0,
+          "explanation": "Like CMP, we only care about the flags."
+        },
+        {
+          "id": "a13-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Jump to BIGGER when the first number is bigger or equal.",
+          "code": [
+            "SEC",
+            "LDA $30",
+            "SBC $32",
+            "LDA $31",
+            "SBC $33",
+            "___ BIGGER"
+          ],
+          "options": [
+            "BCS",
+            "BCC",
+            "BEQ",
+            "BMI"
+          ],
+          "answer": "BCS",
+          "explanation": "Carry set means bigger or equal."
+        },
+        {
+          "id": "a13-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "Why can't you just compare the low bytes?",
+          "options": [
+            "$0105 is bigger than $00FF, but $05 is smaller than $FF",
+            "Low bytes are always equal",
+            "CMP doesn't work on low bytes",
+            "You can"
+          ],
+          "answer": 0,
+          "explanation": "The high byte matters most. The low bytes only decide when the high bytes are equal."
+        },
+        {
+          "id": "a13-l3-e5",
+          "type": "find_bug",
+          "prompt": "This comparison gives wrong results. Which line is wrong?",
+          "code": [
+            "CLC",
+            "LDA $30",
+            "SBC $32",
+            "LDA $31",
+            "SBC $33",
+            "BCS BIGGER"
+          ],
+          "answer": 0,
+          "explanation": "A subtraction starts with SEC. CLC makes it take away one more."
+        }
+      ]
+    }
+  ]
+}

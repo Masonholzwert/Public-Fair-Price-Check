@@ -1,0 +1,413 @@
+{
+  "id": "p12",
+  "title": "Sorting and Searching",
+  "lessons": [
+    {
+      "id": "p12-l1",
+      "title": "Bubble Sort",
+      "xp": 15,
+      "intro": [
+        "Bubble sort walks through the array again and again and swaps every pair of neighbors that are in the wrong order. The big values bubble to the end.",
+        "After the first pass, the biggest value is in the last place; after the second, the second biggest is in place, and so on. So each pass can stop one place earlier.",
+        "It's slow for big lists, but short and easy to get right. Perfect for a high score table."
+      ],
+      "example": {
+        "code": [
+          "program Bubble;",
+          "type",
+          "  TList = array[1..6] of integer;",
+          "const",
+          "  nums: TList = (64, 25, 12, 22, 11, 90);",
+          "var",
+          "  a: TList;",
+          "  i: integer;",
+          "",
+          "procedure Sort(var a: TList; n: integer);",
+          "var",
+          "  i, j, t: integer;",
+          "begin",
+          "  for i := 1 to n - 1 do",
+          "    for j := 1 to n - i do",
+          "      if a[j] > a[j + 1] then",
+          "      begin",
+          "        t := a[j];",
+          "        a[j] := a[j + 1];",
+          "        a[j + 1] := t;",
+          "      end;",
+          "end;",
+          "",
+          "begin",
+          "  for i := 1 to 6 do",
+          "    a[i] := nums[i];",
+          "  Sort(a, 6);",
+          "  for i := 1 to 6 do",
+          "    write(a[i], ' ');",
+          "  writeln;",
+          "end."
+        ],
+        "output": [
+          "11 12 22 25 64 90 "
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p12-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does one pass of bubble sort do?",
+          "options": [
+            "Swaps neighbors that are in the wrong order, all the way through",
+            "Finds the smallest value",
+            "Sorts the whole array",
+            "Removes duplicates"
+          ],
+          "answer": 0,
+          "explanation": "After one pass, the biggest value is at the end."
+        },
+        {
+          "id": "p12-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Where is the biggest value after the first pass?",
+          "options": [
+            "At the end",
+            "At the start",
+            "In the middle",
+            "Anywhere"
+          ],
+          "answer": 0,
+          "explanation": "It bubbles all the way up."
+        },
+        {
+          "id": "p12-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Swap when the left neighbor is bigger.",
+          "code": [
+            "    if a[j] ___ a[j + 1] then"
+          ],
+          "options": [
+            ">",
+            "<",
+            "=",
+            "<>"
+          ],
+          "answer": ">",
+          "explanation": "For small to big, a bigger left value is in the wrong place."
+        },
+        {
+          "id": "p12-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "How do you sort from big to small instead?",
+          "options": [
+            "Swap when a[j] < a[j + 1]",
+            "Run the loop backwards",
+            "Use two arrays",
+            "It's not possible"
+          ],
+          "answer": 0,
+          "explanation": "Just flip the comparison."
+        },
+        {
+          "id": "p12-l1-e5",
+          "type": "order_lines",
+          "prompt": "Put the swap in the right order.",
+          "lines": [
+            "t := a[j];",
+            "a[j] := a[j + 1];",
+            "a[j + 1] := t;"
+          ],
+          "answer": [
+            "t := a[j];",
+            "a[j] := a[j + 1];",
+            "a[j + 1] := t;"
+          ],
+          "explanation": "Save one value first, or it's lost."
+        },
+        {
+          "id": "p12-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Why can each pass stop one place earlier?",
+          "options": [
+            "The end of the array is already sorted",
+            "The array gets shorter",
+            "To save memory",
+            "It can't"
+          ],
+          "answer": 0,
+          "explanation": "After pass i, the last i values are in place."
+        }
+      ]
+    },
+    {
+      "id": "p12-l2",
+      "title": "Linear Search",
+      "xp": 15,
+      "intro": [
+        "To find a value, look at one element after the other until you find it, or reach the end. That's linear search.",
+        "A function can return the index where it found the value, or 0 if it's not there.",
+        "A while loop fits well, because it can stop as soon as the value is found."
+      ],
+      "example": {
+        "code": [
+          "program Find;",
+          "type",
+          "  TNames = array[1..4] of string;",
+          "const",
+          "  langs: TNames = ('FORTRAN', 'BASIC', 'Pascal', 'C');",
+          "",
+          "function Find(var a: TNames; n: integer; name: string): integer;",
+          "var",
+          "  i: integer;",
+          "begin",
+          "  i := 1;",
+          "  while (i <= n) and (a[i] <> name) do",
+          "    i := i + 1;",
+          "  if i <= n then",
+          "    Find := i",
+          "  else",
+          "    Find := 0;",
+          "end;",
+          "",
+          "begin",
+          "  writeln('Pascal is at ', Find(langs, 4, 'Pascal'));",
+          "  writeln('Java is at ', Find(langs, 4, 'Java'));",
+          "end."
+        ],
+        "output": [
+          "Pascal is at 3",
+          "Java is at 0"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p12-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "How does linear search work?",
+          "options": [
+            "It checks one element after the other",
+            "It jumps to the middle",
+            "It sorts first",
+            "It guesses"
+          ],
+          "answer": 0,
+          "explanation": "Simple, and works on unsorted arrays."
+        },
+        {
+          "id": "p12-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What should a search function return if the value isn't there?",
+          "options": [
+            "A value that can't be an index, like 0",
+            "The last index",
+            "1",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "0 is never a valid index of an array[1..n]."
+        },
+        {
+          "id": "p12-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "Why is i <= n checked first in while (i <= n) and (a[i] <> name)?",
+          "options": [
+            "So a[i] is never read past the end",
+            "It's faster",
+            "Pascal needs it first",
+            "It doesn't matter"
+          ],
+          "answer": 0,
+          "explanation": "Turbo Pascal stops checking an and as soon as the left side is false."
+        },
+        {
+          "id": "p12-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Keep looking while the value isn't found yet.",
+          "code": [
+            "  while (i <= n) and (a[i] ___ x) do",
+            "    i := i + 1;"
+          ],
+          "options": [
+            "<>",
+            "=",
+            ">",
+            ":="
+          ],
+          "answer": "<>",
+          "explanation": "<> means not equal."
+        },
+        {
+          "id": "p12-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "How many comparisons does it need at most, for 1000 elements?",
+          "options": [
+            "1000",
+            "10",
+            "500",
+            "1"
+          ],
+          "answer": 0,
+          "explanation": "In the worst case, it looks at every element."
+        },
+        {
+          "id": "p12-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program F;",
+            "type",
+            "  T = array[1..4] of integer;",
+            "const",
+            "  a: T = (4, 9, 7, 1);",
+            "var",
+            "  i: integer;",
+            "begin",
+            "  i := 1;",
+            "  while (i <= 4) and (a[i] <> 7) do",
+            "    i := i + 1;",
+            "  writeln(i);",
+            "end."
+          ],
+          "options": [
+            "3",
+            "2",
+            "0",
+            "4"
+          ],
+          "answer": 0,
+          "explanation": "7 is the 3rd element."
+        }
+      ]
+    },
+    {
+      "id": "p12-l3",
+      "title": "Binary Search",
+      "xp": 15,
+      "intro": [
+        "In a sorted array, there's a much faster way: look at the middle element. If the wanted value is smaller, it can only be in the left half; if bigger, in the right half. Repeat with that half.",
+        "Each step throws away half of what's left, so 1000 elements need only about 10 steps. That's binary search, like looking up a word in a dictionary.",
+        "It only works if the array is sorted!"
+      ],
+      "example": {
+        "code": [
+          "program Binary;",
+          "type",
+          "  TList = array[1..8] of integer;",
+          "const",
+          "  years: TList = (1957, 1964, 1970, 1972, 1975, 1983, 1985, 1991);",
+          "",
+          "function Search(var a: TList; x: integer): integer;",
+          "var",
+          "  lo, hi, mid: integer;",
+          "begin",
+          "  lo := 1;",
+          "  hi := 8;",
+          "  Search := 0;",
+          "  while lo <= hi do",
+          "  begin",
+          "    mid := (lo + hi) div 2;",
+          "    if a[mid] = x then",
+          "    begin",
+          "      Search := mid;",
+          "      exit;",
+          "    end",
+          "    else if a[mid] < x then",
+          "      lo := mid + 1",
+          "    else",
+          "      hi := mid - 1;",
+          "  end;",
+          "end;",
+          "",
+          "begin",
+          "  writeln('1983 is at ', Search(years, 1983));",
+          "  writeln('1999 is at ', Search(years, 1999));",
+          "end."
+        ],
+        "output": [
+          "1983 is at 6",
+          "1999 is at 0"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p12-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does binary search need?",
+          "options": [
+            "A sorted array",
+            "An array of strings",
+            "An array of 8 elements",
+            "Nothing special"
+          ],
+          "answer": 0,
+          "explanation": "Otherwise the halves make no sense."
+        },
+        {
+          "id": "p12-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "About how many steps does binary search need for 1000 sorted elements?",
+          "options": [
+            "10",
+            "1000",
+            "500",
+            "100"
+          ],
+          "answer": 0,
+          "explanation": "1000 → 500 → 250 → … → 1: about 10 halvings."
+        },
+        {
+          "id": "p12-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What does exit do inside a function?",
+          "options": [
+            "Leaves the function right away",
+            "Ends the whole program",
+            "Leaves the loop",
+            "Restarts the function"
+          ],
+          "answer": 0,
+          "explanation": "The result that was already set is returned."
+        },
+        {
+          "id": "p12-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Find the middle.",
+          "code": [
+            "    mid := (lo + hi) ___ 2;"
+          ],
+          "options": [
+            "div",
+            "/",
+            "mod",
+            "*"
+          ],
+          "answer": "div",
+          "explanation": "div, because an index must be a whole number."
+        },
+        {
+          "id": "p12-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "If a[mid] is smaller than the value you want, where do you look next?",
+          "options": [
+            "In the right half: lo := mid + 1",
+            "In the left half: hi := mid - 1",
+            "At mid again",
+            "Nowhere"
+          ],
+          "answer": 0,
+          "explanation": "In a sorted array, everything left of mid is even smaller."
+        },
+        {
+          "id": "p12-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Which everyday search works like binary search?",
+          "options": [
+            "Looking up a word in a paper dictionary",
+            "Looking for keys in your bag",
+            "Reading a book from the start",
+            "Counting sheep"
+          ],
+          "answer": 0,
+          "explanation": "You open it in the middle and pick a half."
+        }
+      ]
+    }
+  ]
+}

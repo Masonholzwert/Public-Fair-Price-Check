@@ -1,0 +1,345 @@
+{
+  "id": "al11",
+  "title": "Rotating",
+  "lessons": [
+    {
+      "id": "al11-l1",
+      "title": "RLC and RRC",
+      "xp": 15,
+      "intro": [
+        "RLC (007) rotates A one place to the left: every bit moves up, and bit 7 comes around to bit 0. RRC (017) rotates to the right, bit 0 coming around to bit 7.",
+        "The bit that comes around also goes into the carry flag.",
+        "Rotating one lit bit makes a running light, the classic Altair demo."
+      ],
+      "example": {
+        "code": [
+          "076   ; 000: MVI A",
+          "001   ;      1",
+          "006   ; 002: MVI B",
+          "004   ;      4",
+          "323   ; 004: OUT 377   ← loop",
+          "377   ;      port 377",
+          "007   ; 006: RLC",
+          "005   ; 007: DCR B",
+          "302   ; 010: JNZ loop",
+          "004   ;      address 004 (low byte)",
+          "000   ;      (high byte)",
+          "166   ; 013: HLT"
+        ],
+        "output": [
+          "LEDS ○○○○○○○● = 1",
+          "LEDS ○○○○○○●○ = 2",
+          "LEDS ○○○○○●○○ = 4",
+          "LEDS ○○○○●○○○ = 8"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al11-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does RLC do with bit 7?",
+          "options": [
+            "Moves it around to bit 0 (and into the carry)",
+            "Throws it away",
+            "Keeps it in place",
+            "Sets it to 0"
+          ],
+          "answer": 0,
+          "explanation": "Rotate Left with Carry around."
+        },
+        {
+          "id": "al11-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What is 10000001 after RLC?",
+          "options": [
+            "00000011",
+            "00000010",
+            "11000000",
+            "10000001"
+          ],
+          "answer": 0,
+          "explanation": "Bit 7 comes around to bit 0; bit 0 moves to bit 1."
+        },
+        {
+          "id": "al11-l1-e3",
+          "type": "switches",
+          "prompt": "What is 00000110 after RRC? Set the switches to it.",
+          "answer": 3,
+          "explanation": "Every bit moves one place right."
+        },
+        {
+          "id": "al11-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "076   ; 000: MVI A",
+            "001   ;      1",
+            "007   ; 002: RLC",
+            "007   ; 003: RLC",
+            "007   ; 004: RLC",
+            "007   ; 005: RLC",
+            "007   ; 006: RLC",
+            "323   ; 007: OUT 377",
+            "377   ;      port 377",
+            "166   ; 011: HLT"
+          ],
+          "options": [
+            "32",
+            "16",
+            "64",
+            "8"
+          ],
+          "answer": 0,
+          "explanation": "1 rotated left 5 times: 2, 4, 8, 16, 32."
+        },
+        {
+          "id": "al11-l1-e5",
+          "type": "switches",
+          "prompt": "Set the switches to RRC (0 1 7).",
+          "answer": 15,
+          "explanation": "00 001 111."
+        },
+        {
+          "id": "al11-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "How many RLCs bring a byte back to where it started?",
+          "options": [
+            "8",
+            "2",
+            "4",
+            "256"
+          ],
+          "answer": 0,
+          "explanation": "After 8 steps, every bit is back home."
+        }
+      ]
+    },
+    {
+      "id": "al11-l2",
+      "title": "RAL and RAR",
+      "xp": 15,
+      "intro": [
+        "RAL (027) and RAR (037) rotate through the carry: the carry goes into the byte, and the bit that falls out goes into the carry. That's a 9-bit rotation.",
+        "STC (067) sets the carry, CMC (077) flips it.",
+        "Rotating through the carry links bytes together, for example to shift a 16-bit number."
+      ],
+      "example": {
+        "code": [
+          "076   ; 000: MVI A",
+          "200   ;      128",
+          "027   ; 002: RAL",
+          "323   ; 003: OUT 377",
+          "377   ;      port 377",
+          "027   ; 005: RAL",
+          "323   ; 006: OUT 377",
+          "377   ;      port 377",
+          "166   ; 010: HLT"
+        ],
+        "output": [
+          "LEDS ○○○○○○○○ = 0",
+          "LEDS ○○○○○○○● = 1"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al11-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What's the difference between RLC and RAL?",
+          "options": [
+            "RAL rotates through the carry (9 bits), RLC around the byte (8 bits)",
+            "None",
+            "RAL rotates right",
+            "RAL clears A"
+          ],
+          "answer": 0,
+          "explanation": "RAL puts the old carry into bit 0."
+        },
+        {
+          "id": "al11-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "A = 10000000 and the carry is 0. What is A after RAL?",
+          "options": [
+            "00000000, carry 1",
+            "00000001, carry 0",
+            "10000000",
+            "00000001, carry 1"
+          ],
+          "answer": 0,
+          "explanation": "Bit 7 goes into the carry, the old carry (0) into bit 0."
+        },
+        {
+          "id": "al11-l2-e3",
+          "type": "switches",
+          "prompt": "Set the switches to STC (0 6 7).",
+          "answer": 55,
+          "explanation": "00 110 111: SeT Carry."
+        },
+        {
+          "id": "al11-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "076   ; 000: MVI A",
+            "200   ;      128",
+            "027   ; 002: RAL",
+            "027   ; 003: RAL",
+            "323   ; 004: OUT 377",
+            "377   ;      port 377",
+            "166   ; 006: HLT"
+          ],
+          "options": [
+            "1",
+            "0",
+            "128",
+            "2"
+          ],
+          "answer": 0,
+          "explanation": "The first RAL moves bit 7 into the carry (A = 0); the second brings it back into bit 0."
+        },
+        {
+          "id": "al11-l2-e5",
+          "type": "fill_blank",
+          "prompt": "Rotate right through the carry.",
+          "code": [
+            "___   ; RAR"
+          ],
+          "options": [
+            "037",
+            "017",
+            "027",
+            "007"
+          ],
+          "answer": "037",
+          "explanation": "RAR = 0 3 7."
+        },
+        {
+          "id": "al11-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What are RAL and RAR used for?",
+          "options": [
+            "Shifting numbers bigger than one byte",
+            "Showing the lights",
+            "Reading the switches",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "The carry passes the bit from one byte to the next."
+        }
+      ]
+    },
+    {
+      "id": "al11-l3",
+      "title": "Multiply and Divide by 2",
+      "xp": 15,
+      "intro": [
+        "Shifting left doubles a number, shifting right halves it, as long as no bit falls off. Clear the carry first (ANA A does that), then RAL doubles and RAR halves.",
+        "Bits that fall off the right end are the remainder: 13 halved is 6, with 1 left over.",
+        "Shifting is much faster than adding in a loop, so programmers used it whenever they could."
+      ],
+      "example": {
+        "code": [
+          "076   ; 000: MVI A",
+          "050   ;      40",
+          "247   ; 002: ANA A",
+          "037   ; 003: RAR",
+          "323   ; 004: OUT 377",
+          "377   ;      port 377",
+          "247   ; 006: ANA A",
+          "037   ; 007: RAR",
+          "323   ; 010: OUT 377",
+          "377   ;      port 377",
+          "166   ; 012: HLT"
+        ],
+        "output": [
+          "LEDS ○○○●○●○○ = 20",
+          "LEDS ○○○○●○●○ = 10"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al11-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does a shift right do to a number?",
+          "options": [
+            "Halves it (dropping the remainder)",
+            "Doubles it",
+            "Flips it",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "Every bit is worth half as much one place to the right."
+        },
+        {
+          "id": "al11-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "Why clear the carry before RAR?",
+          "options": [
+            "Otherwise the old carry comes in as bit 7",
+            "RAR needs it",
+            "To show the lights",
+            "It doesn't matter"
+          ],
+          "answer": 0,
+          "explanation": "A leftover carry would add 128."
+        },
+        {
+          "id": "al11-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What do the lights show?",
+          "code": [
+            "076   ; 000: MVI A",
+            "060   ;      48",
+            "247   ; 002: ANA A",
+            "037   ; 003: RAR",
+            "247   ; 004: ANA A",
+            "037   ; 005: RAR",
+            "323   ; 006: OUT 377",
+            "377   ;      port 377",
+            "166   ; 010: HLT"
+          ],
+          "options": [
+            "12",
+            "48",
+            "6",
+            "24"
+          ],
+          "answer": 0,
+          "explanation": "48 halved twice."
+        },
+        {
+          "id": "al11-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What is 13 shifted right once?",
+          "options": [
+            "6, and the 1 falls into the carry",
+            "6.5",
+            "7",
+            "26"
+          ],
+          "answer": 0,
+          "explanation": "1101 → 0110."
+        },
+        {
+          "id": "al11-l3-e5",
+          "type": "switches",
+          "prompt": "What is 40 doubled twice by shifting? Set the switches to it.",
+          "answer": 160,
+          "explanation": "40 → 80 → 160."
+        },
+        {
+          "id": "al11-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Why did programmers shift instead of dividing?",
+          "options": [
+            "The 8080 can't divide, and shifting is fast",
+            "Shifting is more exact",
+            "It uses less memory",
+            "It looks nicer"
+          ],
+          "answer": 0,
+          "explanation": "Halving is one instruction."
+        }
+      ]
+    }
+  ]
+}

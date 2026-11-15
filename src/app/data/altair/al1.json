@@ -1,0 +1,288 @@
+{
+  "id": "al1",
+  "title": "Bits and Switches",
+  "lessons": [
+    {
+      "id": "al1-l1",
+      "title": "On and Off",
+      "xp": 15,
+      "intro": [
+        "January 1975: the magazine Popular Electronics puts a computer kit on its cover, the MITS Altair 8800. It costs $439, and it has no keyboard and no screen. Just a row of toggle switches and red lights.",
+        "Each switch is a bit: down is 0, up is 1. Each light shows a bit the same way: off is 0, on is 1.",
+        "The switches have values, from the right: 1, 2, 4, 8, 16, 32, 64 and 128. Each one is worth twice as much as the one to its right. Add the values of the switches that are up, and you have the number."
+      ],
+      "example": {
+        "code": [
+          "00 111 110   ; MVI A",
+          "00 000 101   ; the value 5",
+          "11 010 011   ; OUT",
+          "11 111 111   ; port 377: the lights",
+          "01 110 110   ; HLT"
+        ],
+        "output": [
+          "LEDS ○○○○○●○● = 5"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al1-l1-e1",
+          "type": "switches",
+          "prompt": "Set the switches to 1.",
+          "answer": 1,
+          "explanation": "Only the rightmost switch (D0, worth 1) is up."
+        },
+        {
+          "id": "al1-l1-e2",
+          "type": "switches",
+          "prompt": "Set the switches to 8.",
+          "answer": 8,
+          "explanation": "Switch D3 is worth 8."
+        },
+        {
+          "id": "al1-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What is switch D4 worth?",
+          "options": [
+            "16",
+            "4",
+            "8",
+            "32"
+          ],
+          "answer": 0,
+          "explanation": "1, 2, 4, 8, 16: D4 is the fifth from the right."
+        },
+        {
+          "id": "al1-l1-e4",
+          "type": "switches",
+          "prompt": "Set the switches to 3.",
+          "answer": 3,
+          "explanation": "3 = 2 + 1: switches D1 and D0."
+        },
+        {
+          "id": "al1-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "Which number do the lights show? ○○○○○●●○",
+          "options": [
+            "6",
+            "3",
+            "110",
+            "12"
+          ],
+          "answer": 0,
+          "explanation": "D2 (4) and D1 (2) are on: 4 + 2 = 6."
+        },
+        {
+          "id": "al1-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "What does a bit hold?",
+          "options": [
+            "0 or 1",
+            "A number from 0 to 9",
+            "A letter",
+            "Eight values"
+          ],
+          "answer": 0,
+          "explanation": "Off or on, down or up."
+        }
+      ]
+    },
+    {
+      "id": "al1-l2",
+      "title": "Counting in Binary",
+      "xp": 15,
+      "intro": [
+        "Eight bits make a byte. With all switches down it's 0, with all up it's 128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 = 255. So a byte holds 256 different values.",
+        "To turn a number into switches, start on the left: does 128 fit? Then that switch goes up and you subtract 128. Then try 64, 32, and so on.",
+        "Example: 100 = 64 + 32 + 4, so D6, D5 and D2 go up: 01100100."
+      ],
+      "example": {
+        "code": [
+          "00 111 110   ; MVI A",
+          "01 100 100   ; the value 100",
+          "11 010 011   ; OUT",
+          "11 111 111   ; port 377: the lights",
+          "01 110 110   ; HLT"
+        ],
+        "output": [
+          "LEDS ○●●○○●○○ = 100"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al1-l2-e1",
+          "type": "switches",
+          "prompt": "Set the switches to 10.",
+          "answer": 10,
+          "explanation": "10 = 8 + 2: D3 and D1."
+        },
+        {
+          "id": "al1-l2-e2",
+          "type": "switches",
+          "prompt": "Set the switches to 255.",
+          "answer": 255,
+          "explanation": "All eight switches up: the biggest value of a byte."
+        },
+        {
+          "id": "al1-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What is 10000000 in decimal?",
+          "options": [
+            "128",
+            "1",
+            "10000000",
+            "256"
+          ],
+          "answer": 0,
+          "explanation": "Only D7 is up, and it's worth 128."
+        },
+        {
+          "id": "al1-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What is 13 in binary?",
+          "options": [
+            "00001101",
+            "00001011",
+            "00010011",
+            "00001110"
+          ],
+          "answer": 0,
+          "explanation": "13 = 8 + 4 + 1."
+        },
+        {
+          "id": "al1-l2-e5",
+          "type": "fill_blank",
+          "prompt": "00001111 is ___",
+          "code": [
+            "00001111 = ___"
+          ],
+          "options": [
+            "15",
+            "16",
+            "8",
+            "255"
+          ],
+          "answer": "15",
+          "explanation": "8 + 4 + 2 + 1 = 15."
+        },
+        {
+          "id": "al1-l2-e6",
+          "type": "switches",
+          "prompt": "Set the switches to 100.",
+          "answer": 100,
+          "explanation": "100 = 64 + 32 + 4."
+        }
+      ]
+    },
+    {
+      "id": "al1-l3",
+      "title": "Your First Program",
+      "xp": 15,
+      "intro": [
+        "On the Altair, a program is a list of bytes in memory. You set the switches to a byte and flip DEPOSIT, then the next byte and DEPOSIT NEXT, and so on. Then RUN.",
+        "This program has five bytes. 00 111 110 means \"put the next byte into register A\" (MVI A). 11 010 011 with 11 111 111 means \"show A on the lights\" (OUT 377). 01 110 110 stops the processor (HLT).",
+        "In this app, you write one byte per line. Everything after ; is a comment. Change the second byte, and the lights show something else."
+      ],
+      "example": {
+        "code": [
+          "00 111 110   ; MVI A",
+          "10 101 010   ; the pattern to show",
+          "11 010 011   ; OUT",
+          "11 111 111   ; port 377: the lights",
+          "01 110 110   ; HLT"
+        ],
+        "output": [
+          "LEDS ●○●○●○●○ = 170"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "al1-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does 01 110 110 do?",
+          "options": [
+            "Stops the processor (HLT)",
+            "Shows A on the lights",
+            "Puts a value into A",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "HLT: halt. Every program ends with it."
+        },
+        {
+          "id": "al1-l3-e2",
+          "type": "switches",
+          "prompt": "Set the switches to the first byte of the program: MVI A (00 111 110).",
+          "answer": 62,
+          "explanation": "00 111 110 is 62, the MVI A instruction."
+        },
+        {
+          "id": "al1-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Which byte makes the lights show 00000011?",
+          "code": [
+            "00 111 110   ; MVI A",
+            "___",
+            "11 010 011   ; OUT",
+            "11 111 111   ; port 377",
+            "01 110 110   ; HLT"
+          ],
+          "options": [
+            "00 000 011",
+            "00 011 110",
+            "11 000 000",
+            "11 111 111"
+          ],
+          "answer": "00 000 011",
+          "explanation": "The byte after MVI A is the value that ends up on the lights."
+        },
+        {
+          "id": "al1-l3-e4",
+          "type": "order_lines",
+          "prompt": "Put the five bytes in the right order.",
+          "lines": [
+            "00 111 110   ; MVI A",
+            "00 000 111   ; 7",
+            "11 010 011   ; OUT",
+            "11 111 111   ; port 377",
+            "01 110 110   ; HLT"
+          ],
+          "answer": [
+            "00 111 110   ; MVI A",
+            "00 000 111   ; 7",
+            "11 010 011   ; OUT",
+            "11 111 111   ; port 377",
+            "01 110 110   ; HLT"
+          ],
+          "explanation": "MVI A and its value, OUT and its port, then HLT."
+        },
+        {
+          "id": "al1-l3-e5",
+          "type": "find_bug",
+          "prompt": "This program doesn't load. Which line is wrong?",
+          "code": [
+            "00 111 110   ; MVI A",
+            "00 000 11   ; 3",
+            "11 010 011   ; OUT",
+            "11 111 111   ; port 377",
+            "01 110 110   ; HLT"
+          ],
+          "answer": 1,
+          "explanation": "That byte has only 7 bits. Every byte needs exactly 8 switches."
+        },
+        {
+          "id": "al1-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "Who wrote the first BASIC for the Altair, in 1975?",
+          "options": [
+            "Bill Gates and Paul Allen",
+            "Steve Jobs and Steve Wozniak",
+            "Kemeny and Kurtz",
+            "Ritchie and Thompson"
+          ],
+          "answer": 0,
+          "explanation": "Altair BASIC was the first product of their new company, Micro-Soft."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,410 @@
+{
+  "id": "cb5",
+  "title": "Editing Pictures",
+  "lessons": [
+    {
+      "id": "cb5-l1",
+      "title": "Z: No Leading Zeros",
+      "xp": 15,
+      "intro": [
+        "PIC 9 fields are for calculating. For printing, COBOL has edited pictures: you MOVE a number into them, and they make it look right.",
+        "Z is a digit that becomes a space when it's a leading zero. PIC ZZZ9 shows 42 as two spaces and 42. The last digit is usually a 9, so zero shows as 0, not as nothing.",
+        "Edited fields are only for showing: you can't calculate with them. Keep a PIC 9 field for the math, and MOVE it into the edited one at the end."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. ZEROS.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 COUNTER   PIC 9(4) VALUE 42.",
+          "       01 COUNT-OUT PIC ZZZ9.",
+          "       PROCEDURE DIVISION.",
+          "           MOVE COUNTER TO COUNT-OUT.",
+          "           DISPLAY \"[\" COUNTER \"] [\" COUNT-OUT \"]\".",
+          "           MOVE ZERO TO COUNT-OUT.",
+          "           DISPLAY \"ZERO: [\" COUNT-OUT \"]\".",
+          "           STOP RUN."
+        ],
+        "output": [
+          "[0042] [  42]",
+          "ZERO: [   0]"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb5-l1-e1",
+          "type": "picture",
+          "prompt": "The value 42 must print as two spaces and 42. Build the picture.",
+          "value": "42",
+          "target": "  42",
+          "answer": "ZZ99",
+          "explanation": "ZZ hides the two leading zeros. ZZZ9 or ZZ99 both work.",
+          "keys": [
+            "9",
+            "Z"
+          ]
+        },
+        {
+          "id": "cb5-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does PIC ZZZZ show for the value 0?",
+          "options": [
+            "Four spaces",
+            "0",
+            "0000",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "All Z: a zero becomes nothing at all. That's why the last position is usually a 9."
+        },
+        {
+          "id": "cb5-l1-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. Z.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 OUT PIC ZZ9.",
+            "       PROCEDURE DIVISION.",
+            "           MOVE 5 TO OUT.",
+            "           DISPLAY \"[\" OUT \"]\".",
+            "           STOP RUN."
+          ],
+          "options": [
+            "[  5]",
+            "[005]",
+            "[5  ]",
+            "[5]"
+          ],
+          "answer": 0,
+          "explanation": "ZZ9: two leading zeros become spaces."
+        },
+        {
+          "id": "cb5-l1-e4",
+          "type": "find_bug",
+          "prompt": "This job doesn't compile. Which line is wrong?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. EDIT.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 SHOWN PIC ZZZ9 VALUE 7.",
+            "       PROCEDURE DIVISION.",
+            "           ADD 1 TO SHOWN.",
+            "           DISPLAY SHOWN.",
+            "           STOP RUN."
+          ],
+          "answer": 6,
+          "explanation": "SHOWN is an edited field, made for printing. Calculate in a PIC 9 field and MOVE the result into SHOWN."
+        },
+        {
+          "id": "cb5-l1-e5",
+          "type": "picture",
+          "prompt": "The value 7 must print as 007: always three digits.",
+          "value": "7",
+          "target": "007",
+          "answer": "999",
+          "explanation": "9 always shows the digit, zeros too.",
+          "keys": [
+            "9",
+            "Z"
+          ]
+        },
+        {
+          "id": "cb5-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Why keep two fields, a PIC 9 and an edited one?",
+          "options": [
+            "Calculate with the PIC 9, print with the edited one",
+            "To use more memory",
+            "COBOL needs pairs",
+            "Edited fields are faster"
+          ],
+          "answer": 0,
+          "explanation": "That's the normal COBOL pattern."
+        }
+      ]
+    },
+    {
+      "id": "cb5-l2",
+      "title": "$ , and .",
+      "xp": 15,
+      "intro": [
+        "In an edited picture, the point is real: PIC ZZ9.99 prints the decimal point. A comma prints a comma, but only if there are digits before it.",
+        "A $ at the front prints a dollar sign: PIC $Z,ZZ9.99 shows 1234.5 as $1,234.50. With several $ at the front, the sign floats to the first digit: PIC $$$,$$9.99 shows 12.5 as $12.50, with the spaces in front.",
+        "Edited pictures are built symbol by symbol, so it's worth practicing: the exercises below let you build them yourself."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. MONEY.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 AMOUNT     PIC 9(5)V99 VALUE 1234.5.",
+          "       01 FIXED-OUT  PIC $ZZ,ZZ9.99.",
+          "       01 FLOAT-OUT  PIC $$$,$$9.99.",
+          "       PROCEDURE DIVISION.",
+          "           MOVE AMOUNT TO FIXED-OUT FLOAT-OUT.",
+          "           DISPLAY \"[\" FIXED-OUT \"]\".",
+          "           DISPLAY \"[\" FLOAT-OUT \"]\".",
+          "           STOP RUN."
+        ],
+        "output": [
+          "[$ 1,234.50]",
+          "[ $1,234.50]"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb5-l2-e1",
+          "type": "picture",
+          "prompt": "The bank wants 1234.5 printed like this. Build the picture.",
+          "value": "1234.5",
+          "target": "$1,234.50",
+          "answer": "$Z,ZZ9.99",
+          "explanation": "$ prints the sign, Z hides zeros, the comma and point are printed, 99 gives the cents.",
+          "keys": [
+            "9",
+            "Z",
+            "$",
+            ",",
+            ".",
+            "*",
+            "-",
+            "CR"
+          ]
+        },
+        {
+          "id": "cb5-l2-e2",
+          "type": "picture",
+          "prompt": "Show 3.5 with two decimals and room for up to 999.",
+          "value": "3.5",
+          "target": "  3.50",
+          "answer": "ZZ9.99",
+          "explanation": "Two Zs for the leading zeros, then 9.99.",
+          "keys": [
+            "9",
+            "Z",
+            "$",
+            ",",
+            ".",
+            "*",
+            "-",
+            "CR"
+          ]
+        },
+        {
+          "id": "cb5-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. FLOAT.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 OUT PIC $$$,$$9.99.",
+            "       PROCEDURE DIVISION.",
+            "           MOVE 12.5 TO OUT.",
+            "           DISPLAY \"[\" OUT \"]\".",
+            "           STOP RUN."
+          ],
+          "options": [
+            "[    $12.50]",
+            "[$   12.50]",
+            "[$12.50]",
+            "[$$$$12.50]"
+          ],
+          "answer": 0,
+          "explanation": "Several $ float: the sign moves to the first digit."
+        },
+        {
+          "id": "cb5-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What's the difference between V and . in a picture?",
+          "options": [
+            "V is an invisible point for calculating, . is a printed point",
+            "There is none",
+            ". is for text",
+            "V prints a V"
+          ],
+          "answer": 0,
+          "explanation": "PIC 9(3)V99 calculates, PIC ZZ9.99 prints."
+        },
+        {
+          "id": "cb5-l2-e5",
+          "type": "picture",
+          "prompt": "Print 2500 as a whole number with a comma for the thousands.",
+          "value": "2500",
+          "target": "2,500",
+          "answer": "9,999",
+          "explanation": "9,999 works; Z,ZZ9 too.",
+          "keys": [
+            "9",
+            "Z",
+            "$",
+            ",",
+            ".",
+            "*",
+            "-",
+            "CR"
+          ]
+        },
+        {
+          "id": "cb5-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What does PIC ZZ,ZZ9 show for 42?",
+          "options": [
+            "    42",
+            "00,042",
+            "   ,42",
+            "42"
+          ],
+          "answer": 0,
+          "explanation": "The comma becomes a space when there's no digit before it."
+        }
+      ]
+    },
+    {
+      "id": "cb5-l3",
+      "title": "Signs and Stars",
+      "xp": 15,
+      "intro": [
+        "An edited picture can show a sign. A - at the end (or the front) prints a minus for negative numbers and a space for positive ones; + always prints + or -.",
+        "Accountants write CR (credit) after a negative amount: PIC ZZ9.99CR shows -5 as 5.00CR. DB (debit) works the same way.",
+        "On cheques, empty places were dangerous: someone could write a 9 in front. So cheque printers used *: PIC ***9.99 fills them with stars: ***42.50."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. CHEQUE.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 AMOUNT     PIC 9(4)V99  VALUE 42.5.",
+          "       01 REFUND     PIC S9(4)V99 VALUE -12.",
+          "       01 CHEQUE-OUT PIC **,**9.99.",
+          "       01 CREDIT-OUT PIC Z,ZZ9.99CR.",
+          "       01 MINUS-OUT  PIC -Z,ZZ9.99.",
+          "       PROCEDURE DIVISION.",
+          "           MOVE AMOUNT TO CHEQUE-OUT.",
+          "           DISPLAY \"PAY \" CHEQUE-OUT.",
+          "           MOVE REFUND TO CREDIT-OUT.",
+          "           DISPLAY \"REFUND \" CREDIT-OUT.",
+          "           MOVE REFUND TO MINUS-OUT.",
+          "           DISPLAY \"REFUND \" MINUS-OUT.",
+          "           STOP RUN."
+        ],
+        "output": [
+          "PAY ****42.50",
+          "REFUND    12.00CR",
+          "REFUND -   12.00"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb5-l3-e1",
+          "type": "picture",
+          "prompt": "A cheque for 42.50 must leave no empty space in front.",
+          "value": "42.5",
+          "target": "***42.50",
+          "answer": "***99.99",
+          "explanation": "Stars fill the leading zeros, so nothing can be written in front.",
+          "keys": [
+            "9",
+            "Z",
+            "$",
+            ",",
+            ".",
+            "*",
+            "-",
+            "CR"
+          ]
+        },
+        {
+          "id": "cb5-l3-e2",
+          "type": "picture",
+          "prompt": "A refund of -12.00 is printed the way accountants write it.",
+          "value": "-12",
+          "target": "12.00CR",
+          "answer": "99.99CR",
+          "explanation": "CR at the end shows a negative amount.",
+          "keys": [
+            "9",
+            "Z",
+            "$",
+            ",",
+            ".",
+            "*",
+            "-",
+            "CR"
+          ]
+        },
+        {
+          "id": "cb5-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What does PIC ZZ9- show for -7?",
+          "options": [
+            "  7-",
+            " -7",
+            "  7",
+            "-  7"
+          ],
+          "answer": 0,
+          "explanation": "The - at the end becomes a minus because the value is negative."
+        },
+        {
+          "id": "cb5-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does PIC ZZ9- show for 7?",
+          "options": [
+            "  7 ",
+            "  7+",
+            "  7-",
+            "+  7"
+          ],
+          "answer": 0,
+          "explanation": "For positive values, the - becomes a space."
+        },
+        {
+          "id": "cb5-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Why did cheques use * instead of spaces?",
+          "options": [
+            "So nobody could add digits in front of the amount",
+            "Stars are cheaper to print",
+            "Printers couldn't print spaces",
+            "To look nice"
+          ],
+          "answer": 0,
+          "explanation": "Cheque protection."
+        },
+        {
+          "id": "cb5-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. CR.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 OUT PIC ZZ9.99CR.",
+            "       PROCEDURE DIVISION.",
+            "           MOVE -5 TO OUT.",
+            "           DISPLAY \"[\" OUT \"]\".",
+            "           STOP RUN."
+          ],
+          "options": [
+            "[  5.00CR]",
+            "[  5.00  ]",
+            "[ -5.00]",
+            "[5.00CR]"
+          ],
+          "answer": 0,
+          "explanation": "Negative: CR appears."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,500 @@
+{
+  "al1": {
+    "title": "Light the Lights",
+    "xp": 40,
+    "story": "Your Altair kit is finally soldered together. Time to make the lights do something.",
+    "task": "Write a program that makes the lights show the pattern 10100101, then stops. One byte per line: MVI A, the pattern, OUT, 377, HLT.",
+    "starter": "; LIGHT THE LIGHTS\n",
+    "expectedOutput": "LEDS ●○●○○●○● = 165",
+    "requirements": [
+      {
+        "pattern": "01\\s*110\\s*110|166",
+        "message": "End with HLT (01 110 110)."
+      }
+    ],
+    "hints": [
+      "MVI A is 00 111 110.",
+      "The value is just the pattern: 10 100 101.",
+      "Then 11 010 011 (OUT), 11 111 111 (port 377) and 01 110 110 (HLT)."
+    ]
+  },
+  "al2": {
+    "title": "The Adding Machine",
+    "xp": 40,
+    "story": "The Altair as a pocket calculator: it can only add one byte, but it adds it fast.",
+    "task": "Make the Altair work out 100 + 55 and show it, then 200 + 100 and show that too (watch it overflow). Use MVI A and ADI (11 000 110) for both sums.",
+    "starter": "; THE ADDING MACHINE\n",
+    "expectedOutput": "LEDS ●○○●●○●● = 155\nLEDS ○○●○●●○○ = 44",
+    "requirements": [
+      {
+        "pattern": "11\\s*000\\s*110|306",
+        "message": "Add with ADI (11 000 110)."
+      },
+      {
+        "pattern": "01\\s*110\\s*110|166",
+        "message": "End with HLT."
+      }
+    ],
+    "hints": [
+      "MVI A 100: 00 111 110, then 01 100 100.",
+      "ADI 55: 11 000 110, then 00 110 111. Then OUT 377.",
+      "The second sum the same way: 200 is 11 001 000, 100 is 01 100 100."
+    ]
+  },
+  "al3": {
+    "title": "Octal Only",
+    "xp": 40,
+    "story": "A friend sends you a program printed in octal, the way magazines did. Now write one yourself.",
+    "task": "Write a program in octal only (3 digits per line) that shows octal 125 on the lights, then octal 252, then stops.",
+    "starter": "; OCTAL ONLY\n",
+    "expectedOutput": "LEDS ○●○●○●○● = 85\nLEDS ●○●○●○●○ = 170",
+    "requirements": [
+      {
+        "pattern": "^\\s*[0-7]{3}\\s*(;.*)?$",
+        "message": "Write the bytes in octal, like 076."
+      },
+      {
+        "pattern": "166",
+        "message": "End with HLT (166)."
+      }
+    ],
+    "hints": [
+      "MVI A is 076, OUT is 323, the lights are 377, HLT is 166.",
+      "076, 125, 323, 377 shows the first pattern.",
+      "Then 076, 252, 323, 377 and 166."
+    ]
+  },
+  "alc1-project": {
+    "title": "The Light Show",
+    "xp": 100,
+    "story": "Altair owners loved to show off their machine to friends with blinking light patterns.",
+    "task": "Show these five patterns on the lights, one after the other: 10000001, 01000010, 00100100, 00011000, 11111111. Then stop.",
+    "starter": "; THE LIGHT SHOW\n",
+    "expectedOutput": "LEDS ●○○○○○○● = 129\nLEDS ○●○○○○●○ = 66\nLEDS ○○●○○●○○ = 36\nLEDS ○○○●●○○○ = 24\nLEDS ●●●●●●●● = 255",
+    "requirements": [
+      {
+        "pattern": "01\\s*110\\s*110|166",
+        "message": "End with HLT."
+      }
+    ],
+    "hints": [
+      "Each pattern needs four bytes: MVI A, the pattern, OUT, 377.",
+      "MVI A = 00 111 110 (076), OUT = 11 010 011 (323), port = 11 111 111 (377).",
+      "Five times, then 01 110 110 (HLT): 21 bytes in all."
+    ]
+  },
+  "al4": {
+    "title": "Register Shuffle",
+    "xp": 40,
+    "story": "The registers are like seven little boxes on your desk. Shuffle the values around.",
+    "task": "Put 1 into B and 2 into C with MVI. Swap B and C using another register as the parking spot (not A), then show B on the lights, then C:\nLEDS ○○○○○○●○ = 2\nLEDS ○○○○○○○● = 1",
+    "starter": "; REGISTER SHUFFLE\n",
+    "expectedOutput": "LEDS ○○○○○○●○ = 2\nLEDS ○○○○○○○● = 1",
+    "requirements": [
+      {
+        "pattern": "^\\s*(1[0-7][0-7]|01\\s*[01]{3}\\s*[01]{3})\\b",
+        "message": "Use MOV to copy between registers."
+      },
+      {
+        "pattern": "166|01\\s*110\\s*110",
+        "message": "End with HLT."
+      }
+    ],
+    "hints": [
+      "MVI B 1 = 006 001, MVI C 2 = 016 002.",
+      "Swap with D: MOV D,B (120), MOV B,C (101), MOV C,D (112).",
+      "Show B: MOV A,B (170), OUT 377 (323 377). Then MOV A,C (171), OUT 377, HLT."
+    ]
+  },
+  "al5": {
+    "title": "Times Ten",
+    "xp": 40,
+    "story": "Your Altair needs to multiply by 10 a lot. Find a fast way without a loop.",
+    "task": "Load 13 into A. Multiply it by 10 using only doubling (ADD A) and one ADD with a saved copy (×8 + ×2), and show the result. Then do the same for 25:\nLEDS ●○○○○○●○ = 130\nLEDS ●●●●●○●○ = 250",
+    "starter": "; TIMES TEN\n",
+    "expectedOutput": "LEDS ●○○○○○●○ = 130\nLEDS ●●●●●○●○ = 250",
+    "requirements": [
+      {
+        "pattern": "207|10\\s*000\\s*111",
+        "message": "Double with ADD A (207)."
+      }
+    ],
+    "hints": [
+      "After one ADD A, A holds ×2: save it with MOV B,A (107).",
+      "Two more ADD A make ×8. ADD B (200) adds the ×2: ×10.",
+      "OUT 377, then the same again for 25, then HLT."
+    ]
+  },
+  "al6": {
+    "title": "Sum of Three",
+    "xp": 40,
+    "story": "Three measurements sit in memory, right after your program. Add them up.",
+    "task": "Put the three data bytes 31, 47 and 64 right after your HLT. Use LXI H with the address of the first one, add all three with MOV A,M, INX H and ADD M, store the sum at address 200 with STA, then load it back with LDA and show it:\nLEDS ●○○○●●●○ = 142",
+    "starter": "; SUM OF THREE\n",
+    "expectedOutput": "LEDS ●○○○●●●○ = 142",
+    "requirements": [
+      {
+        "pattern": "041|00\\s*100\\s*001",
+        "message": "Point HL at the data with LXI H (041)."
+      },
+      {
+        "pattern": "206|10\\s*000\\s*110",
+        "message": "Add with ADD M (206)."
+      },
+      {
+        "pattern": "062|00\\s*110\\s*010",
+        "message": "Store the sum with STA (062)."
+      },
+      {
+        "pattern": "072|00\\s*111\\s*010",
+        "message": "Load it back with LDA (072)."
+      }
+    ],
+    "hints": [
+      "Write the program first, then count its bytes to find where the data starts.",
+      "LXI H d: 041, address, 000. MOV A,M (176), INX H (043), ADD M (206), INX H, ADD M.",
+      "STA 200: 062 200 000. LDA 200: 072 200 000. OUT, HLT, then the three data bytes."
+    ]
+  },
+  "alc2-project": {
+    "title": "The Cash Register",
+    "xp": 100,
+    "story": "A small shop in 1976 uses an Altair as a cash register. Three prices are in memory.",
+    "task": "Put the prices 12, 25 and 40 after HLT. Add them with HL and M, show the total, store it at address 200. Then work out the change from 100 (100 minus the total, with SUB) and show it:\nLEDS ○●○○●●○● = 77\nLEDS ○○○●○●●● = 23",
+    "starter": "; THE CASH REGISTER\n",
+    "expectedOutput": "LEDS ○●○○●●○● = 77\nLEDS ○○○●○●●● = 23",
+    "requirements": [
+      {
+        "pattern": "041",
+        "message": "Point HL at the prices with LXI H."
+      },
+      {
+        "pattern": "206",
+        "message": "Add the prices with ADD M."
+      },
+      {
+        "pattern": "062",
+        "message": "Store the total with STA."
+      },
+      {
+        "pattern": "22[0-7]",
+        "message": "Work out the change with SUB."
+      }
+    ],
+    "hints": [
+      "Total: LXI H, MOV A,M, INX H, ADD M, INX H, ADD M, OUT 377, STA 200.",
+      "Change: MOV B,A (107) to keep the total, MVI A 100, SUB B (220), OUT 377.",
+      "Count the bytes before the data for LXI H."
+    ]
+  },
+  "al7": {
+    "title": "Skip the Bad Byte",
+    "xp": 40,
+    "story": "Someone toggled in a byte that ruins your result. Jump over it instead of fixing the listing.",
+    "task": "Your program must contain the bytes 306 and 144 (ADI 100) right after the start of the work, and jump over them with JMP. Start with MVI A 50, then the JMP, then the ADI 100, then show A and halt:\nLEDS ○○●●○○●○ = 50",
+    "starter": "; SKIP THE BAD BYTE\n",
+    "expectedOutput": "LEDS ○○●●○○●○ = 50",
+    "requirements": [
+      {
+        "pattern": "303",
+        "message": "Use JMP (303)."
+      },
+      {
+        "pattern": "306\\s*(;.*)?\\n\\s*144",
+        "message": "Keep ADI 100 (306, 144) in the program."
+      }
+    ],
+    "hints": [
+      "MVI A 50: 076 062.",
+      "JMP to the OUT: 303, then the OUT's address, then 000. The ADI takes 2 bytes.",
+      "The OUT is at address 007: 2 (MVI) + 3 (JMP) + 2 (ADI)."
+    ]
+  },
+  "al8": {
+    "title": "The Bigger One",
+    "xp": 40,
+    "story": "Two sensors report their readings into memory. The panel must show the bigger one.",
+    "task": "Put the bytes 73 and 91 after HLT. Load the first into B (LDA then MOV B,A), the second into A, compare with CMP B, and use a conditional jump so the lights show the bigger value:\nLEDS ○●○●●○●● = 91",
+    "starter": "; THE BIGGER ONE\n",
+    "expectedOutput": "LEDS ○●○●●○●● = 91",
+    "requirements": [
+      {
+        "pattern": "27[0-7]|376",
+        "message": "Compare with CMP (or CPI)."
+      },
+      {
+        "pattern": "3[0-3]2",
+        "message": "Decide with a conditional jump (JZ, JNZ, JC, JNC)."
+      }
+    ],
+    "hints": [
+      "LDA first (072 …), MOV B,A (107), LDA second.",
+      "CMP B (270), then JNC show: if no carry, A is the bigger one already.",
+      "Otherwise MOV A,B (170). At show: OUT 377, HLT."
+    ]
+  },
+  "al9": {
+    "title": "Countdown Lights",
+    "xp": 40,
+    "story": "Rocket launch at the computer club! The Altair counts down on its lights.",
+    "task": "Show 5, 4, 3, 2 and 1 on the lights with a loop: MVI A 5, then OUT, DCR A and JNZ back to the OUT. Then show 0 and halt:\nLEDS ○○○○○●○● = 5\nLEDS ○○○○○●○○ = 4\nLEDS ○○○○○○●● = 3\nLEDS ○○○○○○●○ = 2\nLEDS ○○○○○○○● = 1\nLEDS ○○○○○○○○ = 0",
+    "starter": "; COUNTDOWN LIGHTS\n",
+    "expectedOutput": "LEDS ○○○○○●○● = 5\nLEDS ○○○○○●○○ = 4\nLEDS ○○○○○○●● = 3\nLEDS ○○○○○○●○ = 2\nLEDS ○○○○○○○● = 1\nLEDS ○○○○○○○○ = 0",
+    "requirements": [
+      {
+        "pattern": "302|11\\s*000\\s*010",
+        "message": "Loop with JNZ (302)."
+      },
+      {
+        "pattern": "075|00\\s*111\\s*101",
+        "message": "Count down with DCR A (075)."
+      }
+    ],
+    "hints": [
+      "The OUT is at address 002: jump back there.",
+      "MVI A 5, OUT 377, DCR A, JNZ 002 000.",
+      "After the loop A is 0: one more OUT 377, then HLT."
+    ]
+  },
+  "alc3-project": {
+    "title": "The Multiplier",
+    "xp": 100,
+    "story": "The computer club wants a multiply-and-divide demo for the next meeting.",
+    "task": "Put 12 and 13 after HLT. Multiply them with a loop (load 12 into C, 13 into B as the counter, add C to A until B is 0) and show the product. Then divide the product by 12 by subtracting 12 while A is at least 12 (CPI 12, JC to stop), counting the rounds in D, and show the count:\nLEDS ●○○●●●○○ = 156\nLEDS ○○○○●●○● = 13",
+    "starter": "; THE MULTIPLIER\n",
+    "expectedOutput": "LEDS ●○○●●●○○ = 156\nLEDS ○○○○●●○● = 13",
+    "requirements": [
+      {
+        "pattern": "302",
+        "message": "Loop with JNZ."
+      },
+      {
+        "pattern": "376",
+        "message": "Use CPI to check if 12 still fits."
+      },
+      {
+        "pattern": "332|322",
+        "message": "Leave the division loop with JC (or JNC)."
+      }
+    ],
+    "hints": [
+      "Multiply: MVI A 0, loop: ADD C, DCR B, JNZ loop, OUT 377.",
+      "Divide: MVI D 0, loop: CPI 12, JC done, SUI 12, INR D, JMP loop.",
+      "done: MOV A,D (172), OUT 377, HLT. Load 12 and 13 from memory with LDA and MOV, or LXI H and MOV C,M / MOV B,M."
+    ]
+  },
+  "al10": {
+    "title": "Light Switches",
+    "xp": 40,
+    "story": "The club's Altair controls 8 lamps through its lights. Switch single lamps on and off without touching the others.",
+    "task": "Start with MVI A 10101010 and show it. Turn on bit 0 with ORI and show it, turn off bit 7 with ANI and show it, then flip the lower four bits with XRI and show it:\nLEDS ●○●○●○●○ = 170\nLEDS ●○●○●○●● = 171\nLEDS ○○●○●○●● = 43\nLEDS ○○●○○●○○ = 36",
+    "starter": "; LIGHT SWITCHES\n",
+    "expectedOutput": "LEDS ●○●○●○●○ = 170\nLEDS ●○●○●○●● = 171\nLEDS ○○●○●○●● = 43\nLEDS ○○●○○●○○ = 36",
+    "requirements": [
+      {
+        "pattern": "366",
+        "message": "Turn a bit on with ORI (366)."
+      },
+      {
+        "pattern": "346",
+        "message": "Turn a bit off with ANI (346)."
+      },
+      {
+        "pattern": "356",
+        "message": "Flip bits with XRI (356)."
+      }
+    ],
+    "hints": [
+      "ORI 00000001: 366 001.",
+      "ANI 01111111: 346 177.",
+      "XRI 00001111: 356 017. OUT 377 after each step."
+    ]
+  },
+  "al11": {
+    "title": "The Running Light",
+    "xp": 40,
+    "story": "The most famous Altair demo: a single light running across the panel.",
+    "task": "Show a light running from right to left: start with A = 1, then 8 times: show A and rotate it left with RLC. Use a loop with a counter in B:\nLEDS ○○○○○○○● = 1\nLEDS ○○○○○○●○ = 2\nLEDS ○○○○○●○○ = 4\nLEDS ○○○○●○○○ = 8\nLEDS ○○○●○○○○ = 16\nLEDS ○○●○○○○○ = 32\nLEDS ○●○○○○○○ = 64\nLEDS ●○○○○○○○ = 128",
+    "starter": "; THE RUNNING LIGHT\n",
+    "expectedOutput": "LEDS ○○○○○○○● = 1\nLEDS ○○○○○○●○ = 2\nLEDS ○○○○○●○○ = 4\nLEDS ○○○○●○○○ = 8\nLEDS ○○○●○○○○ = 16\nLEDS ○○●○○○○○ = 32\nLEDS ○●○○○○○○ = 64\nLEDS ●○○○○○○○ = 128",
+    "requirements": [
+      {
+        "pattern": "007|00\\s*000\\s*111",
+        "message": "Rotate with RLC (007)."
+      },
+      {
+        "pattern": "302",
+        "message": "Loop with JNZ."
+      }
+    ],
+    "hints": [
+      "MVI A 1, MVI B 8.",
+      "loop: OUT 377, RLC, DCR B, JNZ loop.",
+      "Then HLT."
+    ]
+  },
+  "al12": {
+    "title": "Kill the Bit",
+    "xp": 40,
+    "story": "Your turn to play the famous game. The test flips the sense switches for you, one setting per round.",
+    "task": "B starts at 00000001. Do 4 rounds: rotate B left (MOV A,B, RLC, MOV B,A), read the sense switches (IN 377), XOR B into them (XRA B), store the result back in B, and show it. The switches are 00000000, 00000100, 00000000 and 00000100:\nLEDS ○○○○○○●○ = 2\nLEDS ○○○○○○○○ = 0\nLEDS ○○○○○○○○ = 0\nLEDS ○○○○○●○○ = 4",
+    "starter": "; KILL THE BIT\n",
+    "expectedOutput": "LEDS ○○○○○○●○ = 2\nLEDS ○○○○○○○○ = 0\nLEDS ○○○○○○○○ = 0\nLEDS ○○○○○●○○ = 4",
+    "requirements": [
+      {
+        "pattern": "333",
+        "message": "Read the sense switches with IN 377."
+      },
+      {
+        "pattern": "25[0-7]",
+        "message": "Combine them with XRA."
+      },
+      {
+        "pattern": "007",
+        "message": "Rotate the bit with RLC."
+      }
+    ],
+    "hints": [
+      "MVI B 1, MVI C 4 (the rounds).",
+      "round: MOV A,B, RLC, MOV B,A, IN 377, XRA B, MOV B,A, OUT 377.",
+      "DCR C, JNZ round, HLT. In round 2 the bit is killed; in round 4 a miss creates a new one."
+    ],
+    "inputs": [
+      "00000000",
+      "00000100",
+      "00000000",
+      "00000100"
+    ]
+  },
+  "alc4-project": {
+    "title": "Even or Odd",
+    "xp": 100,
+    "story": "A quiz machine for the computer club: set a number on the sense switches, and the Altair tells you about it.",
+    "task": "Read three numbers from the sense switches. For each one, show it, then show 255 if it is odd or 0 if it is even (ANI 1 and a conditional jump), then show it halved (clear the carry, RAR). The switches are 13, 40 and 7:\nLEDS ○○○○●●○● = 13\nLEDS ●●●●●●●● = 255\nLEDS ○○○○○●●○ = 6\nLEDS ○○●○●○○○ = 40\nLEDS ○○○○○○○○ = 0\nLEDS ○○○●○●○○ = 20\nLEDS ○○○○○●●● = 7\nLEDS ●●●●●●●● = 255\nLEDS ○○○○○○●● = 3",
+    "starter": "; EVEN OR ODD\n",
+    "expectedOutput": "LEDS ○○○○●●○● = 13\nLEDS ●●●●●●●● = 255\nLEDS ○○○○○●●○ = 6\nLEDS ○○●○●○○○ = 40\nLEDS ○○○○○○○○ = 0\nLEDS ○○○●○●○○ = 20\nLEDS ○○○○○●●● = 7\nLEDS ●●●●●●●● = 255\nLEDS ○○○○○○●● = 3",
+    "requirements": [
+      {
+        "pattern": "333",
+        "message": "Read with IN 377."
+      },
+      {
+        "pattern": "346",
+        "message": "Test bit 0 with ANI."
+      },
+      {
+        "pattern": "037",
+        "message": "Halve with RAR (037)."
+      }
+    ],
+    "hints": [
+      "Keep the number in B: IN 377, MOV B,A, OUT 377.",
+      "ANI 1, JZ even: MVI A 255 (odd) … even: XRA A. OUT 377.",
+      "MOV A,B, ANA A (clears the carry), RAR, OUT 377. Loop 3 times with C as the counter."
+    ],
+    "inputs": [
+      "13",
+      "40",
+      "7"
+    ]
+  },
+  "al13": {
+    "title": "Square It",
+    "xp": 40,
+    "story": "Write a routine once, call it three times.",
+    "task": "Write a subroutine square that multiplies A by itself (with a loop) and returns the result in A. Call it for 5, 9 and 15 and show each result:\nLEDS ○○○●●○○● = 25\nLEDS ○●○●○○○● = 81\nLEDS ●●●○○○○● = 225",
+    "starter": "; SQUARE IT\n",
+    "expectedOutput": "LEDS ○○○●●○○● = 25\nLEDS ○●○●○○○● = 81\nLEDS ●●●○○○○● = 225",
+    "requirements": [
+      {
+        "pattern": "315",
+        "message": "Call the routine with CALL (315)."
+      },
+      {
+        "pattern": "311",
+        "message": "End the routine with RET (311)."
+      }
+    ],
+    "hints": [
+      "square: MOV B,A, MOV C,A, XRA A, loop: ADD C, DCR B, JNZ loop, RET.",
+      "Main: MVI A 5, CALL square, OUT 377, and the same for 9 and 15, then HLT.",
+      "15 × 15 = 225 still fits into one byte."
+    ]
+  },
+  "al14": {
+    "title": "The Polite Routine",
+    "xp": 40,
+    "story": "A routine that borrows registers must give them back.",
+    "task": "Write a subroutine times4 that multiplies A by 4 with a loop that counts in B, but saves B (PUSH B) and restores it (POP B). The main program sets B to 77 and A to 9, calls times4, shows A, then shows B:\nLEDS ○○●○○●○○ = 36\nLEDS ○●○○●●○● = 77",
+    "starter": "; THE POLITE ROUTINE\n",
+    "expectedOutput": "LEDS ○○●○○●○○ = 36\nLEDS ○●○○●●○● = 77",
+    "requirements": [
+      {
+        "pattern": "305",
+        "message": "Save B with PUSH B (305)."
+      },
+      {
+        "pattern": "301",
+        "message": "Restore it with POP B (301)."
+      },
+      {
+        "pattern": "315",
+        "message": "Use CALL."
+      }
+    ],
+    "hints": [
+      "times4: PUSH B, MVI B 2, loop: ADD A, DCR B, JNZ loop, POP B, RET.",
+      "Main: MVI B 77, MVI A 9, CALL times4, OUT 377, MOV A,B, OUT 377, HLT."
+    ]
+  },
+  "al15": {
+    "title": "Hello, Teletype",
+    "xp": 40,
+    "story": "The Teletype is connected. Time for the first words.",
+    "task": "Print HELLO, ALTAIR and a line break on the Teletype with a print loop over a zero-terminated message stored after HLT (MOV A,M, ORA A, JZ, OUT 001, INX H, JMP).",
+    "starter": "; HELLO, TELETYPE\n",
+    "expectedOutput": "HELLO, ALTAIR",
+    "requirements": [
+      {
+        "pattern": "323\\s*(;.*)?\\n\\s*001",
+        "message": "Print with OUT 001."
+      },
+      {
+        "pattern": "267",
+        "message": "Test for the end with ORA A (267)."
+      }
+    ],
+    "hints": [
+      "LXI H msg, then loop: MOV A,M, ORA A, JZ done, OUT 001, INX H, JMP loop, done: HLT.",
+      "The message bytes: 110 105 114 114 117 054 040 101 114 124 101 111 122 012 000 (octal).",
+      "Count the program's bytes to find the address of msg."
+    ]
+  },
+  "alc5-project": {
+    "title": "MEMORY SIZE?",
+    "xp": 100,
+    "story": "1975, Albuquerque. Paul Allen loads Altair BASIC from paper tape. The Teletype starts to clatter…",
+    "task": "Write a subroutine print (HL points to a zero-terminated message) and use it to print the opening of Altair BASIC, then show the memory size, 256, as the number of free pages on the lights (1):\nMEMORY SIZE? 256\nALTAIR BASIC VERSION 1.0\nOK\nThen show 1 on the lights.",
+    "starter": "; MEMORY SIZE?\n",
+    "expectedOutput": "MEMORY SIZE? 256\nALTAIR BASIC VERSION 1.0\nOK\nLEDS ○○○○○○○● = 1",
+    "requirements": [
+      {
+        "pattern": "315",
+        "message": "Call print with CALL (315)."
+      },
+      {
+        "pattern": "311",
+        "message": "End print with RET."
+      },
+      {
+        "pattern": "323\\s*(;.*)?\\n\\s*001",
+        "message": "Print with OUT 001."
+      }
+    ],
+    "hints": [
+      "Three messages after HLT, each ending with 012 (line break) and 000.",
+      "print: MOV A,M, ORA A, RZ is 310 (or JZ to a RET), OUT 001, INX H, JMP print.",
+      "Main: LXI SP 000 001, then LXI H and CALL print for each message, MVI A 1, OUT 377, HLT."
+    ]
+  }
+}

@@ -1,0 +1,214 @@
+{
+  "chapters": [
+    {
+      "id": "ac1",
+      "title": "Inside the Chip",
+      "subtitle": "Registers, memory and math: the basics of every 6502 program.",
+      "units": [
+        {
+          "id": "a1",
+          "title": "Registers",
+          "learn": [
+            "Load numbers into A, X and Y",
+            "Read and write hex numbers like $0A",
+            "Copy between registers and count with INX"
+          ],
+          "goal": "Set up the registers with as few loads as possible."
+        },
+        {
+          "id": "a2",
+          "title": "Memory",
+          "learn": [
+            "Understand addresses from $0000 to $FFFF",
+            "Store registers with STA, STX and STY",
+            "Read memory and use the zero page"
+          ],
+          "goal": "Write and copy values in memory."
+        },
+        {
+          "id": "a3",
+          "title": "Math with the Carry",
+          "learn": [
+            "Add with CLC and ADC",
+            "Subtract with SEC and SBC",
+            "Use the carry and count memory with INC"
+          ],
+          "goal": "Add up a whole shopping list."
+        }
+      ],
+      "project": {
+        "id": "ac1-project",
+        "title": "The Bank Account",
+        "xp": 100
+      }
+    },
+    {
+      "id": "ac2",
+      "title": "Loops and Decisions",
+      "subtitle": "Compare, branch and repeat: make the 6502 think.",
+      "units": [
+        {
+          "id": "a4",
+          "title": "Flags and Branches",
+          "learn": [
+            "Read the zero and negative flags",
+            "Jump with BEQ and BNE",
+            "Name places with labels"
+          ],
+          "goal": "Make the program react to a value."
+        },
+        {
+          "id": "a5",
+          "title": "Loops",
+          "learn": [
+            "Count down with DEX and BNE",
+            "Compare with CMP, CPX and CPY",
+            "Repeat code a set number of times"
+          ],
+          "goal": "Multiply two numbers with a loop."
+        },
+        {
+          "id": "a6",
+          "title": "Tables",
+          "learn": [
+            "Read lists with LDA $0300,X",
+            "Store data with .BYTE",
+            "Walk through memory"
+          ],
+          "goal": "Find the highest score in a table."
+        }
+      ],
+      "project": {
+        "id": "ac2-project",
+        "title": "The Grade Counter",
+        "xp": 100
+      }
+    },
+    {
+      "id": "ac3",
+      "title": "Talking to the World",
+      "subtitle": "Subroutines, the stack and the teletype.",
+      "units": [
+        {
+          "id": "a7",
+          "title": "Subroutines",
+          "learn": [
+            "Call code with JSR and RTS",
+            "Understand the stack",
+            "Save registers with PHA and PLA"
+          ],
+          "goal": "Write a subroutine and use it twice."
+        },
+        {
+          "id": "a8",
+          "title": "The Teletype",
+          "learn": [
+            "Print characters with OUTCH",
+            "Understand ASCII codes",
+            "Print whole messages from a table"
+          ],
+          "goal": "Make the board say hello."
+        },
+        {
+          "id": "a9",
+          "title": "Numbers on Paper",
+          "learn": [
+            "Turn numbers into digits",
+            "Split numbers into tens and ones",
+            "Print bytes in hex"
+          ],
+          "goal": "Print a score on the teletype."
+        }
+      ],
+      "project": {
+        "id": "ac3-project",
+        "title": "Times Table Printer",
+        "xp": 100
+      }
+    },
+    {
+      "id": "ac4",
+      "title": "Bits and Bytes",
+      "subtitle": "Logic, shifts and multiplication without a multiply instruction.",
+      "units": [
+        {
+          "id": "a10",
+          "title": "Logic",
+          "learn": [
+            "Read binary numbers like %00001010",
+            "Mask bits with AND",
+            "Set and flip bits with ORA and EOR"
+          ],
+          "goal": "Tell odd from even numbers."
+        },
+        {
+          "id": "a11",
+          "title": "Shifts",
+          "learn": [
+            "Double numbers with ASL",
+            "Halve them with LSR",
+            "Rotate with ROL and ROR"
+          ],
+          "goal": "Multiply by 10 with shifts."
+        },
+        {
+          "id": "a12",
+          "title": "Multiplication",
+          "learn": [
+            "Multiply with shift and add",
+            "Work with 16-bit results",
+            "Divide with a remainder"
+          ],
+          "goal": "Multiply two bytes into a 16-bit result."
+        }
+      ],
+      "project": {
+        "id": "ac4-project",
+        "title": "The Hex Dump",
+        "xp": 100
+      }
+    },
+    {
+      "id": "ac5",
+      "title": "Real Programs",
+      "subtitle": "Bigger numbers, pointers and a game.",
+      "units": [
+        {
+          "id": "a13",
+          "title": "16-Bit Numbers",
+          "learn": [
+            "Add and subtract 16-bit numbers",
+            "Count past 255",
+            "Compare big numbers"
+          ],
+          "goal": "Add up long distances."
+        },
+        {
+          "id": "a14",
+          "title": "Pointers",
+          "learn": [
+            "Use (zero page),Y pointers",
+            "Copy blocks of memory",
+            "Write a print subroutine for any message"
+          ],
+          "goal": "Build a copy machine."
+        },
+        {
+          "id": "a15",
+          "title": "A Game",
+          "learn": [
+            "Read keys with GETCH",
+            "Make pseudo-random numbers",
+            "Build a game loop"
+          ],
+          "goal": "Write a guessing game."
+        }
+      ],
+      "project": {
+        "id": "ac5-project",
+        "title": "The Nim Machine",
+        "xp": 150
+      }
+    }
+  ]
+}

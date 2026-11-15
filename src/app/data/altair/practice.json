@@ -1,0 +1,695 @@
+{
+  "challenges": [
+    {
+      "id": "alt-all-on",
+      "unit": "al1",
+      "difficulty": 1,
+      "title": "All Lights On",
+      "task": "Make every light on the panel shine, then stop.\nLEDS ●●●●●●●● = 255",
+      "xp": 15,
+      "starter": "; ALL LIGHTS ON\n",
+      "expectedOutput": "LEDS ●●●●●●●● = 255",
+      "requirements": [
+        {
+          "pattern": "166|01\\s*110\\s*110",
+          "message": "End with HLT."
+        }
+      ],
+      "hints": [
+        "MVI A 11 111 111, then OUT 377 and HLT."
+      ]
+    },
+    {
+      "id": "alt-two-patterns",
+      "unit": "al1",
+      "difficulty": 1,
+      "title": "Two Patterns",
+      "task": "Show 11110000 and then 00001111 on the lights.\nLEDS ●●●●○○○○ = 240\nLEDS ○○○○●●●● = 15",
+      "xp": 15,
+      "starter": "; TWO PATTERNS\n",
+      "expectedOutput": "LEDS ●●●●○○○○ = 240\nLEDS ○○○○●●●● = 15",
+      "requirements": [
+        {
+          "pattern": "166|01\\s*110\\s*110",
+          "message": "End with HLT."
+        }
+      ],
+      "hints": [
+        "MVI A, the pattern, OUT 377 — twice.",
+        "11 110 000 is 240."
+      ]
+    },
+    {
+      "id": "alt-add-three",
+      "unit": "al2",
+      "difficulty": 1,
+      "title": "Add Three Numbers",
+      "task": "Work out 40 + 25 + 17 with MVI A and two ADIs, and show it.\nLEDS ○●○●○○●○ = 82",
+      "xp": 15,
+      "starter": "; ADD THREE NUMBERS\n",
+      "expectedOutput": "LEDS ○●○●○○●○ = 82",
+      "requirements": [
+        {
+          "pattern": "306|11\\s*000\\s*110",
+          "message": "Add with ADI."
+        }
+      ],
+      "hints": [
+        "MVI A 40, ADI 25, ADI 17.",
+        "Then OUT 377, HLT."
+      ]
+    },
+    {
+      "id": "alt-minus-one",
+      "unit": "al2",
+      "difficulty": 2,
+      "title": "Below Zero",
+      "task": "Show what 3 - 5 looks like in one byte (with SUI), then 0 - 1.\nLEDS ●●●●●●●○ = 254\nLEDS ●●●●●●●● = 255",
+      "xp": 25,
+      "starter": "; BELOW ZERO\n",
+      "expectedOutput": "LEDS ●●●●●●●○ = 254\nLEDS ●●●●●●●● = 255",
+      "requirements": [
+        {
+          "pattern": "326|11\\s*010\\s*110",
+          "message": "Subtract with SUI."
+        }
+      ],
+      "hints": [
+        "MVI A 3, SUI 5, OUT 377.",
+        "MVI A 0, SUI 1, OUT 377, HLT."
+      ]
+    },
+    {
+      "id": "alt-octal-steps",
+      "unit": "al3",
+      "difficulty": 1,
+      "title": "Octal Steps",
+      "task": "Write a program in octal only that shows octal 001, 010 and 100 on the lights.\nLEDS ○○○○○○○● = 1\nLEDS ○○○○●○○○ = 8\nLEDS ○●○○○○○○ = 64",
+      "xp": 15,
+      "starter": "; OCTAL STEPS\n",
+      "expectedOutput": "LEDS ○○○○○○○● = 1\nLEDS ○○○○●○○○ = 8\nLEDS ○●○○○○○○ = 64",
+      "requirements": [
+        {
+          "pattern": "^\\s*[0-7]{3}\\s*(;.*)?$",
+          "message": "Write the bytes in octal."
+        }
+      ],
+      "hints": [
+        "076 001 323 377 shows the first one.",
+        "Each octal digit is three switches: 010 is 00 001 000."
+      ]
+    },
+    {
+      "id": "alt-octal-sum",
+      "unit": "al3",
+      "difficulty": 2,
+      "title": "Adding in Octal",
+      "task": "Add octal 125 and 052 with ADI and show the result. Write the program in octal.\nLEDS ○●●●●●●● = 127",
+      "xp": 25,
+      "starter": "; ADDING IN OCTAL\n",
+      "expectedOutput": "LEDS ○●●●●●●● = 127",
+      "requirements": [
+        {
+          "pattern": "^\\s*306",
+          "message": "Add with ADI (306)."
+        }
+      ],
+      "hints": [
+        "076 125, 306 052.",
+        "125 + 052 = 177 in octal: no carries between the digits."
+      ]
+    },
+    {
+      "id": "alt-rotate-regs",
+      "unit": "al4",
+      "difficulty": 2,
+      "title": "Three-Way Swap",
+      "task": "Put 1 in B, 2 in C and 3 in D. Move them around so B gets C's value, C gets D's and D gets B's. Show B, C and D.\nLEDS ○○○○○○●○ = 2\nLEDS ○○○○○○●● = 3\nLEDS ○○○○○○○● = 1",
+      "xp": 25,
+      "starter": "; THREE-WAY SWAP\n",
+      "expectedOutput": "LEDS ○○○○○○●○ = 2\nLEDS ○○○○○○●● = 3\nLEDS ○○○○○○○● = 1",
+      "requirements": [
+        {
+          "pattern": "^\\s*1[0-7][0-7]\\b",
+          "message": "Use MOV."
+        }
+      ],
+      "hints": [
+        "Park B in E: MOV E,B (130).",
+        "MOV B,C, MOV C,D, MOV D,E.",
+        "Show each with MOV A,r and OUT 377."
+      ]
+    },
+    {
+      "id": "alt-inr-wrap",
+      "unit": "al4",
+      "difficulty": 1,
+      "title": "Wrap Around",
+      "task": "Load 254 into B. INR B twice, showing B after each step.\nLEDS ●●●●●●●● = 255\nLEDS ○○○○○○○○ = 0",
+      "xp": 15,
+      "starter": "; WRAP AROUND\n",
+      "expectedOutput": "LEDS ●●●●●●●● = 255\nLEDS ○○○○○○○○ = 0",
+      "requirements": [
+        {
+          "pattern": "004",
+          "message": "Count up with INR B (004)."
+        }
+      ],
+      "hints": [
+        "MVI B 254, INR B, MOV A,B, OUT 377.",
+        "Again, then HLT."
+      ]
+    },
+    {
+      "id": "alt-times-five",
+      "unit": "al5",
+      "difficulty": 2,
+      "title": "Times Five",
+      "task": "Multiply 23 by 5 without a loop (×4 + ×1) and show it.\nLEDS ○●●●○○●● = 115",
+      "xp": 25,
+      "starter": "; TIMES FIVE\n",
+      "expectedOutput": "LEDS ○●●●○○●● = 115",
+      "requirements": [
+        {
+          "pattern": "207",
+          "message": "Double with ADD A."
+        }
+      ],
+      "hints": [
+        "Save the original: MOV B,A.",
+        "ADD A twice gives ×4, ADD B adds ×1."
+      ]
+    },
+    {
+      "id": "alt-difference",
+      "unit": "al5",
+      "difficulty": 1,
+      "title": "The Difference",
+      "task": "Put 90 in B and 35 in C. Show B - C using SUB.\nLEDS ○○●●○●●● = 55",
+      "xp": 15,
+      "starter": "; THE DIFFERENCE\n",
+      "expectedOutput": "LEDS ○○●●○●●● = 55",
+      "requirements": [
+        {
+          "pattern": "22[0-7]",
+          "message": "Subtract with SUB."
+        }
+      ],
+      "hints": [
+        "MOV A,B, SUB C (221)."
+      ]
+    },
+    {
+      "id": "alt-swap-memory",
+      "unit": "al6",
+      "difficulty": 2,
+      "title": "Swap Two Bytes",
+      "task": "Put 11 and 22 after HLT. Swap them in memory with LDA/STA, then show the first byte and the second byte.\nLEDS ○○○●○●●○ = 22\nLEDS ○○○○●○●● = 11",
+      "xp": 25,
+      "starter": "; SWAP TWO BYTES\n",
+      "expectedOutput": "LEDS ○○○●○●●○ = 22\nLEDS ○○○○●○●● = 11",
+      "requirements": [
+        {
+          "pattern": "072",
+          "message": "Load with LDA."
+        },
+        {
+          "pattern": "062",
+          "message": "Store with STA."
+        }
+      ],
+      "hints": [
+        "LDA first, MOV B,A, LDA second, STA first, MOV A,B, STA second.",
+        "Then LDA first, OUT; LDA second, OUT; HLT."
+      ]
+    },
+    {
+      "id": "alt-fill",
+      "unit": "al6",
+      "difficulty": 2,
+      "title": "Fill Memory",
+      "task": "Write 7 into the three bytes at addresses 200, 201 and 202 using LXI H, MVI M (066) and INX H. Then add them up with LDA and show the sum.\nLEDS ○○○●○●○● = 21",
+      "xp": 25,
+      "starter": "; FILL MEMORY\n",
+      "expectedOutput": "LEDS ○○○●○●○● = 21",
+      "requirements": [
+        {
+          "pattern": "041",
+          "message": "Point HL with LXI H."
+        },
+        {
+          "pattern": "066",
+          "message": "Write with MVI M (066)."
+        }
+      ],
+      "hints": [
+        "LXI H 200, MVI M 7, INX H, MVI M 7, INX H, MVI M 7.",
+        "LDA 200, MOV B,A, … or walk again with MOV A,M and ADD M."
+      ]
+    },
+    {
+      "id": "alt-jump-around",
+      "unit": "al7",
+      "difficulty": 1,
+      "title": "Jump Around",
+      "task": "Start with MVI A 1, then JMP over an ADI 100 to an ADI 2, and show the result.\nLEDS ○○○○○○●● = 3",
+      "xp": 15,
+      "starter": "; JUMP AROUND\n",
+      "expectedOutput": "LEDS ○○○○○○●● = 3",
+      "requirements": [
+        {
+          "pattern": "303",
+          "message": "Jump with JMP."
+        }
+      ],
+      "hints": [
+        "MVI A 1 (2 bytes), JMP (3 bytes), ADI 100 (2 bytes): the ADI 2 is at address 007."
+      ]
+    },
+    {
+      "id": "alt-jump-back",
+      "unit": "al7",
+      "difficulty": 2,
+      "title": "Show It Twice",
+      "task": "Show 42, then jump back to show it again, but only once: use register B as a flag (0 the first time, 1 the second) and a conditional jump to stop.\nLEDS ○○●○●○●○ = 42\nLEDS ○○●○●○●○ = 42",
+      "xp": 25,
+      "starter": "; SHOW IT TWICE\n",
+      "expectedOutput": "LEDS ○○●○●○●○ = 42\nLEDS ○○●○●○●○ = 42",
+      "requirements": [
+        {
+          "pattern": "303|302|312",
+          "message": "Use a jump back."
+        }
+      ],
+      "hints": [
+        "MVI B 0, show: MVI A 42, OUT 377, then MOV A,B, CPI 1, JZ end.",
+        "INR B, JMP show. end: HLT."
+      ]
+    },
+    {
+      "id": "alt-smaller",
+      "unit": "al8",
+      "difficulty": 1,
+      "title": "The Smaller One",
+      "task": "B is 30, C is 12. Show the smaller one, using CMP and a conditional jump.\nLEDS ○○○○●●○○ = 12",
+      "xp": 15,
+      "starter": "; THE SMALLER ONE\n",
+      "expectedOutput": "LEDS ○○○○●●○○ = 12",
+      "requirements": [
+        {
+          "pattern": "27[0-7]",
+          "message": "Compare with CMP."
+        },
+        {
+          "pattern": "3[0-3]2",
+          "message": "Use a conditional jump."
+        }
+      ],
+      "hints": [
+        "MOV A,B, CMP C: carry set means B is smaller.",
+        "JC show, otherwise MOV A,C. show: OUT 377."
+      ]
+    },
+    {
+      "id": "alt-is-ten",
+      "unit": "al8",
+      "difficulty": 2,
+      "title": "Exactly Ten?",
+      "task": "Read the sense switches twice. Each time, show 255 if the value is exactly 10, else 0 (use CPI and JZ). The switches are 10 and 12.\nLEDS ●●●●●●●● = 255\nLEDS ○○○○○○○○ = 0",
+      "xp": 25,
+      "starter": "; EXACTLY TEN?\n",
+      "expectedOutput": "LEDS ●●●●●●●● = 255\nLEDS ○○○○○○○○ = 0",
+      "requirements": [
+        {
+          "pattern": "376",
+          "message": "Compare with CPI."
+        },
+        {
+          "pattern": "312|302",
+          "message": "Decide with JZ or JNZ."
+        },
+        {
+          "pattern": "333",
+          "message": "Read with IN 377."
+        }
+      ],
+      "hints": [
+        "IN 377, CPI 10, JZ yes, XRA A, JMP show; yes: MVI A 255; show: OUT 377.",
+        "A loop with a counter, or the same code twice."
+      ],
+      "inputs": [
+        "10",
+        "12"
+      ]
+    },
+    {
+      "id": "alt-sum-1-to-10",
+      "unit": "al9",
+      "difficulty": 1,
+      "title": "1 to 10",
+      "task": "Add up 1 + 2 + … + 10 with a loop and show the result.\nLEDS ○○●●○●●● = 55",
+      "xp": 15,
+      "starter": "; 1 TO 10\n",
+      "expectedOutput": "LEDS ○○●●○●●● = 55",
+      "requirements": [
+        {
+          "pattern": "302",
+          "message": "Loop with JNZ."
+        }
+      ],
+      "hints": [
+        "Count B down from 10, and ADD B into A each round.",
+        "MVI B 10, XRA A, loop: ADD B, DCR B, JNZ loop."
+      ]
+    },
+    {
+      "id": "alt-largest-table",
+      "unit": "al9",
+      "difficulty": 3,
+      "title": "The Largest in a Table",
+      "task": "Five bytes after HLT: 17, 88, 43, 91, 26. Find the largest with a loop over the table (HL, M, CMP) and show it.\nLEDS ○●○●●○●● = 91",
+      "xp": 40,
+      "starter": "; THE LARGEST IN A TABLE\n",
+      "expectedOutput": "LEDS ○●○●●○●● = 91",
+      "requirements": [
+        {
+          "pattern": "041",
+          "message": "Walk through the table with LXI H."
+        },
+        {
+          "pattern": "276|27[0-7]",
+          "message": "Compare with CMP M (or CMP r)."
+        },
+        {
+          "pattern": "302",
+          "message": "Loop with JNZ."
+        }
+      ],
+      "hints": [
+        "Start with A = 0 and B = 5 as the counter.",
+        "CMP M: if carry, the byte at HL is bigger: MOV A,M.",
+        "INX H, DCR B, JNZ loop."
+      ]
+    },
+    {
+      "id": "alt-lower-nibble",
+      "unit": "al10",
+      "difficulty": 1,
+      "title": "The Lower Half",
+      "task": "Read the sense switches and show only their lower 4 bits (ANI). The switches are 10110110.\nLEDS ○○○○○●●○ = 6",
+      "xp": 15,
+      "starter": "; THE LOWER HALF\n",
+      "expectedOutput": "LEDS ○○○○○●●○ = 6",
+      "requirements": [
+        {
+          "pattern": "346",
+          "message": "Mask with ANI."
+        },
+        {
+          "pattern": "333",
+          "message": "Read with IN 377."
+        }
+      ],
+      "hints": [
+        "IN 377, ANI 017, OUT 377, HLT."
+      ],
+      "inputs": [
+        "10110110"
+      ]
+    },
+    {
+      "id": "alt-blink",
+      "unit": "al10",
+      "difficulty": 2,
+      "title": "Blink",
+      "task": "Start with 10101010 and show it 4 times, flipping all bits with XRI 377 in between, with a loop.\nLEDS ●○●○●○●○ = 170\nLEDS ○●○●○●○● = 85\nLEDS ●○●○●○●○ = 170\nLEDS ○●○●○●○● = 85",
+      "xp": 25,
+      "starter": "; BLINK\n",
+      "expectedOutput": "LEDS ●○●○●○●○ = 170\nLEDS ○●○●○●○● = 85\nLEDS ●○●○●○●○ = 170\nLEDS ○●○●○●○● = 85",
+      "requirements": [
+        {
+          "pattern": "356",
+          "message": "Flip with XRI."
+        },
+        {
+          "pattern": "302",
+          "message": "Loop with JNZ."
+        }
+      ],
+      "hints": [
+        "MVI A 252 (octal), MVI B 4.",
+        "loop: OUT 377, XRI 377, DCR B, JNZ loop."
+      ]
+    },
+    {
+      "id": "alt-bounce",
+      "unit": "al11",
+      "difficulty": 2,
+      "title": "Bounce",
+      "task": "A light runs from bit 0 up to bit 3 (RLC), then back down to bit 0 (RRC): show 1, 2, 4, 8, 4, 2, 1.\nLEDS ○○○○○○○● = 1\nLEDS ○○○○○○●○ = 2\nLEDS ○○○○○●○○ = 4\nLEDS ○○○○●○○○ = 8\nLEDS ○○○○○●○○ = 4\nLEDS ○○○○○○●○ = 2\nLEDS ○○○○○○○● = 1",
+      "xp": 25,
+      "starter": "; BOUNCE\n",
+      "expectedOutput": "LEDS ○○○○○○○● = 1\nLEDS ○○○○○○●○ = 2\nLEDS ○○○○○●○○ = 4\nLEDS ○○○○●○○○ = 8\nLEDS ○○○○○●○○ = 4\nLEDS ○○○○○○●○ = 2\nLEDS ○○○○○○○● = 1",
+      "requirements": [
+        {
+          "pattern": "007",
+          "message": "Rotate left with RLC."
+        },
+        {
+          "pattern": "017",
+          "message": "Rotate right with RRC."
+        }
+      ],
+      "hints": [
+        "Two loops: 3 RLCs, then 3 RRCs, showing A each time.",
+        "Show the first 1 before the first loop."
+      ]
+    },
+    {
+      "id": "alt-count-bits",
+      "unit": "al11",
+      "difficulty": 3,
+      "title": "Count the Bits",
+      "task": "Count the 1 bits of the sense switches (10110101) by rotating A 8 times and counting the carries in C. Show the count.\nLEDS ○○○○○●○● = 5",
+      "xp": 40,
+      "starter": "; COUNT THE BITS\n",
+      "expectedOutput": "LEDS ○○○○○●○● = 5",
+      "requirements": [
+        {
+          "pattern": "017|007",
+          "message": "Rotate with RRC or RLC."
+        },
+        {
+          "pattern": "322|332",
+          "message": "Test the carry with JNC or JC."
+        }
+      ],
+      "hints": [
+        "IN 377, MVI B 8, MVI C 0.",
+        "loop: RRC, JNC skip, INR C, skip: DCR B, JNZ loop.",
+        "MOV A,C, OUT 377."
+      ],
+      "inputs": [
+        "10110101"
+      ]
+    },
+    {
+      "id": "alt-switch-echo",
+      "unit": "al12",
+      "difficulty": 1,
+      "title": "Echo the Switches",
+      "task": "Read the sense switches 3 times and show each setting on the lights. The switches are 1, 2 and 3.\nLEDS ○○○○○○○● = 1\nLEDS ○○○○○○●○ = 2\nLEDS ○○○○○○●● = 3",
+      "xp": 15,
+      "starter": "; ECHO THE SWITCHES\n",
+      "expectedOutput": "LEDS ○○○○○○○● = 1\nLEDS ○○○○○○●○ = 2\nLEDS ○○○○○○●● = 3",
+      "requirements": [
+        {
+          "pattern": "333",
+          "message": "Read with IN 377."
+        }
+      ],
+      "hints": [
+        "IN 377, OUT 377 — three times, or in a loop."
+      ],
+      "inputs": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "id": "alt-add-switches",
+      "unit": "al12",
+      "difficulty": 2,
+      "title": "Switch Calculator",
+      "task": "Read two numbers from the sense switches and show their sum. The switches are 100 and 55.\nLEDS ●○○●●○●● = 155",
+      "xp": 25,
+      "starter": "; SWITCH CALCULATOR\n",
+      "expectedOutput": "LEDS ●○○●●○●● = 155",
+      "requirements": [
+        {
+          "pattern": "333",
+          "message": "Read with IN 377."
+        }
+      ],
+      "hints": [
+        "IN 377, MOV B,A, IN 377, ADD B, OUT 377."
+      ],
+      "inputs": [
+        "100",
+        "55"
+      ]
+    },
+    {
+      "id": "alt-call-twice",
+      "unit": "al13",
+      "difficulty": 1,
+      "title": "Add Ten",
+      "task": "Write a subroutine that adds 10 to A. Starting with A = 5, call it three times, showing A after each call.\nLEDS ○○○○●●●● = 15\nLEDS ○○○●●○○● = 25\nLEDS ○○●○○○●● = 35",
+      "xp": 15,
+      "starter": "; ADD TEN\n",
+      "expectedOutput": "LEDS ○○○○●●●● = 15\nLEDS ○○○●●○○● = 25\nLEDS ○○●○○○●● = 35",
+      "requirements": [
+        {
+          "pattern": "315",
+          "message": "Use CALL."
+        },
+        {
+          "pattern": "311",
+          "message": "End the routine with RET."
+        }
+      ],
+      "hints": [
+        "add10: ADI 10, RET.",
+        "Main: MVI A 5, CALL add10, OUT 377 — three times."
+      ]
+    },
+    {
+      "id": "alt-max-routine",
+      "unit": "al13",
+      "difficulty": 2,
+      "title": "A Max Routine",
+      "task": "Write a subroutine max that leaves the bigger of A and B in A. Use it for 12/40 and 99/7 and show both results.\nLEDS ○○●○●○○○ = 40\nLEDS ○●●○○○●● = 99",
+      "xp": 25,
+      "starter": "; A MAX ROUTINE\n",
+      "expectedOutput": "LEDS ○○●○●○○○ = 40\nLEDS ○●●○○○●● = 99",
+      "requirements": [
+        {
+          "pattern": "315",
+          "message": "Use CALL."
+        },
+        {
+          "pattern": "270",
+          "message": "Compare with CMP B."
+        }
+      ],
+      "hints": [
+        "max: CMP B, RNC (320) or JNC back to a RET, MOV A,B, RET.",
+        "Main: MVI A 12, MVI B 40, CALL max, OUT 377, …"
+      ]
+    },
+    {
+      "id": "alt-push-pop",
+      "unit": "al14",
+      "difficulty": 1,
+      "title": "Save and Restore",
+      "task": "Put 5 in B and 6 in C. PUSH B, overwrite both with 0, POP B, and show B and C.\nLEDS ○○○○○●○● = 5\nLEDS ○○○○○●●○ = 6",
+      "xp": 15,
+      "starter": "; SAVE AND RESTORE\n",
+      "expectedOutput": "LEDS ○○○○○●○● = 5\nLEDS ○○○○○●●○ = 6",
+      "requirements": [
+        {
+          "pattern": "305",
+          "message": "Save with PUSH B."
+        },
+        {
+          "pattern": "301",
+          "message": "Restore with POP B."
+        }
+      ],
+      "hints": [
+        "MVI B 5, MVI C 6, PUSH B, MVI B 0, MVI C 0, POP B.",
+        "MOV A,B, OUT 377, MOV A,C, OUT 377."
+      ]
+    },
+    {
+      "id": "alt-swap-stack",
+      "unit": "al14",
+      "difficulty": 2,
+      "title": "Swap with the Stack",
+      "task": "Swap the pairs BC and DE using only PUSH and POP (no MOV). B=1, C=2, D=3, E=4. Then show B and D.\nLEDS ○○○○○○●● = 3\nLEDS ○○○○○○○● = 1",
+      "xp": 25,
+      "starter": "; SWAP WITH THE STACK\n",
+      "expectedOutput": "LEDS ○○○○○○●● = 3\nLEDS ○○○○○○○● = 1",
+      "requirements": [
+        {
+          "pattern": "305",
+          "message": "Push BC."
+        },
+        {
+          "pattern": "325",
+          "message": "Push DE."
+        },
+        {
+          "pattern": "301",
+          "message": "Pop into BC."
+        },
+        {
+          "pattern": "321",
+          "message": "Pop into DE."
+        }
+      ],
+      "hints": [
+        "PUSH B, PUSH D, POP B, POP D.",
+        "The last one pushed is the first one popped."
+      ]
+    },
+    {
+      "id": "alt-print-abc",
+      "unit": "al15",
+      "difficulty": 1,
+      "title": "ABC",
+      "task": "Print ABC on the Teletype: MVI A 'A' (101), OUT 001, then INR A and OUT 001 twice.",
+      "xp": 15,
+      "starter": "; ABC\n",
+      "expectedOutput": "ABC",
+      "requirements": [
+        {
+          "pattern": "323\\s*(;.*)?\\n\\s*001",
+          "message": "Print with OUT 001."
+        },
+        {
+          "pattern": "074",
+          "message": "Step to the next letter with INR A."
+        }
+      ],
+      "hints": [
+        "MVI A 101, OUT 001, INR A, OUT 001, INR A, OUT 001, HLT."
+      ]
+    },
+    {
+      "id": "alt-alphabet",
+      "unit": "al15",
+      "difficulty": 2,
+      "title": "The Alphabet",
+      "task": "Print the whole alphabet A to Z on the Teletype with a loop.",
+      "xp": 25,
+      "starter": "; THE ALPHABET\n",
+      "expectedOutput": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+      "requirements": [
+        {
+          "pattern": "323\\s*(;.*)?\\n\\s*001",
+          "message": "Print with OUT 001."
+        },
+        {
+          "pattern": "302",
+          "message": "Loop with JNZ."
+        }
+      ],
+      "hints": [
+        "MVI A 101 ('A'), MVI B 26 (032 octal).",
+        "loop: OUT 001, INR A, DCR B, JNZ loop."
+      ]
+    }
+  ]
+}

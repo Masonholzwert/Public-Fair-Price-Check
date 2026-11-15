@@ -1,0 +1,1049 @@
+{
+  "c1": {
+    "title": "hello, world",
+    "xp": 40,
+    "story": "1978. You've just bought \"The C Programming Language\". Page 6. Time to type in the most famous program ever.",
+    "task": "Print hello, world on the first line and hello, Unix on the second.",
+    "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "hello, world\nhello, Unix",
+    "requirements": [
+      {
+        "pattern": "printf",
+        "message": "Print with printf."
+      },
+      {
+        "pattern": "\\\\n",
+        "message": "End each line with \\n."
+      }
+    ],
+    "hints": [
+      "Each line is one printf with the text in double quotes.",
+      "printf(\"hello, world\\n\"); then the same for hello, Unix.",
+      "Don't forget the semicolons, and return 0; at the end."
+    ]
+  },
+  "c2": {
+    "title": "Splitting the Bill",
+    "xp": 40,
+    "story": "Four friends order pizza for 47 dollars. Everyone pays the same, in whole dollars, and the rest goes into the tip jar.",
+    "task": "With int variables for the bill (47) and the people (4), print how much each person pays and how many dollars are left over, like: each 11 and left 3.",
+    "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "each 11\nleft 3",
+    "requirements": [
+      {
+        "pattern": "int",
+        "message": "Use int variables."
+      },
+      {
+        "pattern": "%",
+        "message": "Use % for the remainder."
+      },
+      {
+        "pattern": "/",
+        "message": "Use / for the share."
+      }
+    ],
+    "hints": [
+      "int bill = 47; int people = 4;",
+      "bill / people is the share, bill % people the rest.",
+      "printf(\"each %d\\n\", bill / people); and the same for left."
+    ]
+  },
+  "c3": {
+    "title": "The Receipt",
+    "xp": 40,
+    "story": "The Bell Labs cafeteria wants its receipts lined up neatly.",
+    "task": "Print exactly this receipt, using %-8s for the names and %6.2f for the prices:\nCOFFEE    1.20\nDONUT     0.85\nTOTAL     2.05",
+    "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "COFFEE    1.20\nDONUT     0.85\nTOTAL     2.05",
+    "requirements": [
+      {
+        "pattern": "%-8s",
+        "message": "Use %-8s for the names."
+      },
+      {
+        "pattern": "%6\\.2f",
+        "message": "Use %6.2f for the prices."
+      }
+    ],
+    "hints": [
+      "printf(\"%-8s%6.2f\\n\", \"COFFEE\", 1.20);",
+      "The same for DONUT with 0.85.",
+      "TOTAL can be computed: 1.20 + 0.85."
+    ],
+    "exact": true
+  },
+  "cc1-project": {
+    "title": "The Pizza Order",
+    "xp": 100,
+    "story": "Friday night at Bell Labs. The team orders 3 pizzas at 8.50 and 5 sodas at 1.20, and splits the bill between 4 people.",
+    "task": "Use double variables for the prices. Print the pizza cost, the soda cost and the total with two decimals, then the share per person:\nPIZZA 25.50\nSODA 6.00\nTOTAL 31.50\nEACH 7.88",
+    "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "PIZZA 25.50\nSODA 6.00\nTOTAL 31.50\nEACH 7.88",
+    "requirements": [
+      {
+        "pattern": "double",
+        "message": "Keep the prices in double variables."
+      },
+      {
+        "pattern": "%\\.2f|%\\d+\\.2f",
+        "message": "Print with two decimals, like %.2f."
+      }
+    ],
+    "hints": [
+      "double pizza = 3 * 8.50; double soda = 5 * 1.20;",
+      "double total = pizza + soda; and total / 4 for each person.",
+      "printf(\"PIZZA %.2f\\n\", pizza); and so on."
+    ]
+  },
+  "c4": {
+    "title": "Leap Year",
+    "xp": 40,
+    "story": "The Unix calendar program cal needs to know which years have a February 29. The rule: divisible by 4, except years divisible by 100, unless divisible by 400.",
+    "task": "Read a year with scanf and print either 2000 is a leap year or 1900 is not a leap year (with the year that was read). The app types 1900.",
+    "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "1900 is not a leap year",
+    "requirements": [
+      {
+        "pattern": "if",
+        "message": "Decide with if."
+      },
+      {
+        "pattern": "%",
+        "message": "Test divisibility with %."
+      },
+      {
+        "pattern": "&&|\\|\\|",
+        "message": "Combine the rules with && or ||."
+      }
+    ],
+    "hints": [
+      "int year; scanf(\"%d\", &year);",
+      "Leap: (year % 4 == 0 && year % 100 != 0) || year % 400 == 0",
+      "if (…) printf(\"%d is a leap year\\n\", year); else printf(\"%d is not a leap year\\n\", year);"
+    ],
+    "inputs": [
+      "1900"
+    ]
+  },
+  "c5": {
+    "title": "Digit Sum",
+    "xp": 40,
+    "story": "An old trick to check typed numbers: add up all the digits. The PDP-11 does it with / and %.",
+    "task": "Read a number with scanf. With a while loop, add up its digits (n % 10 is the last digit, n / 10 removes it) and print the sum. The app types 1972.",
+    "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "19",
+    "requirements": [
+      {
+        "pattern": "while",
+        "message": "Use a while loop."
+      },
+      {
+        "pattern": "%\\s*10",
+        "message": "Get the last digit with % 10."
+      },
+      {
+        "pattern": "scanf",
+        "message": "Read the number with scanf."
+      }
+    ],
+    "hints": [
+      "int n, sum = 0; scanf(\"%d\", &n);",
+      "while (n > 0) { sum += n % 10; n = n / 10; }",
+      "printf(\"%d\\n\", sum); 1 + 9 + 7 + 2 = 19."
+    ],
+    "inputs": [
+      "1972"
+    ]
+  },
+  "c6": {
+    "title": "The Fahrenheit Table",
+    "xp": 40,
+    "story": "Page 9 of The C Programming Language, 1978: the very first loop in the book is a temperature table. Time to type it in yourself.",
+    "task": "With a for loop, print the Fahrenheit temperatures from 0 to 300 in steps of 20, each with its Celsius value (5.0 / 9.0 × (F − 32)). Use the format %3d %6.1f exactly.",
+    "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "  0  -17.8\n 20   -6.7\n 40    4.4\n 60   15.6\n 80   26.7\n100   37.8\n120   48.9\n140   60.0\n160   71.1\n180   82.2\n200   93.3\n220  104.4\n240  115.6\n260  126.7\n280  137.8\n300  148.9",
+    "requirements": [
+      {
+        "pattern": "for\\s*\\(",
+        "message": "Use a for loop."
+      },
+      {
+        "pattern": "%3d %6\\.1f",
+        "message": "Use the format %3d %6.1f."
+      }
+    ],
+    "hints": [
+      "int fahr; for (fahr = 0; fahr <= 300; fahr = fahr + 20)",
+      "Celsius: (5.0 / 9.0) * (fahr - 32). The 5.0 keeps the decimals!",
+      "printf(\"%3d %6.1f\\n\", fahr, …);"
+    ],
+    "exact": true
+  },
+  "cc2-project": {
+    "title": "Guess the Number",
+    "xp": 100,
+    "story": "A classic Unix game: the computer thinks of a number, you guess, and it says higher or lower. Here the secret number is 37, and the player's guesses come from standard input.",
+    "task": "Keep reading guesses with scanf. Print too high, too low, or, when it's 37, correct after N tries (with the number of tries) and stop. The app types 50, 25, 40, 37.",
+    "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "too high\ntoo low\ntoo high\ncorrect after 4 tries",
+    "requirements": [
+      {
+        "pattern": "while|for|do",
+        "message": "Keep asking in a loop."
+      },
+      {
+        "pattern": "scanf",
+        "message": "Read the guesses with scanf."
+      },
+      {
+        "pattern": "else\\s+if|else",
+        "message": "Use if and else to compare."
+      }
+    ],
+    "hints": [
+      "int secret = 37, guess, tries = 0;",
+      "Loop: scanf(\"%d\", &guess); tries++; then compare guess with secret.",
+      "When they match: printf(\"correct after %d tries\\n\", tries); and break."
+    ],
+    "inputs": [
+      "50",
+      "25",
+      "40",
+      "37"
+    ]
+  },
+  "c7": {
+    "title": "Your Own Power Function",
+    "xp": 40,
+    "story": "The PDP-11 had no ** operator, and C doesn't either. Time to write power yourself.",
+    "task": "Write int power(int base, int n) that multiplies base by itself n times with a loop. In main, print power(2, 10) and power(3, 4) on two lines.",
+    "starter": "#include <stdio.h>\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "1024\n81",
+    "requirements": [
+      {
+        "pattern": "int\\s+power\\s*\\(",
+        "message": "Write int power(int base, int n)."
+      },
+      {
+        "pattern": "return",
+        "message": "Give the result back with return."
+      }
+    ],
+    "hints": [
+      "int power(int base, int n) { int result = 1; … }",
+      "for (i = 0; i < n; i++) result = result * base;",
+      "Then return result; and in main: printf(\"%d\\n\", power(2, 10));"
+    ]
+  },
+  "c8": {
+    "title": "The Unit Converter",
+    "xp": 40,
+    "story": "A lab at Bell Labs gets equipment from Europe: everything is in centimeters and kilograms.",
+    "task": "Write two functions, double cm_to_inch(double cm) (divide by 2.54) and double kg_to_lb(double kg) (multiply by 2.2046). Print 30 cm and 5 kg converted, with two decimals:\n30 cm = 11.81 in\n5 kg = 11.02 lb",
+    "starter": "#include <stdio.h>\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "30 cm = 11.81 in\n5 kg = 11.02 lb",
+    "requirements": [
+      {
+        "pattern": "double\\s+cm_to_inch\\s*\\(",
+        "message": "Write double cm_to_inch(double cm)."
+      },
+      {
+        "pattern": "double\\s+kg_to_lb\\s*\\(",
+        "message": "Write double kg_to_lb(double kg)."
+      }
+    ],
+    "hints": [
+      "double cm_to_inch(double cm) { return cm / 2.54; }",
+      "The same idea for kg_to_lb with * 2.2046.",
+      "printf(\"30 cm = %.2f in\\n\", cm_to_inch(30));"
+    ]
+  },
+  "c9": {
+    "title": "The Towers of Hanoi",
+    "xp": 40,
+    "story": "A famous puzzle from 1883: move a stack of disks from peg A to peg C, one at a time, never putting a bigger disk on a smaller one. The trick is pure recursion.",
+    "task": "Write void hanoi(int n, char from, char to, char via). To move n disks: move n − 1 disks out of the way to via, move disk n to to, then move the n − 1 disks from via onto to. Print each move like move 1 from A to C, for 3 disks.",
+    "starter": "#include <stdio.h>\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "move 1 from A to C\nmove 2 from A to B\nmove 1 from C to B\nmove 3 from A to C\nmove 1 from B to A\nmove 2 from B to C\nmove 1 from A to C",
+    "requirements": [
+      {
+        "pattern": "void\\s+hanoi\\s*\\(",
+        "message": "Write void hanoi(int n, char from, char to, char via)."
+      },
+      {
+        "pattern": "hanoi\\s*\\([^;]*\\)\\s*;[\\s\\S]*hanoi\\s*\\(",
+        "message": "hanoi must call itself."
+      }
+    ],
+    "hints": [
+      "Base case: if (n == 0) return;",
+      "hanoi(n - 1, from, via, to); then print the move of disk n, then hanoi(n - 1, via, to, from);",
+      "The move: printf(\"move %d from %c to %c\\n\", n, from, to); and in main: hanoi(3, 'A', 'C', 'B');"
+    ]
+  },
+  "cc3-project": {
+    "title": "The Number Toolkit",
+    "xp": 100,
+    "story": "Every Unix system came with a library of small, reliable functions. Build your own little math library.",
+    "task": "Write int gcd(int a, int b) (recursively, with Euclid's rule), int lcm(int a, int b) (a / gcd(a, b) * b) and int is_prime(int n) (1 if prime, 0 if not). Print:\ngcd 6\nlcm 144\nprimes 2 3 5 7 11 13 17 19 23 29\nfor gcd(48, 18), lcm(48, 18) and the primes up to 30.",
+    "starter": "#include <stdio.h>\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "gcd 6\nlcm 144\nprimes 2 3 5 7 11 13 17 19 23 29",
+    "requirements": [
+      {
+        "pattern": "int\\s+gcd\\s*\\(",
+        "message": "Write int gcd(int a, int b)."
+      },
+      {
+        "pattern": "int\\s+lcm\\s*\\(",
+        "message": "Write int lcm(int a, int b)."
+      },
+      {
+        "pattern": "int\\s+is_prime\\s*\\(",
+        "message": "Write int is_prime(int n)."
+      },
+      {
+        "pattern": "return\\s+gcd\\s*\\(",
+        "message": "gcd should call itself: return gcd(b, a % b);"
+      }
+    ],
+    "hints": [
+      "gcd: if (b == 0) return a; return gcd(b, a % b);",
+      "is_prime: return 0 for n < 2, then try every d from 2 while d * d <= n; if n % d == 0, return 0. At the end return 1.",
+      "Print the primes with printf(\"primes\"); then for each prime printf(\" %d\", n); and a final printf(\"\\n\");"
+    ]
+  },
+  "c10": {
+    "title": "A Week of Data",
+    "xp": 40,
+    "story": "The Bell Labs machine room logs its temperature every day, because a PDP-11 hates the heat. This week: 21, 23, 26, 22, 28, 24 and 20 degrees.",
+    "task": "Store the seven temperatures in an int array. Print the average with one decimal, the hottest day (counting from 1) and its temperature:\naverage 23.4\nhottest day 5: 28",
+    "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "average 23.4\nhottest day 5: 28",
+    "requirements": [
+      {
+        "pattern": "\\[\\s*7\\s*\\]|\\[\\s*\\]\\s*=",
+        "message": "Store the temperatures in an array."
+      },
+      {
+        "pattern": "for\\s*\\(",
+        "message": "Go through the array with a for loop."
+      }
+    ],
+    "hints": [
+      "int t[7] = {21, 23, 26, 22, 28, 24, 20};",
+      "In one loop: add up into sum, and keep the index of the hottest day in best.",
+      "printf(\"average %.1f\\n\", sum / 7.0); and printf(\"hottest day %d: %d\\n\", best + 1, t[best]);"
+    ]
+  },
+  "c11": {
+    "title": "Shout!",
+    "xp": 40,
+    "story": "A Unix user is angry about a crashed job and wants their message in capital letters.",
+    "task": "Store \"the pdp-11 is down again!\" in a char array. With a loop (no library function), turn every lowercase letter into uppercase and print the result. Also print how many letters you changed.",
+    "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "THE PDP-11 IS DOWN AGAIN!\n17 letters",
+    "requirements": [
+      {
+        "pattern": "char\\s+\\w+\\s*\\[",
+        "message": "Store the text in a char array."
+      },
+      {
+        "pattern": "'\\\\0'|\\[\\s*\\w+\\s*\\]\\s*!=|\\bwhile\\s*\\(\\s*\\w+\\[",
+        "message": "Walk through the string until its end."
+      },
+      {
+        "pattern": "32|'a'\\s*-\\s*'A'|'A'\\s*-\\s*'a'",
+        "message": "Turn lowercase into uppercase by changing the character code."
+      }
+    ],
+    "hints": [
+      "char s[] = \"the pdp-11 is down again!\";",
+      "for (i = 0; s[i] != '\\0'; i++): if s[i] is between 'a' and 'z', subtract 32 and count it.",
+      "printf(\"%s\\n\", s); and printf(\"%d letters\\n\", changed);"
+    ]
+  },
+  "c12": {
+    "title": "High Scores",
+    "xp": 40,
+    "story": "The arcade machine in the Bell Labs basement keeps the best scores. They need to be shown from the highest down.",
+    "task": "Put the scores 340, 1250, 990, 75, 2010 and 640 in an array, sort them from biggest to smallest, and print them one per line, with rank numbers:\n1. 2010\n2. 1250\n…",
+    "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "1. 2010\n2. 1250\n3. 990\n4. 640\n5. 340\n6. 75",
+    "requirements": [
+      {
+        "pattern": "for\\s*\\([\\s\\S]*for\\s*\\(",
+        "message": "Sort with two nested loops."
+      },
+      {
+        "pattern": "=\\s*\\w+\\s*\\[[^\\]]*\\]\\s*;[\\s\\S]*\\]\\s*=",
+        "message": "Swap elements with a spare variable."
+      }
+    ],
+    "hints": [
+      "int a[6] = {340, 1250, 990, 75, 2010, 640};",
+      "Bubble sort, but swap when a[j] < a[j + 1], so big values move to the front.",
+      "Print with printf(\"%d. %d\\n\", i + 1, a[i]);"
+    ]
+  },
+  "cc4-project": {
+    "title": "Word Statistics",
+    "xp": 100,
+    "story": "Unix's wc counted lines, words and characters. Build a little text analyzer of your own.",
+    "task": "Store the sentence \"the quick brown fox jumps over the lazy dog\" in a char array. Print the number of characters (strlen), the number of words, the number of vowels and the longest word:\nchars 43\nwords 9\nvowels 11\nlongest quick",
+    "starter": "#include <stdio.h>\n#include <string.h>\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "chars 43\nwords 9\nvowels 11\nlongest quick",
+    "requirements": [
+      {
+        "pattern": "strlen\\s*\\(",
+        "message": "Count the characters with strlen."
+      },
+      {
+        "pattern": "char\\s+\\w+\\s*\\[",
+        "message": "Keep the sentence (and the longest word) in char arrays."
+      }
+    ],
+    "hints": [
+      "Words: count the places where a letter starts after a space (or at the very beginning).",
+      "Longest word: keep the start and length of the current word. When a word ends (space or '\\0') and it's longer than the best, remember it.",
+      "Copy the best word into a second array letter by letter, end it with '\\0', and print it with %s. With equal lengths, keep the first: quick, brown and jumps all have 5."
+    ]
+  },
+  "c13": {
+    "title": "Minimum and Maximum",
+    "xp": 40,
+    "story": "The machine room wants both the coldest and the hottest temperature from one function call.",
+    "task": "Write void minmax(int a[], int n, int *min, int *max) that finds both values and stores them through the pointers. In main, use it on {21, 23, 26, 22, 28, 24, 20} and print min 20 max 28.",
+    "starter": "#include <stdio.h>\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "min 20 max 28",
+    "requirements": [
+      {
+        "pattern": "void\\s+minmax\\s*\\(",
+        "message": "Write void minmax(int a[], int n, int *min, int *max)."
+      },
+      {
+        "pattern": "\\*\\s*\\w+\\s*=",
+        "message": "Store the results through the pointers, like *min = …"
+      },
+      {
+        "pattern": "minmax\\s*\\([^)]*&",
+        "message": "Pass the addresses: minmax(t, 7, &lo, &hi)."
+      }
+    ],
+    "hints": [
+      "Inside: *min = a[0]; *max = a[0]; then a loop from 1.",
+      "if (a[i] < *min) *min = a[i]; and the same for *max.",
+      "In main: int lo, hi; minmax(t, 7, &lo, &hi); printf(\"min %d max %d\\n\", lo, hi);"
+    ]
+  },
+  "c14": {
+    "title": "Copy a String by Hand",
+    "xp": 40,
+    "story": "Before string.h was everywhere, programmers wrote their own string functions with pointers. Your turn.",
+    "task": "Write void copy(char *dst, char *src) that copies src into dst with pointers (no strcpy, no [ ]). Copy \"bell labs\" into a char array of 20 and print it, then print its length with your own int length(char *s).",
+    "starter": "#include <stdio.h>\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "bell labs\n9",
+    "requirements": [
+      {
+        "pattern": "void\\s+copy\\s*\\(\\s*char\\s*\\*",
+        "message": "Write void copy(char *dst, char *src)."
+      },
+      {
+        "pattern": "\\+\\+",
+        "message": "Move the pointers with ++."
+      },
+      {
+        "pattern": "int\\s+length\\s*\\(\\s*char\\s*\\*",
+        "message": "Write int length(char *s)."
+      }
+    ],
+    "hints": [
+      "copy: while (*src != '\\0') { *dst = *src; dst++; src++; } then *dst = '\\0';",
+      "length: count with a pointer until *s is '\\0'.",
+      "In main: char buf[20]; copy(buf, \"bell labs\"); printf(\"%s\\n\", buf);"
+    ]
+  },
+  "c15": {
+    "title": "The Inventory",
+    "xp": 40,
+    "story": "The Bell Labs stockroom keeps its parts on index cards. Time to put them in a computer.",
+    "task": "Define struct part with char name[12], int qty and double price. Store three parts: resistor (500, 0.02), terminal (4, 1200.00), tape (30, 12.50). Print each with its total value, then the grand total, like:\nresistor 500 10.00\nterminal 4 4800.00\ntape 30 375.00\ntotal 5185.00",
+    "starter": "#include <stdio.h>\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "resistor 500 10.00\nterminal 4 4800.00\ntape 30 375.00\ntotal 5185.00",
+    "requirements": [
+      {
+        "pattern": "struct\\s+part\\s*\\{",
+        "message": "Define struct part."
+      },
+      {
+        "pattern": "\\]\\s*\\.\\s*\\w+|->",
+        "message": "Read the members with . (or ->)."
+      }
+    ],
+    "hints": [
+      "struct part { char name[12]; int qty; double price; };",
+      "struct part p[3] = {{\"resistor\", 500, 0.02}, {\"terminal\", 4, 1200.00}, {\"tape\", 30, 12.50}};",
+      "In a loop: double v = p[i].qty * p[i].price; printf(\"%s %d %.2f\\n\", p[i].name, p[i].qty, v); and add v to the total."
+    ]
+  },
+  "cc5-project": {
+    "title": "The Phone Book",
+    "xp": 100,
+    "story": "Bell Labs had a famous internal phone book. Build a small one: an array of structs, a search with pointers, and a sort.",
+    "task": "Define struct entry { char name[12]; int ext; }. Store: thompson 2394, ritchie 3770, kernighan 6021, mcilroy 4402. Sort the entries by name (with strcmp and a swap of whole structs), print them as name ext, then search for \"ritchie\" with a function struct entry *find(struct entry *book, int n, char *name) that returns a pointer (or NULL), and print found ritchie at 3770.",
+    "starter": "#include <stdio.h>\n#include <string.h>\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "kernighan 6021\nmcilroy 4402\nritchie 3770\nthompson 2394\nfound ritchie at 3770",
+    "requirements": [
+      {
+        "pattern": "struct\\s+entry\\s*\\{",
+        "message": "Define struct entry."
+      },
+      {
+        "pattern": "strcmp\\s*\\(",
+        "message": "Compare names with strcmp."
+      },
+      {
+        "pattern": "struct\\s+entry\\s*\\*\\s*find\\s*\\(",
+        "message": "Write struct entry *find(…)."
+      },
+      {
+        "pattern": "->",
+        "message": "Use -> on the pointer find returns."
+      }
+    ],
+    "hints": [
+      "Sort: for each pair in the wrong order (strcmp(b[j].name, b[j + 1].name) > 0), swap the whole structs: struct entry t = b[j]; b[j] = b[j + 1]; b[j + 1] = t;",
+      "find: loop over the book; if (strcmp(book[i].name, name) == 0) return &book[i]; and return NULL at the end.",
+      "struct entry *e = find(book, 4, \"ritchie\"); if (e != NULL) printf(\"found %s at %d\\n\", e->name, e->ext);"
+    ]
+  },
+  "c16": {
+    "title": "An Array of Any Size",
+    "xp": 40,
+    "story": "The lab's measurements come in batches of different sizes. Your program must fit any batch.",
+    "task": "Read how many numbers there are, then read that many numbers into memory from malloc. Print them in reverse order on one line, then the largest as largest N. Free the memory at the end. The app types 6, then 12 7 30 18 5 21.",
+    "starter": "#include <stdio.h>\n#include <stdlib.h>\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "21 5 18 30 7 12\nlargest 30",
+    "requirements": [
+      {
+        "pattern": "malloc\\s*\\(",
+        "message": "Get the memory with malloc."
+      },
+      {
+        "pattern": "sizeof\\s*\\(\\s*int\\s*\\)",
+        "message": "Ask for n * sizeof(int) bytes."
+      },
+      {
+        "pattern": "free\\s*\\(",
+        "message": "Give the memory back with free."
+      }
+    ],
+    "hints": [
+      "scanf(\"%d\", &n); int *a = malloc(n * sizeof(int));",
+      "Read with a loop: scanf(\"%d\", &a[i]);",
+      "Print from i = n - 1 down to 0, then find the largest, then free(a);"
+    ],
+    "inputs": [
+      "6",
+      "12 7 30 18 5 21"
+    ]
+  },
+  "c17": {
+    "title": "The To-Do List",
+    "xp": 40,
+    "story": "Ken keeps his tasks on a list that can grow and shrink. Build it with nodes.",
+    "task": "Make a linked list of tasks (struct task with char text[20] and a next pointer). Add edit, compile, test, ship at the end, in that order. Print them numbered, remove test, print done: test, and print the list again. Free all nodes at the end.",
+    "starter": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "1. edit\n2. compile\n3. test\n4. ship\ndone: test\n1. edit\n2. compile\n3. ship",
+    "requirements": [
+      {
+        "pattern": "struct\\s+task\\s*\\{",
+        "message": "Define struct task."
+      },
+      {
+        "pattern": "malloc\\s*\\(",
+        "message": "Make the nodes with malloc."
+      },
+      {
+        "pattern": "->\\s*next",
+        "message": "Link the nodes with next."
+      },
+      {
+        "pattern": "free\\s*\\(",
+        "message": "Free the nodes."
+      }
+    ],
+    "hints": [
+      "Adding at the end: walk to the last node (while (p->next != NULL)), then p->next = n;. An empty list is special: the new node becomes the head.",
+      "Removing: find the node with strcmp(p->text, \"test\") == 0, keep the one before it, and link around it: prev->next = p->next; free(p);",
+      "Printing: int i = 1; for (p = head; p != NULL; p = p->next) printf(\"%d. %s\\n\", i++, p->text);"
+    ]
+  },
+  "c18": {
+    "title": "Check the Brackets",
+    "xp": 40,
+    "story": "A compiler has to know if every (, [ and { is closed by the right partner. It uses a stack.",
+    "task": "Write int check(char *s) that returns 1 if the brackets ( ) [ ] { } in s match, else 0. Push opening brackets; for a closing one, pop and compare. At the end, the stack must be empty. Check the three lines below and print ok: or error: before each:\n{a[i] = (b + c);}\nf(x[1)]\n((a)",
+    "starter": "#include <stdio.h>\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "ok: {a[i] = (b + c);}\nerror: f(x[1)]\nerror: ((a)",
+    "requirements": [
+      {
+        "pattern": "int\\s+check\\s*\\(\\s*char\\s*\\*",
+        "message": "Write int check(char *s)."
+      },
+      {
+        "pattern": "push\\s*\\(",
+        "message": "Write and use push."
+      },
+      {
+        "pattern": "pop\\s*\\(",
+        "message": "Write and use pop."
+      }
+    ],
+    "hints": [
+      "An array stack is enough: char stack[100]; int top; Set top = 0 at the start of check.",
+      "For ')' : if top == 0 or pop() != '(' the brackets are wrong. The same for ']' with '[' and '}' with '{'.",
+      "At the end: return top == 0; (anything left open is an error)."
+    ]
+  },
+  "cc6-project": {
+    "title": "The Undo Button",
+    "xp": 100,
+    "story": "Every good editor has undo. Build a little adding machine with unlimited undo, using a stack made of nodes.",
+    "task": "Read commands until end. add N adds N to the total; save the old total on a linked-list stack first. undo pops the last saved total back (or prints nothing to undo if the stack is empty). After every add or undo that worked, print = and the total. Free whatever is left at the end. The app types: add 5, add 10, undo, add 7, undo, undo, undo, add 3, end (one per line).",
+    "starter": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "= 5\n= 15\n= 5\n= 12\n= 5\n= 0\nnothing to undo\n= 3",
+    "requirements": [
+      {
+        "pattern": "struct\\s+\\w+\\s*\\{",
+        "message": "Define a node struct for the stack."
+      },
+      {
+        "pattern": "malloc\\s*\\(",
+        "message": "Make nodes with malloc."
+      },
+      {
+        "pattern": "free\\s*\\(",
+        "message": "Free popped nodes."
+      },
+      {
+        "pattern": "strcmp\\s*\\(",
+        "message": "Compare the commands with strcmp."
+      }
+    ],
+    "hints": [
+      "Read with char cmd[10]; while (scanf(\"%s\", cmd) == 1 && strcmp(cmd, \"end\") != 0) { … }",
+      "For add: scanf(\"%d\", &n); push(total); total += n; printf(\"= %d\\n\", total);",
+      "For undo: if (top == NULL) printf(\"nothing to undo\\n\"); else { total = pop(); printf(\"= %d\\n\", total); }"
+    ],
+    "inputs": [
+      "add 5",
+      "add 10",
+      "undo",
+      "add 7",
+      "undo",
+      "undo",
+      "undo",
+      "add 3",
+      "end"
+    ]
+  },
+  "c19": {
+    "title": "Eight Switches",
+    "xp": 40,
+    "story": "The old front panel had a row of toggle switches. Store all eight in one number.",
+    "task": "Start with int panel = 0;. Turn on switches 0, 3, 5 and 7 with | and <<. Print the value and the 8 bits (switch 7 first), then flip switch 3 with ^ and print both again:\n169 10101001\n161 10100001\nWrite a function void show(int panel) for the printing.",
+    "starter": "#include <stdio.h>\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "169 10101001\n161 10100001",
+    "requirements": [
+      {
+        "pattern": "<<",
+        "message": "Make the bits with 1 << n."
+      },
+      {
+        "pattern": "\\|=?",
+        "message": "Turn switches on with |."
+      },
+      {
+        "pattern": "\\^=?",
+        "message": "Flip switch 3 with ^."
+      },
+      {
+        "pattern": "void\\s+show\\s*\\(",
+        "message": "Write void show(int panel)."
+      }
+    ],
+    "hints": [
+      "panel |= 1 << 0; panel |= 1 << 3; and so on.",
+      "In show: printf(\"%d \", panel); then for (b = 7; b >= 0; b--) printf(\"%d\", (panel >> b) & 1); and a newline.",
+      "Flip: panel ^= 1 << 3;"
+    ]
+  },
+  "c20": {
+    "title": "Save the High Score",
+    "xp": 40,
+    "story": "Games remember the best score in a file, so it survives until next time.",
+    "task": "Write int load() that reads the high score from score.txt (0 if the file doesn't exist) and void save(int s) that writes it. Go through the scores 1200, 4500, 3100: whenever a score beats the saved one, save it and print new high score N. At the end, print saved: and what load() returns.",
+    "starter": "#include <stdio.h>\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "new high score 1200\nnew high score 4500\nsaved: 4500",
+    "requirements": [
+      {
+        "pattern": "fopen\\s*\\(",
+        "message": "Open the file with fopen."
+      },
+      {
+        "pattern": "fprintf\\s*\\(",
+        "message": "Write with fprintf."
+      },
+      {
+        "pattern": "fscanf\\s*\\(",
+        "message": "Read with fscanf."
+      },
+      {
+        "pattern": "fclose\\s*\\(",
+        "message": "Close the file with fclose."
+      },
+      {
+        "pattern": "NULL",
+        "message": "Check if fopen returned NULL."
+      }
+    ],
+    "hints": [
+      "load: FILE *f = fopen(\"score.txt\", \"r\"); if (f == NULL) return 0; then fscanf(f, \"%d\", &s); fclose(f); return s;",
+      "save: FILE *f = fopen(\"score.txt\", \"w\"); fprintf(f, \"%d\\n\", s); fclose(f);",
+      "In main: if (scores[i] > load()) { save(scores[i]); printf(\"new high score %d\\n\", scores[i]); }"
+    ]
+  },
+  "c21": {
+    "title": "Your Own wc",
+    "xp": 40,
+    "story": "wc, the word count, was one of the first Unix tools. Write your own.",
+    "task": "Read stdin with getchar until EOF and count lines, words and characters. A word is a run of characters that aren't spaces, tabs or newlines. Print the three numbers like wc: lines words chars. The app types the three lines below.",
+    "starter": "/* $ ./wc */\n#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "3 12 59",
+    "requirements": [
+      {
+        "pattern": "getchar\\s*\\(",
+        "message": "Read with getchar."
+      },
+      {
+        "pattern": "EOF",
+        "message": "Stop at EOF."
+      }
+    ],
+    "hints": [
+      "int c, lines = 0, words = 0, chars = 0, inword = 0; while ((c = getchar()) != EOF) { … }",
+      "Every character: chars++. A '\\n': lines++.",
+      "A space, tab or newline sets inword = 0. Any other character when inword is 0 starts a new word: words++, inword = 1."
+    ],
+    "inputs": [
+      "the quick brown fox",
+      "jumps over the lazy dog",
+      "unix is simple"
+    ]
+  },
+  "cc7-project": {
+    "title": "A Tiny grep",
+    "xp": 100,
+    "story": "grep searches text for a word. It's named after an editor command: g/re/p, globally search a regular expression and print.",
+    "task": "Write int contains(char *line, char *word) yourself (no strstr): 1 if word appears in line. Read stdin with fgets, and print every line that contains argv[1], with its line number, like 2: …. At the end, print the number of matches to stderr as N matches. If there's no argument, print usage: grep word to stderr and return 1. The program is started as ./grep un.",
+    "starter": "/* $ ./grep un */\n#include <stdio.h>\n\n\n\nint main(int argc, char *argv[]) {\n    \n    return 0;\n}\n",
+    "expectedOutput": "1: unix\n3: run\n5: fun\n3 matches",
+    "requirements": [
+      {
+        "pattern": "int\\s+contains\\s*\\(",
+        "message": "Write int contains(char *line, char *word)."
+      },
+      {
+        "pattern": "argv\\s*\\[\\s*1\\s*\\]",
+        "message": "Search for argv[1]."
+      },
+      {
+        "pattern": "fgets\\s*\\(",
+        "message": "Read the lines with fgets."
+      },
+      {
+        "pattern": "stderr",
+        "message": "Print the count and errors to stderr."
+      },
+      {
+        "pattern": "argc",
+        "message": "Check argc."
+      }
+    ],
+    "hints": [
+      "contains: for each start position i in line, check if word matches there: compare line[i + j] and word[j] until word[j] is '\\0'.",
+      "Main: int n = 0, found = 0; while (fgets(line, 100, stdin) != NULL) { n++; if (contains(line, argv[1])) { found++; printf(\"%d: %s\", n, line); } }",
+      "At the end: fprintf(stderr, \"%d matches\\n\", found);"
+    ],
+    "inputs": [
+      "unix",
+      "multics",
+      "run",
+      "bell",
+      "fun"
+    ]
+  },
+  "c22": {
+    "title": "Shapes",
+    "xp": 40,
+    "story": "A drawing program keeps many kinds of shapes in one list. Describe them with your own types.",
+    "task": "Write typedef enum { CIRCLE, SQUARE, TRIANGLE } Kind; and typedef struct { Kind kind; double size; } Shape;. Write double area(Shape s) with a switch: a circle's area is 3.14159 * r * r, a square's is s * s, and an equilateral triangle's is 0.4330127 * s * s. Print the area of a circle of size 1, a square of size 2 and a triangle of size 2, with the names from an array:\ncircle 3.14\nsquare 4.00\ntriangle 1.73",
+    "starter": "#include <stdio.h>\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "circle 3.14\nsquare 4.00\ntriangle 1.73",
+    "requirements": [
+      {
+        "pattern": "typedef\\s+enum",
+        "message": "Make the Kind type with typedef enum."
+      },
+      {
+        "pattern": "typedef\\s+struct",
+        "message": "Make the Shape type with typedef struct."
+      },
+      {
+        "pattern": "switch",
+        "message": "Choose the formula with switch."
+      },
+      {
+        "pattern": "double\\s+area\\s*\\(\\s*Shape",
+        "message": "Write double area(Shape s)."
+      }
+    ],
+    "hints": [
+      "typedef enum { CIRCLE, SQUARE, TRIANGLE } Kind; typedef struct { Kind kind; double size; } Shape;",
+      "area: switch (s.kind) { case CIRCLE: return 3.14159 * s.size * s.size; … }",
+      "In main: Shape shapes[3] = {{CIRCLE, 1}, {SQUARE, 2}, {TRIANGLE, 2}}; char *names[] = {\"circle\", \"square\", \"triangle\"}; printf(\"%s %.2f\\n\", names[shapes[i].kind], area(shapes[i]));"
+    ]
+  },
+  "c23": {
+    "title": "Safe Macros",
+    "xp": 40,
+    "story": "Old C code is full of little macros. Write three of them, and make them safe with brackets.",
+    "task": "Write #define MIN(a, b), #define MAX(a, b) and #define CLAMP(x, lo, hi), where CLAMP uses MIN and MAX to keep x between lo and hi. Print CLAMP(-5, 0, 100), CLAMP(50, 0, 100) and CLAMP(150, 0, 100) on one line, then MAX(2 + 3, 4) * 2 on the next:\n0 50 100\n10",
+    "starter": "#include <stdio.h>\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "0 50 100\n10",
+    "requirements": [
+      {
+        "pattern": "#define\\s+MIN\\s*\\(",
+        "message": "Write the MIN macro."
+      },
+      {
+        "pattern": "#define\\s+MAX\\s*\\(",
+        "message": "Write the MAX macro."
+      },
+      {
+        "pattern": "#define\\s+CLAMP\\s*\\(",
+        "message": "Write the CLAMP macro."
+      },
+      {
+        "pattern": "CLAMP\\s*\\([^\\n]*\\b(MIN|MAX)",
+        "message": "CLAMP should use MIN and MAX."
+      }
+    ],
+    "hints": [
+      "#define MIN(a, b) ((a) < (b) ? (a) : (b))",
+      "#define CLAMP(x, lo, hi) MIN(MAX(x, lo), hi): first at least lo, then at most hi.",
+      "MAX(2 + 3, 4) * 2 is only 10 if the whole MAX is in brackets: ((a) > (b) ? (a) : (b))."
+    ]
+  },
+  "c24": {
+    "title": "Sort by Any Rule",
+    "xp": 40,
+    "story": "One qsort, three compare functions, three orders.",
+    "task": "Sort int v[6] = {42, 7, 19, 73, 3, 56} three times with qsort and print it after each: small to big, big to small, and by the last digit (with the smaller number first if the last digits are equal). Write void show(int *a, int n) to print a line.",
+    "starter": "#include <stdio.h>\n#include <stdlib.h>\n\n\n\nint main() {\n    int v[6] = {42, 7, 19, 73, 3, 56};\n    \n    return 0;\n}\n",
+    "expectedOutput": "3 7 19 42 56 73\n73 56 42 19 7 3\n42 3 73 56 7 19",
+    "requirements": [
+      {
+        "pattern": "qsort\\s*\\(",
+        "message": "Sort with qsort."
+      },
+      {
+        "pattern": "const\\s+void\\s*\\*",
+        "message": "Compare functions take const void * pointers."
+      },
+      {
+        "pattern": "%\\s*10",
+        "message": "Get the last digit with % 10."
+      },
+      {
+        "pattern": "void\\s+show\\s*\\(",
+        "message": "Write void show(int *a, int n)."
+      }
+    ],
+    "hints": [
+      "int up(const void *a, const void *b) { return *(const int *)a - *(const int *)b; }",
+      "For big to small, swap a and b.",
+      "Last digit: int x = *(const int *)a, y = *(const int *)b; if (x % 10 != y % 10) return x % 10 - y % 10; return x - y;"
+    ]
+  },
+  "cc8-project": {
+    "title": "The Desk Calculator",
+    "xp": 100,
+    "story": "Unix had dc, the desk calculator, from its very first version. Build one with a command table.",
+    "task": "Read lines like 12 add 30 with scanf(\"%d %s %d\", …) until the input ends. Look the command up in a table of structs that hold a name and a function pointer (use a typedef for the function pointer type), and print the calculation. Commands: add, sub, mul and div. For an unknown command, print unknown: and its name.",
+    "starter": "#include <stdio.h>\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "12 add 30 = 42\n6 mul 7 = 42\n50 sub 8 = 42\nunknown: pow\n84 div 2 = 42",
+    "requirements": [
+      {
+        "pattern": "typedef[^;]*\\(\\s*\\*",
+        "message": "Make a typedef for the function pointer type."
+      },
+      {
+        "pattern": "struct",
+        "message": "Keep the commands in a table of structs."
+      },
+      {
+        "pattern": "scanf\\s*\\(",
+        "message": "Read the input with scanf."
+      },
+      {
+        "pattern": "strcmp\\s*\\(",
+        "message": "Find the command with strcmp."
+      }
+    ],
+    "hints": [
+      "typedef int (*Op)(int, int); struct command { char *name; Op run; };",
+      "struct command table[] = { {\"add\", add}, {\"sub\", sub}, {\"mul\", mul}, {\"div\", divide} };",
+      "while (scanf(\"%d %s %d\", &a, name, &b) == 3) { search the table; if found, printf(\"%d %s %d = %d\\n\", a, name, b, table[i].run(a, b)); }"
+    ],
+    "inputs": [
+      "12 add 30",
+      "6 mul 7",
+      "50 sub 8",
+      "2 pow 5",
+      "84 div 2"
+    ]
+  },
+  "c25": {
+    "title": "The Family Tree",
+    "xp": 40,
+    "story": "Store numbers in a binary search tree and ask it questions.",
+    "task": "Insert 8, 3, 10, 1, 6, 14, 4, 7, 13 into a binary search tree. Print the keys in order, then the smallest key (keep going left), the largest (keep going right), the number of nodes and the height:\n1 3 4 6 7 8 10 13 14\nmin 1 max 14\n9 nodes, height 4\nFree the tree at the end.",
+    "starter": "#include <stdio.h>\n#include <stdlib.h>\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "1 3 4 6 7 8 10 13 14\nmin 1 max 14\n9 nodes, height 4",
+    "requirements": [
+      {
+        "pattern": "malloc\\s*\\(",
+        "message": "Make the nodes with malloc."
+      },
+      {
+        "pattern": "free\\s*\\(",
+        "message": "Free the tree at the end."
+      },
+      {
+        "pattern": "->\\s*left",
+        "message": "Each node needs a left pointer."
+      },
+      {
+        "pattern": "->\\s*right",
+        "message": "Each node needs a right pointer."
+      }
+    ],
+    "hints": [
+      "Use the insert and inorder functions from the lessons.",
+      "min: while (t->left != NULL) t = t->left; return t->key;",
+      "count and height are recursive: for NULL, both return 0."
+    ]
+  },
+  "c26": {
+    "title": "The Phone Directory",
+    "xp": 40,
+    "story": "The phone company had millions of names. A hash table finds any of them at once.",
+    "task": "Make a hash table with 11 places that stores a name and a phone number in each entry. Add ken 4711, dmr 2187, bwk 5040 and doug 1969. Then look up dmr, bwk, linus and doug, printing the number or not found:\ndmr 2187\nbwk 5040\nlinus not found\ndoug 1969",
+    "starter": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\n#define SIZE 11\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "dmr 2187\nbwk 5040\nlinus not found\ndoug 1969",
+    "requirements": [
+      {
+        "pattern": "%\\s*SIZE|%\\s*11",
+        "message": "Fit the hash into the table with %."
+      },
+      {
+        "pattern": "->\\s*next",
+        "message": "Chain colliding entries with a next pointer."
+      },
+      {
+        "pattern": "strcmp\\s*\\(",
+        "message": "Compare the names with strcmp."
+      },
+      {
+        "pattern": "malloc\\s*\\(",
+        "message": "Make the entries with malloc."
+      }
+    ],
+    "hints": [
+      "struct entry { char *name; int number; struct entry *next; }; struct entry *table[11];",
+      "Use the hash function from the lessons with SIZE 11.",
+      "lookup walks table[hash(name)] and returns the entry or NULL."
+    ]
+  },
+  "c27": {
+    "title": "The Report",
+    "xp": 40,
+    "story": "A shop writes a line for every sale. Turn the lines into a report.",
+    "task": "Read lines like 2026-11-03 coffee 3 with fgets, and take them apart with sscanf into the date, the item and the amount. Skip bad lines. For every good line, build a label like 11/03 coffee with sprintf (month/day) and print it with the amount, padded to 15 characters: printf(\"%-15s %d\\n\", label, amount). At the end, print total: and the sum.",
+    "starter": "#include <stdio.h>\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "11/03 coffee    3\n11/03 cake      2\n11/04 coffee    5\ntotal: 10",
+    "requirements": [
+      {
+        "pattern": "fgets\\s*\\(",
+        "message": "Read the lines with fgets."
+      },
+      {
+        "pattern": "sscanf\\s*\\(",
+        "message": "Take each line apart with sscanf."
+      },
+      {
+        "pattern": "sprintf\\s*\\(",
+        "message": "Build the label with sprintf."
+      }
+    ],
+    "hints": [
+      "char line[80], item[20], label[30]; int y, m, d, n;",
+      "if (sscanf(line, \"%d-%d-%d %s %d\", &y, &m, &d, item, &n) != 5) continue;",
+      "sprintf(label, \"%02d/%02d %s\", m, d, item);"
+    ],
+    "inputs": [
+      "2026-11-03 coffee 3",
+      "2026-11-03 cake 2",
+      "broken line",
+      "2026-11-04 coffee 5"
+    ]
+  },
+  "cc9-project": {
+    "title": "Word Frequency",
+    "xp": 100,
+    "story": "Which words does a text use most? Combine everything: a hash table to count, qsort to rank.",
+    "task": "Read every word from the input with scanf(\"%s\", …) and count it in a hash table. Then copy all entries into an array of pointers, sort it with qsort by count (most first, and alphabetically for equal counts), and print the top 3 as count word, and finally the number of different words:\n4 the\n3 and\n2 cat\n8 different words",
+    "starter": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\n#define SIZE 13\n\n\n\nint main() {\n    \n    return 0;\n}\n",
+    "expectedOutput": "4 the\n3 and\n2 cat\n8 different words",
+    "requirements": [
+      {
+        "pattern": "qsort\\s*\\(",
+        "message": "Rank the words with qsort."
+      },
+      {
+        "pattern": "->\\s*next",
+        "message": "Chain the hash table entries."
+      },
+      {
+        "pattern": "strdup\\s*\\(|malloc\\s*\\(",
+        "message": "Store your own copy of each word."
+      },
+      {
+        "pattern": "scanf\\s*\\(",
+        "message": "Read the words with scanf."
+      }
+    ],
+    "hints": [
+      "Use add() and lookup() from the lessons, and count the different words when an entry is new.",
+      "Entry *all[100]; walk the table and put every entry into all[n++].",
+      "int by_count(const void *a, const void *b) { const Entry *x = *(Entry * const *)a; … } Compare counts first, then strcmp the words."
+    ],
+    "inputs": [
+      "the cat and the dog",
+      "and the bird and the cat",
+      "saw a fox"
+    ]
+  }
+}

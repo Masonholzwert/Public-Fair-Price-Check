@@ -1,0 +1,424 @@
+{
+  "id": "cb11",
+  "title": "PERFORM VARYING",
+  "lessons": [
+    {
+      "id": "cb11-l1",
+      "title": "Counting Loops",
+      "xp": 15,
+      "intro": [
+        "PERFORM SHOW-LINE VARYING I FROM 1 BY 1 UNTIL I > 5 is COBOL's counting loop: I starts at 1, goes up by 1 after each round, and the loop stops once I is above 5.",
+        "BY can be any step: BY 2 counts 1, 3, 5. FROM 10 BY -1 UNTIL I < 1 counts down.",
+        "After the loop, I holds the first value that stopped it: 6 in the first example."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. VARY.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 I         PIC 99.",
+          "       01 SQUARE    PIC 999.",
+          "       PROCEDURE DIVISION.",
+          "       MAIN.",
+          "           PERFORM SHOW-SQUARE VARYING I FROM 1 BY 1 UNTIL I > 5.",
+          "           DISPLAY \"I AFTER THE LOOP: \" I.",
+          "           STOP RUN.",
+          "       SHOW-SQUARE.",
+          "           COMPUTE SQUARE = I * I.",
+          "           DISPLAY I \" SQUARED IS \" SQUARE."
+        ],
+        "output": [
+          "01 SQUARED IS 001",
+          "02 SQUARED IS 004",
+          "03 SQUARED IS 009",
+          "04 SQUARED IS 016",
+          "05 SQUARED IS 025",
+          "I AFTER THE LOOP: 06"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb11-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "PERFORM P VARYING I FROM 1 BY 2 UNTIL I > 7. Which values does I take inside P?",
+          "options": [
+            "1, 3, 5, 7",
+            "1, 2, … 7",
+            "2, 4, 6",
+            "1, 3, 5"
+          ],
+          "answer": 0,
+          "explanation": "The loop stops when I becomes 9."
+        },
+        {
+          "id": "cb11-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. SUM.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 I PIC 99.",
+            "       01 T PIC 99 VALUE ZERO.",
+            "       PROCEDURE DIVISION.",
+            "           PERFORM VARYING I FROM 1 BY 1 UNTIL I > 5",
+            "               ADD I TO T",
+            "           END-PERFORM.",
+            "           DISPLAY T.",
+            "           STOP RUN."
+          ],
+          "options": [
+            "15",
+            "10",
+            "5",
+            "21"
+          ],
+          "answer": 0,
+          "explanation": "1 + 2 + 3 + 4 + 5 = 15."
+        },
+        {
+          "id": "cb11-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Count from 1 to 12.",
+          "code": [
+            "           PERFORM SHOW-MONTH VARYING M FROM 1 BY 1 UNTIL M ___ 12."
+          ],
+          "options": [
+            ">",
+            "=",
+            "<",
+            ">="
+          ],
+          "answer": ">",
+          "explanation": "The loop runs while M is not above 12."
+        },
+        {
+          "id": "cb11-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What is I after PERFORM P VARYING I FROM 1 BY 1 UNTIL I > 5?",
+          "options": [
+            "6",
+            "5",
+            "1",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "The value that made the condition true."
+        },
+        {
+          "id": "cb11-l1-e5",
+          "type": "multiple_choice",
+          "prompt": "How do you count down from 10 to 1?",
+          "options": [
+            "VARYING I FROM 10 BY -1 UNTIL I < 1",
+            "VARYING I FROM 1 BY 1 UNTIL I > 10",
+            "VARYING I FROM 10 BY 1 UNTIL I = 1",
+            "VARYING I DOWN FROM 10"
+          ],
+          "answer": 0,
+          "explanation": "A negative step."
+        },
+        {
+          "id": "cb11-l1-e6",
+          "type": "order_lines",
+          "prompt": "Put the parts of the loop in order.",
+          "lines": [
+            "           PERFORM SHOW-ROW",
+            "               VARYING ROW-NO FROM 1 BY 1",
+            "               UNTIL ROW-NO > 3."
+          ],
+          "answer": [
+            "           PERFORM SHOW-ROW",
+            "               VARYING ROW-NO FROM 1 BY 1",
+            "               UNTIL ROW-NO > 3."
+          ],
+          "explanation": "PERFORM, VARYING … FROM … BY, UNTIL."
+        }
+      ]
+    },
+    {
+      "id": "cb11-l2",
+      "title": "Inline PERFORM",
+      "xp": 15,
+      "intro": [
+        "A loop doesn't need its own paragraph: PERFORM VARYING … END-PERFORM keeps short loops right where they're used.",
+        "COBOL programmers still use paragraphs for longer jobs, so each part has a name. Inline loops are for a few lines.",
+        "The example prints a loan: 1,000 dollars, 100 paid back each month, plus 1 % interest on what's left."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. LOAN.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 MONTH-NO    PIC 99.",
+          "       01 BALANCE     PIC 9(5)V99 VALUE 1000.",
+          "       01 LINE-OUT.",
+          "          05 L-MONTH   PIC Z9.",
+          "          05 L-BAL     PIC $$$,$$9.99.",
+          "       PROCEDURE DIVISION.",
+          "           PERFORM VARYING MONTH-NO FROM 1 BY 1 UNTIL MONTH-NO > 4",
+          "               COMPUTE BALANCE ROUNDED = BALANCE * 1.01 - 100",
+          "               MOVE MONTH-NO TO L-MONTH",
+          "               MOVE BALANCE TO L-BAL",
+          "               DISPLAY LINE-OUT",
+          "           END-PERFORM.",
+          "           STOP RUN."
+        ],
+        "output": [
+          " 1   $910.00",
+          " 2   $819.10",
+          " 3   $727.29",
+          " 4   $634.56"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb11-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does an inline PERFORM need at its end?",
+          "options": [
+            "END-PERFORM",
+            "A paragraph name",
+            "STOP RUN",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "The statements go between PERFORM and END-PERFORM."
+        },
+        {
+          "id": "cb11-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. EVEN.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 I PIC 9.",
+            "       PROCEDURE DIVISION.",
+            "           PERFORM VARYING I FROM 2 BY 2 UNTIL I > 6",
+            "               DISPLAY I \" \" WITH NO ADVANCING",
+            "           END-PERFORM.",
+            "           DISPLAY \"END\".",
+            "           STOP RUN."
+          ],
+          "options": [
+            "2 4 6 END",
+            "1 2 3 END",
+            "2 4 6 8 END",
+            "6 END"
+          ],
+          "answer": 0,
+          "explanation": "I = 2, 4, 6. Each DISPLAY stays on the line, without advancing."
+        },
+        {
+          "id": "cb11-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Close the loop.",
+          "code": [
+            "           PERFORM VARYING I FROM 1 BY 1 UNTIL I > 3",
+            "               DISPLAY \"LINE \" I",
+            "           ___."
+          ],
+          "options": [
+            "END-PERFORM",
+            "END-LOOP",
+            "NEXT",
+            "END-VARYING"
+          ],
+          "answer": "END-PERFORM",
+          "explanation": "END-PERFORM."
+        },
+        {
+          "id": "cb11-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "Inside an inline PERFORM, are periods allowed after the statements?",
+          "options": [
+            "No: a period would end the PERFORM too early",
+            "Yes, after each one",
+            "Only after the last",
+            "Periods are needed"
+          ],
+          "answer": 0,
+          "explanation": "Only after END-PERFORM."
+        },
+        {
+          "id": "cb11-l2-e5",
+          "type": "find_bug",
+          "prompt": "This job doesn't compile. Which line is wrong?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. DOT.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 I PIC 9.",
+            "       PROCEDURE DIVISION.",
+            "           PERFORM VARYING I FROM 1 BY 1 UNTIL I > 3",
+            "               DISPLAY I.",
+            "           END-PERFORM.",
+            "           STOP RUN."
+          ],
+          "answer": 7,
+          "explanation": "The period after DISPLAY I ends the sentence, so END-PERFORM stands alone. Remove it."
+        },
+        {
+          "id": "cb11-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "When is a paragraph better than an inline PERFORM?",
+          "options": [
+            "For longer work that deserves its own name",
+            "Never",
+            "For one line",
+            "Only with TIMES"
+          ],
+          "answer": 0,
+          "explanation": "A name like CALCULATE-TAX says what happens."
+        }
+      ]
+    },
+    {
+      "id": "cb11-l3",
+      "title": "Loops in Loops",
+      "xp": 15,
+      "intro": [
+        "VARYING can count two things at once: VARYING ROW FROM 1 BY 1 UNTIL ROW > 3 AFTER COL FROM 1 BY 1 UNTIL COL > 3. For every ROW, COL runs through all its values.",
+        "It's the same as an inline PERFORM inside another one, and both styles are common.",
+        "The example builds a small multiplication table, one line per row, with STRING-free tricks: WITH NO ADVANCING."
+      ],
+      "example": {
+        "code": [
+          "       IDENTIFICATION DIVISION.",
+          "       PROGRAM-ID. TABLE.",
+          "       DATA DIVISION.",
+          "       WORKING-STORAGE SECTION.",
+          "       01 R-NO     PIC 9.",
+          "       01 C-NO     PIC 9.",
+          "       01 PRODUCT  PIC Z9.",
+          "       PROCEDURE DIVISION.",
+          "           PERFORM VARYING R-NO FROM 1 BY 1 UNTIL R-NO > 3",
+          "               PERFORM VARYING C-NO FROM 1 BY 1 UNTIL C-NO > 4",
+          "                   COMPUTE PRODUCT = R-NO * C-NO",
+          "                   DISPLAY PRODUCT \" \" WITH NO ADVANCING",
+          "               END-PERFORM",
+          "               DISPLAY \" \"",
+          "           END-PERFORM.",
+          "           STOP RUN."
+        ],
+        "output": [
+          " 1  2  3  4  ",
+          " 2  4  6  8  ",
+          " 3  6  9 12  "
+        ]
+      },
+      "exercises": [
+        {
+          "id": "cb11-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "A loop of 3 rows has a loop of 4 columns inside. How often does the inner body run?",
+          "options": [
+            "12",
+            "7",
+            "4",
+            "3"
+          ],
+          "answer": 0,
+          "explanation": "3 × 4."
+        },
+        {
+          "id": "cb11-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What does this job show?",
+          "code": [
+            "       IDENTIFICATION DIVISION.",
+            "       PROGRAM-ID. AB.",
+            "       DATA DIVISION.",
+            "       WORKING-STORAGE SECTION.",
+            "       01 A1 PIC 9.",
+            "       01 B1 PIC 9.",
+            "       PROCEDURE DIVISION.",
+            "       MAIN.",
+            "           PERFORM SHOW-AB VARYING A1 FROM 1 BY 1 UNTIL A1 > 2",
+            "               AFTER B1 FROM 1 BY 1 UNTIL B1 > 2.",
+            "           STOP RUN.",
+            "       SHOW-AB.",
+            "           DISPLAY A1 B1."
+          ],
+          "options": [
+            "11\n12\n21\n22",
+            "11\n21\n12\n22",
+            "12\n21",
+            "1122"
+          ],
+          "answer": 0,
+          "explanation": "For every A, B goes 1 then 2."
+        },
+        {
+          "id": "cb11-l3-e3",
+          "type": "fill_blank",
+          "prompt": "Let COL run through 1 to 5 for every ROW.",
+          "code": [
+            "           PERFORM SHOW-CELL VARYING ROW FROM 1 BY 1 UNTIL ROW > 3",
+            "               ___ COL FROM 1 BY 1 UNTIL COL > 5."
+          ],
+          "options": [
+            "AFTER",
+            "THEN",
+            "AND",
+            "WITH"
+          ],
+          "answer": "AFTER",
+          "explanation": "VARYING … AFTER …."
+        },
+        {
+          "id": "cb11-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "In the example, what does DISPLAY \" \" after the inner loop do?",
+          "options": [
+            "Ends the line, so each row is on its own line",
+            "Prints a blank row",
+            "Nothing",
+            "Clears the screen"
+          ],
+          "answer": 0,
+          "explanation": "The products stay on one line until then."
+        },
+        {
+          "id": "cb11-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Which loop changes fastest in VARYING A … AFTER B …?",
+          "options": [
+            "B, the one after AFTER",
+            "A",
+            "Both at once",
+            "Neither"
+          ],
+          "answer": 0,
+          "explanation": "Like the minutes and hours on a clock."
+        },
+        {
+          "id": "cb11-l3-e6",
+          "type": "order_lines",
+          "prompt": "Put the nested loop in order.",
+          "lines": [
+            "           PERFORM VARYING ROW-NO FROM 1 BY 1 UNTIL ROW-NO > 2",
+            "               PERFORM VARYING COL-NO FROM 1 BY 1 UNTIL COL-NO > 2",
+            "                   DISPLAY ROW-NO COL-NO",
+            "               END-PERFORM",
+            "           END-PERFORM."
+          ],
+          "answer": [
+            "           PERFORM VARYING ROW-NO FROM 1 BY 1 UNTIL ROW-NO > 2",
+            "               PERFORM VARYING COL-NO FROM 1 BY 1 UNTIL COL-NO > 2",
+            "                   DISPLAY ROW-NO COL-NO",
+            "               END-PERFORM",
+            "           END-PERFORM."
+          ],
+          "explanation": "The inner loop sits completely inside the outer one."
+        }
+      ]
+    }
+  ]
+}

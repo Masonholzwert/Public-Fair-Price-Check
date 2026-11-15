@@ -1,0 +1,1417 @@
+{
+  "challenges": [
+    {
+      "id": "x-count-five",
+      "unit": "a1",
+      "difficulty": 1,
+      "title": "Count to Five",
+      "task": "End with X = 5. Start with LDX #0 and only count up with INX. End with BRK.",
+      "xp": 15,
+      "starter": "; COUNT TO FIVE\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "x": 5
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\bINX\\b",
+          "message": "Count up with INX."
+        }
+      ],
+      "hints": [
+        "LDX #0 first.",
+        "Then INX five times.",
+        "Finish with BRK."
+      ],
+      "maxLines": 8
+    },
+    {
+      "id": "x-mirror",
+      "unit": "a1",
+      "difficulty": 1,
+      "title": "Mirror",
+      "task": "Load A with $12 once. Copy it into X and Y, then make Y one smaller, so A = $12, X = $12 and Y = $11. End with BRK.",
+      "xp": 15,
+      "starter": "; MIRROR\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "a": 18,
+            "x": 18,
+            "y": 17
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\bTAX\\b",
+          "message": "Copy A into X with TAX."
+        },
+        {
+          "pattern": "\\bTAY\\b",
+          "message": "Copy A into Y with TAY."
+        },
+        {
+          "pattern": "\\bDEY\\b",
+          "message": "Make Y one smaller with DEY."
+        }
+      ],
+      "hints": [
+        "LDA #$12.",
+        "TAX and TAY copy it.",
+        "DEY, then BRK."
+      ]
+    },
+    {
+      "id": "x-fill-three",
+      "unit": "a2",
+      "difficulty": 1,
+      "title": "Fill Three",
+      "task": "Store $AA at $0300, $0301 and $0302. Load the value only once. End with BRK.",
+      "xp": 15,
+      "starter": "; FILL THREE\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "mem": {
+              "0300": 170,
+              "0301": 170,
+              "0302": 170
+            }
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "STA[\\s\\S]*STA[\\s\\S]*STA",
+          "message": "Store A three times with STA."
+        }
+      ],
+      "hints": [
+        "LDA #$AA once.",
+        "A keeps its value after STA.",
+        "STA $0300, STA $0301, STA $0302, BRK."
+      ]
+    },
+    {
+      "id": "x-swap",
+      "unit": "a2",
+      "difficulty": 2,
+      "title": "Swap",
+      "task": "Swap the bytes at $0300 and $0301: each one ends up where the other was. End with BRK.",
+      "xp": 25,
+      "starter": "; SWAP\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "mem": {
+              "0300": 9,
+              "0301": 7
+            }
+          },
+          "memory": {
+            "0300": 7,
+            "0301": 9
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0300": 1,
+              "0301": 255
+            }
+          },
+          "memory": {
+            "0300": 255,
+            "0301": 1
+          }
+        }
+      ],
+      "requirements": [],
+      "hints": [
+        "You need two registers, or a spare zero page byte.",
+        "LDA $0300 and LDX $0301.",
+        "Then STA $0301 and STX $0300."
+      ]
+    },
+    {
+      "id": "x-tax",
+      "unit": "a3",
+      "difficulty": 1,
+      "title": "Plus Tax",
+      "task": "The price is at $0300. Add 19 for tax and store the total at $0301. End with BRK.",
+      "xp": 15,
+      "starter": "; PLUS TAX\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "mem": {
+              "0301": 119
+            }
+          },
+          "memory": {
+            "0300": 100
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0301": 19
+            }
+          },
+          "memory": {
+            "0300": 0
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0301": 219
+            }
+          },
+          "memory": {
+            "0300": 200
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\bCLC\\b",
+          "message": "Clear the carry with CLC before adding."
+        },
+        {
+          "pattern": "\\bADC\\b",
+          "message": "Add with ADC."
+        }
+      ],
+      "hints": [
+        "LDA $0300.",
+        "CLC, ADC #19.",
+        "STA $0301, BRK."
+      ]
+    },
+    {
+      "id": "x-change",
+      "unit": "a3",
+      "difficulty": 2,
+      "title": "Change",
+      "task": "A customer paid the amount at $0300 for something that costs the amount at $0301. Store the change at $0302. End with BRK.",
+      "xp": 25,
+      "starter": "; CHANGE\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "mem": {
+              "0302": 13
+            }
+          },
+          "memory": {
+            "0300": 50,
+            "0301": 37
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0302": 0
+            }
+          },
+          "memory": {
+            "0300": 20,
+            "0301": 20
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0302": 199
+            }
+          },
+          "memory": {
+            "0300": 200,
+            "0301": 1
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\bSEC\\b",
+          "message": "Set the carry with SEC before subtracting."
+        },
+        {
+          "pattern": "\\bSBC\\b",
+          "message": "Subtract with SBC."
+        }
+      ],
+      "hints": [
+        "LDA $0300.",
+        "SEC, SBC $0301.",
+        "STA $0302, BRK."
+      ]
+    },
+    {
+      "id": "x-negative",
+      "unit": "a4",
+      "difficulty": 1,
+      "title": "Negative?",
+      "task": "Bytes from $80 to $FF count as negative. If the byte at $0300 is negative, store 1 at $0301, otherwise store 0. End with BRK.",
+      "xp": 15,
+      "starter": "; NEGATIVE?\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "mem": {
+              "0301": 1
+            }
+          },
+          "memory": {
+            "0300": 144
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0301": 0
+            }
+          },
+          "memory": {
+            "0300": 16,
+            "0301": 7
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0301": 1
+            }
+          },
+          "memory": {
+            "0300": 255
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0301": 0
+            }
+          },
+          "memory": {
+            "0300": 0,
+            "0301": 7
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\bB(MI|PL)\\b",
+          "message": "Decide with BMI or BPL."
+        }
+      ],
+      "hints": [
+        "LDA $0300 sets the N flag.",
+        "BMI NEG jumps for negative bytes.",
+        "Store 0 or 1 on each path, then BRK."
+      ]
+    },
+    {
+      "id": "x-absolute",
+      "unit": "a4",
+      "difficulty": 2,
+      "title": "Absolute Value",
+      "task": "The byte at $0300 is a signed number: $FB means -5. Store its size without the sign at $0301: 5 for both 5 and -5. End with BRK.",
+      "xp": 25,
+      "starter": "; ABSOLUTE VALUE\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "mem": {
+              "0301": 5
+            }
+          },
+          "memory": {
+            "0300": 5
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0301": 5
+            }
+          },
+          "memory": {
+            "0300": 251
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0301": 0
+            }
+          },
+          "memory": {
+            "0300": 0
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0301": 100
+            }
+          },
+          "memory": {
+            "0300": 156
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\bB(MI|PL)\\b",
+          "message": "Check the sign with BMI or BPL."
+        }
+      ],
+      "hints": [
+        "Positive numbers are copied as they are.",
+        "For a negative number, compute 0 minus the number.",
+        "NEG: SEC, LDA #0, SBC $0300, STA $0301."
+      ]
+    },
+    {
+      "id": "x-sum-to-n",
+      "unit": "a5",
+      "difficulty": 2,
+      "title": "Sum to N",
+      "task": "Add up all numbers from 1 to N, where N (1 to 20) is at $0300. Store the sum at $0301. End with BRK.",
+      "xp": 25,
+      "starter": "; SUM TO N\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "mem": {
+              "0301": 10
+            }
+          },
+          "memory": {
+            "0300": 4
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0301": 1
+            }
+          },
+          "memory": {
+            "0300": 1
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0301": 210
+            }
+          },
+          "memory": {
+            "0300": 20
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\bB(NE|EQ|CS|CC)\\b",
+          "message": "Use a loop."
+        }
+      ],
+      "hints": [
+        "LDA #0, LDX $0300.",
+        "Loop: STX $30, CLC, ADC $30, DEX, BNE.",
+        "STA $0301, BRK."
+      ]
+    },
+    {
+      "id": "x-powers",
+      "unit": "a5",
+      "difficulty": 2,
+      "title": "Powers of Two",
+      "task": "N (0 to 7) is at $0300. Store 2 to the power of N at $0301: 1, 2, 4, 8 … Double with ADC, not with shifts. End with BRK.",
+      "xp": 25,
+      "starter": "; POWERS OF TWO\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "mem": {
+              "0301": 1
+            }
+          },
+          "memory": {
+            "0300": 0
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0301": 8
+            }
+          },
+          "memory": {
+            "0300": 3
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0301": 128
+            }
+          },
+          "memory": {
+            "0300": 7
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\bADC\\b",
+          "message": "Double the number by adding it to itself."
+        }
+      ],
+      "hints": [
+        "Start with LDA #1 and LDX $0300.",
+        "BEQ DONE skips the loop for N = 0.",
+        "Loop: STA $30, CLC, ADC $30, DEX, BNE."
+      ]
+    },
+    {
+      "id": "x-zeros",
+      "unit": "a6",
+      "difficulty": 2,
+      "title": "Count the Zeros",
+      "task": "Count how many of the 8 bytes at $0300–$0307 are 0, and store the count at $0310. End with BRK.",
+      "xp": 25,
+      "starter": "; COUNT THE ZEROS\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "mem": {
+              "0310": 4
+            }
+          },
+          "memory": {
+            "0300": 0,
+            "0301": 5,
+            "0302": 0,
+            "0303": 0,
+            "0304": 9,
+            "0305": 1,
+            "0306": 0,
+            "0307": 2
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0310": 0
+            }
+          },
+          "memory": {
+            "0300": 1,
+            "0301": 2,
+            "0302": 3,
+            "0303": 4,
+            "0304": 5,
+            "0305": 6,
+            "0306": 7,
+            "0307": 8
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\$0?300\\s*,\\s*[XY]",
+          "message": "Walk through the bytes with $0300,X."
+        }
+      ],
+      "hints": [
+        "LDX #0, LDY #0 (Y counts the zeros).",
+        "LOOP: LDA $0300,X, BNE SKIP, INY.",
+        "SKIP: INX, CPX #8, BNE LOOP. Then STY $0310."
+      ]
+    },
+    {
+      "id": "x-reverse",
+      "unit": "a6",
+      "difficulty": 3,
+      "title": "Reverse Copy",
+      "task": "Copy the 5 bytes at $0300–$0304 to $0310–$0314 in reverse order: $0304 goes to $0310, $0300 to $0314. End with BRK.",
+      "xp": 40,
+      "starter": "; REVERSE COPY\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "mem": {
+              "0310": 5,
+              "0311": 4,
+              "0312": 3,
+              "0313": 2,
+              "0314": 1
+            }
+          },
+          "memory": {
+            "0300": 1,
+            "0301": 2,
+            "0302": 3,
+            "0303": 4,
+            "0304": 5
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\$0?300\\s*,\\s*[XY]",
+          "message": "Read with an index, like $0300,X."
+        },
+        {
+          "pattern": "\\$0?310\\s*,\\s*[XY]",
+          "message": "Write with an index, like $0310,Y."
+        }
+      ],
+      "hints": [
+        "Use X to read and Y to write.",
+        "LDX #4, LDY #0. LOOP: LDA $0300,X, STA $0310,Y.",
+        "INY, DEX, BPL LOOP (stops after X = 0)."
+      ]
+    },
+    {
+      "id": "x-square",
+      "unit": "a7",
+      "difficulty": 2,
+      "title": "Square Subroutine",
+      "task": "Write a subroutine SQUARE that returns A × A in A (for A up to 15). Use it to store the square of $0300 at $0310 and of $0301 at $0311. End with BRK.",
+      "xp": 25,
+      "starter": "; SQUARE SUBROUTINE\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "mem": {
+              "0310": 9,
+              "0311": 144
+            }
+          },
+          "memory": {
+            "0300": 3,
+            "0301": 12
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0310": 225,
+              "0311": 1
+            }
+          },
+          "memory": {
+            "0300": 15,
+            "0301": 1
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0310": 0,
+              "0311": 49
+            }
+          },
+          "memory": {
+            "0300": 0,
+            "0301": 7
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "JSR[\\s\\S]*JSR",
+          "message": "Call SQUARE twice with JSR."
+        },
+        {
+          "pattern": "\\bRTS\\b",
+          "message": "End SQUARE with RTS."
+        }
+      ],
+      "hints": [
+        "SQUARE: STA $30 (the number), TAX (the counter), LDA #0.",
+        "CPX #0, BEQ DONE for 0. Loop: CLC, ADC $30, DEX, BNE.",
+        "DONE: RTS."
+      ]
+    },
+    {
+      "id": "x-save-a",
+      "unit": "a7",
+      "difficulty": 2,
+      "title": "Save the Registers",
+      "task": "A holds $42. Call a subroutine CLEAR that stores 0 at $0300–$0303. After the call, A must still be $42. End with BRK.",
+      "xp": 25,
+      "starter": "; SAVE THE REGISTERS\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "a": 66,
+            "mem": {
+              "0300": 0,
+              "0301": 0,
+              "0302": 0,
+              "0303": 0
+            }
+          },
+          "memory": {
+            "0300": 9,
+            "0301": 9,
+            "0302": 9,
+            "0303": 9
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\bPHA\\b",
+          "message": "Save A with PHA."
+        },
+        {
+          "pattern": "\\bPLA\\b",
+          "message": "Bring A back with PLA."
+        },
+        {
+          "pattern": "\\bJSR\\b",
+          "message": "Call CLEAR with JSR."
+        }
+      ],
+      "hints": [
+        "LDA #$42, JSR CLEAR, BRK.",
+        "CLEAR: PHA, LDA #0, then STA four times.",
+        "PLA, RTS."
+      ]
+    },
+    {
+      "id": "x-stars",
+      "unit": "a8",
+      "difficulty": 1,
+      "title": "Ten Stars",
+      "task": "Print ten stars: **********. Use a loop, not ten JSRs. End with BRK.",
+      "xp": 15,
+      "starter": "; TEN STARS\nOUTCH = $1EA0\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {},
+          "output": "**********"
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\bB(NE|EQ|PL|MI)\\b",
+          "message": "Repeat with a loop."
+        }
+      ],
+      "hints": [
+        "LDX #10, LDA #'*.",
+        "LOOP: JSR OUTCH, DEX, BNE LOOP.",
+        "Then BRK."
+      ],
+      "maxLines": 8
+    },
+    {
+      "id": "x-alphabet",
+      "unit": "a8",
+      "difficulty": 2,
+      "title": "The Alphabet",
+      "task": "Print the whole alphabet from A to Z with a loop. End with BRK.",
+      "xp": 25,
+      "starter": "; THE ALPHABET\nOUTCH = $1EA0\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {},
+          "output": "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\bCMP\\b|\\bCPX\\b|\\bDEX\\b",
+          "message": "Stop the loop after Z."
+        }
+      ],
+      "hints": [
+        "LDA #'A.",
+        "LOOP: JSR OUTCH, CLC, ADC #1.",
+        "Count 26 rounds in X with DEX and BNE. (Or compare with #'[, the character right after Z.)"
+      ]
+    },
+    {
+      "id": "x-countdown",
+      "unit": "a9",
+      "difficulty": 1,
+      "title": "Countdown",
+      "task": "Print the digits from 9 down to 0: 9876543210. End with BRK.",
+      "xp": 15,
+      "starter": "; COUNTDOWN\nOUTCH = $1EA0\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {},
+          "output": "9876543210"
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "ADC\\s+#'0|ADC\\s+#\\$30|ADC\\s+#48",
+          "message": "Turn each number into a digit with ADC #'0."
+        }
+      ],
+      "hints": [
+        "Count down in X from 9.",
+        "Each round: TXA, CLC, ADC #'0, JSR OUTCH.",
+        "DEX, BPL LOOP keeps going until X wraps below 0."
+      ]
+    },
+    {
+      "id": "x-print-byte",
+      "unit": "a9",
+      "difficulty": 2,
+      "title": "Print a Byte",
+      "task": "Print the byte at $0300 as two hex digits, like 2A or 07. End with BRK.",
+      "xp": 25,
+      "starter": "; PRINT A BYTE\nOUTCH = $1EA0\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {},
+          "memory": {
+            "0300": 42
+          },
+          "output": "2A"
+        },
+        {
+          "expect": {},
+          "memory": {
+            "0300": 7
+          },
+          "output": "07"
+        },
+        {
+          "expect": {},
+          "memory": {
+            "0300": 255
+          },
+          "output": "FF"
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\.BYTE",
+          "message": "Use a HEX table with .BYTE."
+        }
+      ],
+      "hints": [
+        "Count the sixteens like in the Hex Digits lesson.",
+        "HEX: .BYTE \"0123456789ABCDEF\"",
+        "Print HEX,X for the sixteens, then HEX,Y for the rest (TAY)."
+      ]
+    },
+    {
+      "id": "x-toggle",
+      "unit": "a10",
+      "difficulty": 1,
+      "title": "Flip the Switch",
+      "task": "Bit 0 of $0300 is a light switch. Flip it: if it's on, turn it off, and the other way round. Don't change any other bit. End with BRK.",
+      "xp": 15,
+      "starter": "; FLIP THE SWITCH\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "mem": {
+              "0300": 64
+            }
+          },
+          "memory": {
+            "0300": 65
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0300": 65
+            }
+          },
+          "memory": {
+            "0300": 64
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0300": 254
+            }
+          },
+          "memory": {
+            "0300": 255
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\bEOR\\b",
+          "message": "Flip the bit with EOR."
+        }
+      ],
+      "hints": [
+        "LDA $0300.",
+        "EOR #1.",
+        "STA $0300, BRK."
+      ]
+    },
+    {
+      "id": "x-upper",
+      "unit": "a10",
+      "difficulty": 2,
+      "title": "Shout",
+      "task": "The byte at $0300 is a small letter, like 'g. Print it as a capital letter. In ASCII, small letters are $20 higher: clear that bit with AND. End with BRK.",
+      "xp": 25,
+      "starter": "; SHOUT\nOUTCH = $1EA0\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {},
+          "memory": {
+            "0300": 103
+          },
+          "output": "G"
+        },
+        {
+          "expect": {},
+          "memory": {
+            "0300": 97
+          },
+          "output": "A"
+        },
+        {
+          "expect": {},
+          "memory": {
+            "0300": 122
+          },
+          "output": "Z"
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\bAND\\b",
+          "message": "Clear bit 5 with AND."
+        }
+      ],
+      "hints": [
+        "$20 is %00100000, bit 5.",
+        "AND #%11011111 (or AND #$DF) clears it.",
+        "LDA $0300, AND #$DF, JSR OUTCH, BRK."
+      ]
+    },
+    {
+      "id": "x-times-four",
+      "unit": "a11",
+      "difficulty": 1,
+      "title": "Times Four",
+      "task": "Multiply the byte at $0300 (0 to 63) by 4 and store the result at $0301, using shifts. End with BRK.",
+      "xp": 15,
+      "starter": "; TIMES FOUR\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "mem": {
+              "0301": 20
+            }
+          },
+          "memory": {
+            "0300": 5
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0301": 252
+            }
+          },
+          "memory": {
+            "0300": 63
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0301": 0
+            }
+          },
+          "memory": {
+            "0300": 0
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "ASL[\\s\\S]*ASL",
+          "message": "Multiply with two ASLs."
+        }
+      ],
+      "hints": [
+        "LDA $0300.",
+        "ASL A, ASL A.",
+        "STA $0301, BRK."
+      ]
+    },
+    {
+      "id": "x-bit-count",
+      "unit": "a11",
+      "difficulty": 3,
+      "title": "Count the Bits",
+      "task": "Count how many bits of the byte at $0300 are 1, and store the count at $0301. End with BRK.",
+      "xp": 40,
+      "starter": "; COUNT THE BITS\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "mem": {
+              "0301": 4
+            }
+          },
+          "memory": {
+            "0300": 177
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0301": 0
+            }
+          },
+          "memory": {
+            "0300": 0
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0301": 8
+            }
+          },
+          "memory": {
+            "0300": 255
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0301": 1
+            }
+          },
+          "memory": {
+            "0300": 128
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\b(LSR|ASL|ROL|ROR)\\b",
+          "message": "Shift the bits out one by one."
+        }
+      ],
+      "hints": [
+        "8 rounds: LDX #8.",
+        "LSR $30 drops one bit into the carry.",
+        "ADC #0 adds the carry to the count in A."
+      ]
+    },
+    {
+      "id": "x-divide-7",
+      "unit": "a12",
+      "difficulty": 2,
+      "title": "Divide by 7",
+      "task": "Divide the byte at $0300 by 7. Store the quotient at $0301 and the remainder at $0302. End with BRK.",
+      "xp": 25,
+      "starter": "; DIVIDE BY 7\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "mem": {
+              "0301": 3,
+              "0302": 2
+            }
+          },
+          "memory": {
+            "0300": 23
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0301": 1,
+              "0302": 0
+            }
+          },
+          "memory": {
+            "0300": 7
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0301": 36,
+              "0302": 3
+            }
+          },
+          "memory": {
+            "0300": 255
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0301": 0,
+              "0302": 4
+            }
+          },
+          "memory": {
+            "0300": 4
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\bSBC\\b",
+          "message": "Divide by subtracting 7 again and again."
+        }
+      ],
+      "hints": [
+        "LDA $0300, LDX #0.",
+        "LOOP: CMP #7, BCC DONE, SEC, SBC #7, INX, JMP LOOP.",
+        "DONE: STX $0301, STA $0302."
+      ]
+    },
+    {
+      "id": "x-average",
+      "unit": "a12",
+      "difficulty": 3,
+      "title": "The Average",
+      "task": "Store the average of the 4 bytes at $0300–$0303 at $0310 (rounded down). The sum can be bigger than 255! End with BRK.",
+      "xp": 40,
+      "starter": "; THE AVERAGE\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "mem": {
+              "0310": 25
+            }
+          },
+          "memory": {
+            "0300": 10,
+            "0301": 20,
+            "0302": 30,
+            "0303": 40
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0310": 201
+            }
+          },
+          "memory": {
+            "0300": 200,
+            "0301": 250,
+            "0302": 100,
+            "0303": 255
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\bRO[RL]\\b",
+          "message": "Divide the 16-bit sum with LSR and ROR."
+        }
+      ],
+      "hints": [
+        "Add into a 16-bit sum: low byte $30, high byte $31.",
+        "Divide by 4: LSR $31, ROR $30, two times.",
+        "Then LDA $30, STA $0310."
+      ]
+    },
+    {
+      "id": "x-plus-1000",
+      "unit": "a13",
+      "difficulty": 1,
+      "title": "Plus 1000",
+      "task": "Add 1000 ($03E8) to the 16-bit number at $0300 (low) and $0301 (high). Store the result at $0310/$0311. End with BRK.",
+      "xp": 15,
+      "starter": "; PLUS 1000\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "mem": {
+              "0310": 248,
+              "0311": 42
+            }
+          },
+          "memory": {
+            "0300": 16,
+            "0301": 39
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0310": 0,
+              "0311": 4
+            }
+          },
+          "memory": {
+            "0300": 24,
+            "0301": 0
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "ADC[\\s\\S]*ADC",
+          "message": "Add both bytes with ADC."
+        }
+      ],
+      "hints": [
+        "CLC, LDA $0300, ADC #$E8, STA $0310.",
+        "LDA $0301, ADC #$03, STA $0311.",
+        "Or use ADC #<1000 and ADC #>1000."
+      ]
+    },
+    {
+      "id": "x-bigger16",
+      "unit": "a13",
+      "difficulty": 2,
+      "title": "The Bigger One",
+      "task": "Two 16-bit numbers are at $0300/$0301 and $0302/$0303 (low byte first). Copy the bigger one to $0310/$0311. End with BRK.",
+      "xp": 25,
+      "starter": "; THE BIGGER ONE\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "mem": {
+              "0310": 0,
+              "0311": 3
+            }
+          },
+          "memory": {
+            "0300": 0,
+            "0301": 3,
+            "0302": 128,
+            "0303": 2
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0310": 0,
+              "0311": 1
+            }
+          },
+          "memory": {
+            "0300": 255,
+            "0301": 0,
+            "0302": 0,
+            "0303": 1
+          }
+        },
+        {
+          "expect": {
+            "mem": {
+              "0310": 6,
+              "0311": 7
+            }
+          },
+          "memory": {
+            "0300": 5,
+            "0301": 7,
+            "0302": 6,
+            "0303": 7
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\bSBC\\b",
+          "message": "Compare with a 16-bit subtraction."
+        }
+      ],
+      "hints": [
+        "SEC, LDA $0300, SBC $0302, LDA $0301, SBC $0303.",
+        "BCS FIRST: the first one is bigger or equal.",
+        "Otherwise copy $0302/$0303."
+      ]
+    },
+    {
+      "id": "x-fill-page",
+      "unit": "a14",
+      "difficulty": 2,
+      "title": "Fill a Page",
+      "task": "Fill all 256 bytes from $0400 to $04FF with $55, using a pointer and (zp),Y. End with BRK.",
+      "xp": 25,
+      "starter": "; FILL A PAGE\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {
+            "mem": {
+              "0400": 85,
+              "0480": 85,
+              "04FF": 85,
+              "0500": 0,
+              "03FF": 0
+            }
+          }
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\(\\s*\\$?\\w+\\s*\\)\\s*,\\s*Y",
+          "message": "Write through a pointer with STA ($40),Y."
+        }
+      ],
+      "hints": [
+        "Pointer: $40 = $00, $41 = $04.",
+        "LDA #$55, LDY #0. LOOP: STA ($40),Y, INY, BNE LOOP.",
+        "INY wraps from $FF to $00, which ends the loop after 256 rounds."
+      ]
+    },
+    {
+      "id": "x-two-messages",
+      "unit": "a14",
+      "difficulty": 2,
+      "title": "Two Messages",
+      "task": "Write a PRINT subroutine that prints the message its pointer at $40/$41 points to. Use it to print GOOD, a new line, then BYE. End with BRK.",
+      "xp": 25,
+      "starter": "; TWO MESSAGES\nOUTCH = $1EA0\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {},
+          "output": "GOOD\nBYE"
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "\\(\\s*\\$?\\w+\\s*\\)\\s*,\\s*Y",
+          "message": "Read the message through the pointer, like LDA ($40),Y."
+        },
+        {
+          "pattern": "JSR\\s+PRINT[\\s\\S]*JSR\\s+PRINT",
+          "message": "Call PRINT for both messages."
+        }
+      ],
+      "hints": [
+        "MSG1: .BYTE \"GOOD\", 13, 0 and MSG2: .BYTE \"BYE\", 0",
+        "Set the pointer with LDA #<MSG1, STA $40, LDA #>MSG1, STA $41, then JSR PRINT.",
+        "PRINT: LDY #0, LOOP: LDA ($40),Y, BEQ DONE, JSR OUTCH, INY, JMP LOOP. DONE: RTS."
+      ]
+    },
+    {
+      "id": "x-echo",
+      "unit": "a15",
+      "difficulty": 1,
+      "title": "Echo",
+      "task": "Print every key the player types, until they type a full stop. Don't print the full stop. End with BRK.",
+      "xp": 15,
+      "starter": "; ECHO\nGETCH = $1E5A\nOUTCH = $1EA0\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {},
+          "output": "HELLO",
+          "keys": "HELLO."
+        },
+        {
+          "expect": {},
+          "output": "6502",
+          "keys": "6502."
+        },
+        {
+          "expect": {},
+          "output": "",
+          "keys": "."
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "JSR\\s+(GETCH|\\$1E5A)",
+          "message": "Read the keys with JSR GETCH."
+        }
+      ],
+      "hints": [
+        "LOOP: JSR GETCH.",
+        "CMP #'. and BEQ DONE.",
+        "JSR OUTCH, JMP LOOP. DONE: BRK."
+      ]
+    },
+    {
+      "id": "x-add-digits",
+      "unit": "a15",
+      "difficulty": 2,
+      "title": "Add Two Digits",
+      "task": "The player types two digits. Print their sum with two digits, like 11 for 4 and 7, or 03 for 1 and 2. End with BRK.",
+      "xp": 25,
+      "starter": "; ADD TWO DIGITS\nGETCH = $1E5A\nOUTCH = $1EA0\n",
+      "expectedOutput": "",
+      "cases": [
+        {
+          "expect": {},
+          "output": "11",
+          "keys": "47"
+        },
+        {
+          "expect": {},
+          "output": "03",
+          "keys": "12"
+        },
+        {
+          "expect": {},
+          "output": "18",
+          "keys": "99"
+        }
+      ],
+      "requirements": [
+        {
+          "pattern": "JSR\\s+(GETCH|\\$1E5A)",
+          "message": "Read the digits with JSR GETCH."
+        }
+      ],
+      "hints": [
+        "Read a key, SEC, SBC #'0, STA $30. Same for the second key.",
+        "CLC, ADC $30 gives the sum.",
+        "Print it with the tens-and-ones code from The Scoreboard."
+      ]
+    }
+  ]
+}

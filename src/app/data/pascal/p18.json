@@ -1,0 +1,403 @@
+{
+  "id": "p18",
+  "title": "Text Files",
+  "lessons": [
+    {
+      "id": "p18-l1",
+      "title": "assign and rewrite",
+      "xp": 15,
+      "intro": [
+        "A text file variable has the type text. assign(f, 'NOTES.TXT') connects it to a file name, rewrite(f) creates the file (empty), and writeln(f, …) writes into it, just like on the screen.",
+        "close(f) finishes the file. Without it, the last lines might never reach the disk.",
+        "The lessons run on a small simulated floppy disk. Files you write stay there until the program ends."
+      ],
+      "example": {
+        "code": [
+          "program Write;",
+          "var",
+          "  f: text;",
+          "begin",
+          "  assign(f, 'NOTES.TXT');",
+          "  rewrite(f);",
+          "  writeln(f, 'Turbo Pascal notes');",
+          "  writeln(f, 'Version ', 3);",
+          "  close(f);",
+          "  writeln('Saved NOTES.TXT');",
+          "end."
+        ],
+        "output": [
+          "Saved NOTES.TXT"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p18-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What does rewrite(f) do?",
+          "options": [
+            "Creates the file, empty",
+            "Reads the file",
+            "Deletes the program",
+            "Adds to the end of the file"
+          ],
+          "answer": 0,
+          "explanation": "An existing file with that name is overwritten."
+        },
+        {
+          "id": "p18-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "What connects f with a file name?",
+          "options": [
+            "assign(f, 'NAME.TXT')",
+            "open(f)",
+            "f := 'NAME.TXT'",
+            "file(f)"
+          ],
+          "answer": 0,
+          "explanation": "assign comes first."
+        },
+        {
+          "id": "p18-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Write the score into the file.",
+          "code": [
+            "  writeln(___, 'Score: ', score);"
+          ],
+          "options": [
+            "f",
+            "text",
+            "file",
+            "'NOTES.TXT'"
+          ],
+          "answer": "f",
+          "explanation": "The file variable comes first in write and writeln."
+        },
+        {
+          "id": "p18-l1-e4",
+          "type": "order_lines",
+          "prompt": "Put the lines in order.",
+          "lines": [
+            "assign(f, 'LOG.TXT');",
+            "rewrite(f);",
+            "writeln(f, 'started');",
+            "close(f);"
+          ],
+          "answer": [
+            "assign(f, 'LOG.TXT');",
+            "rewrite(f);",
+            "writeln(f, 'started');",
+            "close(f);"
+          ],
+          "explanation": "assign, rewrite, write, close."
+        },
+        {
+          "id": "p18-l1-e5",
+          "type": "find_bug",
+          "prompt": "This program stops with Runtime error 103: File not open. Which line is missing?",
+          "code": [
+            "program Log;",
+            "var",
+            "  f: text;",
+            "begin",
+            "  assign(f, 'LOG.TXT');",
+            "  writeln(f, 'hello');",
+            "  close(f);",
+            "end."
+          ],
+          "answer": 5,
+          "explanation": "The file must be opened first: rewrite(f); between assign and writeln."
+        },
+        {
+          "id": "p18-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Why call close(f)?",
+          "options": [
+            "So everything really reaches the disk",
+            "To delete the file",
+            "To read it",
+            "It's not needed"
+          ],
+          "answer": 0,
+          "explanation": "Writing is buffered; close finishes it."
+        }
+      ]
+    },
+    {
+      "id": "p18-l2",
+      "title": "reset and readln",
+      "xp": 15,
+      "intro": [
+        "To read a file, assign it and call reset(f). Then readln(f, s) reads one line into s, and readln(f, n) a number.",
+        "If the file doesn't exist, reset stops the program with Runtime error 2: File not found.",
+        "This disk already has a file SCORES.TXT with three lines like ADA 92."
+      ],
+      "example": {
+        "code": [
+          "program Read;",
+          "var",
+          "  f: text;",
+          "  line: string;",
+          "begin",
+          "  assign(f, 'SCORES.TXT');",
+          "  reset(f);",
+          "  readln(f, line);",
+          "  writeln('First line: ', line);",
+          "  readln(f, line);",
+          "  writeln('Second line: ', line);",
+          "  close(f);",
+          "end."
+        ],
+        "output": [
+          "First line: ADA 92",
+          "Second line: KEN 78"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p18-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "What does reset(f) do?",
+          "options": [
+            "Opens the file for reading, from the start",
+            "Empties the file",
+            "Deletes the file",
+            "Closes the file"
+          ],
+          "answer": 0,
+          "explanation": "rewrite is for writing, reset for reading."
+        },
+        {
+          "id": "p18-l2-e2",
+          "type": "multiple_choice",
+          "prompt": "What happens if the file doesn't exist?",
+          "options": [
+            "Runtime error 2: File not found",
+            "It reads an empty line",
+            "It creates the file",
+            "Nothing"
+          ],
+          "answer": 0,
+          "explanation": "The program stops."
+        },
+        {
+          "id": "p18-l2-e3",
+          "type": "fill_blank",
+          "prompt": "Read one line from the file.",
+          "code": [
+            "  readln(___, line);"
+          ],
+          "options": [
+            "f",
+            "line",
+            "text",
+            "input"
+          ],
+          "answer": "f",
+          "explanation": "The file comes first, like in writeln(f, …)."
+        },
+        {
+          "id": "p18-l2-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program R;",
+            "var",
+            "  f: text;",
+            "  s: string;",
+            "begin",
+            "  assign(f, 'README.TXT');",
+            "  reset(f);",
+            "  readln(f, s);",
+            "  writeln(s);",
+            "  close(f);",
+            "end."
+          ],
+          "options": [
+            "TURBO PASCAL 3.0",
+            "README.TXT",
+            "COPYRIGHT (C) 1983 BORLAND INC.",
+            "nothing"
+          ],
+          "answer": 0,
+          "explanation": "README.TXT on the disk starts with that line."
+        },
+        {
+          "id": "p18-l2-e5",
+          "type": "find_bug",
+          "prompt": "This program stops with Runtime error 2. Which line is wrong?",
+          "code": [
+            "program Load;",
+            "var",
+            "  f: text;",
+            "  s: string;",
+            "begin",
+            "  assign(f, 'HIGHSCOR.TXT');",
+            "  reset(f);",
+            "  readln(f, s);",
+            "end."
+          ],
+          "answer": 6,
+          "explanation": "There is no HIGHSCOR.TXT on the disk yet. Write it first (rewrite), or open a file that exists."
+        },
+        {
+          "id": "p18-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What's the difference between reset and rewrite?",
+          "options": [
+            "reset reads an existing file, rewrite creates a new, empty one",
+            "None",
+            "reset deletes, rewrite reads",
+            "rewrite is for numbers"
+          ],
+          "answer": 0,
+          "explanation": "Mixing them up can wipe a file!"
+        }
+      ]
+    },
+    {
+      "id": "p18-l3",
+      "title": "eof",
+      "xp": 15,
+      "intro": [
+        "eof(f) (end of file) is true when everything has been read. while not eof(f) do readln(f, line); reads a whole file, however long it is.",
+        "append(f) opens an existing file to add lines at the end.",
+        "Programs on the PC saved settings, high scores and documents exactly like this."
+      ],
+      "example": {
+        "code": [
+          "program All;",
+          "var",
+          "  f: text;",
+          "  line: string;",
+          "  n: integer;",
+          "begin",
+          "  assign(f, 'SCORES.TXT');",
+          "  append(f);",
+          "  writeln(f, 'BOB 81');",
+          "  close(f);",
+          "  reset(f);",
+          "  n := 0;",
+          "  while not eof(f) do",
+          "  begin",
+          "    readln(f, line);",
+          "    n := n + 1;",
+          "    writeln(n, ': ', line);",
+          "  end;",
+          "  close(f);",
+          "end."
+        ],
+        "output": [
+          "1: ADA 92",
+          "2: KEN 78",
+          "3: NIKLAUS 99",
+          "4: BOB 81"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p18-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "What does eof(f) tell you?",
+          "options": [
+            "Whether everything in the file has been read",
+            "Whether the file exists",
+            "The file's size",
+            "The last line"
+          ],
+          "answer": 0,
+          "explanation": "End Of File."
+        },
+        {
+          "id": "p18-l3-e2",
+          "type": "fill_blank",
+          "prompt": "Read until the end of the file.",
+          "code": [
+            "  while not ___(f) do",
+            "    readln(f, line);"
+          ],
+          "options": [
+            "eof",
+            "eoln",
+            "end",
+            "close"
+          ],
+          "answer": "eof",
+          "explanation": "eof(f) becomes true at the end."
+        },
+        {
+          "id": "p18-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "What does append(f) do?",
+          "options": [
+            "Opens an existing file to add lines at the end",
+            "Creates a new empty file",
+            "Reads a file",
+            "Copies a file"
+          ],
+          "answer": 0,
+          "explanation": "rewrite would empty it first."
+        },
+        {
+          "id": "p18-l3-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "program C;",
+            "var",
+            "  f: text;",
+            "  s: string;",
+            "  n: integer;",
+            "begin",
+            "  assign(f, 'SCORES.TXT');",
+            "  reset(f);",
+            "  n := 0;",
+            "  while not eof(f) do",
+            "  begin",
+            "    readln(f, s);",
+            "    inc(n);",
+            "  end;",
+            "  close(f);",
+            "  writeln(n);",
+            "end."
+          ],
+          "options": [
+            "3",
+            "2",
+            "4",
+            "0"
+          ],
+          "answer": 0,
+          "explanation": "SCORES.TXT has three lines."
+        },
+        {
+          "id": "p18-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "Why is while not eof(f) better than reading a fixed number of lines?",
+          "options": [
+            "It works for files of any length",
+            "It's faster",
+            "Files always have 3 lines",
+            "It isn't"
+          ],
+          "answer": 0,
+          "explanation": "You rarely know how long a file is."
+        },
+        {
+          "id": "p18-l3-e6",
+          "type": "find_bug",
+          "prompt": "This program runs forever. Which line is missing?",
+          "code": [
+            "assign(f, 'SCORES.TXT');",
+            "reset(f);",
+            "while not eof(f) do",
+            "begin",
+            "  n := n + 1;",
+            "end;"
+          ],
+          "answer": 4,
+          "explanation": "Nothing is read inside the loop, so the end of the file is never reached. Add readln(f, s);"
+        }
+      ]
+    }
+  ]
+}

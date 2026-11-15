@@ -1,0 +1,522 @@
+{
+  "id": "p19",
+  "title": "Units",
+  "lessons": [
+    {
+      "id": "p19-l1",
+      "title": "A Unit of Your Own",
+      "xp": 15,
+      "intro": [
+        "Turbo Pascal 4 (1987) brought units: a unit is a file of ready-made routines that any program can use. You already know one: crt. With uses Maths; a program gets everything the unit Maths offers.",
+        "A unit has two parts. The interface lists what others may use, with only the headings of the routines. The implementation has the full routines. It ends with end. like a program.",
+        "Turbo Pascal compiled each unit once into a .TPU file, so big programs compiled much faster. Here, write the unit above the program in the same editor."
+      ],
+      "example": {
+        "code": [
+          "unit Maths;",
+          "",
+          "interface",
+          "",
+          "function Square(x: integer): integer;",
+          "function IsPrime(n: integer): boolean;",
+          "",
+          "implementation",
+          "",
+          "function Square(x: integer): integer;",
+          "begin",
+          "  Square := x * x;",
+          "end;",
+          "",
+          "function IsPrime(n: integer): boolean;",
+          "var",
+          "  d: integer;",
+          "begin",
+          "  IsPrime := n > 1;",
+          "  for d := 2 to n - 1 do",
+          "    if n mod d = 0 then IsPrime := false;",
+          "end;",
+          "",
+          "end.",
+          "",
+          "program Primes;",
+          "uses Maths;",
+          "var",
+          "  i: integer;",
+          "begin",
+          "  for i := 1 to 10 do",
+          "    if IsPrime(i) then",
+          "      writeln(i:2, Square(i):5);",
+          "end."
+        ],
+        "output": [
+          " 2    4",
+          " 3    9",
+          " 5   25",
+          " 7   49"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p19-l1-e1",
+          "type": "multiple_choice",
+          "prompt": "What is a unit?",
+          "options": [
+            "A file of routines that programs can use with uses",
+            "A kind of loop",
+            "A data type",
+            "The main program"
+          ],
+          "answer": 0,
+          "explanation": "Programs share code by using units."
+        },
+        {
+          "id": "p19-l1-e2",
+          "type": "multiple_choice",
+          "prompt": "Which part of a unit lists what other programs may use?",
+          "options": [
+            "The interface",
+            "The implementation",
+            "The begin part",
+            "The uses clause"
+          ],
+          "answer": 0,
+          "explanation": "The interface is the unit's shop window."
+        },
+        {
+          "id": "p19-l1-e3",
+          "type": "fill_blank",
+          "prompt": "Let the program use the unit Maths.",
+          "code": [
+            "program Test;",
+            "___ Maths;",
+            "begin",
+            "  writeln(Square(4));",
+            "end."
+          ],
+          "options": [
+            "uses",
+            "unit",
+            "program",
+            "interface"
+          ],
+          "answer": "uses",
+          "explanation": "uses names the units a program needs."
+        },
+        {
+          "id": "p19-l1-e4",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "unit Maths;",
+            "",
+            "interface",
+            "",
+            "function Square(x: integer): integer;",
+            "function IsPrime(n: integer): boolean;",
+            "",
+            "implementation",
+            "",
+            "function Square(x: integer): integer;",
+            "begin",
+            "  Square := x * x;",
+            "end;",
+            "",
+            "function IsPrime(n: integer): boolean;",
+            "var",
+            "  d: integer;",
+            "begin",
+            "  IsPrime := n > 1;",
+            "  for d := 2 to n - 1 do",
+            "    if n mod d = 0 then IsPrime := false;",
+            "end;",
+            "",
+            "end.",
+            "",
+            "program Test;",
+            "uses Maths;",
+            "begin",
+            "  writeln(Square(7));",
+            "end."
+          ],
+          "options": [
+            "49",
+            "14",
+            "7",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "Square comes from the unit: 7 * 7."
+        },
+        {
+          "id": "p19-l1-e5",
+          "type": "order_lines",
+          "prompt": "Put the parts of a unit in order.",
+          "lines": [
+            "unit Tools;",
+            "interface",
+            "procedure Beep;",
+            "implementation",
+            "procedure Beep; begin write(#7) end;",
+            "end."
+          ],
+          "answer": [
+            "unit Tools;",
+            "interface",
+            "procedure Beep;",
+            "implementation",
+            "procedure Beep; begin write(#7) end;",
+            "end."
+          ],
+          "explanation": "Name, interface (headings), implementation (bodies), end."
+        },
+        {
+          "id": "p19-l1-e6",
+          "type": "multiple_choice",
+          "prompt": "Why did Turbo Pascal compile units into .TPU files?",
+          "options": [
+            "So they didn't have to be compiled again every time",
+            "To hide them",
+            "To make them smaller on screen",
+            "To print them"
+          ],
+          "answer": 0,
+          "explanation": "Only the program you changed was compiled again: much faster."
+        }
+      ]
+    },
+    {
+      "id": "p19-l2",
+      "title": "Interface and Implementation",
+      "xp": 15,
+      "intro": [
+        "Everything in the implementation that isn't in the interface is private. A program that uses the unit can't see it, so it can't break it by accident.",
+        "In the example, the variable n is only in the implementation. The program can call Tick and Count, but writing n := 100 in the program gives Error 3: Unknown identifier.",
+        "This is called information hiding. You can change how a unit works inside, and every program using it keeps working, as long as the interface stays the same."
+      ],
+      "example": {
+        "code": [
+          "unit Counter;",
+          "",
+          "interface",
+          "",
+          "procedure Tick;",
+          "function Count: integer;",
+          "",
+          "implementation",
+          "",
+          "var",
+          "  n: integer; { private: only this unit can see it }",
+          "",
+          "procedure Tick;",
+          "begin",
+          "  n := n + 1;",
+          "end;",
+          "",
+          "function Count: integer;",
+          "begin",
+          "  Count := n;",
+          "end;",
+          "",
+          "end.",
+          "",
+          "program Clicks;",
+          "uses Counter;",
+          "var",
+          "  i: integer;",
+          "begin",
+          "  for i := 1 to 3 do",
+          "    Tick;",
+          "  writeln('Ticks: ', Count);",
+          "end."
+        ],
+        "output": [
+          "Ticks: 3"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p19-l2-e1",
+          "type": "multiple_choice",
+          "prompt": "The variable n is declared only in the implementation. Who can use it?",
+          "options": [
+            "Only the routines in the unit",
+            "Every program using the unit",
+            "Nobody",
+            "Only the main program"
+          ],
+          "answer": 0,
+          "explanation": "Only what's in the interface is visible outside."
+        },
+        {
+          "id": "p19-l2-e2",
+          "type": "find_bug",
+          "prompt": "This program doesn't compile. Which line is wrong?",
+          "code": [
+            "unit Counter;",
+            "",
+            "interface",
+            "",
+            "procedure Tick;",
+            "function Count: integer;",
+            "",
+            "implementation",
+            "",
+            "var",
+            "  n: integer; { private: only this unit can see it }",
+            "",
+            "procedure Tick;",
+            "begin",
+            "  n := n + 1;",
+            "end;",
+            "",
+            "function Count: integer;",
+            "begin",
+            "  Count := n;",
+            "end;",
+            "",
+            "end.",
+            "",
+            "program Cheat;",
+            "uses Counter;",
+            "begin",
+            "  Tick;",
+            "  n := 100;",
+            "  writeln(Count);",
+            "end."
+          ],
+          "answer": 28,
+          "explanation": "n is private to the unit: Unknown identifier. The program can only use Tick and Count."
+        },
+        {
+          "id": "p19-l2-e3",
+          "type": "multiple_choice",
+          "prompt": "Why hide things in the implementation?",
+          "options": [
+            "Programs can't break them, and the inside can change without breaking programs",
+            "It makes the program faster",
+            "Pascal doesn't allow public variables",
+            "To save memory"
+          ],
+          "answer": 0,
+          "explanation": "That's information hiding."
+        },
+        {
+          "id": "p19-l2-e4",
+          "type": "fill_blank",
+          "prompt": "Make Reset usable from programs.",
+          "code": [
+            "interface",
+            "",
+            "procedure Tick;",
+            "procedure ___;",
+            "",
+            "implementation"
+          ],
+          "options": [
+            "Reset",
+            "Tick",
+            "Count",
+            "begin"
+          ],
+          "answer": "Reset",
+          "explanation": "A heading in the interface makes the routine public."
+        },
+        {
+          "id": "p19-l2-e5",
+          "type": "multiple_choice",
+          "prompt": "In the implementation, Turbo Pascal allowed procedure Tick; without the parameters again. Why?",
+          "options": [
+            "The interface already gave the full heading",
+            "Tick has no parameters anyway",
+            "It's a mistake",
+            "The parameters are private"
+          ],
+          "answer": 0,
+          "explanation": "Both short and full headings were accepted."
+        },
+        {
+          "id": "p19-l2-e6",
+          "type": "multiple_choice",
+          "prompt": "What does this program print?",
+          "code": [
+            "unit Counter;",
+            "",
+            "interface",
+            "",
+            "procedure Tick;",
+            "function Count: integer;",
+            "",
+            "implementation",
+            "",
+            "var",
+            "  n: integer; { private: only this unit can see it }",
+            "",
+            "procedure Tick;",
+            "begin",
+            "  n := n + 1;",
+            "end;",
+            "",
+            "function Count: integer;",
+            "begin",
+            "  Count := n;",
+            "end;",
+            "",
+            "end.",
+            "",
+            "program Two;",
+            "uses Counter;",
+            "begin",
+            "  Tick;",
+            "  Tick;",
+            "  writeln(Count);",
+            "end."
+          ],
+          "options": [
+            "2",
+            "1",
+            "0",
+            "an error"
+          ],
+          "answer": 0,
+          "explanation": "Each Tick adds one to the unit's private counter."
+        }
+      ]
+    },
+    {
+      "id": "p19-l3",
+      "title": "Starting Up a Unit",
+      "xp": 15,
+      "intro": [
+        "A unit can end with begin … end. instead of just end. Those statements run once, before the program's own begin: the unit's initialization. It's the place to set variables to their first values.",
+        "Borland's own units worked like this: crt found out what kind of screen the PC had before your program started. Other standard units were dos (files and the clock) and printer.",
+        "If several units are used, their initializations run in order, and then the program starts."
+      ],
+      "example": {
+        "code": [
+          "unit Log;",
+          "",
+          "interface",
+          "",
+          "procedure Note(s: string);",
+          "",
+          "implementation",
+          "",
+          "var",
+          "  lines: integer;",
+          "",
+          "procedure Note(s: string);",
+          "begin",
+          "  lines := lines + 1;",
+          "  writeln(lines, ': ', s);",
+          "end;",
+          "",
+          "begin",
+          "  lines := 0;",
+          "  writeln('--- log started ---');",
+          "end.",
+          "",
+          "program Diary;",
+          "uses Log;",
+          "begin",
+          "  writeln('Hello from the program');",
+          "  Note('woke up');",
+          "  Note('wrote Pascal');",
+          "end."
+        ],
+        "output": [
+          "--- log started ---",
+          "Hello from the program",
+          "1: woke up",
+          "2: wrote Pascal"
+        ]
+      },
+      "exercises": [
+        {
+          "id": "p19-l3-e1",
+          "type": "multiple_choice",
+          "prompt": "When does a unit's begin … end. part run?",
+          "options": [
+            "Once, before the program's own begin",
+            "Every time a routine is called",
+            "At the end of the program",
+            "Never"
+          ],
+          "answer": 0,
+          "explanation": "That's why --- log started --- comes first."
+        },
+        {
+          "id": "p19-l3-e2",
+          "type": "multiple_choice",
+          "prompt": "What is the initialization part good for?",
+          "options": [
+            "Giving the unit's variables their first values",
+            "Declaring types",
+            "Ending the program",
+            "Listing the routines"
+          ],
+          "answer": 0,
+          "explanation": "Like lines := 0 in the example."
+        },
+        {
+          "id": "p19-l3-e3",
+          "type": "multiple_choice",
+          "prompt": "Which of these was NOT one of Turbo Pascal's standard units?",
+          "options": [
+            "maths",
+            "crt",
+            "dos",
+            "printer"
+          ],
+          "answer": 0,
+          "explanation": "crt for the screen and keyboard, dos for files and the clock, printer for the printer."
+        },
+        {
+          "id": "p19-l3-e4",
+          "type": "fill_blank",
+          "prompt": "Finish the unit so it prints Ready when it starts.",
+          "code": [
+            "implementation",
+            "",
+            "___",
+            "  writeln('Ready');",
+            "end."
+          ],
+          "options": [
+            "begin",
+            "interface",
+            "uses",
+            "start"
+          ],
+          "answer": "begin",
+          "explanation": "begin … end. at the end of the unit is its initialization."
+        },
+        {
+          "id": "p19-l3-e5",
+          "type": "multiple_choice",
+          "prompt": "What does the example print first?",
+          "options": [
+            "--- log started ---",
+            "Hello from the program",
+            "1: woke up",
+            "nothing"
+          ],
+          "answer": 0,
+          "explanation": "The unit starts before the program."
+        },
+        {
+          "id": "p19-l3-e6",
+          "type": "multiple_choice",
+          "prompt": "How many units can a program use?",
+          "options": [
+            "Several: uses crt, Maths, Log;",
+            "Only one",
+            "Only crt",
+            "None"
+          ],
+          "answer": 0,
+          "explanation": "Separate them with commas."
+        }
+      ]
+    }
+  ]
+}

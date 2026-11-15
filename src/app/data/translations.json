@@ -1,0 +1,1029 @@
+{
+  "translations": [
+    {
+      "id": "t-c-basic-liftoff",
+      "from": "c",
+      "to": "basic",
+      "unit": "u3",
+      "difficulty": 1,
+      "title": "Liftoff",
+      "story": "A C countdown from 1972. Make it run on a Dartmouth terminal from 1964.",
+      "task": "Write the same countdown in BASIC with a FOR loop and STEP.",
+      "xp": 20,
+      "source": "#include <stdio.h>\n\nint main() {\n    int i;\n    for (i = 10; i >= 1; i--)\n        printf(\"%d\\n\", i);\n    printf(\"LIFTOFF\\n\");\n    return 0;\n}",
+      "starter": "10 REM LIFTOFF\n",
+      "expectedOutput": "10\n9\n8\n7\n6\n5\n4\n3\n2\n1\nLIFTOFF",
+      "requirements": [
+        {
+          "pattern": "FOR\\s+\\w+\\s*=.*STEP\\s*-",
+          "message": "Count down with FOR … STEP -1."
+        }
+      ],
+      "hints": [
+        "C's for (i = 10; i >= 1; i--) is FOR I = 10 TO 1 STEP -1 in BASIC.",
+        "The loop body ends with NEXT I.",
+        "Don't forget END."
+      ],
+      "sourceOutput": "10\n9\n8\n7\n6\n5\n4\n3\n2\n1\nLIFTOFF"
+    },
+    {
+      "id": "t-fortran-basic-squares",
+      "from": "fortran",
+      "to": "basic",
+      "unit": "u3",
+      "difficulty": 1,
+      "title": "Squares Table",
+      "story": "A FORTRAN table of squares, punched on cards in 1957. Type it in BASIC.",
+      "task": "Print the same table: each number from 1 to 5 and its square, two numbers per line.",
+      "xp": 20,
+      "source": "      DO 10 I = 1, 5\n      J = I * I\n      WRITE (6,20) I, J\n   10 CONTINUE\n   20 FORMAT (1X, I3, I5)\n      STOP\n      END",
+      "starter": "10 REM SQUARES TABLE\n",
+      "expectedOutput": "1 1\n2 4\n3 9\n4 16\n5 25",
+      "requirements": [
+        {
+          "pattern": "FOR",
+          "message": "Use a FOR loop."
+        }
+      ],
+      "hints": [
+        "The DO loop becomes FOR I = 1 TO 5 … NEXT I.",
+        "PRINT I, I * I prints both numbers on one line.",
+        "The spacing doesn't have to match exactly."
+      ],
+      "sourceOutput": "  1    1\n  2    4\n  3    9\n  4   16\n  5   25"
+    },
+    {
+      "id": "t-6502-basic-sum",
+      "from": "6502",
+      "to": "basic",
+      "unit": "u3",
+      "difficulty": 2,
+      "title": "Sum to Twenty",
+      "story": "On the KIM-1, this took a loop and the carry flag. In BASIC it's much shorter.",
+      "task": "The 6502 program adds 20 + 19 + … + 1 and stores the result at $0301. Do the same in BASIC with a loop, and PRINT the result.",
+      "xp": 30,
+      "source": "        LDA #0\n        LDX #20\nLOOP:   STX $30\n        CLC\n        ADC $30\n        DEX\n        BNE LOOP\n        STA $0301\n        BRK",
+      "starter": "10 REM SUM TO TWENTY\n",
+      "expectedOutput": "210",
+      "requirements": [
+        {
+          "pattern": "FOR",
+          "message": "Add up with a FOR loop, not with a formula."
+        }
+      ],
+      "hints": [
+        "A is the running sum: LET S = 0.",
+        "X counts down from 20, but you can count up: FOR I = 1 TO 20.",
+        "LET S = S + I inside the loop, PRINT S after it."
+      ],
+      "sourceNote": "Result: $0301 = 210 ($D2)",
+      "sourceOutput": ""
+    },
+    {
+      "id": "t-c-basic-gcd",
+      "from": "c",
+      "to": "basic",
+      "unit": "u6",
+      "difficulty": 3,
+      "title": "Euclid",
+      "story": "Euclid's algorithm for the greatest common divisor is 2,300 years old. Here it is in C; Dartmouth BASIC has no % operator.",
+      "task": "Write Euclid's algorithm in BASIC for 1071 and 462 and print GCD = 21. Use INT to get the remainder: R = A - INT(A / B) * B.",
+      "xp": 45,
+      "source": "#include <stdio.h>\n\nint main() {\n    int a = 1071, b = 462, r;\n    while (b != 0) {\n        r = a % b;\n        a = b;\n        b = r;\n    }\n    printf(\"GCD = %d\\n\", a);\n    return 0;\n}",
+      "starter": "10 REM EUCLID\n",
+      "expectedOutput": "GCD = 21",
+      "requirements": [
+        {
+          "pattern": "INT\\s*\\(",
+          "message": "Get the remainder with INT."
+        },
+        {
+          "pattern": "IF.+THEN|GOTO",
+          "message": "Loop with IF … THEN and GOTO."
+        }
+      ],
+      "hints": [
+        "BASIC has no while: test IF B = 0 THEN jump to the PRINT.",
+        "LET R = A - INT(A / B) * B is the remainder.",
+        "Then A = B, B = R, and GOTO back to the test."
+      ],
+      "sourceOutput": "GCD = 21"
+    },
+    {
+      "id": "t-fortran-basic-average",
+      "from": "fortran",
+      "to": "basic",
+      "unit": "u4",
+      "difficulty": 2,
+      "title": "Average from Cards",
+      "story": "The FORTRAN version keeps its numbers in a DATA statement. BASIC has READ and DATA for that.",
+      "task": "Read the same six numbers with READ and DATA, and print their sum and their whole-number average on two lines.",
+      "xp": 30,
+      "source": "      DIMENSION K(6)\n      DATA K / 12, 17, 9, 21, 15, 16 /\n      ISUM = 0\n      DO 10 I = 1, 6\n      ISUM = ISUM + K(I)\n   10 CONTINUE\n      IAVG = ISUM / 6\n      WRITE (6,20) ISUM\n      WRITE (6,20) IAVG\n   20 FORMAT (1X, I5)\n      STOP\n      END",
+      "starter": "10 REM AVERAGE FROM CARDS\n",
+      "expectedOutput": "90\n15",
+      "requirements": [
+        {
+          "pattern": "READ",
+          "message": "Read the numbers with READ."
+        },
+        {
+          "pattern": "DATA",
+          "message": "Put the numbers in a DATA line."
+        }
+      ],
+      "hints": [
+        "DATA 12, 17, 9, 21, 15, 16 holds the numbers.",
+        "In a FOR loop: READ X and add it to S.",
+        "PRINT S and PRINT S / 6 after the loop."
+      ],
+      "sourceOutput": "   90\n   15"
+    },
+    {
+      "id": "t-basic-fortran-celsius",
+      "from": "basic",
+      "to": "fortran",
+      "unit": "f6",
+      "difficulty": 1,
+      "title": "Celsius Table",
+      "story": "A BASIC temperature table. On the IBM 704 it needs a DO loop and a FORMAT.",
+      "task": "Print the same table with a DO loop: Celsius 0, 10 … 40 and Fahrenheit (C * 9 / 5 + 32), two whole numbers per line.",
+      "xp": 20,
+      "source": "10 FOR C = 0 TO 40 STEP 10\n20 PRINT C, C * 9 / 5 + 32\n30 NEXT C\n40 END",
+      "starter": "C     CELSIUS TABLE\n",
+      "expectedOutput": "0 32\n10 50\n20 68\n30 86\n40 104",
+      "requirements": [
+        {
+          "pattern": "DO\\s+\\d+",
+          "message": "Use a DO loop."
+        },
+        {
+          "pattern": "FORMAT",
+          "message": "Print with a FORMAT."
+        }
+      ],
+      "hints": [
+        "DO 10 IC = 0, 40, 10 counts in steps of 10. Names starting with I to N are whole numbers.",
+        "Compute the Fahrenheit value into another integer variable.",
+        "WRITE (6,20) with 20 FORMAT (1X, I4, I5)."
+      ],
+      "sourceOutput": "0              32\n10             50\n20             68\n30             86\n40             104"
+    },
+    {
+      "id": "t-c-fortran-factorials",
+      "from": "c",
+      "to": "fortran",
+      "unit": "f6",
+      "difficulty": 2,
+      "title": "Factorials",
+      "story": "C would use recursion. FORTRAN IV can't call itself, so it multiplies in a loop.",
+      "task": "Print n and n! for n = 1 to 7, two numbers per line, with a DO loop.",
+      "xp": 30,
+      "source": "#include <stdio.h>\n\nint fact(int n) {\n    if (n <= 1) return 1;\n    return n * fact(n - 1);\n}\n\nint main() {\n    int n;\n    for (n = 1; n <= 7; n++)\n        printf(\"%d %d\\n\", n, fact(n));\n    return 0;\n}",
+      "starter": "C     FACTORIALS\n",
+      "expectedOutput": "1 1\n2 2\n3 6\n4 24\n5 120\n6 720\n7 5040",
+      "requirements": [
+        {
+          "pattern": "DO\\s+\\d+",
+          "message": "Use a DO loop."
+        }
+      ],
+      "hints": [
+        "Keep the running product in an integer variable: NF = 1.",
+        "Each round: NF = NF * N, then WRITE.",
+        "FORMAT (1X, I2, I6) is wide enough for 5040."
+      ],
+      "sourceOutput": "1 1\n2 2\n3 6\n4 24\n5 120\n6 720\n7 5040"
+    },
+    {
+      "id": "t-6502-fortran-multiply",
+      "from": "6502",
+      "to": "fortran",
+      "unit": "f6",
+      "difficulty": 2,
+      "title": "Multiply by Adding",
+      "story": "The 6502 has no multiply instruction, so this program adds 13 eleven times. The IBM 704 could multiply, but let's copy the idea.",
+      "task": "Compute 13 × 11 the same way, by adding 13 eleven times in a DO loop, and print the result.",
+      "xp": 30,
+      "source": "        LDA #0\n        LDX #11\nLOOP:   CLC\n        ADC #13\n        DEX\n        BNE LOOP\n        STA $0301\n        BRK",
+      "starter": "C     MULTIPLY BY ADDING\n",
+      "expectedOutput": "143",
+      "requirements": [
+        {
+          "pattern": "DO\\s+\\d+",
+          "message": "Repeat with a DO loop."
+        },
+        {
+          "pattern": "\\+\\s*13",
+          "message": "Add 13 each time."
+        }
+      ],
+      "hints": [
+        "Start with K = 0.",
+        "DO 10 I = 1, 11 with K = K + 13 inside.",
+        "WRITE K after the loop."
+      ],
+      "sourceNote": "Result: $0301 = 143 ($8F)",
+      "sourceOutput": ""
+    },
+    {
+      "id": "t-basic-fortran-max",
+      "from": "basic",
+      "to": "fortran",
+      "unit": "f5",
+      "difficulty": 2,
+      "title": "Biggest of Three",
+      "story": "BASIC jumps around with IF … THEN line numbers. FORTRAN IV's logical IF can do a whole statement.",
+      "task": "Find the biggest of 17, 42 and 23 with logical IFs and print MAX = 42.",
+      "xp": 30,
+      "source": "10 LET A = 17\n20 LET B = 42\n30 LET C = 23\n40 LET M = A\n50 IF B <= M THEN 70\n60 LET M = B\n70 IF C <= M THEN 90\n80 LET M = C\n90 PRINT \"MAX = \"; M\n100 END",
+      "starter": "C     BIGGEST OF THREE\n",
+      "expectedOutput": "MAX = 42",
+      "requirements": [
+        {
+          "pattern": "IF\\s*\\(.*\\.GT\\.",
+          "message": "Compare with a logical IF and .GT."
+        }
+      ],
+      "hints": [
+        "Whole numbers need names starting with I to N, like IA, IB, IC and M.",
+        "IF (IB .GT. M) M = IB",
+        "10 FORMAT (' MAX =', I4)"
+      ],
+      "sourceOutput": "MAX = 42"
+    },
+    {
+      "id": "t-c-fortran-hypot",
+      "from": "c",
+      "to": "fortran",
+      "unit": "f10",
+      "difficulty": 2,
+      "title": "Hypotenuse",
+      "story": "A C function returns the long side of a right triangle. FORTRAN can do it in one line with a statement function.",
+      "task": "Write a statement function for the hypotenuse and print it for 3, 4 and for 5, 12 with two decimals.",
+      "xp": 30,
+      "source": "#include <stdio.h>\n#include <math.h>\n\ndouble hyp(double a, double b) {\n    return sqrt(a * a + b * b);\n}\n\nint main() {\n    printf(\"%.2f\\n\", hyp(3.0, 4.0));\n    printf(\"%.2f\\n\", hyp(5.0, 12.0));\n    return 0;\n}",
+      "starter": "C     HYPOTENUSE\n",
+      "expectedOutput": "5.00\n13.00",
+      "requirements": [
+        {
+          "pattern": "^\\s+\\w+\\s*\\([A-Z, ]+\\)\\s*=",
+          "message": "Define a statement function, like H(A, B) = …"
+        },
+        {
+          "pattern": "SQRT",
+          "message": "Use SQRT."
+        }
+      ],
+      "hints": [
+        "The statement function comes first: H(A, B) = SQRT(A * A + B * B)",
+        "Call it like a function: X = H(3.0, 4.0)",
+        "F6.2 prints two decimals."
+      ],
+      "sourceOutput": "5.00\n13.00"
+    },
+    {
+      "id": "t-basic-c-gauss",
+      "from": "basic",
+      "to": "c",
+      "unit": "c6",
+      "difficulty": 1,
+      "title": "Gauss",
+      "story": "Little Gauss supposedly added 1 to 100 in his head. Here's the BASIC way; now the C way.",
+      "task": "Add up 1 to 100 with a for loop and print 5050.",
+      "xp": 20,
+      "source": "10 LET S = 0\n20 FOR I = 1 TO 100\n30 LET S = S + I\n40 NEXT I\n50 PRINT S\n60 END",
+      "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+      "expectedOutput": "5050",
+      "requirements": [
+        {
+          "pattern": "for\\s*\\(",
+          "message": "Use a for loop."
+        }
+      ],
+      "hints": [
+        "int i, s = 0;",
+        "for (i = 1; i <= 100; i++) s += i;",
+        "printf(\"%d\\n\", s);"
+      ],
+      "sourceOutput": "5050"
+    },
+    {
+      "id": "t-fortran-c-sign",
+      "from": "fortran",
+      "to": "c",
+      "unit": "c10",
+      "difficulty": 2,
+      "title": "The Three-Way IF",
+      "story": "FORTRAN's IF jumps to one of three labels: negative, zero or positive. C needs if and else if.",
+      "task": "Put the same numbers in an int array and print NEGATIVE, ZERO or POSITIVE for each, with if / else if / else.",
+      "xp": 30,
+      "source": "      DIMENSION K(3)\n      DATA K / -3, 0, 7 /\n      DO 40 I = 1, 3\n      IF (K(I)) 10, 20, 30\n   10 WRITE (6,51)\n      GO TO 40\n   20 WRITE (6,52)\n      GO TO 40\n   30 WRITE (6,53)\n   40 CONTINUE\n   51 FORMAT (' NEGATIVE')\n   52 FORMAT (' ZERO')\n   53 FORMAT (' POSITIVE')\n      STOP\n      END",
+      "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+      "expectedOutput": "NEGATIVE\nZERO\nPOSITIVE",
+      "requirements": [
+        {
+          "pattern": "\\{\\s*-3\\s*,\\s*0\\s*,\\s*7\\s*\\}",
+          "message": "Put -3, 0, 7 in an array."
+        },
+        {
+          "pattern": "else\\s+if",
+          "message": "Use else if."
+        }
+      ],
+      "hints": [
+        "int k[3] = {-3, 0, 7}; FORTRAN counts from 1, C from 0.",
+        "Loop with for (i = 0; i < 3; i++).",
+        "if (k[i] < 0) … else if (k[i] == 0) … else …"
+      ],
+      "sourceOutput": "NEGATIVE\nZERO\nPOSITIVE"
+    },
+    {
+      "id": "t-basic-c-stars",
+      "from": "basic",
+      "to": "c",
+      "unit": "c7",
+      "difficulty": 2,
+      "title": "GOSUB to Function",
+      "story": "BASIC subroutines share all variables and are called with GOSUB. C has real functions with parameters.",
+      "task": "Write void stars(int n) and use it to print the same three rows.",
+      "xp": 30,
+      "source": "10 LET N = 3\n20 GOSUB 100\n30 LET N = 5\n40 GOSUB 100\n50 LET N = 7\n60 GOSUB 100\n70 STOP\n100 FOR I = 1 TO N\n110 PRINT \"*\";\n120 NEXT I\n130 PRINT\n140 RETURN\n150 END",
+      "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+      "expectedOutput": "***\n*****\n*******",
+      "requirements": [
+        {
+          "pattern": "void\\s+stars\\s*\\(\\s*int",
+          "message": "Write void stars(int n)."
+        }
+      ],
+      "hints": [
+        "Instead of LET N = 3 and GOSUB 100, call stars(3).",
+        "Inside: a for loop with putchar('*'), then a newline."
+      ],
+      "sourceOutput": "***\n*****\n*******"
+    },
+    {
+      "id": "t-6502-c-bits",
+      "from": "6502",
+      "to": "c",
+      "unit": "c19",
+      "difficulty": 3,
+      "title": "Count the Bits",
+      "story": "The 6502 shifts the byte right and counts the carries. C's >> and & do the same.",
+      "task": "Count the 1 bits of 177 the same way (shift right, look at the lowest bit) and print 4.",
+      "xp": 45,
+      "source": "        LDA #177\n        LDX #0\n        LDY #8\nLOOP:   LSR A\n        BCC SKIP\n        INX\nSKIP:   DEY\n        BNE LOOP\n        STX $0301\n        BRK",
+      "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+      "expectedOutput": "4",
+      "requirements": [
+        {
+          "pattern": ">>",
+          "message": "Shift with >>."
+        },
+        {
+          "pattern": "&\\s*1",
+          "message": "Look at the lowest bit with & 1."
+        }
+      ],
+      "hints": [
+        "LSR A is n >>= 1, and the bit that falls out is n & 1.",
+        "Count it when it's 1, eight times."
+      ],
+      "sourceNote": "Result: $0301 = 4",
+      "sourceOutput": ""
+    },
+    {
+      "id": "t-fortran-c-newton",
+      "from": "fortran",
+      "to": "c",
+      "unit": "c6",
+      "difficulty": 2,
+      "title": "Newton's Square Root",
+      "story": "Isaac Newton's method, as the IBM 704 ran it in 1957. C's double has even more digits.",
+      "task": "Run the same 5 steps for the square root of 2 in C and print the step number and the value with 8 decimals.",
+      "xp": 30,
+      "source": "      A = 2.0\n      X = 1.0\n      DO 10 I = 1, 5\n      X = (X + A / X) / 2.0\n      WRITE (6,20) I, X\n   10 CONTINUE\n   20 FORMAT (1X, I2, F12.8)\n      STOP\n      END",
+      "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+      "expectedOutput": "1 1.50000000\n2 1.41666667\n3 1.41421569\n4 1.41421356\n5 1.41421356",
+      "requirements": [
+        {
+          "pattern": "double",
+          "message": "Use double variables."
+        },
+        {
+          "pattern": "for\\s*\\(",
+          "message": "Use a for loop."
+        }
+      ],
+      "hints": [
+        "double a = 2.0, x = 1.0;",
+        "x = (x + a / x) / 2.0; inside the loop.",
+        "printf(\"%d %.8f\\n\", i, x);"
+      ],
+      "sourceNote": "The FORTRAN REAL keeps only about 7 digits, so its last digits are a little off. Your C program uses double, with about 16 digits: it prints the exact values.",
+      "sourceOutput": " 1  1.50000000\n 2  1.41666663\n 3  1.41421568\n 4  1.41421354\n 5  1.41421354"
+    },
+    {
+      "id": "t-basic-6502-stars",
+      "from": "basic",
+      "to": "6502",
+      "unit": "a8",
+      "difficulty": 1,
+      "title": "Eight Stars",
+      "story": "On the KIM-1 there is no PRINT: each character goes to the teletype with JSR OUTCH.",
+      "task": "Print the same eight stars with a loop. End with BRK.",
+      "xp": 20,
+      "source": "10 FOR I = 1 TO 8\n20 PRINT \"*\";\n30 NEXT I\n40 END",
+      "starter": "; EIGHT STARS\nOUTCH = $1EA0\n",
+      "expectedOutput": "",
+      "requirements": [
+        {
+          "pattern": "\\bB(NE|EQ|PL|MI)\\b",
+          "message": "Repeat with a loop."
+        }
+      ],
+      "hints": [
+        "LDX #8 counts the stars, LDA #'* is the character.",
+        "LOOP: JSR OUTCH, DEX, BNE LOOP.",
+        "Then BRK."
+      ],
+      "cases": [
+        {
+          "expect": {},
+          "output": "********"
+        }
+      ],
+      "sourceOutput": "********"
+    },
+    {
+      "id": "t-c-6502-countdown",
+      "from": "c",
+      "to": "6502",
+      "unit": "a9",
+      "difficulty": 2,
+      "title": "Digits Down",
+      "story": "putchar('0' + i) turns a number into a digit. On the 6502 that's ADC #'0.",
+      "task": "Print 9876543210 like the C program does. End with BRK.",
+      "xp": 30,
+      "source": "#include <stdio.h>\n\nint main() {\n    int i;\n    for (i = 9; i >= 0; i--)\n        putchar('0' + i);\n    return 0;\n}",
+      "starter": "; DIGITS DOWN\nOUTCH = $1EA0\n",
+      "expectedOutput": "",
+      "requirements": [
+        {
+          "pattern": "ADC\\s+#'0|ADC\\s+#\\$30|ADC\\s+#48",
+          "message": "Turn the number into a digit with ADC #'0."
+        }
+      ],
+      "hints": [
+        "Count down in X from 9.",
+        "Each round: TXA, CLC, ADC #'0, JSR OUTCH.",
+        "DEX, BPL LOOP keeps going down to 0."
+      ],
+      "cases": [
+        {
+          "expect": {},
+          "output": "9876543210"
+        }
+      ],
+      "sourceOutput": "9876543210"
+    },
+    {
+      "id": "t-fortran-6502-sum",
+      "from": "fortran",
+      "to": "6502",
+      "unit": "a5",
+      "difficulty": 2,
+      "title": "Sum to Ten",
+      "story": "The FORTRAN program prints the sum. On the 6502, leave it in memory instead.",
+      "task": "Add up 1 to 10 like the FORTRAN program, but store the result at $0300. End with BRK.",
+      "xp": 30,
+      "source": "      ISUM = 0\n      DO 10 I = 1, 10\n      ISUM = ISUM + I\n   10 CONTINUE\n      WRITE (6,20) ISUM\n   20 FORMAT (1X, I4)\n      STOP\n      END",
+      "starter": "; SUM TO TEN\n",
+      "expectedOutput": "",
+      "requirements": [
+        {
+          "pattern": "\\bB(NE|EQ|PL|MI)\\b",
+          "message": "Add up in a loop."
+        }
+      ],
+      "hints": [
+        "A holds the sum, X counts down from 10.",
+        "Loop: STX $30, CLC, ADC $30, DEX, BNE LOOP.",
+        "STA $0300, BRK."
+      ],
+      "cases": [
+        {
+          "expect": {
+            "mem": {
+              "0300": 55
+            }
+          }
+        }
+      ],
+      "sourceOutput": "  55"
+    },
+    {
+      "id": "t-basic-6502-max",
+      "from": "basic",
+      "to": "6502",
+      "unit": "a6",
+      "difficulty": 3,
+      "title": "The Biggest Number",
+      "story": "BASIC READs its numbers from DATA. On the 6502, the five numbers are already in memory at $0300–$0304.",
+      "task": "Find the biggest of the five bytes at $0300–$0304, like the BASIC program does, and store it at $0310. End with BRK.",
+      "xp": 45,
+      "source": "10 READ M\n20 FOR I = 2 TO 5\n30 READ X\n40 IF X <= M THEN 60\n50 LET M = X\n60 NEXT I\n70 PRINT M\n80 DATA 3, 9, 4, 12, 7\n90 END",
+      "starter": "; THE BIGGEST NUMBER\n",
+      "expectedOutput": "",
+      "requirements": [
+        {
+          "pattern": "\\$0?300\\s*,\\s*X",
+          "message": "Walk through the bytes with $0300,X."
+        },
+        {
+          "pattern": "\\bCMP\\b",
+          "message": "Compare with CMP."
+        }
+      ],
+      "hints": [
+        "Start with LDA $0300 (like READ M) and LDX #1.",
+        "CMP $0300,X sets the carry when A is bigger or equal: BCS SKIP.",
+        "Otherwise LDA $0300,X. Then INX, CPX #5, BNE LOOP, STA $0310."
+      ],
+      "cases": [
+        {
+          "memory": {
+            "0300": 3,
+            "0301": 9,
+            "0302": 4,
+            "0303": 12,
+            "0304": 7
+          },
+          "expect": {
+            "mem": {
+              "0310": 12
+            }
+          }
+        },
+        {
+          "memory": {
+            "0300": 200,
+            "0301": 9,
+            "0302": 4,
+            "0303": 12,
+            "0304": 7
+          },
+          "expect": {
+            "mem": {
+              "0310": 200
+            }
+          }
+        },
+        {
+          "memory": {
+            "0300": 1,
+            "0301": 2,
+            "0302": 3,
+            "0303": 4,
+            "0304": 250
+          },
+          "expect": {
+            "mem": {
+              "0310": 250
+            }
+          }
+        }
+      ],
+      "sourceOutput": "12"
+    },
+    {
+      "id": "t-c-6502-times-ten",
+      "from": "c",
+      "to": "6502",
+      "unit": "a11",
+      "difficulty": 3,
+      "title": "Times Ten with Shifts",
+      "story": "A clever C trick: x * 10 is x * 8 + x * 2, and both are just shifts. The 6502 has ASL for that.",
+      "task": "The number at $0300 is 0 to 25. Store it times ten at $0301, with ASL and ADC, no loop of additions. End with BRK.",
+      "xp": 45,
+      "source": "#include <stdio.h>\n\nint main() {\n    int x = 12;\n    int y = (x << 3) + (x << 1);\n    printf(\"%d\\n\", y);\n    return 0;\n}",
+      "starter": "; TIMES TEN WITH SHIFTS\n",
+      "expectedOutput": "",
+      "requirements": [
+        {
+          "pattern": "\\bASL\\b",
+          "message": "Shift left with ASL."
+        }
+      ],
+      "hints": [
+        "ASL A doubles A. Save x * 2 in $30.",
+        "Two more ASLs make x * 8.",
+        "CLC, ADC $30 adds x * 2: that's x * 10."
+      ],
+      "cases": [
+        {
+          "memory": {
+            "0300": 12
+          },
+          "expect": {
+            "mem": {
+              "0301": 120
+            }
+          }
+        },
+        {
+          "memory": {
+            "0300": 0
+          },
+          "expect": {
+            "mem": {
+              "0301": 0
+            }
+          }
+        },
+        {
+          "memory": {
+            "0300": 25
+          },
+          "expect": {
+            "mem": {
+              "0301": 250
+            }
+          }
+        }
+      ],
+      "sourceOutput": "120"
+    },
+    {
+      "id": "t-basic-pascal-sevens",
+      "from": "basic",
+      "to": "pascal",
+      "unit": "p5",
+      "difficulty": 1,
+      "title": "Times Seven",
+      "story": "A Dartmouth BASIC loop from 1964. In Turbo Pascal it's a for loop.",
+      "task": "Print the same five multiples of 7, one per line, with a for loop.",
+      "xp": 20,
+      "source": "10 FOR I = 1 TO 5\n20 PRINT I * 7\n30 NEXT I\n40 END",
+      "starter": "program TimesSeven;\n\nbegin\n  \nend.\n",
+      "expectedOutput": "7\n14\n21\n28\n35",
+      "requirements": [
+        {
+          "pattern": "\\bfor\\b",
+          "message": "Use a for loop."
+        }
+      ],
+      "hints": [
+        "FOR I = 1 TO 5 becomes for i := 1 to 5 do.",
+        "PRINT becomes writeln, and NEXT I disappears."
+      ],
+      "sourceOutput": "7\n14\n21\n28\n35"
+    },
+    {
+      "id": "t-c-pascal-fizzbuzz",
+      "from": "c",
+      "to": "pascal",
+      "unit": "p5",
+      "difficulty": 2,
+      "title": "FizzBuzz",
+      "story": "The classic programming test, in C. Pascal has no % and no &&: it uses mod and and.",
+      "task": "Print the same 15 lines in Pascal with a for loop and if … else if.",
+      "xp": 30,
+      "source": "#include <stdio.h>\n\nint main() {\n    int i;\n    for (i = 1; i <= 15; i++) {\n        if (i % 15 == 0) printf(\"FizzBuzz\\n\");\n        else if (i % 3 == 0) printf(\"Fizz\\n\");\n        else if (i % 5 == 0) printf(\"Buzz\\n\");\n        else printf(\"%d\\n\", i);\n    }\n    return 0;\n}",
+      "starter": "program Fizzbuzz;\n\nbegin\n  \nend.\n",
+      "expectedOutput": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz",
+      "requirements": [
+        {
+          "pattern": "\\bmod\\b",
+          "message": "Use mod instead of %."
+        },
+        {
+          "pattern": "else\\s+if",
+          "message": "Use else if."
+        }
+      ],
+      "hints": [
+        "i % 3 == 0 is i mod 3 = 0 in Pascal.",
+        "No ; before else!"
+      ],
+      "sourceOutput": "1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz"
+    },
+    {
+      "id": "t-fortran-pascal-average",
+      "from": "fortran",
+      "to": "pascal",
+      "unit": "p10",
+      "difficulty": 2,
+      "title": "Average from DATA",
+      "story": "FORTRAN keeps its numbers in a DATA statement. Pascal can do the same with a typed array constant.",
+      "task": "Put the same six numbers in a typed constant array[1..6] of integer, then print their sum and their whole-number average (with div), like the FORTRAN program.",
+      "xp": 30,
+      "source": "      DIMENSION K(6)\n      DATA K / 12, 17, 9, 21, 15, 16 /\n      ISUM = 0\n      DO 10 I = 1, 6\n      ISUM = ISUM + K(I)\n   10 CONTINUE\n      WRITE (6,20) ISUM\n      WRITE (6,20) ISUM / 6\n   20 FORMAT (1X, I5)\n      STOP\n      END",
+      "starter": "program AverageFromData;\n\nbegin\n  \nend.\n",
+      "expectedOutput": "90\n15",
+      "requirements": [
+        {
+          "pattern": "array\\s*\\[\\s*1\\s*\\.\\.\\s*6\\s*\\]",
+          "message": "Use an array[1..6]."
+        },
+        {
+          "pattern": "\\bdiv\\b",
+          "message": "Use div for the whole-number average."
+        }
+      ],
+      "hints": [
+        "const k: array[1..6] of integer = (12, 17, 9, 21, 15, 16);",
+        "FORTRAN's integer division is div in Pascal."
+      ],
+      "sourceOutput": "   90\n   15"
+    },
+    {
+      "id": "t-6502-pascal-bits",
+      "from": "6502",
+      "to": "pascal",
+      "unit": "p6",
+      "difficulty": 2,
+      "title": "Count the Bits",
+      "story": "The 6502 shifts the byte right and counts the carries. Pascal can do it with mod 2 and div 2.",
+      "task": "Count the 1 bits of 177 the same way, with a while loop (n mod 2 is the bit that falls out, n div 2 shifts right), and print 4.",
+      "xp": 30,
+      "source": "        LDA #177\n        LDX #0\n        LDY #8\nLOOP:   LSR A\n        BCC SKIP\n        INX\nSKIP:   DEY\n        BNE LOOP\n        STX $0301\n        BRK",
+      "starter": "program CountTheBits;\n\nbegin\n  \nend.\n",
+      "expectedOutput": "4",
+      "requirements": [
+        {
+          "pattern": "\\bwhile\\b",
+          "message": "Use a while loop."
+        },
+        {
+          "pattern": "mod\\s*2",
+          "message": "Look at the lowest bit with mod 2."
+        }
+      ],
+      "hints": [
+        "LSR is n := n div 2, and the carry is n mod 2.",
+        "Count while n > 0."
+      ],
+      "sourceNote": "Result: $0301 = 4",
+      "sourceOutput": ""
+    },
+    {
+      "id": "t-c-pascal-records",
+      "from": "c",
+      "to": "pascal",
+      "unit": "p14",
+      "difficulty": 2,
+      "title": "Structs to Records",
+      "story": "C's struct and Pascal's record are the same idea, invented at about the same time.",
+      "task": "Declare a record TRect with w and h, fill two of them, and print both areas like the C program.",
+      "xp": 30,
+      "source": "#include <stdio.h>\n\nstruct rect {\n    int w;\n    int h;\n};\n\nint main() {\n    struct rect a = {3, 4};\n    struct rect b = {10, 2};\n    printf(\"area a = %d\\n\", a.w * a.h);\n    printf(\"area b = %d\\n\", b.w * b.h);\n    return 0;\n}",
+      "starter": "program StructsToRecords;\n\nbegin\n  \nend.\n",
+      "expectedOutput": "area a = 12\narea b = 20",
+      "requirements": [
+        {
+          "pattern": "record",
+          "message": "Declare a record type."
+        }
+      ],
+      "hints": [
+        "type TRect = record w, h: integer; end;",
+        "C's {3, 4} becomes a.w := 3; a.h := 4;"
+      ],
+      "sourceOutput": "area a = 12\narea b = 20"
+    },
+    {
+      "id": "t-pascal-c-swap",
+      "from": "pascal",
+      "to": "c",
+      "unit": "c13",
+      "difficulty": 2,
+      "title": "var Becomes a Pointer",
+      "story": "Pascal's var parameters do the pointer work for you. In C, you write it yourself.",
+      "task": "Write void swap(int *a, int *b) and print the same result as the Pascal program.",
+      "xp": 30,
+      "source": "program SwapIt;\nvar\n  x, y: integer;\n\nprocedure Swap(var a, b: integer);\nvar\n  t: integer;\nbegin\n  t := a;\n  a := b;\n  b := t;\nend;\n\nbegin\n  x := 1;\n  y := 2;\n  Swap(x, y);\n  writeln('x = ', x, ', y = ', y);\nend.",
+      "starter": "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n",
+      "expectedOutput": "x = 2, y = 1",
+      "requirements": [
+        {
+          "pattern": "void\\s+swap\\s*\\(\\s*int\\s*\\*",
+          "message": "Write void swap(int *a, int *b)."
+        },
+        {
+          "pattern": "swap\\s*\\(\\s*&",
+          "message": "Pass the addresses with &."
+        }
+      ],
+      "hints": [
+        "var a: integer in Pascal is int *a in C.",
+        "Inside, a becomes *a.",
+        "The call needs &: swap(&x, &y);"
+      ],
+      "sourceOutput": "x = 2, y = 1"
+    },
+    {
+      "id": "t-pascal-basic-repeat",
+      "from": "pascal",
+      "to": "basic",
+      "unit": "u3",
+      "difficulty": 2,
+      "title": "repeat … until in BASIC",
+      "story": "Dartmouth BASIC has no repeat loop. An IF … THEN jump back does the same job.",
+      "task": "Double 1 until it's above 1000, like the Pascal program, and print the number of doublings and the result on two lines.",
+      "xp": 30,
+      "source": "program Doubling;\nvar\n  n, steps: integer;\nbegin\n  n := 1;\n  steps := 0;\n  repeat\n    n := n * 2;\n    steps := steps + 1;\n  until n > 1000;\n  writeln(steps);\n  writeln(n);\nend.",
+      "starter": "10 REM REPEAT … UNTIL IN BASIC\n",
+      "expectedOutput": "10\n1024",
+      "requirements": [
+        {
+          "pattern": "IF.+THEN\\s*\\d+",
+          "message": "Jump back with IF … THEN."
+        }
+      ],
+      "hints": [
+        "repeat … until n > 1000 means: jump back while N <= 1000.",
+        "The jump goes to the line that doubles N."
+      ],
+      "sourceOutput": "10\n1024"
+    },
+    {
+      "id": "t-basic-altair-sum",
+      "from": "basic",
+      "to": "altair",
+      "unit": "al9",
+      "difficulty": 2,
+      "title": "Sum on the Panel",
+      "story": "Dartmouth BASIC adds 1 to 10 in a FOR loop. On the Altair, there is no PRINT, just the lights.",
+      "task": "Add 1 + 2 + … + 10 with a counting loop (DCR + JNZ) and show the sum on the lights.",
+      "xp": 30,
+      "source": "10 LET S = 0\n20 FOR I = 1 TO 10\n30 LET S = S + I\n40 NEXT I\n50 PRINT S\n60 END",
+      "starter": "; SUM ON THE PANEL\n",
+      "expectedOutput": "LEDS ○○●●○●●● = 55",
+      "requirements": [
+        {
+          "pattern": "302",
+          "message": "Loop with JNZ (302)."
+        },
+        {
+          "pattern": "005",
+          "message": "Count down with DCR B (005)."
+        }
+      ],
+      "hints": [
+        "Count B down from 10 and add B to A in every round: the order doesn't matter for a sum.",
+        "MVI A 0, MVI B 10, loop: ADD B (200), DCR B (005), JNZ loop.",
+        "Then OUT 377 and HLT."
+      ],
+      "sourceOutput": "55"
+    },
+    {
+      "id": "t-6502-altair-stars",
+      "from": "6502",
+      "to": "altair",
+      "unit": "al15",
+      "difficulty": 2,
+      "title": "Stars on the Teletype",
+      "story": "Both machines from 1975 print to a teletype. The KIM-1 calls OUTCH, the Altair uses OUT 001.",
+      "task": "Print the same eight stars on the Altair's Teletype with a loop.",
+      "xp": 30,
+      "source": "OUTCH = $1EA0\nLDX #8\nLDA #'*\nLOOP: JSR OUTCH\nDEX\nBNE LOOP\nBRK",
+      "starter": "; STARS ON THE TELETYPE\n",
+      "expectedOutput": "********",
+      "requirements": [
+        {
+          "pattern": "323\\s*(;.*)?\\n\\s*001",
+          "message": "Print with OUT 001."
+        },
+        {
+          "pattern": "302",
+          "message": "Loop with JNZ."
+        }
+      ],
+      "hints": [
+        "The star '*' is ASCII 42, octal 052.",
+        "MVI A 052, MVI B 8, loop: OUT 001, DCR B, JNZ loop, HLT.",
+        "LDX/DEX/BNE on the 6502 is MVI B/DCR B/JNZ on the 8080."
+      ],
+      "sourceOutput": "********"
+    },
+    {
+      "id": "t-c-altair-bits",
+      "from": "c",
+      "to": "altair",
+      "unit": "al11",
+      "difficulty": 3,
+      "title": "Count the Bits by Rotating",
+      "story": "In C, n & 1 and n >>= 1. On the 8080, a rotation drops the lowest bit into the carry.",
+      "task": "Count the 1 bits of 181 like the C program: rotate A right 8 times, count the carries in C, and show the count on the lights.",
+      "xp": 45,
+      "source": "#include <stdio.h>\n\nint main() {\n    int n = 181, count = 0, i;\n    for (i = 0; i < 8; i++) {\n        if (n & 1) count++;\n        n >>= 1;\n    }\n    printf(\"%d\\n\", count);\n    return 0;\n}",
+      "starter": "; COUNT THE BITS BY ROTATING\n",
+      "expectedOutput": "LEDS ○○○○○●○● = 5",
+      "requirements": [
+        {
+          "pattern": "017|007",
+          "message": "Rotate with RRC (or RLC)."
+        },
+        {
+          "pattern": "322|332",
+          "message": "Test the carry with JNC or JC."
+        }
+      ],
+      "hints": [
+        "181 is octal 265.",
+        "loop: RRC, JNC skip, INR C, skip: DCR B, JNZ loop.",
+        "MOV A,C (171), OUT 377, HLT."
+      ],
+      "sourceOutput": "5"
+    },
+    {
+      "id": "t-basic-cobol-squares",
+      "from": "basic",
+      "to": "cobol",
+      "unit": "cb11",
+      "difficulty": 1,
+      "title": "Squares",
+      "story": "A Dartmouth student's table of squares from 1964. The bank wants it on the mainframe.",
+      "task": "Print the numbers 1 to 5 and their squares with PERFORM VARYING. Use PIC 9 for the number and PIC Z9 for the square.",
+      "xp": 20,
+      "source": "10 FOR I = 1 TO 5\n20 PRINT I, I*I\n30 NEXT I\n40 END",
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. SQUARES.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "1 1\n2 4\n3 9\n4 16\n5 25",
+      "requirements": [
+        {
+          "pattern": "VARYING",
+          "message": "BASIC's FOR loop is PERFORM VARYING."
+        }
+      ],
+      "hints": [
+        "FOR I = 1 TO 5 is VARYING I FROM 1 BY 1 UNTIL I > 5.",
+        "COMPUTE SQ = I * I, MOVE it to an edited field and DISPLAY I \" \" SQ-OUT."
+      ],
+      "sourceOutput": "1              1\n2              4\n3              9\n4              16\n5              25"
+    },
+    {
+      "id": "t-c-cobol-vat",
+      "from": "c",
+      "to": "cobol",
+      "unit": "cb8",
+      "difficulty": 1,
+      "title": "The Till",
+      "story": "A C program from a shop's cash register, 1985. Accounting wants the same number from COBOL, exact to the cent.",
+      "task": "Compute the price with VAT in COBOL with COMPUTE … ROUNDED and print it in PIC Z9.99 after TOTAL.",
+      "xp": 20,
+      "source": "#include <stdio.h>\n\nint main() {\n    double price = 49.90;\n    double total = price * 1.19;\n    printf(\"TOTAL %.2f\\n\", total);\n    return 0;\n}",
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. TILL.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "TOTAL 59.38",
+      "requirements": [
+        {
+          "pattern": "COMPUTE",
+          "message": "Use COMPUTE."
+        },
+        {
+          "pattern": "ROUNDED",
+          "message": "printf's %.2f rounds: use ROUNDED."
+        }
+      ],
+      "hints": [
+        "C's double is binary; COBOL's PIC 99V99 is exact decimal.",
+        "COMPUTE TOTAL ROUNDED = PRICE * 1.19."
+      ],
+      "sourceOutput": "TOTAL 59.38"
+    },
+    {
+      "id": "t-fortran-cobol-average",
+      "from": "fortran",
+      "to": "cobol",
+      "unit": "cb12",
+      "difficulty": 2,
+      "title": "The Average",
+      "story": "A FORTRAN weather job from 1966. The insurance company wants the same average in its COBOL system.",
+      "task": "Put the five temperatures into a COBOL table (FILLER VALUEs and REDEFINES), add them up in a loop, and print the average with one decimal in PIC ZZ9.9.",
+      "xp": 30,
+      "source": "      DIMENSION T(5)\n      DATA T /18.0, 23.0, 31.0, 27.0, 19.0/\n      S = 0.0\n      DO 10 I = 1, 5\n   10 S = S + T(I)\n      A = S / 5.0\n      WRITE (6, 20) A\n   20 FORMAT (9H AVERAGE , F5.1)\n      STOP\n      END",
+      "starter": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. AVERAGE.\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n\n       PROCEDURE DIVISION.\n           \n           STOP RUN.\n",
+      "expectedOutput": "AVERAGE 23.6",
+      "requirements": [
+        {
+          "pattern": "OCCURS",
+          "message": "FORTRAN's DIMENSION is an OCCURS table."
+        },
+        {
+          "pattern": "REDEFINES",
+          "message": "DATA becomes FILLER VALUEs with REDEFINES."
+        },
+        {
+          "pattern": "VARYING",
+          "message": "The DO loop is PERFORM VARYING."
+        }
+      ],
+      "hints": [
+        "01 TEMP-TABLE REDEFINES TEMP-DATA. 05 TEMP PIC 99 OCCURS 5 TIMES.",
+        "COMPUTE AVG ROUNDED = TOTAL / 5 into a PIC 99V9 field, then MOVE it to PIC ZZ9.9."
+      ],
+      "sourceOutput": "AVERAGE  23.6"
+    }
+  ]
+}
