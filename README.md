@@ -2,7 +2,6 @@
 
 Is this price fair? Fair Price Check shows whether prices in Germany are normal, starting with taxi rides, fuel and restaurants.
 
-🔗 **Live:** https://YOUR-SITE.vercel.app
 
 ## Screenshots
 
